@@ -1,9 +1,8 @@
-### API Notes
+# API Notes
 
 ## Useful resources
 [Unofficial API docs](https://gitlab.com/dword4/nhlapi/tree/master/)
 [Other API docs](https://github.com/erunion/sport-api-specifications/tree/master/nhl)
-
 
 ## Example Endpoints
 [Detailed player stats](https://statsapi.web.nhl.com/api/v1/people/8476887?hydrate=stats(splits=statsSingleSeason))
