@@ -16,7 +16,7 @@ const HYDRATE = '?hydrate=stats(splits=statsSingleSeason)'
 
 const fetchPlayer = async (playerId) => {
   const { data: { people } } = await axios.get(`${PLAYERS_URL}/${playerId}${HYDRATE}`)
-  const { currentTeam, primaryPosition, stats, ...info } = people[0]
+  const { currentTeam, primaryPosition, currentAge, stats, ...info } = people[0]
   info.currentTeam = people[0].currentTeam.id
   info.primaryPosition = people[0].primaryPosition.code
   const { season, stat } = people[0].stats[0].splits[0]
@@ -29,23 +29,21 @@ const fetchPlayer = async (playerId) => {
   await player.save()
 }
 
-fetchPlayer(8475287).then(_ => mongoose.connection.close())
+const fetchRoster = async (teamId) => {
+  const { data: { teams } } = await axios.get(`${TEAMS_URL}/${teamId}/${EXPAND_ROSTER}`)
+  const { roster: { roster } } = teams[0]
+  roster.forEach(player => {
+    fetchPlayer(player.person.fullName)
+  })
+}
 
-// const fetchRoster = async (teamId) => {
-//   const { data: { teams } } = await axios.get(`${TEAMS_URL}/${teamId}/${EXPAND_ROSTER}`)
-//   const { roster: { roster } } = teams[0]
-//   roster.forEach(player => {
-//     fetchPlayer(player.person.fullName)
-//   })
-// }
+const fetchTeams = async () => {
+  const { data: { teams } } = await axios.get(TEAMS_URL)
+  teams.forEach(team => {
+    fetchRoster(team.id)
+  })
+}
 
-// const fetchTeams = async () => {
-//   const { data: { teams } } = await axios.get(TEAMS_URL)
-//   teams.forEach(team => {
-//     fetchRoster(team.id)
-//   })
-// }
+fetchTeams()
 
-// fetchTeams()
-
-// mongoose.connection.close()
+mongoose.connection.close()
