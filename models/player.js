@@ -1,37 +1,26 @@
 const mongoose = require('mongoose')
 
-var ObjectId = mongoose.Schema.Types.ObjectId
-
 const statsSchema = mongoose.Schema({
   date: Number,
-  season: String,
   timeOnIce: String,
   assists: Number,
   goals: Number,
-  pim: Number,
   shots: Number,
-  games: Number,
   hits: Number,
   powerPlayGoals: Number,
-  powerPlayPoints: Number,
-  powerPlayTimeOnIce: String,
-  evenTimeOnIce: String,
+  powerPlayAssists: Number,
   penaltyMinutes: String,
-  faceOffPct: Number,
-  shotPct: Number,
-  gameWinningGoals: Number,
-  overTimeGoals: Number,
+  faceOffWins: Number,
+  faceoffTaken: Number,
+  takeaways: Number,
+  giveaways: Number,
   shortHandedGoals: Number,
-  shortHandedPoints: Number,
-  shortHandedTimeOnIce: String,
+  shortHandedAssists: Number,
   blocked: Number,
   plusMinus: Number,
-  points: Number,
-  shifts: Number,
-  timeOnIcePerGame: String,
-  evenTimeOnIcePerGame: String,
-  shortHandedTimeOnIcePerGame: String,
-  powerPlayTimeOnIcePerGame: String,
+  evenTimeOnIce: Number,
+  powerPlayTimeOnIce: String,
+  shortHandedTimeOnIce: String,
 })
 
 const playerSchema = mongoose.Schema({
