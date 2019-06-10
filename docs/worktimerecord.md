@@ -4,4 +4,5 @@
 | :----:     |:-----| :-----|
 | 09.06.2019 | 1    | getting started |
 |            | 2    | working on fetch-data |
-| total      | 3    | | 
+| 10.06.2019 | 2    | Studying API and working on fetch-data |
+| total      | 5    | | 
