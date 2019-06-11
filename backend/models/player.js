@@ -9,7 +9,7 @@ const statsSchema = mongoose.Schema({
   hits: Number,
   powerPlayGoals: Number,
   powerPlayAssists: Number,
-  penaltyMinutes: String,
+  penaltyMinutes: Number,
   faceOffWins: Number,
   faceoffTaken: Number,
   takeaways: Number,
@@ -18,7 +18,7 @@ const statsSchema = mongoose.Schema({
   shortHandedAssists: Number,
   blocked: Number,
   plusMinus: Number,
-  evenTimeOnIce: Number,
+  evenTimeOnIce: String,
   powerPlayTimeOnIce: String,
   shortHandedTimeOnIce: String,
 })

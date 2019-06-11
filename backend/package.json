@@ -14,7 +14,8 @@
     "start": "node server.js",
     "watch": "nodemon server.js",
     "lint": "eslint .",
-    "fetch": "node jobs/fetch-data.js"
+    "fetch": "node jobs/fetch-data.js",
+    "server": "json-server -p3001 --watch db.json"
   },
   "author": "Samu Linden",
   "license": "MIT",
@@ -22,6 +23,7 @@
     "concurrently": "^4.1.0",
     "dotenv": "^8.0.0",
     "eslint": "^5.16.0",
+    "json-server": "^0.15.0",
     "nodemon": "^1.19.1"
   },
   "dependencies": {

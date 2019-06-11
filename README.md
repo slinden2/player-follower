@@ -5,3 +5,5 @@ The unofficial API documentation can be found [here](https://gitlab.com/dword4/n
 
 ## docs
 [Work Time Record](https://github.com/slinden2/player-follower/blob/master/docs/worktimerecord.md)
+
+[API notes](https://github.com/slinden2/player-follower/blob/master/docs/api-notes.md)

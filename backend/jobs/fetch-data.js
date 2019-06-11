@@ -6,32 +6,58 @@ const mongoose = require('mongoose')
 const Player = require('../models/player')
 const config = require('../utils/config')
 
-// mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
-const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-10'
-const BOXSCORE_URL = (gamePk) => `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
+// const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-10'
+// const boxscoreUrl = (gamePk) => `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
+const GAMES_URL = 'http://localhost:3001/games/1'
+const BOXSCORE_URL = 'http://localhost:3001/gamePks/1'
+
+const handlePlayer = async (playerData) => {
+  const { currentTeam, primaryPosition, currentAge, ...info } = playerData.person
+  info.currentTeam = playerData.person.currentTeam.id
+  info.primaryPosition = playerData.person.primaryPosition.code
+
+  const { stats: { skaterStats } } = playerData
+  const { stats: { goalieStats } } = playerData
+  if (!skaterStats && !goalieStats) return
+
+  let finalStats = {}
+  skaterStats
+    ? finalStats = { date: Math.floor(new Date().getTime() / 1000), ...skaterStats }
+    : finalStats = { date: Math.floor(new Date().getTime() / 1000), ...goalieStats }
+
+  const player = new Player({ ...info, stats: { ...finalStats } })
+  try {
+    const savedPlayer = await player.save()
+  } catch({ name, message }) {
+    console.log(name, message)
+  }
+}
 
 const fetchBoxscore = async (gamePk) => {
-  const { data } = await axios.get(BOXSCORE_URL(gamePk))
-  const { teams: { away: { players } } } = data
+  // const { data } = await axios.get(boxscoreUrl(gamePk))
+  const { data } = await axios.get(BOXSCORE_URL)
+  const { teams: { away } } = data
+  const { teams: { home } } = data
+  const players = { ...away.players, ...home.players }
+
   for (const key in players) {
-    const { person } = players[key]
-    console.log(person.fullName)
+    await handlePlayer(players[key])
   }
 }
 
 const fetchGames = async () => {
   const { data: { dates } } = await axios.get(GAMES_URL)
   const { games } = dates[0]
-  games.forEach(game => {
-    const { gamePk } = game
-    fetchBoxscore(gamePk)
-  })
+  await fetchBoxscore()
+  // games.forEach(game => {
+  //   const { gamePk } = game
+  //   fetchBoxscore(gamePk)
+  // })
 }
 
-fetchGames()
-
-// mongoose.connection.close()
+fetchGames().then(() => mongoose.connection.close())
 
 
 
