@@ -13,7 +13,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 const GAMES_URL = 'http://localhost:3001/games/1'
 const BOXSCORE_URL = 'http://localhost:3001/gamePks/1'
 
-const handlePlayer = async (playerData) => {
+const handlePlayer = async (playerData, gamePk) => {
   const { currentTeam, primaryPosition, currentAge, ...info } = playerData.person
   info.currentTeam = playerData.person.currentTeam.id
   info.primaryPosition = playerData.person.primaryPosition.code
@@ -24,14 +24,25 @@ const handlePlayer = async (playerData) => {
 
   let finalStats = {}
   skaterStats
-    ? finalStats = { date: Math.floor(new Date().getTime() / 1000), ...skaterStats }
-    : finalStats = { date: Math.floor(new Date().getTime() / 1000), ...goalieStats }
+    ? finalStats = { gamePk, date: Math.floor(new Date().getTime() / 1000), ...skaterStats }
+    : finalStats = { gamePk, date: Math.floor(new Date().getTime() / 1000), ...goalieStats }
 
-  const player = new Player({ ...info, stats: { ...finalStats } })
-  try {
-    const savedPlayer = await player.save()
-  } catch({ name, message }) {
-    console.log(name, message)
+  const playerInDb = await Player.findOne({ id: info.id })
+
+  if (!playerInDb) {
+    const player = new Player({ ...info, stats: { ...finalStats } })
+    try {
+      await player.save()
+    } catch({ name, message }) {
+      console.error(`${name}: ${message}`)
+    }
+  } else {
+    playerInDb.stats.push(finalStats)
+    try {
+      await playerInDb.save()
+    } catch({ name, message }) {
+      console.error(`${name}: ${message}`)
+    }
   }
 }
 
@@ -43,7 +54,11 @@ const fetchBoxscore = async (gamePk) => {
   const players = { ...away.players, ...home.players }
 
   for (const key in players) {
-    await handlePlayer(players[key])
+    try {
+      await handlePlayer(players[key], gamePk)
+    } catch({ name, message }) {
+      console.error(`${name}: ${message}`)
+    }
   }
 }
 
@@ -58,8 +73,6 @@ const fetchGames = async () => {
 }
 
 fetchGames().then(() => mongoose.connection.close())
-
-
 
 // ============================
 // const TEAMS_URL = 'https://statsapi.web.nhl.com/api/v1/teams'
