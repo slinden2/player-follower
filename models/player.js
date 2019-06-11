@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const statsSchema = mongoose.Schema({
+  gamePk: Number,
   date: Number,
   timeOnIce: String,
   assists: Number,
