@@ -8,10 +8,10 @@ const config = require('../utils/config')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
-// const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-10'
-// const boxscoreUrl = (gamePk) => `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
-const GAMES_URL = 'http://localhost:3001/games/1'
-const BOXSCORE_URL = 'http://localhost:3001/gamePks/1'
+const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-12'
+const boxscoreUrl = (gamePk) => `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
+// const GAMES_URL = 'http://localhost:3001/games/1'
+// const BOXSCORE_URL = 'http://localhost:3001/gamePks/1'
 
 const handlePlayer = async (playerData, gamePk) => {
   const { currentTeam, primaryPosition, currentAge, ...info } = playerData.person
@@ -26,7 +26,6 @@ const handlePlayer = async (playerData, gamePk) => {
   skaterStats
     ? finalStats = { gamePk, date: Math.floor(new Date().getTime() / 1000), ...skaterStats }
     : finalStats = { gamePk, date: Math.floor(new Date().getTime() / 1000), ...goalieStats }
-
   const playerInDb = await Player.findOne({ id: info.id })
 
   if (!playerInDb) {
@@ -47,29 +46,24 @@ const handlePlayer = async (playerData, gamePk) => {
 }
 
 const fetchBoxscore = async (gamePk) => {
-  // const { data } = await axios.get(boxscoreUrl(gamePk))
-  const { data } = await axios.get(BOXSCORE_URL)
+  const { data } = await axios.get(boxscoreUrl(gamePk))
+  // const { data } = await axios.get(BOXSCORE_URL)
   const { teams: { away } } = data
   const { teams: { home } } = data
   const players = { ...away.players, ...home.players }
-
   for (const key in players) {
-    try {
-      await handlePlayer(players[key], gamePk)
-    } catch({ name, message }) {
-      console.error(`${name}: ${message}`)
-    }
+    await handlePlayer(players[key], gamePk)
   }
 }
 
 const fetchGames = async () => {
   const { data: { dates } } = await axios.get(GAMES_URL)
   const { games } = dates[0]
-  await fetchBoxscore()
-  // games.forEach(game => {
-  //   const { gamePk } = game
-  //   fetchBoxscore(gamePk)
-  // })
+  // await fetchBoxscore()
+  for (const game of games) {
+    const { gamePk } = game
+    await fetchBoxscore(gamePk)
+  }
 }
 
 fetchGames().then(() => mongoose.connection.close())
