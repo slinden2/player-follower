@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const statsSchema = mongoose.Schema({
   gamePk: Number,
@@ -22,10 +23,22 @@ const statsSchema = mongoose.Schema({
   evenTimeOnIce: String,
   powerPlayTimeOnIce: String,
   shortHandedTimeOnIce: String,
+  // Only goalie stats from this point
+  saves: Number,
+  powerPlaySaves: Number,
+  shortHandedSaves: Number,
+  evenSaves: Number,
+  shortHandedShotsAgainst: Number,
+  evenShotsAgainst: Number,
+  powerPlayShotsAgainst: Number,
+  decision: String,
 })
 
 const playerSchema = mongoose.Schema({
-  id: Number, // Check this later
+  id: {
+    type: Number,
+    unique: true
+  },
   fullName: String,
   link: String,
   firstName: String,
@@ -48,5 +61,7 @@ const playerSchema = mongoose.Schema({
   primaryPosition: String,
   stats: [statsSchema],
 })
+
+playerSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('Player', playerSchema)
