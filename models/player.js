@@ -31,7 +31,7 @@ const statsSchema = mongoose.Schema({
   shortHandedShotsAgainst: Number,
   evenShotsAgainst: Number,
   powerPlayShotsAgainst: Number,
-  decision: String,
+  decision: String
 })
 
 const playerSchema = mongoose.Schema({
@@ -59,7 +59,7 @@ const playerSchema = mongoose.Schema({
   rosterStatus: String,
   currentTeam: Number, // Check this later
   primaryPosition: String,
-  stats: [statsSchema],
+  stats: [statsSchema]
 })
 
 playerSchema.plugin(uniqueValidator)

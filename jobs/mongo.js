@@ -4,10 +4,10 @@ const Player = require('../models/player')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
-const fetch = async () => {
-  const players = await Player.find()
-  return players
-}
+// const fetch = async () => {
+//   const players = await Player.find()
+//   return players
+// }
 
 const remove = async () => {
   await Player.remove({})
@@ -23,5 +23,5 @@ remove()
 //   console.log(players.length)
 //   for (const player of players) {
 //     console.log(player.fullName)
-//   }  
+//   }
 // })
