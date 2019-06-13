@@ -8,4 +8,5 @@
 | 11.06.2019 | 3    | Working on fetch-data                                         |
 | 12.06.2019 | 2    | Working on fetch-data. Problems with DB saving functionality. |
 | 13.06.2019 | 2    | fetch-data finally giving consistent results.                 |
+|            | 2    | GraphQL initial setup done.                                   |
 |   total    | 12   |                                                               |

@@ -1,7 +1,3 @@
-// Consider separating stats from player documents. Player documents
-// will be needed in the frontend also without the stats so keeping
-// stats as subdocuments would result in heavier queries.
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -12,11 +8,12 @@ const config = require('../utils/config')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
-// in DB games from date 9.1. - 15.1. || 13.6.2019
-const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-15'
+// in DB games from date 9.1. - 13.1. || 13.6.2019
+const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-13'
 const boxscoreUrl = gamePk =>
   `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
-// const GAMES_URL = 'http://localhost:3001/games/2'
+
+// const GAMES_URL = 'http://localhost:3001/games/1'
 // const boxscoreUrl = (gamePk) => `http://localhost:3001/gamePks/${gamePk}`
 
 const isDuplicate = (player, gamePk) => {
@@ -27,6 +24,7 @@ const isDuplicate = (player, gamePk) => {
 const handlePlayer = async (playerData, gamePk) => {
   /* eslint-disable */
   const {
+    id,
     currentTeam,
     primaryPosition,
     currentAge,
@@ -35,6 +33,7 @@ const handlePlayer = async (playerData, gamePk) => {
   /* eslint-enable */
   info.currentTeam = playerData.person.currentTeam.id
   info.primaryPosition = playerData.person.primaryPosition.code
+  info.playerId = playerData.person.id
 
   const {
     stats: { skaterStats },
@@ -44,6 +43,9 @@ const handlePlayer = async (playerData, gamePk) => {
   } = playerData
 
   if (!skaterStats && !goalieStats) return
+
+  // Change goalieStats.pim => goalieStats.penaltyMinutes
+  // or do it for playerStats
 
   let finalStats = {}
   skaterStats
@@ -57,8 +59,7 @@ const handlePlayer = async (playerData, gamePk) => {
       date: Math.floor(new Date().getTime() / 1000),
       ...goalieStats,
     })
-
-  const playerInDb = await Player.findOne({ id: info.id })
+  const playerInDb = await Player.findOne({ playerId: info.playerId })
 
   if (playerInDb) {
     if (isDuplicate(playerInDb, gamePk)) {

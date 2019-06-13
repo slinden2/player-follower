@@ -10,7 +10,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 // }
 
 const remove = async () => {
-  await Player.remove({})
+  await Player.deleteMany({})
   mongoose.connection.close()
 }
 
