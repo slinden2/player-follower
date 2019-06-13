@@ -1,3 +1,7 @@
+// Consider separating stats from player documents. Player documents
+// will be needed in the frontend also without the stats so keeping
+// stats as subdocuments would result in heavier queries.
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -8,7 +12,8 @@ const config = require('../utils/config')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
-const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-09'
+// in DB games from date 9.1. - 15.1. || 13.6.2019
+const GAMES_URL = 'https://statsapi.web.nhl.com/api/v1/schedule?date=2019-01-15'
 const boxscoreUrl = gamePk =>
   `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
 // const GAMES_URL = 'http://localhost:3001/games/2'
@@ -87,6 +92,7 @@ const fetchBoxscore = async gamePk => {
     teams: { home },
   } = data
   const players = { ...away.players, ...home.players }
+
   for (const key in players) {
     try {
       await handlePlayer(players[key], gamePk)
@@ -101,6 +107,7 @@ const fetchGames = async () => {
     data: { dates },
   } = await axios.get(GAMES_URL)
   const { games } = dates[0]
+
   for (const game of games) {
     const { gamePk } = game
     console.log('fetching gamepk', gamePk)

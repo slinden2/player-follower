@@ -31,23 +31,22 @@ const statsSchema = mongoose.Schema({
   shortHandedShotsAgainst: Number,
   evenShotsAgainst: Number,
   powerPlayShotsAgainst: Number,
-  decision: String
+  decision: String,
 })
 
 const playerSchema = mongoose.Schema({
-  id: {
+  playerId: {
     type: Number,
-    unique: true
+    unique: true,
   },
-  fullName: String,
   link: String,
   firstName: String,
   lastName: String,
   primaryNumber: Number,
   birthDate: Date,
-  currentAge: String,
   birthCity: String,
   birthCountry: String,
+  birthStateProvince: String,
   nationality: String,
   height: String,
   weight: Number,
@@ -59,7 +58,7 @@ const playerSchema = mongoose.Schema({
   rosterStatus: String,
   currentTeam: Number, // Check this later
   primaryPosition: String,
-  stats: [statsSchema]
+  stats: [statsSchema],
 })
 
 playerSchema.plugin(uniqueValidator)
