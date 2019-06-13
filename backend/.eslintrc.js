@@ -37,6 +37,7 @@ module.exports = {
         "arrow-spacing": [
             "error", { "before": true, "after": true }
         ],
+        "ignoreRestSiblings": true,
         "no-console": 0,
     }
 };
