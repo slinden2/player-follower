@@ -9,6 +9,7 @@ const typeDefs = gql`
     link: String
     firstName: String!
     lastName: String!
+    fullName: String!
     primaryNumber: Int!
     birthDate: String!
     birthCity: String!
@@ -18,7 +19,7 @@ const typeDefs = gql`
     """
     Height in cm.
     """
-    height: String!
+    height: Int!
     """
     Weight in kg.
     """
@@ -55,27 +56,30 @@ const typeDefs = gql`
     UTC seconds for the moment the data was fetched
     """
     date: Int!
-    timeOnIce: String!
+    timeOnIce: Int!
     assists: Int!
     goals: Int!
     shots: Int!
+    shotPct: Float
     hits: Int
     powerPlayGoals: Int
     powerPlayAssists: Int
     penaltyMinutes: Int!
     faceOffWins: Int
     faceoffTaken: Int
+    faceOffPct: Float
     takeaways: Int
     giveaways: Int
     shortHandedGoals: Int
     shortHandedAssists: Int
     blocked: Int
     plusMinus: Int
-    evenTimeOnIce: String
-    powerPlayTimeOnIce: String
-    shortHandedTimeOnIce: String
+    evenTimeOnIce: Int
+    powerPlayTimeOnIce: Int
+    shortHandedTimeOnIce: Int
     # Only goalie stats below
     saves: Int
+    savePct: Float
     powerPlaySaves: Int
     shortHandedSaves: Int
     evenSaves: Int
@@ -89,6 +93,24 @@ const typeDefs = gql`
   type Query {
     playerCount: Int!
     allPlayers: [Player!]!
+    findPlayer(playerId: Int!): Player!
+    findPlayers(
+      firstName: String
+      lastName: String
+      primaryNumber: Int
+      birthCity: String
+      birthStateProvince: String
+      birthCountry: String
+      nationality: String
+      height: Int
+      weight: Int
+      active: Boolean
+      alternateCaptain: Boolean
+      captain: Boolean
+      rookie: Boolean
+      shootsCatches: String
+      primaryPosition: String
+    ): [Player!]!
   }
 `
 
