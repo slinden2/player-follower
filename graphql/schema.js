@@ -85,7 +85,14 @@ const typeDefs = gql`
     shortHandedTimeOnIce: Int
     # Only goalie stats below
     saves: Int
+    """
+    savePct considers only 1 game. If you need more games, use
+    savePctTotal.
+    """
     savePct: Float
+    """
+    savePct over multiple games.
+    """
     powerPlaySaves: Int
     shortHandedSaves: Int
     evenSaves: Int
@@ -94,6 +101,12 @@ const typeDefs = gql`
     powerPlayShotsAgainst: Int
     decision: String
     id: ID!
+    # Stats below are queryable only with getStatsInRange
+    timeOnIcePerGame: Int
+    evenTimeOnIcePerGame: Int
+    powerPlayTimeOnIcePerGame: Int
+    shortHandedTimeOnIcePerGame: Int
+    savePctTotal: Float
   }
 
   type Query {

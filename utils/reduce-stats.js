@@ -1,3 +1,5 @@
+const roundToOneDecimal = require('./round-to-one-decimal')
+
 const FIELDS = [
   'timeOnIce',
   'assists',
@@ -34,7 +36,6 @@ is greated than the number of games played, the function just
 returns the sum of all stats.
 */
 const reduceStats = (player, numOfGames) => {
-  if (player.boxscores.length === 1) return player.boxscores[0]
   if (numOfGames < player.boxscores.length) {
     player.boxscores = player.boxscores.slice(-numOfGames)
   }
@@ -46,6 +47,20 @@ const reduceStats = (player, numOfGames) => {
     }
     return acc
   })
+
+  if (stats.saves) {
+    stats.savePctTotal = roundToOneDecimal((stats.saves / stats.shots) * 100)
+  }
+
+  const games = numOfGames ? numOfGames : player.boxscores.length
+
+  stats.timeOnIcePerGame = Math.round(stats.timeOnIce / games)
+  stats.evenTimeOnIcePerGame = Math.round(stats.evenTimeOnIce / games)
+  stats.powerPlayTimeOnIcePerGame = Math.round(stats.powerPlayTimeOnIce / games)
+  stats.shortHandedTimeOnIcePerGame = Math.round(
+    stats.shortHandedTimeOnIce / games
+  )
+
   return stats
 }
 
