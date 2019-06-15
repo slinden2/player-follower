@@ -1,5 +1,6 @@
 const Player = require('../models/player')
-const roundToOneDecimal = require('../utils/roundToOneDecimal')
+const roundToOneDecimal = require('../utils/round-to-one-decimal')
+const reduceStats = require('../utils/reduce-stats')
 
 const resolvers = {
   Query: {
@@ -15,10 +16,14 @@ const resolvers = {
       return player
     },
     findPlayers: async (root, args) => {
-      const players = await Player.find({
-        ...args,
-      })
+      const players = await Player.find(args)
       return players
+    },
+    getStatsInRange: async (root, args) => {
+      const { playerId, numOfGames } = args
+      const player = await Player.findOne({ playerId })
+      player.stats = reduceStats(player)
+      return player
     },
   },
   Player: {
@@ -36,6 +41,9 @@ const resolvers = {
     savePct: root => {
       if (root.saves === 0) return 0
       return roundToOneDecimal(root.goals / root.saves)
+    },
+    points: root => {
+      return root.goals + root.assists
     },
   },
 }

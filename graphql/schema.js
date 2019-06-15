@@ -40,7 +40,8 @@ const typeDefs = gql`
     An array of the boxcores of all the games that the player
     has played. Scratched games are not included.
     """
-    stats: [Stat]
+    boxscores: [Stat]
+    stats: Stat
     id: ID!
   }
 
@@ -59,6 +60,7 @@ const typeDefs = gql`
     timeOnIce: Int!
     assists: Int!
     goals: Int!
+    points: Int!
     shots: Int!
     shotPct: Float
     hits: Int
@@ -92,8 +94,17 @@ const typeDefs = gql`
 
   type Query {
     playerCount: Int!
+    """
+    All players in db
+    """
     allPlayers: [Player!]!
+    """
+    Single player by playerId
+    """
     findPlayer(playerId: Int!): Player!
+    """
+    Array of players by arbitrary search terms
+    """
     findPlayers(
       firstName: String
       lastName: String
@@ -111,6 +122,11 @@ const typeDefs = gql`
       shootsCatches: String
       primaryPosition: String
     ): [Player!]!
+    """
+    Returns stats for the last X games. If numOfGames is not defined,
+    the total stats will be returned.
+    """
+    getStatsInRange(playerId: Int!, numOfGames: Int): Player!
   }
 `
 

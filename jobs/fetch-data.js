@@ -86,14 +86,14 @@ const handlePlayer = async (playerData, gamePk) => {
   }
 
   if (!playerInDb) {
-    const player = new Player({ ...info, stats: { ...finalStats } })
+    const player = new Player({ ...info, boxscores: { ...finalStats } })
     try {
       return player.save()
     } catch ({ name, message }) {
       console.error(`${name}: ${message}`)
     }
   } else {
-    playerInDb.stats.push(finalStats)
+    playerInDb.boxscores.push(finalStats)
     try {
       return playerInDb.save()
     } catch ({ name, message }) {

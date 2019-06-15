@@ -15,7 +15,7 @@ const convertMMSStoSec = time => {
 }
 
 const isDuplicate = (player, gamePk) => {
-  const result = player.stats.filter(obj => obj.gamePk === gamePk)
+  const result = player.boxscores.filter(obj => obj.gamePk === gamePk)
   return result.length > 0
 }
 

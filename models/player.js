@@ -113,7 +113,7 @@ const playerSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
-  stats: [statsSchema],
+  boxscores: [statsSchema],
 })
 
 playerSchema.plugin(uniqueValidator)
