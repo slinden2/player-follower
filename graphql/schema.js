@@ -57,6 +57,10 @@ const typeDefs = gql`
     UTC seconds for the moment the data was fetched
     """
     date: Int!
+    """
+    Total number of played games
+    """
+    numOfGames: Int
     timeOnIce: Int!
     assists: Int!
     goals: Int!

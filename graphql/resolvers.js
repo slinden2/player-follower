@@ -22,7 +22,7 @@ const resolvers = {
     getStatsInRange: async (root, args) => {
       const { playerId, numOfGames } = args
       const player = await Player.findOne({ playerId })
-      player.stats = reduceStats(player)
+      player.stats = reduceStats(player, numOfGames)
       return player
     },
   },
@@ -42,8 +42,10 @@ const resolvers = {
       if (root.saves === 0) return 0
       return roundToOneDecimal(root.goals / root.saves)
     },
-    points: root => {
-      return root.goals + root.assists
+    points: root => root.goals + root.assists,
+    numOfGames: async root => {
+      const player = await Player.findOne({ 'boxscores._id': root._id })
+      return player.boxscores.length
     },
   },
 }
