@@ -10,4 +10,5 @@
 | 13.06.2019 | 2    | fetch-data finally giving consistent results.                 |
 |            | 2    | GraphQL initial setup done.                                   |
 | 14.06.2019 | 4    | Working on GraphQL schema.                                    |
-|   total    | 18   |                                                               |
+| 15.06.2019 | 3    | Working on resolvers.                                         |
+|   total    | 21   |                                                               |

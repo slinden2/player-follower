@@ -1,18 +1,19 @@
-// const config = require('../utils/config')
-// const mongoose = require('mongoose')
-// const Player = require('../models/player')
+const config = require('../utils/config')
+const mongoose = require('mongoose')
+const Player = require('../models/player')
 
-// mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
-// const updateBirthdate = async () => {
-//   const players = await Player.find({})
-//   for (const player of players) {
-//     player.birthDate = JSON.stringify(player.birthDate)
-//     await player.save()
-//   }
-// }
+const updateBirthdate = async () => {
+  const players = await Player.find({})
+  for (const player of players) {
+    player.birthDate = JSON.stringify(player.birthDate)
+    console.log(player.firstName, player.lastName)
+    await player.save()
+  }
+}
 
-// updateBirthdate().then(() => mongoose.connection.close())
+updateBirthdate().then(() => mongoose.connection.close())
 
 // const fetch = async () => {
 //   const players = await Player.find()
