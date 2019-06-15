@@ -27,7 +27,17 @@ const FIELDS = [
   'powerPlayShotsAgainst',
 ]
 
-const reduceStats = player => {
+/*
+The function returns the total stats of a player for the last
+`numOfGames`. If no `numOfGames` is given, or if `numOfGames`
+is greated than the number of games played, the function just
+returns the sum of all stats.
+*/
+const reduceStats = (player, numOfGames) => {
+  if (player.boxscores.length === 1) return player.boxscores[0]
+  if (numOfGames < player.boxscores.length) {
+    player.boxscores = player.boxscores.slice(-numOfGames)
+  }
   const stats = player.boxscores.reduce((acc, cur) => {
     for (const field in cur) {
       if (FIELDS.includes(field)) {
