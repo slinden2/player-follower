@@ -1,12 +1,10 @@
 import React from 'react'
-import ApolloClient, { gql } from 'apollo-boost'
+import styled from 'styled-components'
 
-const PlayerCard = () => {
-  return (
-    <div>
-      <h1>Player Card</h1>
-    </div>
-  )
+const PlayerCard = ({ player }) => {
+  console.log(player)
+
+  return <h1>{player.fullName}</h1>
 }
 
 export default PlayerCard

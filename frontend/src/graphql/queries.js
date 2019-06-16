@@ -4,6 +4,7 @@ const LAST_GAMES_STATS = gql`
   query getLastGamesStatsByPlayerIds($playerIds: [Int!]!, $numOfGames: Int) {
     getStatsInRange(playerIds: $playerIds, numOfGames: $numOfGames) {
       fullName
+      playerId
       stats {
         goals
         assists

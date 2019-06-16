@@ -4,11 +4,12 @@
 | :--------: | :--- | :------------------------------------------------------------ |
 | 09.06.2019 | 1    | getting started                                               |
 |            | 2    | working on fetch-data                                         |
-| 10.06.2019 | 2    | Studying API and working on fetch-data                        |
-| 11.06.2019 | 3    | Working on fetch-data                                         |
-| 12.06.2019 | 2    | Working on fetch-data. Problems with DB saving functionality. |
+| 10.06.2019 | 2    | studying api and working on fetch-data                        |
+| 11.06.2019 | 3    | working on fetch-data                                         |
+| 12.06.2019 | 2    | working on fetch-data. problems with db saving functionality. |
 | 13.06.2019 | 2    | fetch-data finally giving consistent results.                 |
-|            | 2    | GraphQL initial setup done.                                   |
-| 14.06.2019 | 4    | Working on GraphQL schema.                                    |
-| 15.06.2019 | 5    | Working on resolvers.                                         |
-|   total    | 23   |                                                               |
+|            | 2    | graphql initial setup done.                                   |
+| 14.06.2019 | 4    | working on graphql schema.                                    |
+| 15.06.2019 | 5    | working on resolvers.                                         |
+| 16.06.2019 | 5    | getting started with frontend                                 |
+|   total    | 28   |                                                               |

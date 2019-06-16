@@ -4,17 +4,21 @@ import PlayerCard from './PlayerCard'
 import { LAST_GAMES_STATS } from '../graphql/queries'
 
 const CardContainer = () => {
-  const players = useQuery(LAST_GAMES_STATS, {
+  const playerResults = useQuery(LAST_GAMES_STATS, {
     variables: {
       playerIds: [8477919, 8476329, 8476979, 8475907, 8470619],
     },
   })
 
-  console.log(players)
+  if (playerResults.loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div>
-      <PlayerCard />
+      {playerResults.data.getStatsInRange.map(player => (
+        <PlayerCard key={player.playerId} player={player} />
+      ))}
     </div>
   )
 }
