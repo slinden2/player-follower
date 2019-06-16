@@ -140,10 +140,15 @@ const typeDefs = gql`
       primaryPosition: String
     ): [Player!]!
     """
-    Returns stats for the last X games. If numOfGames is not defined,
-    the total stats will be returned.
+    Returns stats for the last X games for a single player. If numOfGames is
+    not defined, the total stats will be returned.
     """
-    getStatsInRange(playerId: Int!, numOfGames: Int): Player!
+    getSingleStatsInRange(playerId: Int!, numOfGames: Int): Player!
+    """
+    Returns stats for the last X games for multiple players. If numOfGames is
+    not defined, the total stats will be returned.
+    """
+    getStatsInRange(playerIds: [Int!]!, numOfGames: Int): [Player!]!
   }
 `
 

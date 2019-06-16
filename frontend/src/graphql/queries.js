@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost'
 
 const LAST_GAMES_STATS = gql`
-  query getLastGamesStatsByPlayerId($playerId: Int!, $numOfGames: Int) {
-    getStatsInRange(playerId: $playerId, numOfGames: $numOfGames) {
+  query getLastGamesStatsByPlayerIds($playerIds: [Int!]!, $numOfGames: Int) {
+    getStatsInRange(playerIds: $playerIds, numOfGames: $numOfGames) {
       fullName
       stats {
         goals
