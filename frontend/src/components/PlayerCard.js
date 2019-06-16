@@ -1,4 +1,5 @@
 import React from 'react'
+import ApolloClient, { gql } from 'apollo-boost'
 
 const PlayerCard = () => {
   return (
