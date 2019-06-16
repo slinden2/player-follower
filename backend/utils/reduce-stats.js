@@ -29,6 +29,23 @@ const FIELDS = [
   'powerPlayShotsAgainst',
 ]
 
+const generatePerGameStats = (player, stats, numOfGames) => {
+  if (stats.saves) {
+    stats.savePctTotal = roundToOneDecimal((stats.saves / stats.shots) * 100)
+  }
+
+  const games = numOfGames ? numOfGames : player.boxscores.length
+
+  stats.timeOnIcePerGame = Math.round(stats.timeOnIce / games)
+  stats.evenTimeOnIcePerGame = Math.round(stats.evenTimeOnIce / games)
+  stats.powerPlayTimeOnIcePerGame = Math.round(stats.powerPlayTimeOnIce / games)
+  stats.shortHandedTimeOnIcePerGame = Math.round(
+    stats.shortHandedTimeOnIce / games
+  )
+
+  return stats
+}
+
 /*
 The function returns the total stats of a player for the last
 `numOfGames`. If no `numOfGames` is given, or if `numOfGames`
@@ -48,20 +65,9 @@ const reduceStats = (player, numOfGames) => {
     return acc
   })
 
-  if (stats.saves) {
-    stats.savePctTotal = roundToOneDecimal((stats.saves / stats.shots) * 100)
-  }
+  const statsWithPercentuals = generatePerGameStats(player, stats, numOfGames)
 
-  const games = numOfGames ? numOfGames : player.boxscores.length
-
-  stats.timeOnIcePerGame = Math.round(stats.timeOnIce / games)
-  stats.evenTimeOnIcePerGame = Math.round(stats.evenTimeOnIce / games)
-  stats.powerPlayTimeOnIcePerGame = Math.round(stats.powerPlayTimeOnIce / games)
-  stats.shortHandedTimeOnIcePerGame = Math.round(
-    stats.shortHandedTimeOnIce / games
-  )
-
-  return stats
+  return statsWithPercentuals
 }
 
 module.exports = reduceStats
