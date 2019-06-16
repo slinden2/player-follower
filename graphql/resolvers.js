@@ -19,11 +19,21 @@ const resolvers = {
       const players = await Player.find(args)
       return players
     },
-    getStatsInRange: async (root, args) => {
+    getSingleStatsInRange: async (root, args) => {
       const { playerId, numOfGames } = args
       const player = await Player.findOne({ playerId })
       player.stats = reduceStats(player, numOfGames)
       return player
+    },
+    getStatsInRange: async (root, args) => {
+      const { playerIds, numOfGames } = args
+      const players = await Player.find({ playerId: { $in: playerIds } })
+      const newPlayers = []
+      for (const player of players) {
+        player.stats = reduceStats(player, numOfGames)
+        newPlayers.push(player)
+      }
+      return newPlayers
     },
   },
   Player: {
