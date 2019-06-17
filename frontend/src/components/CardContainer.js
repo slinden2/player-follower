@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import PlayerCard from './PlayerCard'
 import { LAST_GAMES_STATS } from '../graphql/queries'
+import * as S from '../styles'
 
 const CardContainer = () => {
   const playerResults = useQuery(LAST_GAMES_STATS, {
@@ -15,11 +16,16 @@ const CardContainer = () => {
   }
 
   return (
-    <div>
-      {playerResults.data.getStatsInRange.map(player => (
-        <PlayerCard key={player.playerId} player={player} />
-      ))}
-    </div>
+    <S.RedBorder>
+      <h1>First Stats</h1>
+      <S.CardRow>
+        {playerResults.data.getStatsInRange.map(player => (
+          <S.Card>
+            <PlayerCard key={player.playerId} player={player} />
+          </S.Card>
+        ))}
+      </S.CardRow>
+    </S.RedBorder>
   )
 }
 
