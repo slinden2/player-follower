@@ -3,6 +3,10 @@ import styled, { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
+  body {
+    font-family: Quicksand, sans-serif;
+    font-weight: 300;
+  }
 `
 
 const Wrapper = styled.div`
@@ -10,7 +14,8 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const TopNavBar = styled.div`
+const TopNavBar = styled.ul`
+  list-style: none;
   display: flex;
 `
 
@@ -32,6 +37,25 @@ const Card = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 10rem;
+  display: flex;
+  flex-direction: column;
+`
+
+const StatList = styled.ul`
+  border: 1px solid red;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+`
+
+const StatItem = styled.li`
+  border: 1px solid red;
+  padding: 4px;
+  flex-grow: 0;
+  flex-shrink: 0;
 `
 
 const RedBorder = styled.div`
@@ -46,4 +70,6 @@ export {
   CardContainer,
   CardRow,
   Card,
+  StatList,
+  StatItem,
 }

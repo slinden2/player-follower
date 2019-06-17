@@ -20,7 +20,7 @@ const CardContainer = () => {
       <h1>First Stats</h1>
       <S.CardRow>
         {playerResults.data.getStatsInRange.map(player => (
-          <S.Card>
+          <S.Card key={player.playerId}>
             <PlayerCard key={player.playerId} player={player} />
           </S.Card>
         ))}
