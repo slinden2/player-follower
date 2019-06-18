@@ -14,4 +14,5 @@
 | 16.06.2019 | 5    | getting started with frontend                                 |
 | 17.06.2019 | 4    | css basic styling                                             |
 | 18.06.2019 | 2    | css basic styling                                             |
-|   total    | 34   |                                                               |
+|            | 2    | react router and navbar styling                               |
+|   total    | 36   |                                                               |
