@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
+import { Container, Header, Divider } from 'semantic-ui-react'
 import PlayerCard from './PlayerCard'
 import { LAST_GAMES_STATS } from '../graphql/queries'
 import * as S from '../styles'
@@ -38,8 +39,8 @@ const CardContainer = () => {
     b.stats.points - a.stats.points || b.stats.goals - a.stats.goals
 
   return (
-    <S.RedBorder>
-      <h2>Last 3 games</h2>
+    <Container>
+      <Header>Last 3 games</Header>
       <S.CardRow>
         {playerResults3.data.getStatsInRange
           .sort((a, b) => sortByPointsAndGoals(a, b))
@@ -47,7 +48,8 @@ const CardContainer = () => {
             <PlayerCard key={player.playerId} player={player} />
           ))}
       </S.CardRow>
-      <h2>Last 5 games</h2>
+      <Divider />
+      <Header>Last 5 games</Header>
       <S.CardRow>
         {playerResults5.data.getStatsInRange
           .sort((a, b) => sortByPointsAndGoals(a, b))
@@ -55,7 +57,8 @@ const CardContainer = () => {
             <PlayerCard key={player.playerId} player={player} />
           ))}
       </S.CardRow>
-      <h2>Last 10 games</h2>
+      <Divider />
+      <Header>Last 10 games</Header>
       <S.CardRow>
         {playerResults10.data.getStatsInRange
           .sort((a, b) => sortByPointsAndGoals(a, b))
@@ -63,7 +66,7 @@ const CardContainer = () => {
             <PlayerCard key={player.playerId} player={player} />
           ))}
       </S.CardRow>
-    </S.RedBorder>
+    </Container>
   )
 }
 

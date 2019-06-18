@@ -1,33 +1,23 @@
 import React from 'react'
+import { Card, Image } from 'semantic-ui-react'
 import * as S from '../styles'
 
 const PlayerCard = ({ player }) => {
   return (
-    <S.Card>
-      <img src="img/test.png" alt="" />
-      <S.NameWrapper>
-        <S.CardNumber>#{player.primaryNumber}</S.CardNumber>
-        <S.CardFirstName>{player.firstName}</S.CardFirstName>
-        <S.CardLastName>{player.lastName}</S.CardLastName>
-      </S.NameWrapper>
-      <S.StatList>
-        <S.StatItem>
-          <strong>G:</strong> {player.stats.goals}
-        </S.StatItem>
-        <S.StatItem>
-          <strong>A:</strong> {player.stats.assists}
-        </S.StatItem>
-        <S.StatItem>
-          <strong>P:</strong> {player.stats.points}
-        </S.StatItem>
-        <S.StatItem>
-          <strong>+/-:</strong> {player.stats.plusMinus}
-        </S.StatItem>
-        <S.StatItem>
-          <strong>PM:</strong> {player.stats.penaltyMinutes}
-        </S.StatItem>
-      </S.StatList>
-    </S.Card>
+    <Card>
+      <Image src="img/test.png" wrapped ui={false} />
+      <Card.Content>
+        <Card.Header>
+          {player.firstName} {player.lastName}
+        </Card.Header>
+        <Card.Meta>#{player.primaryNumber}</Card.Meta>
+        <Card.Description>
+          G: {player.stats.goals} | A: {player.stats.assists} | P:{' '}
+          {player.stats.points} | PM: {player.stats.penaltyMinutes} | +/-:{' '}
+          {player.stats.plusMinus}
+        </Card.Description>
+      </Card.Content>
+    </Card>
   )
 }
 

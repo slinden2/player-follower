@@ -15,4 +15,5 @@
 | 17.06.2019 | 4    | css basic styling                                             |
 | 18.06.2019 | 2    | css basic styling                                             |
 |            | 2    | react router and navbar styling                               |
-|   total    | 36   |                                                               |
+|            | 1,5  | started to implement semantic-ui instead of styled components |
+|   total    | 37,5 |                                                               |
