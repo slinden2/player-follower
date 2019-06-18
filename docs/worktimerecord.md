@@ -12,4 +12,6 @@
 | 14.06.2019 | 4    | working on graphql schema.                                    |
 | 15.06.2019 | 5    | working on resolvers.                                         |
 | 16.06.2019 | 5    | getting started with frontend                                 |
-|   total    | 28   |                                                               |
+| 17.06.2019 | 4    | css basic styling                                             |
+| 18.06.2019 | 2    | css basic styling                                             |
+|   total    | 34   |                                                               |

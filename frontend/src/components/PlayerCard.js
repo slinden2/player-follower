@@ -7,13 +7,28 @@ const PlayerCard = ({ player }) => {
 
   return (
     <S.Card>
-      <p>{player.fullName}</p>
+      <img src="img/test.png" alt="" />
+      <S.NameWrapper>
+        <S.CardNumber>#{player.primaryNumber}</S.CardNumber>
+        <S.CardFirstName>{player.firstName}</S.CardFirstName>
+        <S.CardLastName>{player.lastName}</S.CardLastName>
+      </S.NameWrapper>
       <S.StatList>
-        <S.StatItem>G: {player.stats.goals}</S.StatItem>
-        <S.StatItem>A: {player.stats.assists}</S.StatItem>
-        <S.StatItem>P: {player.stats.points}</S.StatItem>
-        <S.StatItem>+/-: {player.stats.plusMinus}</S.StatItem>
-        <S.StatItem>PM: {player.stats.penaltyMinutes}</S.StatItem>
+        <S.StatItem>
+          <strong>G:</strong> {player.stats.goals}
+        </S.StatItem>
+        <S.StatItem>
+          <strong>A:</strong> {player.stats.assists}
+        </S.StatItem>
+        <S.StatItem>
+          <strong>P:</strong> {player.stats.points}
+        </S.StatItem>
+        <S.StatItem>
+          <strong>+/-:</strong> {player.stats.plusMinus}
+        </S.StatItem>
+        <S.StatItem>
+          <strong>PM:</strong> {player.stats.penaltyMinutes}
+        </S.StatItem>
       </S.StatList>
     </S.Card>
   )

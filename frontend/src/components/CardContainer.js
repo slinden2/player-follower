@@ -17,12 +17,22 @@ const CardContainer = () => {
 
   return (
     <S.RedBorder>
-      <h1>First Stats</h1>
+      <h2>Last 3 games</h2>
       <S.CardRow>
         {playerResults.data.getStatsInRange.map(player => (
-          <S.Card key={player.playerId}>
-            <PlayerCard key={player.playerId} player={player} />
-          </S.Card>
+          <PlayerCard key={player.playerId} player={player} />
+        ))}
+      </S.CardRow>
+      <h2>Last 5 games</h2>
+      <S.CardRow>
+        {playerResults.data.getStatsInRange.map(player => (
+          <PlayerCard key={player.playerId} player={player} />
+        ))}
+      </S.CardRow>
+      <h2>Last 10 games</h2>
+      <S.CardRow>
+        {playerResults.data.getStatsInRange.map(player => (
+          <PlayerCard key={player.playerId} player={player} />
         ))}
       </S.CardRow>
     </S.RedBorder>
