@@ -1,22 +1,23 @@
 import React from 'react'
+import { Link, Route } from 'react-router-dom'
 import * as S from '../styles'
 
 const TopNavBar = () => {
   return (
     <S.RedBorder>
       <S.TopNavBar>
-        <S.RedBorder>
-          <h1>Link1</h1>
-        </S.RedBorder>
-        <S.RedBorder>
-          <h1>Link2</h1>
-        </S.RedBorder>
-        <S.RedBorder>
-          <h1>Link3</h1>
-        </S.RedBorder>
-        <S.RedBorder>
-          <h1>Link4</h1>
-        </S.RedBorder>
+        <li>
+          <Link to="/">All Players</Link>
+        </li>
+        <li>
+          <Link to="/stats">Stats</Link>
+        </li>
+        <li>
+          <Link to="/standings">Standings</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
       </S.TopNavBar>
     </S.RedBorder>
   )

@@ -17,10 +17,22 @@ const Wrapper = styled.div`
 `
 
 const TopNavBar = styled.ul`
-  list-style: none;
-  padding: 0;
+  list-style-type: none;
   margin: 0;
-  display: flex;
+  padding: 0;
+  background-color: #333;
+  & li {
+    float: left;
+  }
+  & li a {
+    display: block;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: #111;
+  }
+  & li a:hover {
+    background-color: #ccc;
+  }
 `
 
 const CardContainer = styled.div`
