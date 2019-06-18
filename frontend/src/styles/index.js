@@ -30,7 +30,6 @@ const CardContainer = styled.div`
 
 const CardRow = styled.div`
   display: flex;
-  align-content: flex-start;
   overflow: hidden;
 `
 

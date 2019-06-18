@@ -1,10 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import * as S from '../styles'
 
 const PlayerCard = ({ player }) => {
-  console.log(player)
-
   return (
     <S.Card>
       <img src="img/test.png" alt="" />

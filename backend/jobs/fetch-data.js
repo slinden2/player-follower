@@ -14,7 +14,7 @@ const {
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
-// in DB games from date 9.1. - 12.1. || 12.6.2019
+// in DB games from date 9.1. - 29.1. || 18.6.2019
 const gamesUrl = date =>
   `https://statsapi.web.nhl.com/api/v1/schedule?date=${date}`
 const boxscoreUrl = gamePk =>
@@ -125,6 +125,7 @@ const fetchGames = async date => {
   const {
     data: { dates },
   } = await axios.get(gamesUrl(date))
+
   const { games } = dates[0]
 
   for (const game of games) {
@@ -145,7 +146,17 @@ const fetchGames = async date => {
 //   '2019-01-19',
 //   '2019-01-20',
 // ]
-const dates = ['2019-01-21', '2019-01-22']
+// const dates = ['2019-01-21', '2019-01-22']
+// const dates = [
+// '2019-01-23',
+// '2019-01-24',
+// '2019-01-25',
+// '2019-01-26',
+// '2019-01-27',
+// '2019-01-28',
+// '2019-01-29',
+// ]
+const dates = ['2019-01-30', '2019-01-31', '2019-02-01', '2019-02-02']
 const promises = []
 
 for (const date of dates) {
@@ -154,3 +165,5 @@ for (const date of dates) {
 }
 
 Promise.all(promises).then(() => mongoose.connection.close())
+
+// How to handle dates with no games? For example 2019-01-24
