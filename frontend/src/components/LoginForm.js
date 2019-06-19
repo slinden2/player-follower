@@ -1,13 +1,29 @@
 import React from 'react'
+import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
+import { LOGIN } from '../graphql/mutations'
 
 const LoginForm = () => {
   const [username, resetUsername] = useField('username', 'text')
   const [password, resetPassword] = useField('password', 'text')
 
+  const login = useMutation(LOGIN)
+
+  const loginUser = async () => {
+    const token = await login({
+      variables: {
+        username: username.value,
+        password: password.value,
+      },
+    })
+    resetUsername()
+    resetPassword()
+    console.log(token)
+  }
+
   return (
-    <Form>
+    <Form onSubmit={loginUser}>
       <Form.Field>
         <label>Username</label>
         <input placeholder="username" {...username} />

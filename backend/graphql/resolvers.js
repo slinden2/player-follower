@@ -71,6 +71,7 @@ const resolvers = {
     },
     login: async (root, args) => {
       const { username, password } = args
+      console.log(args)
       const user = await User.findOne({ username })
 
       const passwordCorrect =

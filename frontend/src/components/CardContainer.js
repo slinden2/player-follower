@@ -38,10 +38,10 @@ const CardContainer = () => {
   const sortByPointsAndGoals = (a, b) =>
     b.stats.points - a.stats.points || b.stats.goals - a.stats.goals
 
-  const createRow = playerResult => {
+  const createRow = playerResults => {
     return (
       <Grid centered={true} columns={5}>
-        {playerResults3.data.getStatsInRange
+        {playerResults.data.getStatsInRange
           .sort((a, b) => sortByPointsAndGoals(a, b))
           .map(player => (
             <Grid.Column key={player.playerId}>
