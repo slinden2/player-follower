@@ -109,6 +109,17 @@ const typeDefs = gql`
     savePctTotal: Float
   }
 
+  type User {
+    id: ID!
+    username: String!
+    email: String!
+    favoritePlayers: [String]
+  }
+
+  type Token {
+    value: String!
+  }
+
   type Query {
     playerCount: Int!
     """
@@ -149,6 +160,14 @@ const typeDefs = gql`
     not defined, the total stats will be returned.
     """
     getStatsInRange(playerIds: [Int!]!, numOfGames: Int): [Player!]!
+    """
+    Returns the logged user
+    """
+    me: User
+  }
+
+  type Mutation {
+    createUser(username: String!, password: String!, email: String!): User
   }
 `
 

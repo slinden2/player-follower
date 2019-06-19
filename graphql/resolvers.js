@@ -1,6 +1,13 @@
+const jwt = require('json-web-token')
+const bcrypt = require('bcrypt')
+const { UserInputError } = require('apollo-server')
 const Player = require('../models/player')
+const User = require('../models/user')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
 const reduceStats = require('../utils/reduce-stats')
+
+require('dotenv').config()
+const JWT_SECRET = process.env.JWT_SECRET
 
 const resolvers = {
   Query: {
@@ -34,6 +41,33 @@ const resolvers = {
         newPlayers.push(player)
       }
       return newPlayers
+    },
+  },
+  Mutation: {
+    createUser: async (root, args) => {
+      const { username, password, email } = args
+      const existingUser = await User.findOne({
+        $or: [{ username }, { email }],
+      })
+      if (existingUser) {
+        throw new UserInputError('username or email is taken')
+      }
+
+      if (!password || password.length < 6) {
+        throw new UserInputError('invalid password')
+      }
+
+      const saltRounds = 10
+      const passwordHash = await bcrypt.hash(password, saltRounds)
+
+      const user = new User({
+        username,
+        email,
+        passwordHash,
+      })
+
+      const savedUser = await user.save()
+      return savedUser
     },
   },
   Player: {
