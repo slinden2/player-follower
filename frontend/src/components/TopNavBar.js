@@ -39,6 +39,15 @@ const TopNavBar = () => {
           active={activeItem === 'about'}
           onClick={handleItemClick}
         />
+        <Menu.Menu position="right">
+          <Menu.Item
+            as={Link}
+            to="/login"
+            name="login"
+            active={activeItem === 'login'}
+            onClick={handleItemClick}
+          />
+        </Menu.Menu>
       </Menu>
     </Segment>
   )

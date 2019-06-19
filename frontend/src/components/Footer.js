@@ -1,11 +1,11 @@
 import React from 'react'
-import * as S from '../styles'
+import { Container } from 'semantic-ui-react'
 
 const Footer = () => {
   return (
-    <S.RedBorder>
+    <Container>
       <p>Footer</p>
-    </S.RedBorder>
+    </Container>
   )
 }
 
