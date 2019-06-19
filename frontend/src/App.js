@@ -5,7 +5,6 @@ import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
 import LoginForm from './components/LoginForm'
 import Footer from './components/Footer'
-import * as S from './styles'
 
 const App = () => {
   return (
