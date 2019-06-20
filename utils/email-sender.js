@@ -18,8 +18,8 @@ const sendEmail = async (email, token) => {
     from: '"Player Follower " <no-reply@test.com>',
     to: email,
     subject: 'Account Confirmation Email',
-    text: `Please click the token to activate your account: http://localhost:4000/graphql?query={verify${token}`,
-    html: `Please click the token to activate your account: http://localhost:4000/graphql?${token}`,
+    text: `Please visit the following link to activate your account: http://localhost:3000/confirmation/${token}`,
+    html: `Please visit the following link to activate your account: <a href="http://localhost:3000/confirmation/${token}">Link</a>`,
   })
 
   console.log(`message sent: ${info.messageId}`)

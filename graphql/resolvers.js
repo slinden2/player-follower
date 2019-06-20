@@ -79,6 +79,10 @@ const resolvers = {
       // const savedUser = await user.save()
       return user
     },
+    verifyUser: async (root, args) => {
+      console.log(args)
+      return { username: 'testVerifiedUser' }
+    },
     login: async (root, args) => {
       const { username, password } = args
       console.log(args)
