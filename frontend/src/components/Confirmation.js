@@ -5,9 +5,11 @@ import { Button, Segment, Header } from 'semantic-ui-react'
 
 const Confirmation = ({ token }) => {
   const verifyUser = useMutation(VERIFY_USER, { variables: { token } })
+
   const handleVerify = async () => {
     await verifyUser()
   }
+
   return (
     <Segment>
       <Header>Activate your user account</Header>

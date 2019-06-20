@@ -76,12 +76,24 @@ const resolvers = {
       const savedToken = await verificationToken.save()
       await sendEmail(user.email, savedToken.token)
 
-      // const savedUser = await user.save()
-      return user
+      const savedUser = await user.save()
+      return savedUser
     },
     verifyUser: async (root, args) => {
-      console.log(args)
-      return { username: 'testVerifiedUser' }
+      const decodedUser = jwt.verify(args.token, JWT_SECRET)
+      const token = await Token.findOne({ userId: decodedUser.userId })
+
+      if (!token) {
+        throw new AuthenticationError('invalid or expired token')
+      }
+
+      const user = await User.findOneAndUpdate(
+        { _id: token.userId },
+        { isVerified: true },
+        { new: true }
+      )
+
+      return user
     },
     login: async (root, args) => {
       const { username, password } = args
