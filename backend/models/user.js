@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
     unique: true,
   },
   passwordHash: String,
+  isVerified: Boolean,
   favoritePlayers: [
     {
       type: mongoose.Schema.Types.ObjectId,
