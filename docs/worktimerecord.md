@@ -18,4 +18,5 @@
 |            | 1,5  | started to implement semantic-ui instead of styled components |
 | 19.06.2019 | 2,5  | semantic-ui implentation for now done. added user model in db |
 | 20.06.2019 | 5    | implemented login system, user creation and forgot password   |
-|   total    | 45   |                                                               |
+|            | 1    | implemented cookies                                           |
+|   total    | 46   |                                                               |

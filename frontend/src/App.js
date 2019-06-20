@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
 import TopNavBar from './components/TopNavBar'
@@ -11,6 +11,19 @@ import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
 
 const App = () => {
+  const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    const cookies = document.cookie.split(';')
+    const pfCookie = cookies.filter(cookie =>
+      cookie.startsWith('playerfolloweruser=')
+    )
+    if (pfCookie.length) {
+      const token = pfCookie[0].substring(19)
+      setToken(token)
+    }
+  }, [])
+
   return (
     <Container>
       <Router>

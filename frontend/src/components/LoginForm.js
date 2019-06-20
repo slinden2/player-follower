@@ -12,7 +12,7 @@ const LoginForm = ({ history }) => {
   const login = useMutation(LOGIN)
 
   const loginUser = async () => {
-    await login({
+    const token = await login({
       variables: {
         username: username.value,
         password: password.value,
@@ -20,6 +20,7 @@ const LoginForm = ({ history }) => {
     })
     resetUsername()
     resetPassword()
+    document.cookie = `playerfolloweruser=${token.data.login.value}`
     history.push('/')
   }
 

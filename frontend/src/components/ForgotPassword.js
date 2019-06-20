@@ -9,7 +9,7 @@ const ForgotPassword = ({ history }) => {
   const forgotPassword = useMutation(FORGOT_PASSWORD)
 
   const handleForgotPassword = async () => {
-    const user = await forgotPassword({
+    await forgotPassword({
       variables: {
         email: email.value,
       },
