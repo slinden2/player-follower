@@ -25,23 +25,25 @@ const SignupForm = () => {
   }
 
   return (
-    <Form onSubmit={signup}>
-      <Form.Field>
-        <label>Username</label>
-        <input placeholder="username" {...username} />
-      </Form.Field>
-      <Form.Field>
-        <label>Email</label>
-        <input placeholder="email" {...email} />
-      </Form.Field>
-      <Form.Field>
-        <label>Password</label>
-        <input placeholder="password" {...password} />
-      </Form.Field>
-      <Button type="submit" primary={true}>
-        Sign Up
-      </Button>
-    </Form>
+    <div>
+      <Form onSubmit={signup}>
+        <Form.Field>
+          <label>Username</label>
+          <input placeholder="username" {...username} />
+        </Form.Field>
+        <Form.Field>
+          <label>Email</label>
+          <input placeholder="email" {...email} />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          <input placeholder="password" {...password} />
+        </Form.Field>
+        <Button type="submit" primary={true}>
+          Sign Up
+        </Button>
+      </Form>
+    </div>
   )
 }
 

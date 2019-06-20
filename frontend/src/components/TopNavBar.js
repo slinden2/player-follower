@@ -43,7 +43,7 @@ const TopNavBar = () => {
             as={Link}
             to="/login"
             name="log in"
-            active={activeItem === 'login'}
+            active={activeItem === 'log in'}
             onClick={handleItemClick}
           />
         </Menu.Menu>
@@ -52,7 +52,7 @@ const TopNavBar = () => {
             as={Link}
             to="/signup"
             name="sign up"
-            active={activeItem === 'signup'}
+            active={activeItem === 'sign up'}
             onClick={handleItemClick}
           />
         </Menu.Menu>

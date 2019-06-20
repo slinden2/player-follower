@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
@@ -11,7 +12,7 @@ const LoginForm = () => {
   const login = useMutation(LOGIN)
 
   const loginUser = async () => {
-    const token = await login({
+    await login({
       variables: {
         username: username.value,
         password: password.value,
@@ -19,23 +20,27 @@ const LoginForm = () => {
     })
     resetUsername()
     resetPassword()
-    console.log(token)
   }
 
   return (
-    <Form onSubmit={loginUser}>
-      <Form.Field>
-        <label>Username</label>
-        <input placeholder="username" {...username} />
-      </Form.Field>
-      <Form.Field>
-        <label>Password</label>
-        <input placeholder="password" {...password} />
-      </Form.Field>
-      <Button type="submit" primary={true}>
-        Log in
-      </Button>
-    </Form>
+    <div>
+      <Form onSubmit={loginUser}>
+        <Form.Field>
+          <label>Username</label>
+          <input placeholder="username" {...username} />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          <input placeholder="password" {...password} />
+        </Form.Field>
+        <Button type="submit" primary={true}>
+          Log in
+        </Button>
+      </Form>
+      <Link to="/forgot-password" name="I forgot my password">
+        I forgot my password
+      </Link>
+    </div>
   )
 }
 

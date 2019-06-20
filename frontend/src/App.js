@@ -7,6 +7,8 @@ import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import Confirmation from './components/Confirmation'
 import Footer from './components/Footer'
+import ForgotPassword from './components/ForgotPassword'
+import SetNewPassword from './components/SetNewPassword'
 
 const App = () => {
   return (
@@ -19,6 +21,15 @@ const App = () => {
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
         <Route path="/login" render={() => <LoginForm />} />
+        <Route
+          exact
+          path="/forgot-password"
+          render={() => <ForgotPassword />}
+        />
+        <Route
+          path="/forgot-password/:token"
+          render={({ match }) => <SetNewPassword token={match.params.token} />}
+        />
         <Route path="/signup" render={() => <SignupForm />} />
         <Route
           path="/confirmation/:token"

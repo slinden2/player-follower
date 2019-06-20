@@ -34,4 +34,29 @@ const LOGIN = gql`
   }
 `
 
-export { CREATE_USER, VERIFY_USER, CANCEL_USER, LOGIN }
+const FORGOT_PASSWORD = gql`
+  mutation forgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+      username
+      id
+    }
+  }
+`
+
+const SET_NEW_PASSWORD = gql`
+  mutation setNewPassword($token: String!, $password: String!) {
+    setNewPassword(token: $token, password: $password) {
+      username
+      id
+    }
+  }
+`
+
+export {
+  CREATE_USER,
+  VERIFY_USER,
+  CANCEL_USER,
+  LOGIN,
+  FORGOT_PASSWORD,
+  SET_NEW_PASSWORD,
+}
