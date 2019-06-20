@@ -171,6 +171,8 @@ const typeDefs = gql`
     verifyUser(token: String!): User
     cancelUser(token: String!): User
     login(username: String!, password: String!): Token
+    forgotPassword(email: String!): User
+    setNewPassword(token: String!, password: String!): User
   }
 `
 

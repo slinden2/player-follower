@@ -6,7 +6,10 @@ const User = require('../models/user')
 const Token = require('../models/token')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
 const reduceStats = require('../utils/reduce-stats')
-const { sendEmail } = require('../utils/email-sender')
+const {
+  sendVerificationEmail,
+  sendForgotPasswordEmail,
+} = require('../utils/email-sender')
 
 require('dotenv').config()
 const JWT_SECRET = process.env.JWT_SECRET
@@ -74,7 +77,7 @@ const resolvers = {
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
       const savedToken = await verificationToken.save()
-      await sendEmail(user.email, savedToken.token)
+      await sendVerificationEmail(user.email, savedToken.token)
 
       const savedUser = await user.save()
       return savedUser
@@ -103,7 +106,6 @@ const resolvers = {
     },
     login: async (root, args) => {
       const { username, password } = args
-      console.log(args)
       const user = await User.findOne({
         $or: [{ username }, { email: username }],
       })
@@ -128,6 +130,43 @@ const resolvers = {
 
       const token = jwt.sign(userForToken, JWT_SECRET)
       return { value: token }
+    },
+    forgotPassword: async (root, args) => {
+      const { email } = args
+      const user = await User.findOne({ email })
+
+      if (!user) {
+        throw new UserInputError('invalid email address')
+      }
+
+      const verificationToken = new Token({
+        userId: user._id,
+        token: jwt.sign({ userId: user._id }, JWT_SECRET),
+      })
+
+      const savedToken = await verificationToken.save()
+
+      await sendForgotPasswordEmail(user.email, savedToken.token)
+    },
+    setNewPassword: async (root, args) => {
+      const decodedUser = jwt.verify(args.token, JWT_SECRET)
+      const token = await Token.findOne({ userId: decodedUser.userId })
+      if (!token) {
+        throw new AuthenticationError('invalid or expired token')
+      }
+
+      if (!args.password) {
+        throw new UserInputError('no password provided')
+      }
+
+      const saltRounds = 10
+      const passwordHash = await bcrypt.hash(args.password, saltRounds)
+      const newUser = await User.findOneAndUpdate(
+        { _id: token.userId },
+        { passwordHash }
+      )
+
+      return newUser
     },
   },
   Player: {
