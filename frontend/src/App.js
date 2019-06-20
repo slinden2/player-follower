@@ -5,6 +5,7 @@ import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
+import Confirmation from './components/Confirmation'
 import Footer from './components/Footer'
 
 const App = () => {
@@ -19,6 +20,10 @@ const App = () => {
         <Route path="/about" render={() => <div>About</div>} />
         <Route path="/login" render={() => <LoginForm />} />
         <Route path="/signup" render={() => <SignupForm />} />
+        <Route
+          path="/confirmation/:token"
+          render={({ match }) => <Confirmation token={match.params.token} />}
+        />
         <Footer />
       </Router>
     </Container>

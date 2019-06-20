@@ -1,13 +1,5 @@
 import { gql } from 'apollo-boost'
 
-const LOGIN = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      value
-    }
-  }
-`
-
 const CREATE_USER = gql`
   mutation createUser($username: String!, $email: String!, $password: String!) {
     createUser(username: $username, email: $email, password: $password) {
@@ -17,4 +9,20 @@ const CREATE_USER = gql`
   }
 `
 
-export { LOGIN, CREATE_USER }
+const VERIFY_USER = gql`
+  mutation verifyUser($token: String!) {
+    verifyUser(token: $token) {
+      username
+    }
+  }
+`
+
+const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      value
+    }
+  }
+`
+
+export { CREATE_USER, VERIFY_USER, LOGIN }
