@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const { UserInputError } = require('apollo-server')
+const { UserInputError, AuthenticationError } = require('apollo-server')
 const Player = require('../models/player')
 const User = require('../models/user')
+const Token = require('../models/token')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
 const reduceStats = require('../utils/reduce-stats')
+const { sendEmail } = require('../utils/email-sender')
 
 require('dotenv').config()
 const JWT_SECRET = process.env.JWT_SECRET
@@ -67,13 +69,22 @@ const resolvers = {
         isVerified: false,
       })
 
-      const savedUser = await user.save()
-      return savedUser
+      const verificationToken = new Token({
+        userId: user._id,
+        token: jwt.sign({ userId: user._id }, JWT_SECRET),
+      })
+      const savedToken = await verificationToken.save()
+      await sendEmail(user.email, savedToken.token)
+
+      // const savedUser = await user.save()
+      return user
     },
     login: async (root, args) => {
       const { username, password } = args
       console.log(args)
-      const user = await User.findOne({ username })
+      const user = await User.findOne({
+        $or: [{ username }, { email: username }],
+      })
 
       const passwordCorrect =
         user === null
@@ -82,6 +93,10 @@ const resolvers = {
 
       if (!(user && passwordCorrect)) {
         throw new UserInputError('invalid username or password')
+      }
+
+      if (!user.isVerified) {
+        throw new AuthenticationError('account not activated')
       }
 
       const userForToken = {
