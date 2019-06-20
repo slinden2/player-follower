@@ -20,17 +20,25 @@ const App = () => {
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
-        <Route path="/login" render={() => <LoginForm />} />
+        <Route
+          path="/login"
+          render={({ history }) => <LoginForm history={history} />}
+        />
         <Route
           exact
           path="/forgot-password"
-          render={() => <ForgotPassword />}
+          render={({ history }) => <ForgotPassword history={history} />}
         />
         <Route
           path="/forgot-password/:token"
-          render={({ match }) => <SetNewPassword token={match.params.token} />}
+          render={({ history, match }) => (
+            <SetNewPassword history={history} token={match.params.token} />
+          )}
         />
-        <Route path="/signup" render={() => <SignupForm />} />
+        <Route
+          path="/signup"
+          render={({ history }) => <SignupForm history={history} />}
+        />
         <Route
           path="/confirmation/:token"
           render={({ match }) => <Confirmation token={match.params.token} />}

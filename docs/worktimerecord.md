@@ -17,4 +17,5 @@
 |            | 2    | react router and navbar styling                               |
 |            | 1,5  | started to implement semantic-ui instead of styled components |
 | 19.06.2019 | 2,5  | semantic-ui implentation for now done. added user model in db |
-|   total    | 40   |                                                               |
+| 20.06.2019 | 5    | implemented login system, user creation and forgot password   |
+|   total    | 45   |                                                               |
