@@ -95,6 +95,12 @@ const resolvers = {
 
       return user
     },
+    cancelUser: async (root, args) => {
+      const decodedUser = jwt.verify(args.token, JWT_SECRET)
+      await Token.deleteOne({ userId: decodedUser.userId })
+      const user = await User.findOneAndRemove({ _id: decodedUser.userId })
+      return user
+    },
     login: async (root, args) => {
       const { username, password } = args
       console.log(args)
