@@ -6,7 +6,7 @@ import { LOGIN } from '../graphql/mutations'
 
 const LoginForm = () => {
   const [username, resetUsername] = useField('username', 'text')
-  const [password, resetPassword] = useField('password', 'text')
+  const [password, resetPassword] = useField('password', 'password')
 
   const login = useMutation(LOGIN)
 

@@ -43,8 +43,17 @@ const TopNavBar = () => {
           <Menu.Item
             as={Link}
             to="/login"
-            name="login"
+            name="log in"
             active={activeItem === 'login'}
+            onClick={handleItemClick}
+          />
+        </Menu.Menu>
+        <Menu.Menu>
+          <Menu.Item
+            as={Link}
+            to="/signup"
+            name="sign up"
+            active={activeItem === 'signup'}
             onClick={handleItemClick}
           />
         </Menu.Menu>
