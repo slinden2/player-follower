@@ -64,6 +64,7 @@ const resolvers = {
         username,
         email,
         passwordHash,
+        isVerified: false,
       })
 
       const savedUser = await user.save()
