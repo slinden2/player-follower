@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Segment, Menu } from 'semantic-ui-react'
-import * as S from '../styles'
 
 const TopNavBar = () => {
   const [activeItem, setActiveItem] = useState('all')

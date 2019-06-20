@@ -17,6 +17,15 @@ const VERIFY_USER = gql`
   }
 `
 
+const CANCEL_USER = gql`
+  mutation cancelUser($token: String!) {
+    cancelUser(token: $token) {
+      username
+      id
+    }
+  }
+`
+
 const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
@@ -25,4 +34,4 @@ const LOGIN = gql`
   }
 `
 
-export { CREATE_USER, VERIFY_USER, LOGIN }
+export { CREATE_USER, VERIFY_USER, CANCEL_USER, LOGIN }
