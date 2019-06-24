@@ -23,6 +23,11 @@ const App = () => {
     }
   }, [])
 
+  const logout = () => {
+    setToken(null)
+    document.cookie = 'user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT'
+  }
+
   return (
     <Container>
       <Router>
@@ -31,6 +36,7 @@ const App = () => {
           activePage={activePage}
           setActivePage={setActivePage}
           token={token}
+          logout={logout}
         />
         <Route exact path="/" render={() => <CardContainer />} />
         <Route path="/stats" render={() => <div>Stats</div>} />

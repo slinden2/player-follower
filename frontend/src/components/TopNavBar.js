@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Menu } from 'semantic-ui-react'
 
-const TopNavBar = ({ activePage, setActivePage, token }) => {
+const TopNavBar = ({ activePage, setActivePage, token, logout }) => {
   const handleItemClick = (e, { name }) => setActivePage(name)
 
   return (
@@ -36,7 +36,7 @@ const TopNavBar = ({ activePage, setActivePage, token }) => {
           active={activePage === 'about'}
           onClick={handleItemClick}
         />
-        {!token && (
+        {!token ? (
           <>
             <Menu.Menu position="right">
               <Menu.Item
@@ -57,6 +57,10 @@ const TopNavBar = ({ activePage, setActivePage, token }) => {
               />
             </Menu.Menu>
           </>
+        ) : (
+          <Menu.Menu position="right">
+            <Menu.Item name="log out" onClick={logout} />
+          </Menu.Menu>
         )}
       </Menu>
     </Segment>
