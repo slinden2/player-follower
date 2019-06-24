@@ -52,6 +52,15 @@ const SET_NEW_PASSWORD = gql`
   }
 `
 
+const CHANGE_PASSWORD = gql`
+  mutation changePassword($password: String!) {
+    changePassword(password: $password) {
+      username
+      id
+    }
+  }
+`
+
 export {
   CREATE_USER,
   VERIFY_USER,
@@ -59,4 +68,5 @@ export {
   LOGIN,
   FORGOT_PASSWORD,
   SET_NEW_PASSWORD,
+  CHANGE_PASSWORD,
 }
