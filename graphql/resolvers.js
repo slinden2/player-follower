@@ -172,6 +172,17 @@ const resolvers = {
 
       return newUser
     },
+    changePassword: async (root, args, ctx) => {
+      if (args.password && ctx.currentUser) {
+        const saltRounds = 10
+        const passwordHash = await bcrypt.hash(args.password, saltRounds)
+        const newUser = await User.findOneAndUpdate(
+          { _id: ctx.currentUser._id },
+          { passwordHash }
+        )
+        return newUser
+      }
+    },
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,

@@ -173,6 +173,7 @@ const typeDefs = gql`
     login(username: String!, password: String!): Token
     forgotPassword(email: String!): User
     setNewPassword(token: String!, password: String!): User
+    changePassword(password: String!): User
   }
 `
 
