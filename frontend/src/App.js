@@ -10,6 +10,7 @@ import Confirmation from './components/Confirmation'
 import Footer from './components/Footer'
 import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
+import Profile from './components/Profile'
 import { USER } from './graphql/queries'
 import { getCookie, removeCookie } from './utils'
 
@@ -54,10 +55,13 @@ const App = () => {
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
-        {token && (
+        {loggedUser.data.me && (
           <>
             <Route path="/favorites" render={() => <div>favorites</div>} />
-            <Route path="/profile" render={() => <div>profile</div>} />
+            <Route
+              path="/profile"
+              render={() => <Profile user={loggedUser.data.me} />}
+            />
           </>
         )}
         {!token && (

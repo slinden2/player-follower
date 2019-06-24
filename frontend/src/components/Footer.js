@@ -1,12 +1,7 @@
 import React from 'react'
-import { Container } from 'semantic-ui-react'
 
 const Footer = () => {
-  return (
-    <Container>
-      <p>Footer</p>
-    </Container>
-  )
+  return <p>Footer</p>
 }
 
 export default Footer
