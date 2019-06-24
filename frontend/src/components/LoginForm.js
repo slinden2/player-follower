@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { LOGIN } from '../graphql/mutations'
+import { setCookie } from '../utils'
 
 const LoginForm = ({ history, setActivePage, setToken }) => {
   const [username, resetUsername] = useField('username', 'text')
@@ -21,7 +22,7 @@ const LoginForm = ({ history, setActivePage, setToken }) => {
     resetUsername()
     resetPassword()
     setToken(token.data.login.value)
-    document.cookie = `user=${token.data.login.value}`
+    setCookie('user', token.data.login.value)
     setActivePage('all')
     history.push('/')
   }

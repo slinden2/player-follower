@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
 import { USER } from './graphql/queries'
+import { getCookie, removeCookie } from './utils'
 
 const App = () => {
   const [token, setToken] = useState(null)
@@ -18,20 +19,19 @@ const App = () => {
 
   const client = useApolloClient()
   const loggedUser = useQuery(USER)
-  console.log(loggedUser)
 
   useEffect(() => {
-    const cookies = document.cookie.split(';')
-    const pfCookie = cookies.filter(cookie => cookie.startsWith('user='))
-    if (pfCookie.length) {
-      const token = pfCookie[0].substring(5)
-      setToken(token)
-    }
+    const tokenCookie = getCookie('user')
+    setToken(tokenCookie)
   }, [])
+
+  useEffect(() => {
+    loggedUser.refetch()
+  }, [loggedUser, token])
 
   const logout = () => {
     setToken(null)
-    document.cookie = 'user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT'
+    removeCookie('user')
     client.resetStore()
   }
 
