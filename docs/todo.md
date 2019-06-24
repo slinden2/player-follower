@@ -3,6 +3,7 @@
 - [x] Save login info in a cookie
 - [x] View for logged users
 - [x] Implement logout functionality
+- [x] Profile page for users
 - [ ] Notifications for frontend
 - [ ] Error handling for front/backend
 - [ ] Email formatting for account confirmation & forgot password
@@ -14,4 +15,3 @@
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
-- [ ] Profile page for users

@@ -20,4 +20,5 @@
 | 20.06.2019 | 5    | implemented login system, user creation and forgot password       |
 |            | 1    | implemented cookies                                               |
 | 24.06.2019 | 3,5  | worked on the login system and personalized view for logged users |
-|   total    | 49,5 |                                                                   |
+|            | 1    | profile page for logged users                                     |
+|   total    | 50,5 |                                                                   |
