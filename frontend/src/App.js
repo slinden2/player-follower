@@ -12,14 +12,13 @@ import SetNewPassword from './components/SetNewPassword'
 
 const App = () => {
   const [token, setToken] = useState(null)
+  const [activePage, setActivePage] = useState('all')
 
   useEffect(() => {
     const cookies = document.cookie.split(';')
-    const pfCookie = cookies.filter(cookie =>
-      cookie.startsWith('playerfolloweruser=')
-    )
+    const pfCookie = cookies.filter(cookie => cookie.startsWith('user='))
     if (pfCookie.length) {
-      const token = pfCookie[0].substring(19)
+      const token = pfCookie[0].substring(5)
       setToken(token)
     }
   }, [])
@@ -28,34 +27,57 @@ const App = () => {
     <Container>
       <Router>
         <Header size="huge">Player Follower</Header>
-        <TopNavBar />
+        <TopNavBar
+          activePage={activePage}
+          setActivePage={setActivePage}
+          token={token}
+        />
         <Route exact path="/" render={() => <CardContainer />} />
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
-        <Route
-          path="/login"
-          render={({ history }) => <LoginForm history={history} />}
-        />
-        <Route
-          exact
-          path="/forgot-password"
-          render={({ history }) => <ForgotPassword history={history} />}
-        />
-        <Route
-          path="/forgot-password/:token"
-          render={({ history, match }) => (
-            <SetNewPassword history={history} token={match.params.token} />
-          )}
-        />
-        <Route
-          path="/signup"
-          render={({ history }) => <SignupForm history={history} />}
-        />
-        <Route
-          path="/confirmation/:token"
-          render={({ match }) => <Confirmation token={match.params.token} />}
-        />
+        {!token && (
+          <>
+            <Route
+              path="/signup"
+              render={({ history }) => (
+                <SignupForm history={history} setActivePage={setActivePage} />
+              )}
+            />
+            <Route
+              path="/login"
+              render={({ history }) => (
+                <LoginForm
+                  history={history}
+                  setActivePage={setActivePage}
+                  setToken={setToken}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/forgot-password"
+              render={({ history }) => (
+                <ForgotPassword
+                  history={history}
+                  setActivePage={setActivePage}
+                />
+              )}
+            />
+            <Route
+              path="/forgot-password/:token"
+              render={({ history, match }) => (
+                <SetNewPassword history={history} token={match.params.token} />
+              )}
+            />
+            <Route
+              path="/confirmation/:token"
+              render={({ match }) => (
+                <Confirmation token={match.params.token} />
+              )}
+            />
+          </>
+        )}
         <Footer />
       </Router>
     </Container>

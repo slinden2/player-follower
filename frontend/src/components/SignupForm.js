@@ -4,7 +4,7 @@ import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { CREATE_USER } from '../graphql/mutations'
 
-const SignupForm = ({ history }) => {
+const SignupForm = ({ history, setActivePage }) => {
   const [username, resetUsername] = useField('username', 'text')
   const [email, resetEmail] = useField('password', 'text')
   const [password, resetPassword] = useField('password', 'password')
@@ -22,6 +22,7 @@ const SignupForm = ({ history }) => {
     resetUsername()
     resetEmail()
     resetPassword()
+    setActivePage('all')
     history.push('/')
   }
 

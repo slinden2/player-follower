@@ -4,7 +4,7 @@ import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { FORGOT_PASSWORD } from '../graphql/mutations'
 
-const ForgotPassword = ({ history }) => {
+const ForgotPassword = ({ history, setActivePage }) => {
   const [email, resetEmail] = useField('email', 'text')
   const forgotPassword = useMutation(FORGOT_PASSWORD)
 
@@ -15,6 +15,7 @@ const ForgotPassword = ({ history }) => {
       },
     })
     resetEmail()
+    setActivePage('all')
     history.push('/')
   }
 

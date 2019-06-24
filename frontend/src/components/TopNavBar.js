@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Menu } from 'semantic-ui-react'
 
-const TopNavBar = () => {
-  const [activeItem, setActiveItem] = useState('all')
-
-  const handleItemClick = (e, { name }) => setActiveItem(name)
+const TopNavBar = ({ activePage, setActivePage, token }) => {
+  const handleItemClick = (e, { name }) => setActivePage(name)
 
   return (
     <Segment inverted>
@@ -14,48 +12,52 @@ const TopNavBar = () => {
           as={Link}
           to="/"
           name="all"
-          active={activeItem === 'all'}
+          active={activePage === 'all'}
           onClick={handleItemClick}
         />
         <Menu.Item
           as={Link}
           to="/stats"
           name="stats"
-          active={activeItem === 'stats'}
+          active={activePage === 'stats'}
           onClick={handleItemClick}
         />
         <Menu.Item
           as={Link}
           to="standings"
           name="standings"
-          active={activeItem === 'standings'}
+          active={activePage === 'standings'}
           onClick={handleItemClick}
         />
         <Menu.Item
           as={Link}
           to="/about"
           name="about"
-          active={activeItem === 'about'}
+          active={activePage === 'about'}
           onClick={handleItemClick}
         />
-        <Menu.Menu position="right">
-          <Menu.Item
-            as={Link}
-            to="/login"
-            name="log in"
-            active={activeItem === 'log in'}
-            onClick={handleItemClick}
-          />
-        </Menu.Menu>
-        <Menu.Menu>
-          <Menu.Item
-            as={Link}
-            to="/signup"
-            name="sign up"
-            active={activeItem === 'sign up'}
-            onClick={handleItemClick}
-          />
-        </Menu.Menu>
+        {!token && (
+          <>
+            <Menu.Menu position="right">
+              <Menu.Item
+                as={Link}
+                to="/login"
+                name="log in"
+                active={activePage === 'log in'}
+                onClick={handleItemClick}
+              />
+            </Menu.Menu>
+            <Menu.Menu>
+              <Menu.Item
+                as={Link}
+                to="/signup"
+                name="sign up"
+                active={activePage === 'sign up'}
+                onClick={handleItemClick}
+              />
+            </Menu.Menu>
+          </>
+        )}
       </Menu>
     </Segment>
   )

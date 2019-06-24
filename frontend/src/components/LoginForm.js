@@ -5,7 +5,7 @@ import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { LOGIN } from '../graphql/mutations'
 
-const LoginForm = ({ history }) => {
+const LoginForm = ({ history, setActivePage, setToken }) => {
   const [username, resetUsername] = useField('username', 'text')
   const [password, resetPassword] = useField('password', 'password')
 
@@ -20,7 +20,9 @@ const LoginForm = ({ history }) => {
     })
     resetUsername()
     resetPassword()
-    document.cookie = `playerfolloweruser=${token.data.login.value}`
+    setToken(token.data.login.value)
+    document.cookie = `user=${token.data.login.value}`
+    setActivePage('all')
     history.push('/')
   }
 

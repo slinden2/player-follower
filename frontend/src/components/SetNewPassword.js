@@ -4,7 +4,7 @@ import { useField } from '../hooks'
 import { SET_NEW_PASSWORD } from '../graphql/mutations'
 import { Form, Button } from 'semantic-ui-react'
 
-const SetNewPassword = ({ history, token }) => {
+const SetNewPassword = ({ history, token, setActivePage }) => {
   const [password, resetPassword] = useField('password', 'password')
   const [confirmPassword, resetConfirmPassword] = useField(
     'confirmpassword',
@@ -17,6 +17,7 @@ const SetNewPassword = ({ history, token }) => {
       await setNewPassword({ variables: { token, password: password.value } })
       resetPassword()
       resetConfirmPassword()
+      setActivePage('all')
       history.push('/')
     }
   }
