@@ -18,4 +18,13 @@ const LAST_GAMES_STATS = gql`
   }
 `
 
-export { LAST_GAMES_STATS }
+const USER = gql`
+  query loggedUser {
+    me {
+      username
+      email
+    }
+  }
+`
+
+export { LAST_GAMES_STATS, USER }

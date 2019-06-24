@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
 import TopNavBar from './components/TopNavBar'
@@ -9,10 +10,15 @@ import Confirmation from './components/Confirmation'
 import Footer from './components/Footer'
 import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
+import { USER } from './graphql/queries'
 
 const App = () => {
   const [token, setToken] = useState(null)
   const [activePage, setActivePage] = useState('all')
+
+  const client = useApolloClient()
+  const loggedUser = useQuery(USER)
+  console.log(loggedUser)
 
   useEffect(() => {
     const cookies = document.cookie.split(';')
@@ -26,6 +32,7 @@ const App = () => {
   const logout = () => {
     setToken(null)
     document.cookie = 'user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT'
+    client.resetStore()
   }
 
   return (
@@ -38,6 +45,7 @@ const App = () => {
           token={token}
           logout={logout}
         />
+        {token && <div>{loggedUser.username}</div>}
         <Route exact path="/" render={() => <CardContainer />} />
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />

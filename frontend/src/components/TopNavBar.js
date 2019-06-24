@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Menu } from 'semantic-ui-react'
 
@@ -15,6 +15,15 @@ const TopNavBar = ({ activePage, setActivePage, token, logout }) => {
           active={activePage === 'all'}
           onClick={handleItemClick}
         />
+        {token && (
+          <Menu.Item
+            as={Link}
+            to="/favorites"
+            name="favorites"
+            active={activePage === 'favorites'}
+            onClick={handleItemClick}
+          />
+        )}
         <Menu.Item
           as={Link}
           to="/stats"
