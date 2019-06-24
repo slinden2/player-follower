@@ -67,9 +67,20 @@ const TopNavBar = ({ activePage, setActivePage, token, logout }) => {
             </Menu.Menu>
           </>
         ) : (
-          <Menu.Menu position="right">
-            <Menu.Item name="log out" onClick={logout} />
-          </Menu.Menu>
+          <>
+            <Menu.Menu position="right">
+              <Menu.Item
+                as={Link}
+                to="/profile"
+                name="profile"
+                active={activePage === 'profile'}
+                onClick={handleItemClick}
+              />
+            </Menu.Menu>
+            <Menu.Menu>
+              <Menu.Item name="log out" onClick={logout} />
+            </Menu.Menu>
+          </>
         )}
       </Menu>
     </Segment>

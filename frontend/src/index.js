@@ -8,8 +8,6 @@ import { setContext } from 'apollo-link-context'
 import App from './App'
 import { getCookie } from './utils'
 
-const cookie = getCookie('user')
-
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
 })
