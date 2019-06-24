@@ -47,6 +47,10 @@ const resolvers = {
       }
       return newPlayers
     },
+    me: async (root, args, ctx) => {
+      console.log(ctx)
+      return ctx.currentUser
+    },
   },
   Mutation: {
     createUser: async (root, args) => {
