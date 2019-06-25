@@ -126,6 +126,7 @@ const typeDefs = gql`
     All players in db
     """
     allPlayers: [Player!]!
+    bestPlayers: [Player!]!
     """
     Single player by playerId
     """

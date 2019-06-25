@@ -6,6 +6,7 @@ const User = require('../models/user')
 const Token = require('../models/token')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
 const reduceStats = require('../utils/reduce-stats')
+const getBestPlayers = require('../utils/get-best-players')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -47,8 +48,14 @@ const resolvers = {
       }
       return newPlayers
     },
+    bestPlayers: async (root, args) => {
+      const players = await Player.find({
+        playerId: { $in: [8471214, 8478402, 8476453, 8478427, 8477493] },
+      })
+      getBestPlayers(players)
+      return players
+    },
     me: async (root, args, ctx) => {
-      console.log(ctx)
       return ctx.currentUser
     },
   },

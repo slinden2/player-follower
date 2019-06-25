@@ -49,7 +49,7 @@ const generatePerGameStats = (player, stats, numOfGames) => {
 /*
 The function returns the total stats of a player for the last
 `numOfGames`. If no `numOfGames` is given, or if `numOfGames`
-is greated than the number of games played, the function just
+is greater than the number of games played, the function just
 returns the sum of all stats.
 */
 const reduceStats = (player, numOfGames) => {
