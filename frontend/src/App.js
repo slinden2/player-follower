@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useNotification } from './hooks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
 import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
+import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import Confirmation from './components/Confirmation'
@@ -17,6 +19,7 @@ import { getCookie, removeCookie } from './utils'
 const App = () => {
   const [token, setToken] = useState(null)
   const [activePage, setActivePage] = useState('all')
+  const [notification, setNotification] = useNotification()
 
   const client = useApolloClient()
   const loggedUser = useQuery(USER)
@@ -46,6 +49,7 @@ const App = () => {
           token={token}
           logout={logout}
         />
+        <Notification notification={notification} />
         {loggedUser.data.me && (
           <div>
             logged in as <strong>{loggedUser.data.me.username}</strong>
@@ -79,6 +83,7 @@ const App = () => {
                   history={history}
                   setActivePage={setActivePage}
                   setToken={setToken}
+                  setNotification={setNotification}
                 />
               )}
             />

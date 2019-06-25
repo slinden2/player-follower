@@ -6,7 +6,7 @@ import { useField } from '../hooks'
 import { LOGIN } from '../graphql/mutations'
 import { setCookie } from '../utils'
 
-const LoginForm = ({ history, setActivePage, setToken }) => {
+const LoginForm = ({ history, setActivePage, setToken, setNotification }) => {
   const [username, resetUsername] = useField('username', 'text')
   const [password, resetPassword] = useField('password', 'password')
 
@@ -19,6 +19,7 @@ const LoginForm = ({ history, setActivePage, setToken }) => {
         password: password.value,
       },
     })
+    setNotification('positive', `${username.value} successfully logged in.`)
     resetUsername()
     resetPassword()
     setToken(token.data.login.value)
