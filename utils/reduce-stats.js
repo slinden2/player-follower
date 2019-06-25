@@ -62,13 +62,13 @@ const reduceStats = (player, numOfGames) => {
         acc[field] = acc[field] + cur[field]
       }
     }
+    acc.points = acc.goals + acc.assists
     delete acc.gamePk
     delete acc.date
     return acc
   })
 
   const statsWithPercentuals = generatePerGameStats(player, stats, numOfGames)
-
   return statsWithPercentuals
 }
 
