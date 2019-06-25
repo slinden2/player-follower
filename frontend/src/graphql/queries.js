@@ -18,6 +18,24 @@ const LAST_GAMES_STATS = gql`
   }
 `
 
+const BEST_PLAYERS = gql`
+  query getBestPlayers {
+    bestPlayers {
+      firstName
+      lastName
+      primaryNumber
+      playerId
+      stats {
+        goals
+        assists
+        points
+        plusMinus
+        penaltyMinutes
+      }
+    }
+  }
+`
+
 const USER = gql`
   query loggedUser {
     me {
@@ -27,4 +45,4 @@ const USER = gql`
   }
 `
 
-export { LAST_GAMES_STATS, USER }
+export { LAST_GAMES_STATS, BEST_PLAYERS, USER }

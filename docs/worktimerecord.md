@@ -22,4 +22,5 @@
 | 24.06.2019 | 3,5  | worked on the login system and personalized view for logged users |
 |            | 1    | profile page for logged users                                     |
 | 25.06.2019 | 4,5  | notification system done. started to work on player algorithm     |
-|   total    | 55   |                                                                   |
+| 25.06.2019 | 1,5  | best player algorithm                                             |
+|   total    | 56,5 |                                                                   |
