@@ -34,6 +34,14 @@ const statsSchema = mongoose.Schema({
   decision: String,
 })
 
+statsSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  },
+})
+
 const playerSchema = mongoose.Schema({
   link: {
     type: String,
@@ -117,5 +125,13 @@ const playerSchema = mongoose.Schema({
 })
 
 playerSchema.plugin(uniqueValidator)
+
+playerSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  },
+})
 
 module.exports = mongoose.model('Player', playerSchema)
