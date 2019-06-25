@@ -15,3 +15,4 @@
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
+- [ ] Refactor all players view so that only one query is done
