@@ -21,4 +21,5 @@
 |            | 1    | implemented cookies                                               |
 | 24.06.2019 | 3,5  | worked on the login system and personalized view for logged users |
 |            | 1    | profile page for logged users                                     |
-|   total    | 50,5 |                                                                   |
+| 25.06.2019 | 4,5  | notification system done. started to work on player algorithm     |
+|   total    | 55   |                                                                   |

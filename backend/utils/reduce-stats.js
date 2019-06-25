@@ -62,6 +62,8 @@ const reduceStats = (player, numOfGames) => {
         acc[field] = acc[field] + cur[field]
       }
     }
+    delete acc.gamePk
+    delete acc.date
     return acc
   })
 
