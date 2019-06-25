@@ -4,7 +4,7 @@
 - [x] View for logged users
 - [x] Implement logout functionality
 - [x] Profile page for users
-- [ ] Notifications for frontend
+- [x] Notifications for frontend
 - [ ] Error handling for front/backend
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements

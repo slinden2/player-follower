@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { Container, Header, Divider } from 'semantic-ui-react'
+import { Container, Header, Divider, Loader } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import PlayerCard from './PlayerCard'
 import { LAST_GAMES_STATS } from '../graphql/queries'
@@ -32,7 +32,7 @@ const CardContainer = () => {
     playerResults5.loading ||
     playerResults3.loading
   ) {
-    return <div>Loading...</div>
+    return <Loader active inline="centered" />
   }
 
   const sortByPointsAndGoals = (a, b) =>

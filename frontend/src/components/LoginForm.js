@@ -13,19 +13,23 @@ const LoginForm = ({ history, setActivePage, setToken, setNotification }) => {
   const login = useMutation(LOGIN)
 
   const loginUser = async () => {
-    const token = await login({
-      variables: {
-        username: username.value,
-        password: password.value,
-      },
-    })
-    setNotification('positive', `${username.value} successfully logged in.`)
-    resetUsername()
-    resetPassword()
-    setToken(token.data.login.value)
-    setCookie('user', token.data.login.value)
-    setActivePage('all')
-    history.push('/')
+    try {
+      const token = await login({
+        variables: {
+          username: username.value,
+          password: password.value,
+        },
+      })
+      setNotification('positive', `${username.value} successfully logged in.`)
+      resetUsername()
+      resetPassword()
+      setToken(token.data.login.value)
+      setCookie('user', token.data.login.value)
+      setActivePage('all')
+      history.push('/')
+    } catch (exception) {
+      setNotification('negative', `${exception.message}`)
+    }
   }
 
   return (

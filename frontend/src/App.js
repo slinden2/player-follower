@@ -22,6 +22,7 @@ const App = () => {
   const [notification, setNotification] = useNotification()
 
   const client = useApolloClient()
+
   const loggedUser = useQuery(USER)
 
   useEffect(() => {
