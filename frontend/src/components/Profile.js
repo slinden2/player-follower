@@ -4,7 +4,7 @@ import { useMutation } from 'react-apollo-hooks'
 import { Table, Button, Form } from 'semantic-ui-react'
 import { CHANGE_PASSWORD } from '../graphql/mutations'
 
-const Profile = ({ user }) => {
+const Profile = ({ user, setNotification }) => {
   const [show, setShow] = useState(false)
   const [password, resetPassword] = useField('password', 'password')
   const [confirmPassword, resetConfirmPassword] = useField(
@@ -23,6 +23,7 @@ const Profile = ({ user }) => {
   const handlePasswordChange = async () => {
     if (password.value === confirmPassword.value) {
       await changePassword({ variables: { password: password.value } })
+      setNotification('positive', 'Your password has been changed.')
       resetPassword()
       resetConfirmPassword()
       setShow(false)

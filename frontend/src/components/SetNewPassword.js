@@ -4,7 +4,7 @@ import { useField } from '../hooks'
 import { SET_NEW_PASSWORD } from '../graphql/mutations'
 import { Form, Button } from 'semantic-ui-react'
 
-const SetNewPassword = ({ history, token, setActivePage }) => {
+const SetNewPassword = ({ history, token, setActivePage, setNotification }) => {
   const [password, resetPassword] = useField('password', 'password')
   const [confirmPassword, resetConfirmPassword] = useField(
     'confirmpassword',
@@ -15,6 +15,10 @@ const SetNewPassword = ({ history, token, setActivePage }) => {
   const handleSetNewPassword = async () => {
     if (password.value === confirmPassword.value) {
       await setNewPassword({ variables: { token, password: password.value } })
+      setNotification(
+        'positive',
+        'Your password has been changed. You may now log in with the new password.'
+      )
       resetPassword()
       resetConfirmPassword()
       setActivePage('all')
@@ -26,7 +30,7 @@ const SetNewPassword = ({ history, token, setActivePage }) => {
     <div>
       <Form onSubmit={handleSetNewPassword}>
         <Form.Field>
-          <label>password</label>
+          <label>Password</label>
           <input placeholder="password" {...password} />
         </Form.Field>
         <Form.Field>

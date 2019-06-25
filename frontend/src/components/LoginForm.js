@@ -33,7 +33,7 @@ const LoginForm = ({ history, setActivePage, setToken, setNotification }) => {
       <Form onSubmit={loginUser}>
         <Form.Field>
           <label>Username</label>
-          <input placeholder="username" {...username} />
+          <input placeholder="username or email" {...username} />
         </Form.Field>
         <Form.Field>
           <label>Password</label>

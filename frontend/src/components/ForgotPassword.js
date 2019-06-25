@@ -4,7 +4,7 @@ import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { FORGOT_PASSWORD } from '../graphql/mutations'
 
-const ForgotPassword = ({ history, setActivePage }) => {
+const ForgotPassword = ({ history, setActivePage, setNotification }) => {
   const [email, resetEmail] = useField('email', 'text')
   const forgotPassword = useMutation(FORGOT_PASSWORD)
 
@@ -14,6 +14,12 @@ const ForgotPassword = ({ history, setActivePage }) => {
         email: email.value,
       },
     })
+    setNotification(
+      'positive',
+      `The password reset link has been set to ${
+        email.value
+      }. Please click the link to change your password.`
+    )
     resetEmail()
     setActivePage('all')
     history.push('/')

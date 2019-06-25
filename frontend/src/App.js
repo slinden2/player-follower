@@ -37,6 +37,7 @@ const App = () => {
     setToken(null)
     removeCookie('user')
     client.resetStore()
+    setNotification('positive', 'You have been logged out.')
   }
 
   return (
@@ -64,7 +65,12 @@ const App = () => {
             <Route path="/favorites" render={() => <div>favorites</div>} />
             <Route
               path="/profile"
-              render={() => <Profile user={loggedUser.data.me} />}
+              render={() => (
+                <Profile
+                  user={loggedUser.data.me}
+                  setNotification={setNotification}
+                />
+              )}
             />
           </>
         )}
@@ -73,7 +79,11 @@ const App = () => {
             <Route
               path="/signup"
               render={({ history }) => (
-                <SignupForm history={history} setActivePage={setActivePage} />
+                <SignupForm
+                  history={history}
+                  setActivePage={setActivePage}
+                  setNotification={setNotification}
+                />
               )}
             />
             <Route
@@ -94,19 +104,29 @@ const App = () => {
                 <ForgotPassword
                   history={history}
                   setActivePage={setActivePage}
+                  setNotification={setNotification}
                 />
               )}
             />
             <Route
               path="/forgot-password/:token"
               render={({ history, match }) => (
-                <SetNewPassword history={history} token={match.params.token} />
+                <SetNewPassword
+                  history={history}
+                  token={match.params.token}
+                  setActivePage={setActivePage}
+                  setNotification={setNotification}
+                />
               )}
             />
             <Route
               path="/confirmation/:token"
-              render={({ match }) => (
-                <Confirmation token={match.params.token} />
+              render={({ history, match }) => (
+                <Confirmation
+                  history={history}
+                  token={match.params.token}
+                  setNotification={setNotification}
+                />
               )}
             />
           </>

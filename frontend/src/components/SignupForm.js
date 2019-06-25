@@ -4,7 +4,7 @@ import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { CREATE_USER } from '../graphql/mutations'
 
-const SignupForm = ({ history, setActivePage }) => {
+const SignupForm = ({ history, setActivePage, setNotification }) => {
   const [username, resetUsername] = useField('username', 'text')
   const [email, resetEmail] = useField('password', 'text')
   const [password, resetPassword] = useField('password', 'password')
@@ -19,6 +19,14 @@ const SignupForm = ({ history, setActivePage }) => {
         password: password.value,
       },
     })
+    setNotification(
+      'positive',
+      `An account for ${
+        username.value
+      } has been created. Before logging in, you must activate your account by clicking the activation link sent to ${
+        email.value
+      }.`
+    )
     resetUsername()
     resetEmail()
     resetPassword()
