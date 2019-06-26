@@ -64,6 +64,12 @@ const resolvers = {
         throw new UserInputError('invalid password')
       }
 
+      if (!username || !email) {
+        throw new UserInputError(
+          'you must provide a valid username and an email address'
+        )
+      }
+
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(password, saltRounds)
 
@@ -79,9 +85,11 @@ const resolvers = {
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
       const savedToken = await verificationToken.save()
-      await sendVerificationEmail(user.email, savedToken.token)
 
       const savedUser = await user.save()
+
+      await sendVerificationEmail(user.email, savedToken.token)
+
       return savedUser
     },
     verifyUser: async (root, args) => {
