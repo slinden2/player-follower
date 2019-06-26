@@ -29,9 +29,9 @@ const reduceStats = (player, numOfGames) => {
   if (numOfGames < player.boxscores.length) {
     player.boxscores = player.boxscores.slice(0, numOfGames)
   }
-  console.log('=========================')
-  console.log(player.firstName)
-  console.log(player.boxscores)
+  // console.log('=========================')
+  // console.log(player.firstName)
+  // console.log(player.boxscores)
   const stats = player.boxscores.reduce((acc, cur) => {
     if (!acc.gamePks) acc.gamePks = [acc.gamePk]
     for (const field in cur) {

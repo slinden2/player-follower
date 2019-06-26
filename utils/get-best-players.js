@@ -1,7 +1,9 @@
 const reduceStats = require('./reduce-stats')
 
-// const NUM_OF_GAMES = [3, 5, 10]
-
+/*
+For sorting boxscore. Must be corrected to date in the future.
+It is not guaranteed that gamePks are in progressive order.
+*/
 const sortByGamePk = (a, b) => b.gamePk - a.gamePk
 
 const sortByPerformance = (a, b) =>
@@ -9,22 +11,30 @@ const sortByPerformance = (a, b) =>
   b.stats.goals - a.stats.goals ||
   b.stats.plusMinus - a.stats.plusMinus
 
-const getBestPlayers = players => {
-  const playersSorted = players.map(player => {
+/*
+The function consumes a raw list of players from the db and
+calculates accumalative stats for a X number of games. The games
+are automatically picked in descending order (most recent game first).
+Returns a list of 5 players performance order.
+*/
+const getBestPlayers = (players, numOfGames) => {
+  const playersJSON = JSON.parse(JSON.stringify(players))
+
+  const playersSorted = playersJSON.map(player => {
     player.boxscores = player.boxscores.sort((a, b) => sortByGamePk(a, b))
     return player
   })
 
   const newPlayers = []
   for (const player of playersSorted) {
-    player.stats = reduceStats(player, 3)
+    player.stats = reduceStats(player, numOfGames)
     newPlayers.push(player)
   }
   const sortedPlayers = newPlayers
     .sort((a, b) => sortByPerformance(a, b))
-    .slice(0, 3)
+    .slice(0, 5)
 
-  return [sortedPlayers]
+  return sortedPlayers
 }
 
 module.exports = getBestPlayers

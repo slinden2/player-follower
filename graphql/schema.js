@@ -113,6 +113,12 @@ const typeDefs = gql`
     savePctTotal: Float
   }
 
+  type periodStats {
+    threeGames: [Player]
+    fiveGames: [Player]
+    tenGames: [Player]
+  }
+
   type User {
     id: ID!
     username: String!
@@ -130,7 +136,7 @@ const typeDefs = gql`
     All players in db
     """
     allPlayers: [Player!]!
-    bestPlayers: [[Player!]!]!
+    bestPlayers: periodStats!
     """
     Single player by playerId
     """
