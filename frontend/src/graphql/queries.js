@@ -26,6 +26,7 @@ const BEST_PLAYERS = gql`
       primaryNumber
       playerId
       stats {
+        gamePks
         goals
         assists
         points

@@ -18,6 +18,8 @@ const CardContainer = () => {
     bestTenGames,
   ] = bestPlayersResult.data.bestPlayers
 
+  console.log(bestThreeGames)
+
   const sortByPointsAndGoals = (a, b) =>
     b.stats.points - a.stats.points ||
     b.stats.goals - a.stats.goals ||
@@ -28,7 +30,7 @@ const CardContainer = () => {
     return (
       <Grid centered={true} columns={5}>
         {playerResults
-          .sort((a, b) => sortByPointsAndGoals(a, b))
+          // .sort((a, b) => sortByPointsAndGoals(a, b))
           .map(player => (
             <Grid.Column key={player.playerId}>
               <PlayerCard key={player.playerId} player={player} />

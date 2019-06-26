@@ -1,33 +1,6 @@
 const roundToOneDecimal = require('./round-to-one-decimal')
 
-const FIELDS = [
-  'timeOnIce',
-  'assists',
-  'goals',
-  'shots',
-  'hits',
-  'powerPlayGoals',
-  'powerPlayAssists',
-  'penaltyMinutes',
-  'faceOffWins',
-  'faceoffTaken',
-  'takeaways',
-  'giveaways',
-  'shortHandedGoals',
-  'shortHandedAssists',
-  'blocked',
-  'plusMinus',
-  'evenTimeOnIce',
-  'powerPlayTimeOnIce',
-  'shortHandedTimeOnIce',
-  'saves',
-  'powerPlaySaves',
-  'shortHandedSaves',
-  'evenSaves',
-  'shortHandedShotsAgainst',
-  'evenShotsAgainst',
-  'powerPlayShotsAgainst',
-]
+const EXCLUDED_FIELDS = ['gamePk', 'date', 'decision', 'id']
 
 const generatePerGameStats = (player, stats, numOfGames) => {
   if (stats.saves) {
@@ -54,15 +27,21 @@ returns the sum of all stats.
 */
 const reduceStats = (player, numOfGames) => {
   if (numOfGames < player.boxscores.length) {
-    player.boxscores = player.boxscores.slice(-numOfGames)
+    player.boxscores = player.boxscores.slice(0, numOfGames)
   }
+  console.log('=========================')
+  console.log(player.firstName)
+  console.log(player.boxscores)
   const stats = player.boxscores.reduce((acc, cur) => {
+    if (!acc.gamePks) acc.gamePks = [acc.gamePk]
     for (const field in cur) {
-      if (FIELDS.includes(field)) {
-        acc[field] = acc[field] + cur[field]
+      if (!EXCLUDED_FIELDS.includes(field)) {
+        acc[field] += cur[field]
       }
     }
     acc.points = acc.goals + acc.assists
+    acc.gamePks.push(cur.gamePk)
+
     delete acc.gamePk
     delete acc.date
     return acc

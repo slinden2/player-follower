@@ -16,3 +16,4 @@
 - [ ] About
 - [ ] Footer
 - [ ] Refactor all players view so that only one query is done
+- [ ] Save gameDate in db and sort by it instead of gamePk
