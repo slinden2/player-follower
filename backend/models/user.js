@@ -6,11 +6,19 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    minlength: [3, 'username must be at least 3 characters long'],
   },
   email: {
     type: String,
     required: true,
     unique: true,
+    validate: {
+      validator: value => {
+        const re = /\S+@\S+\.\S+/
+        return re.test(value)
+      },
+      message: props => `${props.value} is not a valid email address`,
+    },
   },
   passwordHash: String,
   isVerified: Boolean,
