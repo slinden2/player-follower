@@ -8,17 +8,38 @@ const SignupForm = ({ history, setActivePage, setNotification }) => {
   const [username, resetUsername] = useField('username', 'text')
   const [email, resetEmail] = useField('password', 'text')
   const [password, resetPassword] = useField('password', 'password')
+  const [confirmPassword, resetConfirmPassword] = useField(
+    'confirmpassword',
+    'password'
+  )
 
   const createUser = useMutation(CREATE_USER)
 
+  const passwordsMatch = !confirmPassword.value
+    ? true
+    : password.value === confirmPassword.value
+
   const signup = async () => {
-    await createUser({
-      variables: {
-        username: username.value,
-        email: email.value,
-        password: password.value,
-      },
-    })
+    if (!passwordsMatch) {
+      setNotification('negative', 'The passwords do not match!')
+      resetPassword()
+      resetConfirmPassword()
+      return
+    }
+
+    try {
+      await createUser({
+        variables: {
+          username: username.value,
+          email: email.value,
+          password: password.value,
+        },
+      })
+    } catch ({ message }) {
+      setNotification('negative', `${message}`)
+      return
+    }
+
     setNotification(
       'positive',
       `An account for ${
@@ -30,6 +51,7 @@ const SignupForm = ({ history, setActivePage, setNotification }) => {
     resetUsername()
     resetEmail()
     resetPassword()
+    resetConfirmPassword()
     setActivePage('all')
     history.push('/')
   }
@@ -48,6 +70,15 @@ const SignupForm = ({ history, setActivePage, setNotification }) => {
         <Form.Field>
           <label>Password</label>
           <input placeholder="password" {...password} />
+        </Form.Field>
+        <Form.Field>
+          <label>Confirm password</label>
+          <input placeholder="password" {...confirmPassword} />
+          {!passwordsMatch && (
+            <span style={{ color: 'red' }}>Passwords do not match!</span>
+          )}
+
+          <span />
         </Form.Field>
         <Button type="submit" primary={true}>
           Sign Up

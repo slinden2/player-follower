@@ -5,6 +5,7 @@
 - [x] Implement logout functionality
 - [x] Profile page for users
 - [x] Notifications for frontend
+- [x] Refactor all players view so that only one query is done
 - [ ] Error handling for front/backend
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements
@@ -15,5 +16,4 @@
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
-- [ ] Refactor all players view so that only one query is done
 - [ ] Save gameDate in db and sort by it instead of gamePk
