@@ -29,6 +29,7 @@ const LoginForm = ({ history, setActivePage, setToken, setNotification }) => {
       history.push('/')
     } catch (exception) {
       setNotification('negative', `${exception.message}`)
+      resetPassword()
     }
   }
 

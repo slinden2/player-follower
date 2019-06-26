@@ -9,17 +9,21 @@ const ForgotPassword = ({ history, setActivePage, setNotification }) => {
   const forgotPassword = useMutation(FORGOT_PASSWORD)
 
   const handleForgotPassword = async () => {
-    await forgotPassword({
-      variables: {
-        email: email.value,
-      },
-    })
-    setNotification(
-      'positive',
-      `The password reset link has been set to ${
-        email.value
-      }. Please click the link to change your password.`
-    )
+    try {
+      await forgotPassword({
+        variables: {
+          email: email.value,
+        },
+      })
+      setNotification(
+        'positive',
+        `The password reset link has been set to ${
+          email.value
+        }. Please click the link to change your password.`
+      )
+    } catch ({ message }) {
+      setNotification('negative', `${message}`)
+    }
     resetEmail()
     setActivePage('all')
     history.push('/')

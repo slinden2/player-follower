@@ -14,6 +14,10 @@ const Profile = ({ user, setNotification }) => {
 
   const changePassword = useMutation(CHANGE_PASSWORD)
 
+  const passwordsMatch = !confirmPassword.value
+    ? true
+    : password.value === confirmPassword.value
+
   const closeForm = () => {
     resetPassword()
     resetConfirmPassword()
@@ -21,13 +25,22 @@ const Profile = ({ user, setNotification }) => {
   }
 
   const handlePasswordChange = async () => {
-    if (password.value === confirmPassword.value) {
-      await changePassword({ variables: { password: password.value } })
-      setNotification('positive', 'Your password has been changed.')
+    if (!passwordsMatch) {
+      setNotification('negative', 'The passwords do not match!')
       resetPassword()
       resetConfirmPassword()
-      setShow(false)
+      return
     }
+
+    try {
+      await changePassword({ variables: { password: password.value } })
+      setNotification('positive', 'Your password has been changed.')
+      setShow(false)
+    } catch ({ message }) {
+      setNotification('negative', `${message}`)
+    }
+    resetPassword()
+    resetConfirmPassword()
   }
 
   return (
@@ -59,6 +72,9 @@ const Profile = ({ user, setNotification }) => {
           <Form.Field>
             <label>Confirm new password</label>
             <input {...confirmPassword} />
+            {!passwordsMatch && (
+              <span style={{ color: 'red' }}>Passwords do not match!</span>
+            )}
           </Form.Field>
           <Button primary type="submit">
             Submit

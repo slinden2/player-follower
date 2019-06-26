@@ -12,18 +12,31 @@ const SetNewPassword = ({ history, token, setActivePage, setNotification }) => {
   )
   const setNewPassword = useMutation(SET_NEW_PASSWORD)
 
+  const passwordsMatch = !confirmPassword.value
+    ? true
+    : password.value === confirmPassword.value
+
   const handleSetNewPassword = async () => {
-    if (password.value === confirmPassword.value) {
+    if (!passwordsMatch) {
+      setNotification('negative', 'The passwords do not match!')
+      resetPassword()
+      resetConfirmPassword()
+      return
+    }
+
+    try {
       await setNewPassword({ variables: { token, password: password.value } })
       setNotification(
         'positive',
         'Your password has been changed. You may now log in with the new password.'
       )
-      resetPassword()
-      resetConfirmPassword()
       setActivePage('all')
       history.push('/')
+    } catch ({ message }) {
+      setNotification('negative', `${message}`)
     }
+    resetPassword()
+    resetConfirmPassword()
   }
 
   return (
@@ -36,6 +49,9 @@ const SetNewPassword = ({ history, token, setActivePage, setNotification }) => {
         <Form.Field>
           <label>Confirm password</label>
           <input placeholder="password" {...confirmPassword} />
+          {!passwordsMatch && (
+            <span style={{ color: 'red' }}>Passwords do not match!</span>
+          )}
         </Form.Field>
         <Button type="submit" primary={true}>
           Submit

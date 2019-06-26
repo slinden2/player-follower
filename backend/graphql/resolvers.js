@@ -165,8 +165,8 @@ const resolvers = {
         throw new AuthenticationError('invalid or expired token')
       }
 
-      if (!args.password) {
-        throw new UserInputError('no password provided')
+      if (!args.password || args.password.length < 6) {
+        throw new UserInputError('invalid password')
       }
 
       const saltRounds = 10
@@ -180,6 +180,9 @@ const resolvers = {
     },
     changePassword: async (root, args, ctx) => {
       if (args.password && ctx.currentUser) {
+        if (!args.password || args.password.length < 6) {
+          throw new UserInputError('invalid password')
+        }
         const saltRounds = 10
         const passwordHash = await bcrypt.hash(args.password, saltRounds)
         const newUser = await User.findOneAndUpdate(
