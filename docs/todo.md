@@ -6,7 +6,8 @@
 - [x] Profile page for users
 - [x] Notifications for frontend
 - [x] Refactor all players view so that only one query is done
-- [ ] Error handling for front/backend
+- [x] Error handling for frontend
+- [ ] Error handling for backend
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)

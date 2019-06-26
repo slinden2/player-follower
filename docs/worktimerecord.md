@@ -24,4 +24,5 @@
 | 25.06.2019 | 4,5  | notification system done. started to work on player algorithm     |
 |            | 1,5  | best player algorithm                                             |
 | 26.06.2019 | 2,5  | best player algorithm                                             |
-|   total    | 59   |                                                                   |
+|            | 1    | frontend error handling                                           |
+|   total    | 60   |                                                                   |
