@@ -54,6 +54,10 @@ const typeDefs = gql`
     """
     gamePk: Int!
     """
+    Array of games that are considered in the calculated stats.
+    """
+    gamePks: [Int]
+    """
     UTC seconds for the moment the data was fetched
     """
     date: Int!
