@@ -52,13 +52,19 @@ const resolvers = {
       return newPlayers
     },
     bestPlayers: async () => {
-      const players = await Player.find({
-        playerId: { $in: [8471214, 8478402, 8476453] }, // , 8478427, 8477493
-      })
-      // const players = await Player.find({})
+      // const players = await Player.find({
+      //   playerId: { $in: [8471214, 8478402, 8476453] }, // , 8478427, 8477493
+      // })
+      const players = await Player.find({})
       const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers = getBestPlayers(playersJSON)
-      return bestPlayers
+      const bestPlayers3 = getBestPlayers(playersJSON, 3)
+      const bestPlayers5 = getBestPlayers(playersJSON, 5)
+      const bestPlayers10 = getBestPlayers(playersJSON, 10)
+      return {
+        threeGames: bestPlayers3,
+        fiveGames: bestPlayers5,
+        tenGames: bestPlayers10,
+      }
     },
     me: async (root, args, ctx) => {
       return ctx.currentUser
