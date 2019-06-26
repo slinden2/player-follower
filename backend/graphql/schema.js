@@ -136,6 +136,9 @@ const typeDefs = gql`
     All players in db
     """
     allPlayers: [Player!]!
+    """
+    Returns best players for the last 3, 5 and 10 games.
+    """
     bestPlayers: periodStats!
     """
     Single player by playerId
@@ -161,16 +164,6 @@ const typeDefs = gql`
       shootsCatches: String
       primaryPosition: String
     ): [Player!]!
-    """
-    Returns stats for the last X games for a single player. If numOfGames is
-    not defined, the total stats will be returned.
-    """
-    getSingleStatsInRange(playerId: Int!, numOfGames: Int): Player!
-    """
-    Returns stats for the last X games for multiple players. If numOfGames is
-    not defined, the total stats will be returned.
-    """
-    getStatsInRange(playerIds: [Int!]!, numOfGames: Int): [Player!]!
     """
     Returns the logged user
     """

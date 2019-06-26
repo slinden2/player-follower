@@ -12,30 +12,16 @@ const CardContainer = () => {
     return <Loader active inline="centered" />
   }
 
-  const [
-    bestThreeGames,
-    bestFiveGames,
-    bestTenGames,
-  ] = bestPlayersResult.data.bestPlayers
-
-  console.log(bestThreeGames)
-
-  const sortByPointsAndGoals = (a, b) =>
-    b.stats.points - a.stats.points ||
-    b.stats.goals - a.stats.goals ||
-    b.stats.plusMinus - a.stats.plusMinus
+  const { threeGames, fiveGames, tenGames } = bestPlayersResult.data.bestPlayers
 
   const createRow = playerResults => {
-    console.log(playerResults)
     return (
       <Grid centered={true} columns={5}>
-        {playerResults
-          // .sort((a, b) => sortByPointsAndGoals(a, b))
-          .map(player => (
-            <Grid.Column key={player.playerId}>
-              <PlayerCard key={player.playerId} player={player} />
-            </Grid.Column>
-          ))}
+        {playerResults.map(player => (
+          <Grid.Column key={player.playerId}>
+            <PlayerCard key={player.playerId} player={player} />
+          </Grid.Column>
+        ))}
       </Grid>
     )
   }
@@ -43,13 +29,13 @@ const CardContainer = () => {
   return (
     <Container>
       <Header>Last 3 games</Header>
-      {createRow(bestThreeGames)}
+      {createRow(threeGames)}
       <Divider />
       <Header>Last 5 games</Header>
-      {createRow(bestFiveGames)}
+      {createRow(fiveGames)}
       <Divider />
       <Header>Last 10 games</Header>
-      {createRow(bestTenGames)}
+      {createRow(tenGames)}
     </Container>
   )
 }

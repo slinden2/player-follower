@@ -5,7 +5,6 @@ const Player = require('../models/player')
 const User = require('../models/user')
 const Token = require('../models/token')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
-const reduceStats = require('../utils/reduce-stats')
 const getBestPlayers = require('../utils/get-best-players')
 const {
   sendVerificationEmail,
@@ -31,25 +30,6 @@ const resolvers = {
     findPlayers: async (root, args) => {
       const players = await Player.find(args)
       return players
-    },
-    getSingleStatsInRange: async (root, args) => {
-      const { playerId, numOfGames } = args
-      const player = await Player.findOne({ playerId })
-      const playerJSON = player.toJSON()
-      player.stats = reduceStats(playerJSON, numOfGames)
-      return player
-    },
-    getStatsInRange: async (root, args) => {
-      const { playerIds, numOfGames } = args
-      const players = await Player.find({ playerId: { $in: playerIds } })
-      const playersJSON = players.map(player => player.toJSON())
-      const newPlayers = []
-      for (const player of playersJSON) {
-        player.stats = reduceStats(player, numOfGames)
-        newPlayers.push(player)
-      }
-      console.log(newPlayers)
-      return newPlayers
     },
     bestPlayers: async () => {
       // const players = await Player.find({
