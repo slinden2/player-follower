@@ -69,6 +69,12 @@ const FOLLOW_PLAYER = gql`
   }
 `
 
+const UNFOLLOW_PLAYER = gql`
+  mutation unfollowPlayer($id: String!) {
+    unfollowPlayer(id: $id)
+  }
+`
+
 export {
   CREATE_USER,
   VERIFY_USER,
@@ -78,4 +84,5 @@ export {
   SET_NEW_PASSWORD,
   CHANGE_PASSWORD,
   FOLLOW_PLAYER,
+  UNFOLLOW_PLAYER,
 }

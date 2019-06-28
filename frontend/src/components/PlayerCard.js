@@ -1,10 +1,14 @@
 import React from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Card, Image, Icon } from 'semantic-ui-react'
-import { FOLLOW_PLAYER } from '../graphql/mutations'
+import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 
 const PlayerCard = ({ player, setNotification }) => {
   const followPlayer = useMutation(FOLLOW_PLAYER, {
+    variables: { id: player.id },
+  })
+
+  const unfollowPlayer = useMutation(UNFOLLOW_PLAYER, {
     variables: { id: player.id },
   })
 
@@ -16,6 +20,17 @@ const PlayerCard = ({ player, setNotification }) => {
           'positive',
           `You started following ${followedPlayer.data.followPlayer.fullName}.`
         )
+      }
+    } catch ({ message }) {
+      setNotification('negative', `${message}`)
+    }
+  }
+
+  const handleUnfollow = async () => {
+    try {
+      const id = await unfollowPlayer()
+      if (id.data.unfollowPlayer) {
+        setNotification('positive', `You unfollowed ${id.data.unfollowPlayer}.`)
       }
     } catch ({ message }) {
       setNotification('negative', `${message}`)
@@ -37,7 +52,7 @@ const PlayerCard = ({ player, setNotification }) => {
         </Card.Description>
         <div>
           <Icon name="thumbs up" onClick={handleFollow} />
-          <Icon name="thumbs down outline" />
+          <Icon name="thumbs down outline" onClick={handleUnfollow} />
         </div>
       </Card.Content>
     </Card>
