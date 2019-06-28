@@ -18,3 +18,4 @@
 - [ ] Footer
 - [ ] Save gameDate in db and sort by it instead of gamePk
 - [ ] Error handling for backend
+- [ ] Search functionality

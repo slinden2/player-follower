@@ -1,7 +1,14 @@
 import React from 'react'
-import { Card, Image } from 'semantic-ui-react'
+import { useMutation } from 'react-apollo-hooks'
+import { Card, Image, Icon } from 'semantic-ui-react'
 
 const PlayerCard = ({ player }) => {
+  const likePlayer = useMutation()
+
+  const handleLike = () => {
+    console.log(player)
+  }
+
   return (
     <Card>
       <Image src="img/test.png" wrapped ui={false} />
@@ -15,6 +22,10 @@ const PlayerCard = ({ player }) => {
           {player.stats.points} | PM: {player.stats.penaltyMinutes} | +/-:{' '}
           {player.stats.plusMinus}
         </Card.Description>
+        <div>
+          <Icon name="thumbs up" onClick={handleLike} />
+          <Icon name="thumbs down outline" />
+        </div>
       </Card.Content>
     </Card>
   )

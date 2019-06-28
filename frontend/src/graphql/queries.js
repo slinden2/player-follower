@@ -8,6 +8,7 @@ const BEST_PLAYERS = gql`
         lastName
         primaryNumber
         playerId
+        id
         stats {
           gamePks
           goals
@@ -22,6 +23,7 @@ const BEST_PLAYERS = gql`
         lastName
         primaryNumber
         playerId
+        id
         stats {
           gamePks
           goals
@@ -36,6 +38,7 @@ const BEST_PLAYERS = gql`
         lastName
         primaryNumber
         playerId
+        id
         stats {
           gamePks
           goals
