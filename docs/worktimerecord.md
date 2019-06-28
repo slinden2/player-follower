@@ -25,4 +25,6 @@
 |            | 1,5  | best player algorithm                                             |
 | 26.06.2019 | 2,5  | best player algorithm                                             |
 |            | 1    | frontend error handling                                           |
-|   total    | 60   |                                                                   |
+| 28.06.2019 | 2    | studied apollo hooks and tried implementing them                  |
+|            | 3    | implemented player following in the backend                       |
+|   total    | 65   |                                                                   |

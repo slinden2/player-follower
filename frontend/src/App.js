@@ -57,7 +57,11 @@ const App = () => {
             logged in as <strong>{loggedUser.data.me.username}</strong>
           </div>
         )}
-        <Route exact path="/" render={() => <CardContainer />} />
+        <Route
+          exact
+          path="/"
+          render={() => <CardContainer setNotification={setNotification} />}
+        />
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />

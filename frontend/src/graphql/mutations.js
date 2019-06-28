@@ -61,6 +61,14 @@ const CHANGE_PASSWORD = gql`
   }
 `
 
+const FOLLOW_PLAYER = gql`
+  mutation followPlayer($id: String!) {
+    followPlayer(id: $id) {
+      fullName
+    }
+  }
+`
+
 export {
   CREATE_USER,
   VERIFY_USER,
@@ -69,4 +77,5 @@ export {
   FORGOT_PASSWORD,
   SET_NEW_PASSWORD,
   CHANGE_PASSWORD,
+  FOLLOW_PLAYER,
 }

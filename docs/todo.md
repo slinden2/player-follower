@@ -19,3 +19,4 @@
 - [ ] Save gameDate in db and sort by it instead of gamePk
 - [ ] Error handling for backend
 - [ ] Search functionality
+- [ ] handleError function in the App components

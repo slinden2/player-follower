@@ -1,12 +1,25 @@
 import React from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Card, Image, Icon } from 'semantic-ui-react'
+import { FOLLOW_PLAYER } from '../graphql/mutations'
 
-const PlayerCard = ({ player }) => {
-  const followPlayer = useMutation()
+const PlayerCard = ({ player, setNotification }) => {
+  const followPlayer = useMutation(FOLLOW_PLAYER, {
+    variables: { id: player.id },
+  })
 
-  const handleFollow = () => {
-    console.log(player)
+  const handleFollow = async () => {
+    try {
+      const followedPlayer = await followPlayer()
+      if (followedPlayer.data.followPlayer) {
+        setNotification(
+          'positive',
+          `You started following ${followedPlayer.data.followPlayer.fullName}.`
+        )
+      }
+    } catch ({ message }) {
+      setNotification('negative', `${message}`)
+    }
   }
 
   return (

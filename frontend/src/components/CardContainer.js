@@ -5,7 +5,7 @@ import { Grid } from 'semantic-ui-react'
 import PlayerCard from './PlayerCard'
 import { BEST_PLAYERS } from '../graphql/queries'
 
-const CardContainer = () => {
+const CardContainer = ({ setNotification }) => {
   const bestPlayersResult = useQuery(BEST_PLAYERS)
 
   if (bestPlayersResult.loading) {
@@ -19,7 +19,11 @@ const CardContainer = () => {
       <Grid centered={true} columns={5}>
         {playerResults.map(player => (
           <Grid.Column key={player.playerId}>
-            <PlayerCard key={player.playerId} player={player} />
+            <PlayerCard
+              key={player.playerId}
+              player={player}
+              setNotification={setNotification}
+            />
           </Grid.Column>
         ))}
       </Grid>
