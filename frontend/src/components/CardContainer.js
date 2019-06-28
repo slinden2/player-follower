@@ -1,5 +1,6 @@
 import React from 'react'
-import { useQuery } from 'react-apollo-hooks'
+// import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import { Container, Header, Divider, Loader } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import PlayerCard from './PlayerCard'

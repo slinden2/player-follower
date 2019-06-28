@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+// import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import { useNotification } from './hooks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'

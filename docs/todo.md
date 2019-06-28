@@ -7,7 +7,6 @@
 - [x] Notifications for frontend
 - [x] Refactor all players view so that only one query is done
 - [x] Error handling for frontend
-- [ ] Error handling for backend
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)
@@ -18,3 +17,4 @@
 - [ ] About
 - [ ] Footer
 - [ ] Save gameDate in db and sort by it instead of gamePk
+- [ ] Error handling for backend

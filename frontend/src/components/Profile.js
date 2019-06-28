@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useField } from '../hooks'
-import { useMutation } from 'react-apollo-hooks'
+// import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import { Table, Button, Form } from 'semantic-ui-react'
 import { CHANGE_PASSWORD } from '../graphql/mutations'
 

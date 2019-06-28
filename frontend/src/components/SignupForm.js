@@ -1,5 +1,6 @@
 import React from 'react'
-import { useMutation } from 'react-apollo-hooks'
+// import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { CREATE_USER } from '../graphql/mutations'
@@ -13,7 +14,7 @@ const SignupForm = ({ history, setActivePage, setNotification }) => {
     'password'
   )
 
-  const createUser = useMutation(CREATE_USER)
+  const [createUser] = useMutation(CREATE_USER)
 
   const passwordsMatch = !confirmPassword.value
     ? true

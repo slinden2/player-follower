@@ -1,5 +1,6 @@
 import React from 'react'
-import { useMutation } from 'react-apollo-hooks'
+// import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import { useField } from '../hooks'
 import { SET_NEW_PASSWORD } from '../graphql/mutations'
 import { Form, Button } from 'semantic-ui-react'
@@ -10,7 +11,7 @@ const SetNewPassword = ({ history, token, setActivePage, setNotification }) => {
     'confirmpassword',
     'password'
   )
-  const setNewPassword = useMutation(SET_NEW_PASSWORD)
+  const [setNewPassword] = useMutation(SET_NEW_PASSWORD)
 
   const passwordsMatch = !confirmPassword.value
     ? true

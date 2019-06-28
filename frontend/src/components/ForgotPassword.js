@@ -1,12 +1,13 @@
 import React from 'react'
-import { useMutation } from 'react-apollo-hooks'
+// import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { FORGOT_PASSWORD } from '../graphql/mutations'
 
 const ForgotPassword = ({ history, setActivePage, setNotification }) => {
   const [email, resetEmail] = useField('email', 'text')
-  const forgotPassword = useMutation(FORGOT_PASSWORD)
+  const [forgotPassword] = useMutation(FORGOT_PASSWORD)
 
   const handleForgotPassword = async () => {
     try {
