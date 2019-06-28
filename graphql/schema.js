@@ -178,7 +178,8 @@ const typeDefs = gql`
     forgotPassword(email: String!): User
     setNewPassword(token: String!, password: String!): User
     changePassword(password: String!): User
-    likePlayer(id: String!): Player!
+    followPlayer(id: String!): Player!
+    unfollowPlayer(id: String!): String!
   }
 `
 

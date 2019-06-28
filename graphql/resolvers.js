@@ -191,12 +191,12 @@ const resolvers = {
         return newUser
       }
     },
-    likePlayer: async (root, args, ctx) => {
-      if (!ctx.currentUser) {
+    followPlayer: async (root, args, ctx) => {
+      const { currentUser } = ctx
+      if (!currentUser) {
         throw new AuthenticationError('you must be logged in')
       }
 
-      const { currentUser } = ctx
       const { id } = args
       const player = await Player.findOne({ _id: id })
 
@@ -205,13 +205,32 @@ const resolvers = {
       }
 
       if (currentUser.favoritePlayers.includes(id)) {
-        throw new UserInputError('the player has already been liked')
+        throw new UserInputError('you already follow this player')
       }
 
       currentUser.favoritePlayers = currentUser.favoritePlayers.concat(id)
       await currentUser.save()
 
       return player.toJSON()
+    },
+    unfollowPlayer: async (root, args, ctx) => {
+      const { currentUser } = ctx
+      if (!currentUser) {
+        throw new AuthenticationError('you must be logged in')
+      }
+
+      const { id } = args
+
+      if (!currentUser.favoritePlayers.includes(id)) {
+        throw new UserInputError('you are not following this player')
+      }
+
+      currentUser.favoritePlayers = currentUser.favoritePlayers.filter(
+        _id => _id.toString() !== id
+      )
+
+      await currentUser.save()
+      return id
     },
   },
   Player: {
