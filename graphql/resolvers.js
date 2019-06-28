@@ -191,6 +191,28 @@ const resolvers = {
         return newUser
       }
     },
+    likePlayer: async (root, args, ctx) => {
+      if (!ctx.currentUser) {
+        throw new AuthenticationError('you must be logged in')
+      }
+
+      const { currentUser } = ctx
+      const { id } = args
+      const player = await Player.findOne({ _id: id })
+
+      if (!player) {
+        throw new UserInputError('invalid player id')
+      }
+
+      if (currentUser.favoritePlayers.includes(id)) {
+        throw new UserInputError('the player has already been liked')
+      }
+
+      currentUser.favoritePlayers = currentUser.favoritePlayers.concat(id)
+      await currentUser.save()
+
+      return player.toJSON()
+    },
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
