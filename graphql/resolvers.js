@@ -155,7 +155,6 @@ const resolvers = {
       })
 
       const savedToken = await verificationToken.save()
-
       await sendForgotPasswordEmail(user.email, savedToken.token)
     },
     setNewPassword: async (root, args) => {
