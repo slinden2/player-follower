@@ -3,9 +3,9 @@ import { useMutation } from 'react-apollo-hooks'
 import { Card, Image, Icon } from 'semantic-ui-react'
 
 const PlayerCard = ({ player }) => {
-  const likePlayer = useMutation()
+  const followPlayer = useMutation()
 
-  const handleLike = () => {
+  const handleFollow = () => {
     console.log(player)
   }
 
@@ -23,7 +23,7 @@ const PlayerCard = ({ player }) => {
           {player.stats.plusMinus}
         </Card.Description>
         <div>
-          <Icon name="thumbs up" onClick={handleLike} />
+          <Icon name="thumbs up" onClick={handleFollow} />
           <Icon name="thumbs down outline" />
         </div>
       </Card.Content>
