@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-// import { useMutation } from 'react-apollo-hooks'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { LOGIN } from '../graphql/mutations'
@@ -11,7 +10,7 @@ const LoginForm = ({ history, setActivePage, setToken, setNotification }) => {
   const [username, resetUsername] = useField('username', 'text')
   const [password, resetPassword] = useField('password', 'password')
 
-  const [login] = useMutation(LOGIN)
+  const login = useMutation(LOGIN)
 
   const loginUser = async () => {
     try {
