@@ -8,7 +8,7 @@ import { setContext } from 'apollo-link-context'
 import App from './App'
 import { getCookie } from './utils'
 import NotificationContextProvider from './contexts/NotificationContext'
-import AuthContextProvider, { AuthContext } from './contexts/AuthContext'
+import AuthContextProvider from './contexts/AuthContext'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',

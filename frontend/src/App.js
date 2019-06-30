@@ -13,13 +13,13 @@ import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
 import { USER } from './graphql/queries'
-import { getCookie, removeCookie } from './utils'
+import { getCookie } from './utils'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
   const { notification, setNotification } = useContext(NotificationContext)
-  const { user, token, setUser, setToken } = useContext(AuthContext)
+  const { user, token, setUser, setToken, logoutUser } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
   const client = useApolloClient()
@@ -40,9 +40,7 @@ const App = () => {
   }, [loggedUser, setUser, token])
 
   const logout = () => {
-    setToken(null)
-    setUser(null)
-    removeCookie('user')
+    logoutUser()
     client.resetStore()
     setNotification('positive', 'You have been logged out.')
   }
@@ -84,11 +82,7 @@ const App = () => {
             <Route
               path="/login"
               render={({ history }) => (
-                <LoginForm
-                  history={history}
-                  setActivePage={setActivePage}
-                  setToken={setToken}
-                />
+                <LoginForm history={history} setActivePage={setActivePage} />
               )}
             />
             <Route
