@@ -1,11 +1,19 @@
-import React, { createContext, useState } from 'react'
-import { setCookie, removeCookie } from '../utils'
+import React, { createContext, useState, useEffect } from 'react'
+import { setCookie, getCookie, removeCookie } from '../utils'
 
 export const AuthContext = createContext()
 
 const AuthContextProvider = props => {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    const tokenCookie = getCookie('user')
+    setToken(tokenCookie)
+  }, [])
+
+  console.log('auth user', user)
+  console.log('auth token', token)
 
   const loginUser = token => {
     setToken(token)

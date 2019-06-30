@@ -13,23 +13,17 @@ import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
 import { USER } from './graphql/queries'
-import { getCookie } from './utils'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
   const { notification, setNotification } = useContext(NotificationContext)
-  const { user, token, setUser, setToken, logoutUser } = useContext(AuthContext)
+  const { user, token, setUser, logoutUser } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
   const client = useApolloClient()
 
   const loggedUser = useQuery(USER)
-
-  useEffect(() => {
-    const tokenCookie = getCookie('user')
-    setToken(tokenCookie)
-  }, [setToken])
 
   useEffect(() => {
     loggedUser.refetch().then(({ data }) => {
