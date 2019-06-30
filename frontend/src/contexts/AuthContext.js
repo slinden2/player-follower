@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
+import { useApolloClient } from 'react-apollo-hooks'
 import { setCookie, getCookie, removeCookie } from '../utils'
+import { USER } from '../graphql/queries'
 
 export const AuthContext = createContext()
 
@@ -7,13 +9,16 @@ const AuthContextProvider = props => {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
 
+  const client = useApolloClient()
+
   useEffect(() => {
     const tokenCookie = getCookie('user')
     setToken(tokenCookie)
   }, [])
 
-  console.log('auth user', user)
-  console.log('auth token', token)
+  useEffect(() => {
+    client.query({ query: USER }).then(({ data: { me } }) => setUser(me))
+  }, [client])
 
   const loginUser = token => {
     setToken(token)

@@ -18,20 +18,10 @@ import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
   const { notification, setNotification } = useContext(NotificationContext)
-  const { user, token, setUser, logoutUser } = useContext(AuthContext)
+  const { user, token, logoutUser } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
   const client = useApolloClient()
-
-  const loggedUser = useQuery(USER)
-
-  useEffect(() => {
-    loggedUser.refetch().then(({ data }) => {
-      if (data) {
-        setUser(data.me)
-      }
-    })
-  }, [loggedUser, setUser, token])
 
   const logout = () => {
     logoutUser()
