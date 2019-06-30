@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Card, Image, Icon } from 'semantic-ui-react'
 import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
+import { NotificationContext } from '../contexts/NotificationContext'
 
-const PlayerCard = ({ player, setNotification }) => {
+const PlayerCard = ({ player }) => {
+  const { setNotification } = useContext(NotificationContext)
+
   const followPlayer = useMutation(FOLLOW_PLAYER, {
     variables: { id: player.id },
   })

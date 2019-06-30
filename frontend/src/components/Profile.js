@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useField } from '../hooks'
 import { useMutation } from 'react-apollo-hooks'
 import { Table, Button, Form } from 'semantic-ui-react'
 import { CHANGE_PASSWORD } from '../graphql/mutations'
+import { NotificationContext } from '../contexts/NotificationContext'
 
-const Profile = ({ user, setNotification }) => {
+const Profile = ({ user }) => {
+  const { setNotification } = useContext(NotificationContext)
   const [show, setShow] = useState(false)
   const [password, resetPassword] = useField('password', 'password')
   const [confirmPassword, resetConfirmPassword] = useField(

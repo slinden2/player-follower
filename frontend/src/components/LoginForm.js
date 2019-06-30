@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { LOGIN } from '../graphql/mutations'
 import { setCookie } from '../utils'
+import { NotificationContext } from '../contexts/NotificationContext'
 
-const LoginForm = ({ history, setActivePage, setToken, setNotification }) => {
+const LoginForm = ({ history, setActivePage, setToken }) => {
+  const { setNotification } = useContext(NotificationContext)
   const [username, resetUsername] = useField('username', 'text')
   const [password, resetPassword] = useField('password', 'password')
 

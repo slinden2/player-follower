@@ -27,4 +27,5 @@
 |            | 1    | frontend error handling                                           |
 | 28.06.2019 | 2    | studied apollo hooks and tried implementing them                  |
 |            | 3    | implemented player following in the backend                       |
+| 30.06.2019 | 3    | studied contextAPI and useContext hook                            |
 |   total    | 65   |                                                                   |

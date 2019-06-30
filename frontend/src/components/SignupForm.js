@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { CREATE_USER } from '../graphql/mutations'
+import { NotificationContext } from '../contexts/NotificationContext'
 
-const SignupForm = ({ history, setActivePage, setNotification }) => {
+const SignupForm = ({ history, setActivePage }) => {
+  const { setNotification } = useContext(NotificationContext)
   const [username, resetUsername] = useField('username', 'text')
   const [email, resetEmail] = useField('password', 'text')
   const [password, resetPassword] = useField('password', 'password')

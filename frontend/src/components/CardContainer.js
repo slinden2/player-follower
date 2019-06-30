@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Container, Header, Divider, Loader } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import PlayerCard from './PlayerCard'
 import { BEST_PLAYERS } from '../graphql/queries'
+import { NotificationContext } from '../contexts/NotificationContext'
 
-const CardContainer = ({ setNotification }) => {
+const CardContainer = () => {
+  const { setNotification } = useContext(NotificationContext)
   const bestPlayersResult = useQuery(BEST_PLAYERS)
 
   if (bestPlayersResult.loading) {

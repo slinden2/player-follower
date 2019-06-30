@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import { useNotification } from './hooks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
 import TopNavBar from './components/TopNavBar'
@@ -15,11 +14,12 @@ import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
 import { USER } from './graphql/queries'
 import { getCookie, removeCookie } from './utils'
+import { NotificationContext } from './contexts/NotificationContext'
 
 const App = () => {
+  const { notification, setNotification } = useContext(NotificationContext)
   const [token, setToken] = useState(null)
   const [activePage, setActivePage] = useState('all')
-  const [notification, setNotification] = useNotification()
 
   const client = useApolloClient()
 
@@ -57,11 +57,7 @@ const App = () => {
             logged in as <strong>{loggedUser.data.me.username}</strong>
           </div>
         )}
-        <Route
-          exact
-          path="/"
-          render={() => <CardContainer setNotification={setNotification} />}
-        />
+        <Route exact path="/" render={() => <CardContainer />} />
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
@@ -70,12 +66,7 @@ const App = () => {
             <Route path="/favorites" render={() => <div>favorites</div>} />
             <Route
               path="/profile"
-              render={() => (
-                <Profile
-                  user={loggedUser.data.me}
-                  setNotification={setNotification}
-                />
-              )}
+              render={() => <Profile user={loggedUser.data.me} />}
             />
           </>
         )}
@@ -84,11 +75,7 @@ const App = () => {
             <Route
               path="/signup"
               render={({ history }) => (
-                <SignupForm
-                  history={history}
-                  setActivePage={setActivePage}
-                  setNotification={setNotification}
-                />
+                <SignupForm history={history} setActivePage={setActivePage} />
               )}
             />
             <Route
@@ -98,7 +85,6 @@ const App = () => {
                   history={history}
                   setActivePage={setActivePage}
                   setToken={setToken}
-                  setNotification={setNotification}
                 />
               )}
             />
@@ -109,7 +95,6 @@ const App = () => {
                 <ForgotPassword
                   history={history}
                   setActivePage={setActivePage}
-                  setNotification={setNotification}
                 />
               )}
             />
@@ -120,18 +105,13 @@ const App = () => {
                   history={history}
                   token={match.params.token}
                   setActivePage={setActivePage}
-                  setNotification={setNotification}
                 />
               )}
             />
             <Route
               path="/confirmation/:token"
               render={({ history, match }) => (
-                <Confirmation
-                  history={history}
-                  token={match.params.token}
-                  setNotification={setNotification}
-                />
+                <Confirmation history={history} token={match.params.token} />
               )}
             />
           </>

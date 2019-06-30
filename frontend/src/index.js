@@ -7,6 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
 import App from './App'
 import { getCookie } from './utils'
+import NotificationContextProvider from './contexts/NotificationContext'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -29,7 +30,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <NotificationContextProvider>
+      <App />
+    </NotificationContextProvider>
   </ApolloProvider>,
   document.getElementById('root')
 )

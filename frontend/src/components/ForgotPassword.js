@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { FORGOT_PASSWORD } from '../graphql/mutations'
+import { NotificationContext } from '../contexts/NotificationContext'
 
-const ForgotPassword = ({ history, setActivePage, setNotification }) => {
+const ForgotPassword = ({ history, setActivePage }) => {
+  const { setNotification } = useContext(NotificationContext)
   const [email, resetEmail] = useField('email', 'text')
   const forgotPassword = useMutation(FORGOT_PASSWORD)
 
