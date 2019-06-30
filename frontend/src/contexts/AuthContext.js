@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useApolloClient } from 'react-apollo-hooks'
 import { setCookie, getCookie, removeCookie } from '../utils'
 import { USER } from '../graphql/queries'
@@ -17,8 +17,10 @@ const AuthContextProvider = props => {
   }, [])
 
   useEffect(() => {
-    client.query({ query: USER }).then(({ data: { me } }) => setUser(me))
-  }, [client])
+    client
+      .query({ query: USER, fetchPolicy: 'network-only' })
+      .then(({ data: { me } }) => setUser(me))
+  }, [client, token])
 
   const loginUser = token => {
     setToken(token)
@@ -29,6 +31,7 @@ const AuthContextProvider = props => {
     setToken(null)
     setUser(null)
     removeCookie('user')
+    client.resetStore()
   }
 
   return (

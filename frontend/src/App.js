@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import React, { useState, useContext } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
 import TopNavBar from './components/TopNavBar'
@@ -12,33 +11,19 @@ import Footer from './components/Footer'
 import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
-import { USER } from './graphql/queries'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
-  const { notification, setNotification } = useContext(NotificationContext)
-  const { user, token, logoutUser } = useContext(AuthContext)
+  const { notification } = useContext(NotificationContext)
+  const { user } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
-
-  const client = useApolloClient()
-
-  const logout = () => {
-    logoutUser()
-    client.resetStore()
-    setNotification('positive', 'You have been logged out.')
-  }
 
   return (
     <Container>
       <Router>
         <Header size="huge">Player Follower</Header>
-        <TopNavBar
-          activePage={activePage}
-          setActivePage={setActivePage}
-          token={token}
-          logout={logout}
-        />
+        <TopNavBar activePage={activePage} setActivePage={setActivePage} />
         <Notification notification={notification} />
         {user && (
           <div>
@@ -52,10 +37,10 @@ const App = () => {
         {user && (
           <>
             <Route path="/favorites" render={() => <div>favorites</div>} />
-            <Route path="/profile" render={() => <Profile user={user} />} />
+            <Route path="/profile" render={() => <Profile />} />
           </>
         )}
-        {!token && (
+        {!user && (
           <>
             <Route
               path="/signup"

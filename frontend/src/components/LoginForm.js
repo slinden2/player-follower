@@ -4,7 +4,6 @@ import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { LOGIN } from '../graphql/mutations'
-import { setCookie } from '../utils'
 import { NotificationContext } from '../contexts/NotificationContext'
 import { AuthContext } from '../contexts/AuthContext'
 

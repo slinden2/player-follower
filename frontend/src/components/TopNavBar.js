@@ -1,9 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, withRouter } from 'react-router-dom'
 import { Segment, Menu } from 'semantic-ui-react'
+import { AuthContext } from '../contexts/AuthContext'
+import { NotificationContext } from '../contexts/NotificationContext'
 
-const TopNavBar = ({ activePage, setActivePage, token, logout }) => {
+const TopNavBarNoRouter = ({ history, activePage, setActivePage }) => {
+  const { setNotification } = useContext(NotificationContext)
+  const { token, logoutUser } = useContext(AuthContext)
   const handleItemClick = (e, { name }) => setActivePage(name)
+
+  const handleLogout = () => {
+    logoutUser()
+    setNotification('positive', 'You have been logged out.')
+    history.push('/')
+  }
 
   return (
     <Segment inverted>
@@ -78,7 +88,7 @@ const TopNavBar = ({ activePage, setActivePage, token, logout }) => {
               />
             </Menu.Menu>
             <Menu.Menu>
-              <Menu.Item name="log out" onClick={logout} />
+              <Menu.Item name="log out" onClick={handleLogout} />
             </Menu.Menu>
           </>
         )}
@@ -87,4 +97,4 @@ const TopNavBar = ({ activePage, setActivePage, token, logout }) => {
   )
 }
 
-export default TopNavBar
+export default withRouter(TopNavBarNoRouter)
