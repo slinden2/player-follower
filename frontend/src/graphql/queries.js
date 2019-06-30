@@ -57,6 +57,7 @@ const USER = gql`
     me {
       username
       email
+      favoritePlayers
     }
   }
 `

@@ -8,6 +8,7 @@ import { setContext } from 'apollo-link-context'
 import App from './App'
 import { getCookie } from './utils'
 import NotificationContextProvider from './contexts/NotificationContext'
+import AuthContextProvider, { AuthContext } from './contexts/AuthContext'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -31,7 +32,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <NotificationContextProvider>
-      <App />
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
     </NotificationContextProvider>
   </ApolloProvider>,
   document.getElementById('root')

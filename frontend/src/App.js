@@ -15,10 +15,11 @@ import Profile from './components/Profile'
 import { USER } from './graphql/queries'
 import { getCookie, removeCookie } from './utils'
 import { NotificationContext } from './contexts/NotificationContext'
+import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
   const { notification, setNotification } = useContext(NotificationContext)
-  const [token, setToken] = useState(null)
+  const { user, token, setUser, setToken } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
   const client = useApolloClient()
@@ -28,14 +29,19 @@ const App = () => {
   useEffect(() => {
     const tokenCookie = getCookie('user')
     setToken(tokenCookie)
-  }, [])
+  }, [setToken])
 
   useEffect(() => {
-    loggedUser.refetch()
-  }, [loggedUser, token])
+    loggedUser.refetch().then(({ data }) => {
+      if (data) {
+        setUser(data.me)
+      }
+    })
+  }, [loggedUser, setUser, token])
 
   const logout = () => {
     setToken(null)
+    setUser(null)
     removeCookie('user')
     client.resetStore()
     setNotification('positive', 'You have been logged out.')
@@ -52,22 +58,19 @@ const App = () => {
           logout={logout}
         />
         <Notification notification={notification} />
-        {loggedUser.data.me && (
+        {user && (
           <div>
-            logged in as <strong>{loggedUser.data.me.username}</strong>
+            logged in as <strong>{user.username}</strong>
           </div>
         )}
         <Route exact path="/" render={() => <CardContainer />} />
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
-        {loggedUser.data.me && (
+        {user && (
           <>
             <Route path="/favorites" render={() => <div>favorites</div>} />
-            <Route
-              path="/profile"
-              render={() => <Profile user={loggedUser.data.me} />}
-            />
+            <Route path="/profile" render={() => <Profile user={user} />} />
           </>
         )}
         {!token && (
