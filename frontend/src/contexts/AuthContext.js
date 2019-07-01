@@ -1,50 +1,34 @@
 import React, { createContext, useState, useEffect } from 'react'
-import { useApolloClient } from 'react-apollo-hooks'
+import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import { setCookie, getCookie, removeCookie } from '../utils'
 import { USER, FAVORITE_PLAYERS } from '../graphql/queries'
 
 export const AuthContext = createContext()
 
 const AuthContextProvider = props => {
-  const [user, setUser] = useState(null)
-  const [favoritePlayers, setFavoritePlayers] = useState(null)
   const [token, setToken] = useState(null)
 
-  console.log(favoritePlayers)
-
   const client = useApolloClient()
+  const user = useQuery(USER)
+  const favoritePlayers = useQuery(FAVORITE_PLAYERS)
 
-  // login with cookie and query favorite players
+  // login with cookie
   useEffect(() => {
     const tokenCookie = getCookie('user')
     setToken(tokenCookie)
-    client
-      .query({ query: FAVORITE_PLAYERS })
-      .then(players => setFavoritePlayers(players.data.favoritePlayers))
-  }, [client])
-
-  // get user from db after login
-  useEffect(() => {
-    client
-      .query({ query: USER, fetchPolicy: 'network-only' })
-      .then(({ data: { me } }) => setUser(me))
-  }, [client, token])
+  }, [])
 
   // login user and query favorite players
   const loginUser = async token => {
     setToken(token)
     setCookie('user', token)
-    const players = await client.query({
-      query: FAVORITE_PLAYERS,
-      fetchPolicy: 'network-only',
-    })
-    setFavoritePlayers(players.data.favoritePlayers)
+    user.refetch()
+    favoritePlayers.refetch()
   }
 
   const logoutUser = () => {
     setToken(null)
-    setUser(null)
-    setFavoritePlayers(null)
+    // setUser(null)
     removeCookie('user')
     client.resetStore()
   }
@@ -54,10 +38,9 @@ const AuthContextProvider = props => {
       value={{
         user,
         token,
-        setUser,
+        // setUser,
         setToken,
         favoritePlayers,
-        setFavoritePlayers,
         loginUser,
         logoutUser,
       }}

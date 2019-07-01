@@ -18,11 +18,10 @@ import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
-  const { user } = useContext(AuthContext)
+  const { token, user } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
   const bestPlayers = useQuery(BEST_PLAYERS)
-  // const favoritePlayers = useQuery(FAVORITE_PLAYERS)
 
   return (
     <Container>
@@ -30,9 +29,9 @@ const App = () => {
         <Header size="huge">Player Follower</Header>
         <TopNavBar activePage={activePage} setActivePage={setActivePage} />
         <Notification notification={notification} />
-        {user && (
+        {user.data.me && (
           <div>
-            logged in as <strong>{user.username}</strong>
+            logged in as <strong>{user.data.me.username}</strong>
           </div>
         )}
         <Route
@@ -43,13 +42,13 @@ const App = () => {
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
-        {user && (
+        {token && (
           <>
             <Route path="/favorites" render={() => <CardContainer />} />
             <Route path="/profile" render={() => <Profile />} />
           </>
         )}
-        {!user && (
+        {!token && (
           <>
             <Route
               path="/signup"
