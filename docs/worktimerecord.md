@@ -29,4 +29,5 @@
 |            | 3    | implemented player following in the backend                       |
 | 30.06.2019 | 3    | studied contextAPI and useContext hook                            |
 |            | 4    | code refactoring, implementing contextAPI                         |
-|   total    | 72   |                                                                   |
+| 01.07.2019 | 6    | working on AuthContext and favoritePlayers view                   |
+|   total    | 78   |                                                                   |

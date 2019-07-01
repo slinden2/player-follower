@@ -3,19 +3,35 @@ import { useMutation } from 'react-apollo-hooks'
 import { Card, Image, Icon } from 'semantic-ui-react'
 import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
-import { FAVORITE_PLAYERS } from '../graphql/queries'
+import { USER, FAVORITE_PLAYERS } from '../graphql/queries'
+import { AuthContext } from '../contexts/AuthContext'
 
 const PlayerCard = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
+  const { token, favPlayerRanking, user } = useContext(AuthContext)
 
   const followPlayer = useMutation(FOLLOW_PLAYER, {
     variables: { id: player.id },
     refetchQueries: [{ query: FAVORITE_PLAYERS }],
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ query: USER })
+      dataInStore.me.favoritePlayers = dataInStore.me.favoritePlayers.concat(
+        player.id
+      )
+      store.writeQuery({ query: USER, data: dataInStore })
+    },
   })
 
   const unfollowPlayer = useMutation(UNFOLLOW_PLAYER, {
     variables: { id: player.id },
     refetchQueries: [{ query: FAVORITE_PLAYERS }],
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ query: USER })
+      dataInStore.me.favoritePlayers = dataInStore.me.favoritePlayers.filter(
+        id => id !== player.id
+      )
+      store.writeQuery({ query: USER, data: dataInStore })
+    },
   })
 
   const handleFollow = async () => {
@@ -43,6 +59,8 @@ const PlayerCard = ({ player }) => {
     }
   }
 
+  const idInArray = (array, id) => array.some(pid => pid === id)
+
   return (
     <Card>
       <Image src="img/test.png" wrapped ui={false} />
@@ -57,8 +75,16 @@ const PlayerCard = ({ player }) => {
           {player.stats.plusMinus}
         </Card.Description>
         <div>
-          <Icon name="thumbs up" onClick={handleFollow} />
-          <Icon name="thumbs down outline" onClick={handleUnfollow} />
+          {token && (
+            <>
+              {!idInArray(user.data.me.favoritePlayers, player.id) && (
+                <Icon name="thumbs up" onClick={handleFollow} />
+              )}
+              {idInArray(user.data.me.favoritePlayers, player.id) && (
+                <Icon name="thumbs down outline" onClick={handleUnfollow} />
+              )}
+            </>
+          )}
         </div>
       </Card.Content>
     </Card>

@@ -18,7 +18,7 @@ import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
-  const { token, user, favoritePlayers } = useContext(AuthContext)
+  const { token, user, favPlayerRanking } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
   const bestPlayers = useQuery(BEST_PLAYERS)
@@ -46,7 +46,7 @@ const App = () => {
           <>
             <Route
               path="/favorites"
-              render={() => <CardContainer query={favoritePlayers} />}
+              render={() => <CardContainer query={favPlayerRanking} />}
             />
             <Route path="/profile" render={() => <Profile />} />
           </>

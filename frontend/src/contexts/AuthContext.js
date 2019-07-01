@@ -10,7 +10,7 @@ const AuthContextProvider = props => {
 
   const client = useApolloClient()
   const user = useQuery(USER)
-  const favoritePlayers = useQuery(FAVORITE_PLAYERS)
+  const favPlayerRanking = useQuery(FAVORITE_PLAYERS)
 
   // login with cookie
   useEffect(() => {
@@ -23,7 +23,7 @@ const AuthContextProvider = props => {
     setToken(token)
     setCookie('user', token)
     user.refetch()
-    favoritePlayers.refetch()
+    favPlayerRanking.refetch()
   }
 
   const logoutUser = () => {
@@ -39,7 +39,7 @@ const AuthContextProvider = props => {
         token,
         // setUser,
         setToken,
-        favoritePlayers,
+        favPlayerRanking,
         loginUser,
         logoutUser,
       }}
