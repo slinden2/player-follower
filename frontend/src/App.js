@@ -21,10 +21,8 @@ const App = () => {
   const { user } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
-  const bestPlayersResult = useQuery(BEST_PLAYERS)
-
-  const favoritePlayersResult = useQuery(FAVORITE_PLAYERS)
-  console.log(favoritePlayersResult)
+  const bestPlayers = useQuery(BEST_PLAYERS)
+  // const favoritePlayers = useQuery(FAVORITE_PLAYERS)
 
   return (
     <Container>
@@ -40,17 +38,14 @@ const App = () => {
         <Route
           exact
           path="/"
-          render={() => <CardContainer query={bestPlayersResult} />}
+          render={() => <CardContainer query={bestPlayers} />}
         />
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
         {user && (
           <>
-            <Route
-              path="/favorites"
-              render={() => <CardContainer query={favoritePlayersResult} />}
-            />
+            <Route path="/favorites" render={() => <CardContainer />} />
             <Route path="/profile" render={() => <Profile />} />
           </>
         )}

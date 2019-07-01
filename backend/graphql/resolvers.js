@@ -48,7 +48,7 @@ const resolvers = {
     },
     favoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) {
-        throw new AuthenticationError('You must be logged in.')
+        return { threeGames: [], fiveGames: [], tenGames: [] }
       }
       const players = await Player.find({
         _id: { $in: ctx.currentUser.favoritePlayers },
