@@ -13,6 +13,7 @@ import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
+import FavoritePlayers from './components/FavoritePlayers'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
@@ -36,7 +37,7 @@ const App = () => {
         <Route path="/about" render={() => <div>About</div>} />
         {user && (
           <>
-            <Route path="/favorites" render={() => <div>favorites</div>} />
+            <Route path="/favorites" render={() => <FavoritePlayers />} />
             <Route path="/profile" render={() => <Profile />} />
           </>
         )}

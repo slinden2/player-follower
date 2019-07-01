@@ -8,8 +8,8 @@
 - [x] Refactor all players view so that only one query is done
 - [x] Error handling for frontend
 - [x] A way to add/remove favorite player
-- [ ] handleError function in the App component
-- [ ] ContextAPI refactor
+- [x] ContextAPI refactor
+- [x] handleException in NotificationContext
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)
@@ -23,3 +23,4 @@
 - [ ] Search functionality
 - [ ] Tests for backend
 - [ ] Tests for frontend
+- [ ] Does it make sense to use useState for user? Use useQuery instead?

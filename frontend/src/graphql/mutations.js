@@ -64,6 +64,7 @@ const CHANGE_PASSWORD = gql`
 const FOLLOW_PLAYER = gql`
   mutation followPlayer($id: String!) {
     followPlayer(id: $id) {
+      id
       fullName
     }
   }
