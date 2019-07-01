@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react'
+import { useQuery } from 'react-apollo-hooks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
+import { BEST_PLAYERS, FAVORITE_PLAYERS } from './graphql/queries'
 import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
 import Notification from './components/Notification'
@@ -13,12 +15,16 @@ import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
-import FavoritePlayers from './components/FavoritePlayers'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
   const { user } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
+
+  const bestPlayersResult = useQuery(BEST_PLAYERS)
+
+  const favoritePlayersResult = useQuery(FAVORITE_PLAYERS)
+  console.log(favoritePlayersResult)
 
   return (
     <Container>
@@ -31,13 +37,20 @@ const App = () => {
             logged in as <strong>{user.username}</strong>
           </div>
         )}
-        <Route exact path="/" render={() => <CardContainer />} />
+        <Route
+          exact
+          path="/"
+          render={() => <CardContainer query={bestPlayersResult} />}
+        />
         <Route path="/stats" render={() => <div>Stats</div>} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
         {user && (
           <>
-            <Route path="/favorites" render={() => <FavoritePlayers />} />
+            <Route
+              path="/favorites"
+              render={() => <CardContainer query={favoritePlayersResult} />}
+            />
             <Route path="/profile" render={() => <Profile />} />
           </>
         )}

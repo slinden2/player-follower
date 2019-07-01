@@ -46,6 +46,23 @@ const resolvers = {
         tenGames: bestPlayers10,
       }
     },
+    favoritePlayers: async (root, args, ctx) => {
+      if (!ctx.currentUser) {
+        throw new AuthenticationError('You must be logged in.')
+      }
+      const players = await Player.find({
+        _id: { $in: ctx.currentUser.favoritePlayers },
+      })
+      const playersJSON = players.map(player => player.toJSON())
+      const bestPlayers3 = getBestPlayers(playersJSON, 3)
+      const bestPlayers5 = getBestPlayers(playersJSON, 5)
+      const bestPlayers10 = getBestPlayers(playersJSON, 10)
+      return {
+        threeGames: bestPlayers3,
+        fiveGames: bestPlayers5,
+        tenGames: bestPlayers10,
+      }
+    },
     me: async (root, args, ctx) => {
       return ctx.currentUser
     },

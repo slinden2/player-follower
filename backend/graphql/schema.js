@@ -141,6 +141,10 @@ const typeDefs = gql`
     """
     bestPlayers: periodStats!
     """
+    Returns users favorite players for the last 3, 5 and 10 games.
+    """
+    favoritePlayers: periodStats!
+    """
     Single player by playerId
     """
     findPlayer(playerId: Int!): Player!

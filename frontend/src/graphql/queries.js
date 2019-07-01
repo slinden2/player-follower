@@ -52,6 +52,58 @@ const BEST_PLAYERS = gql`
   }
 `
 
+const FAVORITE_PLAYERS = gql`
+  query getFavoritePlayers {
+    favoritePlayers {
+      threeGames {
+        firstName
+        lastName
+        primaryNumber
+        playerId
+        id
+        stats {
+          gamePks
+          goals
+          assists
+          points
+          plusMinus
+          penaltyMinutes
+        }
+      }
+      fiveGames {
+        firstName
+        lastName
+        primaryNumber
+        playerId
+        id
+        stats {
+          gamePks
+          goals
+          assists
+          points
+          plusMinus
+          penaltyMinutes
+        }
+      }
+      tenGames {
+        firstName
+        lastName
+        primaryNumber
+        playerId
+        id
+        stats {
+          gamePks
+          goals
+          assists
+          points
+          plusMinus
+          penaltyMinutes
+        }
+      }
+    }
+  }
+`
+
 const USER = gql`
   query loggedUser {
     me {
@@ -62,4 +114,4 @@ const USER = gql`
   }
 `
 
-export { BEST_PLAYERS, USER }
+export { BEST_PLAYERS, FAVORITE_PLAYERS, USER }
