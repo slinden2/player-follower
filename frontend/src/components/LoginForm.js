@@ -8,7 +8,7 @@ import { NotificationContext } from '../contexts/NotificationContext'
 import { AuthContext } from '../contexts/AuthContext'
 
 const LoginForm = ({ history, setActivePage }) => {
-  const { setNotification } = useContext(NotificationContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
   const { loginUser } = useContext(AuthContext)
   const [username, resetUsername] = useField('username', 'text')
   const [password, resetPassword] = useField('password', 'password')
@@ -30,7 +30,7 @@ const LoginForm = ({ history, setActivePage }) => {
       setActivePage('all')
       history.push('/')
     } catch (exception) {
-      setNotification('negative', `${exception.message}`)
+      handleException(exception)
       resetPassword()
     }
   }

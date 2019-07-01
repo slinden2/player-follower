@@ -5,7 +5,7 @@ import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
 
 const PlayerCard = ({ player }) => {
-  const { setNotification } = useContext(NotificationContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
 
   const followPlayer = useMutation(FOLLOW_PLAYER, {
     variables: { id: player.id },
@@ -24,8 +24,8 @@ const PlayerCard = ({ player }) => {
           `You started following ${followedPlayer.data.followPlayer.fullName}.`
         )
       }
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
+    } catch (exception) {
+      handleException(exception)
     }
   }
 
@@ -35,8 +35,8 @@ const PlayerCard = ({ player }) => {
       if (id.data.unfollowPlayer) {
         setNotification('positive', `You unfollowed ${id.data.unfollowPlayer}.`)
       }
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
+    } catch (exception) {
+      handleException(exception)
     }
   }
 

@@ -7,16 +7,19 @@
 - [x] Notifications for frontend
 - [x] Refactor all players view so that only one query is done
 - [x] Error handling for frontend
+- [x] A way to add/remove favorite player
+- [ ] handleError function in the App component
+- [ ] ContextAPI refactor
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)
 - [ ] Standings (how to to fetch data from API?)
 - [ ] Personalized view of favorite players
-- [ ] A way to add/remove favorite players
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
 - [ ] Save gameDate in db and sort by it instead of gamePk
 - [ ] Error handling for backend
 - [ ] Search functionality
-- [ ] handleError function in the App components
+- [ ] Tests for backend
+- [ ] Tests for frontend

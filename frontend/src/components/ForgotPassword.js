@@ -6,7 +6,7 @@ import { FORGOT_PASSWORD } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
 
 const ForgotPassword = ({ history, setActivePage }) => {
-  const { setNotification } = useContext(NotificationContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
   const [email, resetEmail] = useField('email', 'text')
   const forgotPassword = useMutation(FORGOT_PASSWORD)
 
@@ -23,8 +23,8 @@ const ForgotPassword = ({ history, setActivePage }) => {
           email.value
         }. Please click the link to change your password.`
       )
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
+    } catch (exception) {
+      handleException(exception)
     }
     resetEmail()
     setActivePage('all')

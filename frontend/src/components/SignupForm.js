@@ -6,7 +6,7 @@ import { CREATE_USER } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
 
 const SignupForm = ({ history, setActivePage }) => {
-  const { setNotification } = useContext(NotificationContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
   const [username, resetUsername] = useField('username', 'text')
   const [email, resetEmail] = useField('password', 'text')
   const [password, resetPassword] = useField('password', 'password')
@@ -37,8 +37,8 @@ const SignupForm = ({ history, setActivePage }) => {
           password: password.value,
         },
       })
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
+    } catch (exception) {
+      handleException(exception)
       return
     }
 

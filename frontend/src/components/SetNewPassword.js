@@ -6,7 +6,7 @@ import { Form, Button } from 'semantic-ui-react'
 import { NotificationContext } from '../contexts/NotificationContext'
 
 const SetNewPassword = ({ history, token, setActivePage }) => {
-  const { setNotification } = useContext(NotificationContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
   const [password, resetPassword] = useField('password', 'password')
   const [confirmPassword, resetConfirmPassword] = useField(
     'confirmpassword',
@@ -34,8 +34,8 @@ const SetNewPassword = ({ history, token, setActivePage }) => {
       )
       setActivePage('all')
       history.push('/')
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
+    } catch (exception) {
+      handleException(exception)
     }
     resetPassword()
     resetConfirmPassword()

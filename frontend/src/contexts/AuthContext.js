@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import { useApolloClient } from 'react-apollo-hooks'
 import { setCookie, getCookie, removeCookie } from '../utils'
 import { USER } from '../graphql/queries'

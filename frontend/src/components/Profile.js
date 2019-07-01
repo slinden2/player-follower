@@ -7,7 +7,7 @@ import { NotificationContext } from '../contexts/NotificationContext'
 import { AuthContext } from '../contexts/AuthContext'
 
 const Profile = () => {
-  const { setNotification } = useContext(NotificationContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
   const { user } = useContext(AuthContext)
   const [show, setShow] = useState(false)
   const [password, resetPassword] = useField('password', 'password')
@@ -40,8 +40,8 @@ const Profile = () => {
       await changePassword({ variables: { password: password.value } })
       setNotification('positive', 'Your password has been changed.')
       setShow(false)
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
+    } catch (exception) {
+      handleException(exception)
     }
     resetPassword()
     resetConfirmPassword()

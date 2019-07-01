@@ -5,7 +5,7 @@ import { Button, Segment, Header } from 'semantic-ui-react'
 import { NotificationContext } from '../contexts/NotificationContext'
 
 const Confirmation = ({ history, token }) => {
-  const { setNotification } = useContext(NotificationContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
   const verifyUser = useMutation(VERIFY_USER, { variables: { token } })
   const cancelUser = useMutation(CANCEL_USER, { variables: { token } })
 
@@ -29,8 +29,8 @@ const Confirmation = ({ history, token }) => {
         'warning',
         'Your account has been cancelled and all the information has been deleted from the database.'
       )
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
+    } catch (exception) {
+      handleException(exception)
     }
     history.push('/')
   }
