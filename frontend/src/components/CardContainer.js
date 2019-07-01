@@ -3,19 +3,20 @@ import { Container, Header, Divider, Loader } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import PlayerCard from './PlayerCard'
 import { NotificationContext } from '../contexts/NotificationContext'
-import { AuthContext } from '../contexts/AuthContext'
 
 const CardContainer = ({ query }) => {
   const { setNotification } = useContext(NotificationContext)
-  const { favoritePlayers } = useContext(AuthContext)
 
   if (query.loading) {
     return <Loader active inline="centered" />
   }
 
-  const { threeGames, fiveGames, tenGames } = query.data.bestPlayers
+  const { threeGames, fiveGames, tenGames } =
+    query.data.bestPlayers || query.data.favoritePlayers
 
   const createRow = playerResults => {
+    if (!playerResults.length) return <div>No results</div>
+
     return (
       <Grid centered={true} columns={5}>
         {playerResults.map(player => (

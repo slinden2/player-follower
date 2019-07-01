@@ -28,7 +28,6 @@ const AuthContextProvider = props => {
 
   const logoutUser = () => {
     setToken(null)
-    // setUser(null)
     removeCookie('user')
     client.resetStore()
   }

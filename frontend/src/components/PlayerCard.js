@@ -3,8 +3,7 @@ import { useMutation } from 'react-apollo-hooks'
 import { Card, Image, Icon } from 'semantic-ui-react'
 import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
-import { AuthContext } from '../contexts/AuthContext'
-import { USER, FAVORITE_PLAYERS } from '../graphql/queries'
+import { FAVORITE_PLAYERS } from '../graphql/queries'
 
 const PlayerCard = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
