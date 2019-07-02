@@ -4,6 +4,7 @@ import sys
 
 FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 print(FILE_PATH)
+print(os.path.join(FILE_PATH, 'backend'))
 
 
 def init_deploy():
@@ -12,8 +13,8 @@ def init_deploy():
 
 def copy_backend():
     shutil.copytree(
-        f"{FILE_PATH}\\backend",
-        f"{FILE_PATH}\\web",
+        os.path.join(FILE_PATH, 'backend'),
+        os.path.join(FILE_PATH, 'web'),
         ignore=shutil.ignore_patterns('node_modules', '.env', 'db.json', '.eslintrc.js'))
 
 
@@ -23,9 +24,8 @@ def build_frontend():
 
 def copy_build_folder():
     shutil.copytree(
-        f"{FILE_PATH}\\frontend\\build",
-        f"{FILE_PATH}\\web\\build",
-        ignore=shutil.ignore_patterns('node_modules', '.env', 'db.json', '.eslintrc.js'))
+        os.path.join(FILE_PATH, 'frontend', 'build'),
+        os.path.join(FILE_PATH, 'web', 'build'))
 
 
 def push_to_heroku():
