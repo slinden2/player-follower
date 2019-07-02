@@ -8,7 +8,7 @@ import { AuthContext } from '../contexts/AuthContext'
 
 const PlayerCard = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
-  const { token, favPlayerRanking, user } = useContext(AuthContext)
+  const { token, user } = useContext(AuthContext)
 
   const followPlayer = useMutation(FOLLOW_PLAYER, {
     variables: { id: player.id },
@@ -75,7 +75,7 @@ const PlayerCard = ({ player }) => {
           {player.stats.plusMinus}
         </Card.Description>
         <div>
-          {token && (
+          {token && user.data.me && (
             <>
               {!idInArray(user.data.me.favoritePlayers, player.id) && (
                 <Icon name="thumbs up" onClick={handleFollow} />

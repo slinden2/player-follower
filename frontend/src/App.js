@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
-import { BEST_PLAYERS, FAVORITE_PLAYERS } from './graphql/queries'
+import { BEST_PLAYERS } from './graphql/queries'
 import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
 import Notification from './components/Notification'
@@ -30,7 +30,7 @@ const App = () => {
         <TopNavBar activePage={activePage} setActivePage={setActivePage} />
         <Notification notification={notification} />
         {user.data.me && (
-          <div>
+          <div style={{ marginBottom: '5px' }}>
             logged in as <strong>{user.data.me.username}</strong>
           </div>
         )}

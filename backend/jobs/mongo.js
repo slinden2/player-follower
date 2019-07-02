@@ -2,7 +2,7 @@ const config = require('../utils/config')
 const mongoose = require('mongoose')
 const Player = require('../models/player')
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.DEV_MONGODB_URI, { useNewUrlParser: true })
 
 const updateBirthdate = async () => {
   const players = await Player.find({})

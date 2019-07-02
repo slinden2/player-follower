@@ -12,7 +12,7 @@ const {
   convertMMSStoSec,
 } = require('./helpers')
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.DEV_MONGODB_URI, { useNewUrlParser: true })
 
 // in DB games from date 9.1. - 29.1. || 18.6.2019
 const gamesUrl = date =>

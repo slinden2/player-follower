@@ -10,6 +10,8 @@
 - [x] A way to add/remove favorite player
 - [x] ContextAPI refactor
 - [x] handleException in NotificationContext
+- [x] Does it make sense to use useState for user? Use useQuery instead?
+  - [x] Decided to use useQuery
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)
@@ -23,4 +25,3 @@
 - [ ] Search functionality
 - [ ] Tests for backend
 - [ ] Tests for frontend
-- [ ] Does it make sense to use useState for user? Use useQuery instead?
