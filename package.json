@@ -11,8 +11,9 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "watch": "nodemon server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "watch": "cross-env NODE_ENV=development nodemon server.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "client": "npm start --prefix ../frontend",
     "dev": "concurrently \"npm run watch\" \"npm run client\"",
     "lint": "eslint .",
@@ -23,6 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^4.1.0",
+    "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",
     "eslint": "^5.16.0",
     "json-server": "^0.15.0",
