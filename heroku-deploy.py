@@ -6,7 +6,7 @@ FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def init_deploy():
-    shutil.rmtree(f"{FILE_PATH}\\web")
+    shutil.rmtree(os.path.join(FILE_PATH, 'web'))
 
 
 def copy_backend():
@@ -24,6 +24,7 @@ def copy_build_folder():
     shutil.copytree(
         os.path.join(FILE_PATH, 'frontend', 'build'),
         os.path.join(FILE_PATH, 'web', 'build'))
+    shutil.rmtree(os.path.join(FILE_PATH, 'frontend', 'build'))
 
 
 def push_to_heroku():
