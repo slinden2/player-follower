@@ -27,6 +27,8 @@ def copy_build_folder():
 
 
 def push_to_heroku():
+    os.system('git add .')
+    os.system('git commit -m "Commit from heroku-deploy.py for deployment"')
     os.system('git subtree push --prefix web heroku master')
 
 
