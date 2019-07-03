@@ -11,7 +11,10 @@ const {
   sendForgotPasswordEmail,
 } = require('../utils/email-sender')
 
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const JWT_SECRET = process.env.JWT_SECRET
 
 const resolvers = {
