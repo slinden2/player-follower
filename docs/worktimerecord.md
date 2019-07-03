@@ -32,4 +32,5 @@
 | 01.07.2019 | 6    | working on AuthContext and favoritePlayers view                   |
 | 02.07.2019 | 5    | working on Heroku deployment                                      |
 | 03.07.2019 | 1    | working on Heroku deployment                                      |
-|   total    | 84   |                                                                   |
+|            | 3    | apollo-express setup and apollo cache debugging                   |
+|   total    | 87   |                                                                   |

@@ -30,6 +30,7 @@ const getBestPlayers = (players, numOfGames) => {
     player.stats = reduceStats(player, numOfGames)
     newPlayers.push(player)
   }
+
   const sortedPlayers = newPlayers
     .sort((a, b) => sortByPerformance(a, b))
     .slice(0, 5)
