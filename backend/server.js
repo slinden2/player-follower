@@ -1,6 +1,8 @@
+const express = require('express')
+const { ApolloServer } = require('apollo-server-express')
 const mongoose = require('mongoose')
-const { ApolloServer } = require('apollo-server')
 const jwt = require('jsonwebtoken')
+const path = require('path')
 const config = require('./utils/config')
 const typeDefs = require('./graphql/schema')
 const resolvers = require('./graphql/resolvers')
@@ -32,6 +34,18 @@ const server = new ApolloServer({
   },
 })
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-  console.log(`server ready at ${url}`)
-})
+const app = express()
+server.applyMiddleware({ app })
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('build'))
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+  })
+}
+
+const port = process.env.PORT || 4000
+
+app.listen({ port }, () =>
+  console.log(`server ready at http://localhost:${port}${server.graphqlPath}`)
+)

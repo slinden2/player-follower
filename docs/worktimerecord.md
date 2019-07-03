@@ -30,4 +30,6 @@
 | 30.06.2019 | 3    | studied contextAPI and useContext hook                            |
 |            | 4    | code refactoring, implementing contextAPI                         |
 | 01.07.2019 | 6    | working on AuthContext and favoritePlayers view                   |
-|   total    | 78   |                                                                   |
+| 02.07.2019 | 5    | working on Heroku deployment                                      |
+| 03.07.2019 | 1    | working on Heroku deployment                                      |
+|   total    | 84   |                                                                   |
