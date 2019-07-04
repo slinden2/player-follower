@@ -3,6 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const statsSchema = mongoose.Schema({
   gamePk: Number,
+  gameDate: Number,
   date: Number,
   timeOnIce: Number,
   assists: Number,

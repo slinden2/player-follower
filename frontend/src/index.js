@@ -28,7 +28,10 @@ const cache = new InMemoryCache({
   dataIdFromObject: object => {
     switch (object.__typename) {
       case 'Player':
-        return object.numOfGamesId + object.id
+        if (object.numOfGamesId) {
+          return object.numOfGamesId + object.id
+        }
+        return object.id
       default:
         return defaultDataIdFromObject(object)
     }
