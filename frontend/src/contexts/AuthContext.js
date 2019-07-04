@@ -37,7 +37,6 @@ const AuthContextProvider = props => {
       value={{
         user,
         token,
-        // setUser,
         setToken,
         favPlayerRanking,
         loginUser,

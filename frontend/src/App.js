@@ -18,7 +18,7 @@ import { AuthContext } from './contexts/AuthContext'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
-  const { token, user, favPlayerRanking } = useContext(AuthContext)
+  const { token, favPlayerRanking } = useContext(AuthContext)
   const [activePage, setActivePage] = useState('all')
 
   const bestPlayers = useQuery(BEST_PLAYERS)
@@ -29,11 +29,6 @@ const App = () => {
         <Header size="huge">Player Follower</Header>
         <TopNavBar activePage={activePage} setActivePage={setActivePage} />
         <Notification notification={notification} />
-        {user.data.me && (
-          <div style={{ marginBottom: '5px' }}>
-            logged in as <strong>{user.data.me.username}</strong>
-          </div>
-        )}
         <Route
           exact
           path="/"

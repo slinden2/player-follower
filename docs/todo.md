@@ -13,16 +13,16 @@
 - [x] Does it make sense to use useState for user? Use useQuery instead?
   - [x] Decided to use useQuery
 - [x] Save gameDate in db and sort by it instead of gamePk
-- [ ] Email formatting for account confirmation & forgot password
+- [x] Personalized view of favorite players
+- [ ] Search functionality
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)
 - [ ] Standings (how to to fetch data from API?)
-- [ ] Personalized view of favorite players
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
 - [ ] Error handling for backend
-- [ ] Search functionality
 - [ ] Tests for backend
 - [ ] Tests for frontend
 - [ ] Fix error handling for dates when there are no games eg 24.1.2019
+- [ ] Email formatting for account confirmation & forgot password

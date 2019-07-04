@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { Segment, Menu } from 'semantic-ui-react'
+import { Segment, Menu, Label } from 'semantic-ui-react'
 import { AuthContext } from '../contexts/AuthContext'
 import { NotificationContext } from '../contexts/NotificationContext'
 
 const TopNavBarNoRouter = ({ history, activePage, setActivePage }) => {
   const { setNotification } = useContext(NotificationContext)
-  const { token, logoutUser } = useContext(AuthContext)
+  const { user, token, logoutUser } = useContext(AuthContext)
+
   const handleItemClick = (e, { name }) => setActivePage(name)
 
   const handleLogout = () => {
@@ -79,13 +80,24 @@ const TopNavBarNoRouter = ({ history, activePage, setActivePage }) => {
         ) : (
           <>
             <Menu.Menu position="right">
-              <Menu.Item
+              {/* <Menu.Item
                 as={Link}
                 to="/profile"
                 name="profile"
                 active={activePage === 'profile'}
                 onClick={handleItemClick}
-              />
+              /> */}
+              {user.data.me && (
+                <Label
+                  as={Link}
+                  to="/profile"
+                  circular
+                  style={{ margin: 'auto auto' }}
+                  size="medium"
+                  onClick={() => handleItemClick(null, { name: null })}
+                  content={user.data.me.username}
+                />
+              )}
             </Menu.Menu>
             <Menu.Menu>
               <Menu.Item name="log out" onClick={handleLogout} />
