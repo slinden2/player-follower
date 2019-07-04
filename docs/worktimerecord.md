@@ -33,4 +33,5 @@
 | 02.07.2019 | 5    | working on Heroku deployment                                      |
 | 03.07.2019 | 1    | working on Heroku deployment                                      |
 |            | 3    | apollo-express setup and apollo cache debugging                   |
-|   total    | 87   |                                                                   |
+| 04.07.2019 | 3    | fixed a bug in apollo cache. sort by gameDate instead of gamePk.  |
+|   total    | 90   |                                                                   |

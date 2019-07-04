@@ -4,7 +4,7 @@ const reduceStats = require('./reduce-stats')
 For sorting boxscore. Must be corrected to date in the future.
 It is not guaranteed that gamePks are in progressive order.
 */
-const sortByGamePk = (a, b) => b.gamePk - a.gamePk
+const sortByGameDate = (a, b) => b.gameDate - a.gameDate
 
 const sortByPerformance = (a, b) =>
   b.stats.points - a.stats.points ||
@@ -21,7 +21,7 @@ const getBestPlayers = (players, numOfGames) => {
   const playersJSON = JSON.parse(JSON.stringify(players))
 
   const playersSorted = playersJSON.map(player => {
-    player.boxscores = player.boxscores.sort((a, b) => sortByGamePk(a, b))
+    player.boxscores = player.boxscores.sort((a, b) => sortByGameDate(a, b))
     return player
   })
 

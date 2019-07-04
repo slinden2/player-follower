@@ -12,6 +12,7 @@
 - [x] handleException in NotificationContext
 - [x] Does it make sense to use useState for user? Use useQuery instead?
   - [x] Decided to use useQuery
+- [x] Save gameDate in db and sort by it instead of gamePk
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)
@@ -20,8 +21,8 @@
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
-- [ ] Save gameDate in db and sort by it instead of gamePk
 - [ ] Error handling for backend
 - [ ] Search functionality
 - [ ] Tests for backend
 - [ ] Tests for frontend
+- [ ] Fix error handling for dates when there are no games eg 24.1.2019

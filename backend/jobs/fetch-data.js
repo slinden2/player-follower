@@ -128,6 +128,10 @@ const fetchGames = async date => {
     data: { dates },
   } = await axios.get(gamesUrl(date))
 
+  if (!dates.length) {
+    throw new Error(`there are no games for the date ${date}`)
+  }
+
   const { games } = dates[0]
 
   for (const game of games) {
@@ -138,7 +142,7 @@ const fetchGames = async date => {
   }
 }
 
-const dates = ['2019-01-09', '2019-01-10', '2019-01-11', '2019-01-12']
+// const dates = ['2019-01-09', '2019-01-10', '2019-01-11', '2019-01-12']
 // const dates = [
 //   '2019-01-13',
 //   '2019-01-14',
@@ -151,17 +155,17 @@ const dates = ['2019-01-09', '2019-01-10', '2019-01-11', '2019-01-12']
 // ]
 // const dates = ['2019-01-21', '2019-01-22']
 // const dates = [
-// '2019-01-23',
-// '2019-01-24',
-// '2019-01-25',
-// '2019-01-26',
-// '2019-01-27',
-// '2019-01-28',
-// '2019-01-29',
+//   '2019-01-23',
+//   // '2019-01-24', no games
+//   // '2019-01-25', no games
+//   '2019-01-26',
+//   // '2019-01-27', no games
+//   '2019-01-28',
+//   '2019-01-29',
 // ]
 // const dates = ['2019-01-30', '2019-01-31', '2019-02-01', '2019-02-02']
 // const dates = ['2019-02-03', '2019-02-04', '2019-02-05']
-// const dates = ['2019-02-06']
+const dates = ['2019-02-06']
 const promises = []
 
 for (const date of dates) {
