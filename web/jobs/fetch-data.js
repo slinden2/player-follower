@@ -12,7 +12,7 @@ const {
   convertMMSStoSec,
 } = require('./helpers')
 
-mongoose.connect(config.DEV_MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
 // in DB games from date 9.1. - 29.1. || 18.6.2019
 const gamesUrl = date =>
@@ -23,7 +23,7 @@ const boxscoreUrl = gamePk =>
 // const GAMES_URL = 'http://localhost:3001/games/1'
 // const boxscoreUrl = (gamePk) => `http://localhost:3001/gamePks/${gamePk}`
 
-const handlePlayer = async (playerData, gamePk) => {
+const handlePlayer = async (playerData, gamePk, gameDate) => {
   /* eslint-disable */
   const {
     id,
@@ -69,11 +69,13 @@ const handlePlayer = async (playerData, gamePk) => {
   skaterStats
     ? (finalStats = {
       gamePk,
+      gameDate: Math.floor(new Date(gameDate).getTime() / 1000),
       date: Math.floor(new Date().getTime() / 1000),
       ...skaterStats,
     })
     : (finalStats = {
       gamePk,
+      gameDate: Math.floor(new Date(gameDate).getTime() / 1000),
       date: Math.floor(new Date().getTime() / 1000),
       ...goalieStats,
     })
@@ -102,7 +104,7 @@ const handlePlayer = async (playerData, gamePk) => {
   }
 }
 
-const fetchBoxscore = async gamePk => {
+const fetchBoxscore = async (gamePk, gameDate) => {
   const { data } = await axios.get(boxscoreUrl(gamePk))
   const {
     teams: { away },
@@ -114,7 +116,7 @@ const fetchBoxscore = async gamePk => {
 
   for (const key in players) {
     try {
-      await handlePlayer(players[key], gamePk)
+      await handlePlayer(players[key], gamePk, gameDate)
     } catch ({ name, message }) {
       console.error(`${name}: ${message}`)
     }
@@ -126,16 +128,21 @@ const fetchGames = async date => {
     data: { dates },
   } = await axios.get(gamesUrl(date))
 
+  if (!dates.length) {
+    throw new Error(`there are no games for the date ${date}`)
+  }
+
   const { games } = dates[0]
 
   for (const game of games) {
-    const { gamePk } = game
+    const { gamePk, gameDate } = game
     console.log('fetching gamepk', gamePk)
-    await fetchBoxscore(gamePk)
+    console.log('gameDate', gameDate)
+    await fetchBoxscore(gamePk, gameDate)
   }
 }
 
-// const dates = ['2019-01-09', '2019-01-10', '2019-01-11', '2019-01-12'] initial fetch
+// const dates = ['2019-01-09', '2019-01-10', '2019-01-11', '2019-01-12']
 // const dates = [
 //   '2019-01-13',
 //   '2019-01-14',
@@ -148,15 +155,17 @@ const fetchGames = async date => {
 // ]
 // const dates = ['2019-01-21', '2019-01-22']
 // const dates = [
-// '2019-01-23',
-// '2019-01-24',
-// '2019-01-25',
-// '2019-01-26',
-// '2019-01-27',
-// '2019-01-28',
-// '2019-01-29',
+//   '2019-01-23',
+//   // '2019-01-24', no games
+//   // '2019-01-25', no games
+//   '2019-01-26',
+//   // '2019-01-27', no games
+//   '2019-01-28',
+//   '2019-01-29',
 // ]
-const dates = ['2019-01-30', '2019-01-31', '2019-02-01', '2019-02-02']
+// const dates = ['2019-01-30', '2019-01-31', '2019-02-01', '2019-02-02']
+// const dates = ['2019-02-03', '2019-02-04', '2019-02-05']
+const dates = ['2019-02-06']
 const promises = []
 
 for (const date of dates) {
