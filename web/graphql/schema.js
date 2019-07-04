@@ -43,6 +43,7 @@ const typeDefs = gql`
     boxscores: [Stat]
     stats: Stat
     id: ID!
+    numOfGamesId: Int
   }
 
   "Boxscore per game"
