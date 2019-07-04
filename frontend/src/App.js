@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-import { Container, Header } from 'semantic-ui-react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Container, Header, Segment } from 'semantic-ui-react'
 import { BEST_PLAYERS } from './graphql/queries'
 import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
+import FindPlayers from './components/FindPlayers'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 
@@ -40,9 +41,17 @@ const App = () => {
           <>
             <Route
               path="/favorites"
-              render={() => <CardContainer query={favPlayerRanking} />}
+              render={() => (
+                <>
+                  <Container as={Link} to="/find-players">
+                    Find players
+                  </Container>
+                  <CardContainer query={favPlayerRanking} />
+                </>
+              )}
             />
             <Route path="/profile" render={() => <Profile />} />
+            <Route path="/find-players" render={() => <FindPlayers />} />
           </>
         )}
         {!token && (
