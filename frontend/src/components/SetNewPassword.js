@@ -5,7 +5,7 @@ import { SET_NEW_PASSWORD } from '../graphql/mutations'
 import { Form, Button } from 'semantic-ui-react'
 import { NotificationContext } from '../contexts/NotificationContext'
 
-const SetNewPassword = ({ history, token, setActivePage }) => {
+const SetNewPassword = ({ history, token }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const [password, resetPassword] = useField('password', 'password')
   const [confirmPassword, resetConfirmPassword] = useField(
@@ -32,7 +32,6 @@ const SetNewPassword = ({ history, token, setActivePage }) => {
         'positive',
         'Your password has been changed. You may now log in with the new password.'
       )
-      setActivePage('all')
       history.push('/')
     } catch (exception) {
       handleException(exception)

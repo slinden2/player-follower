@@ -5,7 +5,7 @@ import { useField } from '../hooks'
 import { CREATE_USER } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
 
-const SignupForm = ({ history, setActivePage }) => {
+const SignupForm = ({ history }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const [username, resetUsername] = useField('username', 'text')
   const [email, resetEmail] = useField('password', 'text')
@@ -54,7 +54,6 @@ const SignupForm = ({ history, setActivePage }) => {
     resetEmail()
     resetPassword()
     resetConfirmPassword()
-    setActivePage('all')
     history.push('/')
   }
 

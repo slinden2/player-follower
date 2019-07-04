@@ -7,7 +7,7 @@ import { LOGIN } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
 import { AuthContext } from '../contexts/AuthContext'
 
-const LoginForm = ({ history, setActivePage }) => {
+const LoginForm = ({ history }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { loginUser } = useContext(AuthContext)
   const [username, resetUsername] = useField('username', 'text')
@@ -27,7 +27,6 @@ const LoginForm = ({ history, setActivePage }) => {
       resetUsername()
       resetPassword()
       loginUser(token.data.login.value)
-      setActivePage('all')
       history.push('/')
     } catch (exception) {
       handleException(exception)

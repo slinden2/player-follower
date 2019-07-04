@@ -5,7 +5,7 @@ import { useField } from '../hooks'
 import { FORGOT_PASSWORD } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
 
-const ForgotPassword = ({ history, setActivePage }) => {
+const ForgotPassword = ({ history }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const [email, resetEmail] = useField('email', 'text')
   const forgotPassword = useMutation(FORGOT_PASSWORD)
@@ -27,7 +27,6 @@ const ForgotPassword = ({ history, setActivePage }) => {
       handleException(exception)
     }
     resetEmail()
-    setActivePage('all')
     history.push('/')
   }
 

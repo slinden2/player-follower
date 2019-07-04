@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
 import { BEST_PLAYERS } from './graphql/queries'
 import TopNavBar from './components/TopNavBar'
@@ -19,7 +19,6 @@ import { AuthContext } from './contexts/AuthContext'
 const App = () => {
   const { notification } = useContext(NotificationContext)
   const { token, favPlayerRanking } = useContext(AuthContext)
-  const [activePage, setActivePage] = useState('all')
 
   const bestPlayers = useQuery(BEST_PLAYERS)
 
@@ -27,7 +26,7 @@ const App = () => {
     <Container>
       <Router>
         <Header size="huge">Player Follower</Header>
-        <TopNavBar activePage={activePage} setActivePage={setActivePage} />
+        <TopNavBar />
         <Notification notification={notification} />
         <Route
           exact
@@ -50,34 +49,21 @@ const App = () => {
           <>
             <Route
               path="/signup"
-              render={({ history }) => (
-                <SignupForm history={history} setActivePage={setActivePage} />
-              )}
+              render={({ history }) => <SignupForm history={history} />}
             />
             <Route
               path="/login"
-              render={({ history }) => (
-                <LoginForm history={history} setActivePage={setActivePage} />
-              )}
+              render={({ history }) => <LoginForm history={history} />}
             />
             <Route
               exact
               path="/forgot-password"
-              render={({ history }) => (
-                <ForgotPassword
-                  history={history}
-                  setActivePage={setActivePage}
-                />
-              )}
+              render={({ history }) => <ForgotPassword history={history} />}
             />
             <Route
               path="/forgot-password/:token"
               render={({ history, match }) => (
-                <SetNewPassword
-                  history={history}
-                  token={match.params.token}
-                  setActivePage={setActivePage}
-                />
+                <SetNewPassword history={history} token={match.params.token} />
               )}
             />
             <Route
