@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo-hooks'
 import ApolloClient from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
 import App from './App'
 import { getCookie } from './utils'
@@ -24,9 +24,20 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+const cache = new InMemoryCache({
+  dataIdFromObject: object => {
+    switch (object.__typename) {
+      case 'Player':
+        return object.numOfGamesId + object.id
+      default:
+        return defaultDataIdFromObject(object)
+    }
+  },
+})
+
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache,
 })
 
 ReactDOM.render(

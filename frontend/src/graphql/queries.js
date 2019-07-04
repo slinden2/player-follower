@@ -9,6 +9,7 @@ const BEST_PLAYERS = gql`
         primaryNumber
         playerId
         id
+        numOfGamesId
         stats {
           gamePks
           goals
@@ -24,6 +25,7 @@ const BEST_PLAYERS = gql`
         primaryNumber
         playerId
         id
+        numOfGamesId
         stats {
           gamePks
           goals
@@ -39,6 +41,7 @@ const BEST_PLAYERS = gql`
         primaryNumber
         playerId
         id
+        numOfGamesId
         stats {
           gamePks
           goals
@@ -61,6 +64,7 @@ const FAVORITE_PLAYERS = gql`
         primaryNumber
         playerId
         id
+        numOfGamesId
         stats {
           gamePks
           goals
@@ -76,6 +80,7 @@ const FAVORITE_PLAYERS = gql`
         primaryNumber
         playerId
         id
+        numOfGamesId
         stats {
           gamePks
           goals
@@ -91,6 +96,7 @@ const FAVORITE_PLAYERS = gql`
         primaryNumber
         playerId
         id
+        numOfGamesId
         stats {
           gamePks
           goals
