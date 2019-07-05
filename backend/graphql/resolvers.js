@@ -34,6 +34,13 @@ const resolvers = {
       const players = await Player.find(args)
       return players
     },
+    findByName: async (root, args) => {
+      const searchString = new RegExp(args.searchString, 'ig')
+      const players = await Player.find({
+        $or: [{ firstName: searchString }, { lastName: searchString }],
+      })
+      return players.map(player => player.toJSON())
+    },
     bestPlayers: async () => {
       // const players = await Player.find({
       //   playerId: { $in: [8471214, 8478402, 8476453] }, // , 8478427, 8477493
