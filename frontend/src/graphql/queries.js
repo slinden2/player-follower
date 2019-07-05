@@ -120,4 +120,16 @@ const USER = gql`
   }
 `
 
-export { BEST_PLAYERS, FAVORITE_PLAYERS, USER }
+const FIND_BY_NAME = gql`
+  query findByName($searchString: String!) {
+    findByName(searchString: $searchString) {
+      fullName
+      nationality
+      primaryNumber
+      id
+      playerId
+    }
+  }
+`
+
+export { BEST_PLAYERS, FAVORITE_PLAYERS, USER, FIND_BY_NAME }
