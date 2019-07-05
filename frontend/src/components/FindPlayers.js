@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useApolloClient } from 'react-apollo-hooks'
-import { Header, Input, Loader, Table } from 'semantic-ui-react'
+import { Header, Input, Loader, Table, Button } from 'semantic-ui-react'
 import _ from 'lodash'
+import { AuthContext } from '../contexts/AuthContext'
 import { FIND_BY_NAME } from '../graphql/queries'
 
 const FindPlayers = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState([])
+  const { user } = useContext(AuthContext)
   const client = useApolloClient()
+  console.log(user)
 
   const handleSearchChange = async (e, { value }) => {
     if (!value) return setResults([])
@@ -19,7 +22,18 @@ const FindPlayers = () => {
       },
     })
     setIsLoading(false)
-    setResults(foundPlayers.data.findByName)
+    let modifiedPlayers
+    if (foundPlayers.data.findByName.length) {
+      console.log('runs')
+      modifiedPlayers = foundPlayers.data.findByName.map(player => {
+        user.data.me.favoritePlayers.includes(player.id)
+          ? (player.followed = true)
+          : (player.followed = false)
+        return player
+      })
+    }
+    console.log(modifiedPlayers)
+    setResults(modifiedPlayers || [])
   }
 
   const showResults = () => !isLoading && results.length > 0
@@ -39,6 +53,7 @@ const FindPlayers = () => {
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>#</Table.HeaderCell>
               <Table.HeaderCell>Nationality</Table.HeaderCell>
+              <Table.HeaderCell />
             </Table.Row>
           </Table.Header>
 
@@ -48,6 +63,13 @@ const FindPlayers = () => {
                 <Table.Cell>{player.fullName}</Table.Cell>
                 <Table.Cell>{player.primaryNumber}</Table.Cell>
                 <Table.Cell>{player.nationality}</Table.Cell>
+                <Table.Cell>
+                  <Button
+                    primary={!player.followed}
+                    size="tiny"
+                    content={player.followed ? 'Unfollow' : 'Follow'}
+                  />
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>

@@ -14,7 +14,7 @@
   - [x] Decided to use useQuery
 - [x] Save gameDate in db and sort by it instead of gamePk
 - [x] Personalized view of favorite players
-- [ ] Search functionality
+- [x] Search functionality
 - [ ] Password requirements
 - [ ] Stats (how to to fetch data from API?)
 - [ ] Standings (how to to fetch data from API?)
