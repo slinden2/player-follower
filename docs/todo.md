@@ -26,3 +26,4 @@
 - [ ] Tests for frontend
 - [ ] Fix error handling for dates when there are no games eg 24.1.2019
 - [ ] Email formatting for account confirmation & forgot password
+- [ ] A view for single players

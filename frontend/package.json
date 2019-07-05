@@ -7,6 +7,7 @@
     "apollo-link": "^1.2.12",
     "apollo-link-context": "^1.0.18",
     "graphql": "^14.3.1",
+    "lodash": "^4.17.11",
     "react": "^16.8.6",
     "react-apollo": "^3.0.0-beta.2",
     "react-apollo-hooks": "^0.4.5",
@@ -36,5 +37,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000",
+  "devDependencies": {
+    "faker": "^4.1.0"
+  }
 }
