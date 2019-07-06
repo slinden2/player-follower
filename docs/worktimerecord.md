@@ -36,4 +36,5 @@
 | 04.07.2019 | 3    | fixed a bug in apollo cache. sort by gameDate instead of gamePk   |
 |            | 1    | working on the ui                                                 |
 | 05.07.2019 | 5    | created search functionality                                      |
-|   total    | 96   |                                                                   |
+| 06.07.2019 | 5    | worked on search and production version of the application        |
+|   total    | 101  |                                                                   |
