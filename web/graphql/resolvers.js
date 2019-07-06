@@ -59,28 +59,28 @@ const resolvers = {
       // })
       const players = await Player.find({})
       const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers3 = getBestPlayers(playersJSON, 3)
+      const bestPlayers1 = getBestPlayers(playersJSON, 1)
       const bestPlayers5 = getBestPlayers(playersJSON, 5)
       const bestPlayers10 = getBestPlayers(playersJSON, 10)
       return {
-        threeGames: bestPlayers3,
+        oneGame: bestPlayers1,
         fiveGames: bestPlayers5,
         tenGames: bestPlayers10,
       }
     },
     favoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) {
-        return { threeGames: [], fiveGames: [], tenGames: [] }
+        return { oneGame: [], fiveGames: [], tenGames: [] }
       }
       const players = await Player.find({
         _id: { $in: ctx.currentUser.favoritePlayers },
       })
       const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers3 = getBestPlayers(playersJSON, 3)
+      const bestPlayers1 = getBestPlayers(playersJSON, 3)
       const bestPlayers5 = getBestPlayers(playersJSON, 5)
       const bestPlayers10 = getBestPlayers(playersJSON, 10)
       return {
-        threeGames: bestPlayers3,
+        oneGame: bestPlayers1,
         fiveGames: bestPlayers5,
         tenGames: bestPlayers10,
       }
@@ -267,9 +267,11 @@ const resolvers = {
       currentUser.favoritePlayers = currentUser.favoritePlayers.filter(
         _id => _id.toString() !== id
       )
-
       await currentUser.save()
-      return id
+
+      const player = await Player.findOne({ _id: id })
+
+      return player.toJSON()
     },
   },
   Player: {

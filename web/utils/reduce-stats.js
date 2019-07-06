@@ -29,9 +29,7 @@ const reduceStats = (player, numOfGames) => {
   if (numOfGames < player.boxscores.length) {
     player.boxscores = player.boxscores.slice(0, numOfGames)
   }
-  // console.log('=========================')
-  // console.log(player.firstName)
-  // console.log(player.boxscores)
+
   const stats = player.boxscores.reduce((acc, cur) => {
     if (!acc.gamePks) acc.gamePks = [acc.gamePk]
     for (const field in cur) {
@@ -46,6 +44,17 @@ const reduceStats = (player, numOfGames) => {
     delete acc.date
     return acc
   })
+
+  // If numOfGames is 1 the reduce method won't run.
+  // Handle one game stats separately.
+  if (numOfGames === 1) {
+    stats.points = stats.goals + stats.assists
+    stats.gamePks = [stats.gamePk]
+    delete stats.gamePk
+    delete stats.date
+    delete stats.id
+    delete stats.decision
+  }
 
   const statsWithPercentuals = generatePerGameStats(player, stats, numOfGames)
   return statsWithPercentuals

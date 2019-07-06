@@ -6,10 +6,17 @@ It is not guaranteed that gamePks are in progressive order.
 */
 const sortByGameDate = (a, b) => b.gameDate - a.gameDate
 
-const sortByPerformance = (a, b) =>
-  b.stats.points - a.stats.points ||
-  b.stats.goals - a.stats.goals ||
-  b.stats.plusMinus - a.stats.plusMinus
+const sortByPerformance = (a, b) => {
+  if (a.lastName === 'Josi' && b.lastName === 'Gallagher') {
+    console.log(a)
+    console.log(b)
+  }
+  return (
+    b.stats.points - a.stats.points ||
+    b.stats.goals - a.stats.goals ||
+    b.stats.plusMinus - a.stats.plusMinus
+  )
+}
 
 /*
 The function consumes a raw list of players from the db and
