@@ -34,7 +34,7 @@ const CardContainer = ({ query }) => {
 
   return (
     <Container>
-      <Header>Last night</Header>
+      <Header>Last game</Header>
       {createRow(oneGame)}
       <Divider />
       <Header>Last 5 games</Header>

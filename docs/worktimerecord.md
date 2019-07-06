@@ -37,4 +37,5 @@
 |            | 1    | working on the ui                                                 |
 | 05.07.2019 | 5    | created search functionality                                      |
 | 06.07.2019 | 5    | worked on search and production version of the application        |
-|   total    | 101  |                                                                   |
+|            | 1    | bug fix in the reduce-stats program                               |
+|   total    | 102  |                                                                   |
