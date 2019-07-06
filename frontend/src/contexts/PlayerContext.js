@@ -7,7 +7,7 @@ export const PlayerContext = createContext()
 
 const PlayerContextProvider = props => {
   const bestPlayers = useQuery(BEST_PLAYERS)
-  const favPlayerRanking = useQuery(FAVORITE_PLAYERS)
+  const favoritePlayers = useQuery(FAVORITE_PLAYERS)
 
   const followPlayer = useMutation(FOLLOW_PLAYER, {
     refetchQueries: [{ query: FAVORITE_PLAYERS }],
@@ -32,7 +32,9 @@ const PlayerContextProvider = props => {
   })
 
   return (
-    <PlayerContext.Provider value={{ followPlayer, unfollowPlayer }}>
+    <PlayerContext.Provider
+      value={{ bestPlayers, favoritePlayers, followPlayer, unfollowPlayer }}
+    >
       {props.children}
     </PlayerContext.Provider>
   )

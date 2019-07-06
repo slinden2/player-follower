@@ -16,12 +16,12 @@ import Profile from './components/Profile'
 import FindPlayers from './components/FindPlayers'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
+import { PlayerContext } from './contexts/PlayerContext'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
-  const { token, favPlayerRanking } = useContext(AuthContext)
-
-  const bestPlayers = useQuery(BEST_PLAYERS)
+  const { token } = useContext(AuthContext)
+  const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
 
   return (
     <Container>
@@ -46,7 +46,7 @@ const App = () => {
                   <Container as={Link} to="/find-players">
                     Find players
                   </Container>
-                  <CardContainer query={favPlayerRanking} />
+                  <CardContainer query={favoritePlayers} />
                 </>
               )}
             />

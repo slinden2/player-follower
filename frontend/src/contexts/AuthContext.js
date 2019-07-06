@@ -1,16 +1,17 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect, useContext } from 'react'
 import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import { setCookie, getCookie, removeCookie } from '../utils'
-import { USER, FAVORITE_PLAYERS } from '../graphql/queries'
+import { USER } from '../graphql/queries'
+import { PlayerContext } from './PlayerContext'
 
 export const AuthContext = createContext()
 
 const AuthContextProvider = props => {
   const [token, setToken] = useState(null)
+  const { favoritePlayers } = useContext(PlayerContext)
 
   const client = useApolloClient()
   const user = useQuery(USER)
-  const favPlayerRanking = useQuery(FAVORITE_PLAYERS)
 
   // login with cookie
   useEffect(() => {
@@ -23,7 +24,7 @@ const AuthContextProvider = props => {
     setToken(token)
     setCookie('user', token)
     user.refetch()
-    favPlayerRanking.refetch()
+    favoritePlayers.refetch()
   }
 
   const logoutUser = () => {
@@ -38,7 +39,6 @@ const AuthContextProvider = props => {
         user,
         token,
         setToken,
-        favPlayerRanking,
         loginUser,
         logoutUser,
       }}

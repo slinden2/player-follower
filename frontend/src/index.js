@@ -47,11 +47,11 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <NotificationContextProvider>
-      <AuthContextProvider>
-        <PlayerContextProvider>
+      <PlayerContextProvider>
+        <AuthContextProvider>
           <App />
-        </PlayerContextProvider>
-      </AuthContextProvider>
+        </AuthContextProvider>
+      </PlayerContextProvider>
     </NotificationContextProvider>
   </ApolloProvider>,
   document.getElementById('root')
