@@ -4,13 +4,13 @@ import { Header, Input, Loader, Table, Button } from 'semantic-ui-react'
 import _ from 'lodash'
 import { AuthContext } from '../contexts/AuthContext'
 import { FIND_BY_NAME } from '../graphql/queries'
+import { FOLLOW_PLAYER } from '../graphql/queries'
 
 const FindPlayers = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState([])
   const { user } = useContext(AuthContext)
   const client = useApolloClient()
-  console.log(user)
 
   const handleSearchChange = async (e, { value }) => {
     if (!value) return setResults([])
@@ -22,9 +22,8 @@ const FindPlayers = () => {
       },
     })
     setIsLoading(false)
-    let modifiedPlayers
+    let modifiedPlayers = []
     if (foundPlayers.data.findByName.length) {
-      console.log('runs')
       modifiedPlayers = foundPlayers.data.findByName.map(player => {
         user.data.me.favoritePlayers.includes(player.id)
           ? (player.followed = true)
@@ -32,8 +31,11 @@ const FindPlayers = () => {
         return player
       })
     }
-    console.log(modifiedPlayers)
-    setResults(modifiedPlayers || [])
+    setResults(modifiedPlayers)
+  }
+
+  const handleButtonClick = player => {
+    console.log(player)
   }
 
   const showResults = () => !isLoading && results.length > 0
@@ -66,8 +68,10 @@ const FindPlayers = () => {
                 <Table.Cell>
                   <Button
                     primary={!player.followed}
+                    disabled={player.followed}
                     size="tiny"
-                    content={player.followed ? 'Unfollow' : 'Follow'}
+                    content={'Follow'}
+                    onClick={() => handleButtonClick(player)}
                   />
                 </Table.Cell>
               </Table.Row>

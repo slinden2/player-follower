@@ -9,6 +9,7 @@ import App from './App'
 import { getCookie } from './utils'
 import NotificationContextProvider from './contexts/NotificationContext'
 import AuthContextProvider from './contexts/AuthContext'
+import PlayerContextProvider from './contexts/PlayerContext'
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -47,7 +48,9 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <NotificationContextProvider>
       <AuthContextProvider>
-        <App />
+        <PlayerContextProvider>
+          <App />
+        </PlayerContextProvider>
       </AuthContextProvider>
     </NotificationContextProvider>
   </ApolloProvider>,

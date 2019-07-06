@@ -1,42 +1,19 @@
-import React, { useContext } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import React, { useContext, useState } from 'react'
 import { Card, Image, Icon } from 'semantic-ui-react'
-import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 import { NotificationContext } from '../contexts/NotificationContext'
-import { USER, FAVORITE_PLAYERS } from '../graphql/queries'
 import { AuthContext } from '../contexts/AuthContext'
+import { PlayerContext } from '../contexts/PlayerContext'
 
 const PlayerCard = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
+  const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
-
-  const followPlayer = useMutation(FOLLOW_PLAYER, {
-    variables: { id: player.id },
-    refetchQueries: [{ query: FAVORITE_PLAYERS }],
-    update: (store, response) => {
-      const dataInStore = store.readQuery({ query: USER })
-      dataInStore.me.favoritePlayers = dataInStore.me.favoritePlayers.concat(
-        player.id
-      )
-      store.writeQuery({ query: USER, data: dataInStore })
-    },
-  })
-
-  const unfollowPlayer = useMutation(UNFOLLOW_PLAYER, {
-    variables: { id: player.id },
-    refetchQueries: [{ query: FAVORITE_PLAYERS }],
-    update: (store, response) => {
-      const dataInStore = store.readQuery({ query: USER })
-      dataInStore.me.favoritePlayers = dataInStore.me.favoritePlayers.filter(
-        id => id !== player.id
-      )
-      store.writeQuery({ query: USER, data: dataInStore })
-    },
-  })
 
   const handleFollow = async () => {
     try {
-      const followedPlayer = await followPlayer()
+      const followedPlayer = await followPlayer({
+        variables: { id: player.id },
+      })
       if (followedPlayer.data.followPlayer) {
         setNotification(
           'positive',
@@ -50,7 +27,7 @@ const PlayerCard = ({ player }) => {
 
   const handleUnfollow = async () => {
     try {
-      const id = await unfollowPlayer()
+      const id = await unfollowPlayer({ variables: { id: player.id } })
       if (id.data.unfollowPlayer) {
         setNotification('positive', `You unfollowed ${id.data.unfollowPlayer}.`)
       }
