@@ -4,12 +4,15 @@ import { Header, Input, Loader, Table, Button } from 'semantic-ui-react'
 import _ from 'lodash'
 import { AuthContext } from '../contexts/AuthContext'
 import { FIND_BY_NAME } from '../graphql/queries'
-import { FOLLOW_PLAYER } from '../graphql/queries'
+import { PlayerContext } from '../contexts/PlayerContext'
+import { NotificationContext } from '../contexts/NotificationContext'
 
 const FindPlayers = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState([])
   const { user } = useContext(AuthContext)
+  const { followPlayer } = useContext(PlayerContext)
+  const { setNotification, handleException } = useContext(NotificationContext)
   const client = useApolloClient()
 
   const handleSearchChange = async (e, { value }) => {
@@ -22,20 +25,23 @@ const FindPlayers = () => {
       },
     })
     setIsLoading(false)
-    let modifiedPlayers = []
-    if (foundPlayers.data.findByName.length) {
-      modifiedPlayers = foundPlayers.data.findByName.map(player => {
-        user.data.me.favoritePlayers.includes(player.id)
-          ? (player.followed = true)
-          : (player.followed = false)
-        return player
-      })
-    }
-    setResults(modifiedPlayers)
+    setResults(foundPlayers.data.findByName)
   }
 
-  const handleButtonClick = player => {
-    console.log(player)
+  const handleFollow = async player => {
+    try {
+      const followedPlayer = await followPlayer({
+        variables: { id: player.id },
+      })
+      if (followedPlayer.data.followPlayer) {
+        setNotification(
+          'positive',
+          `You started following ${followedPlayer.data.followPlayer.fullName}.`
+        )
+      }
+    } catch (exception) {
+      handleException(exception)
+    }
   }
 
   const showResults = () => !isLoading && results.length > 0
@@ -67,11 +73,19 @@ const FindPlayers = () => {
                 <Table.Cell>{player.nationality}</Table.Cell>
                 <Table.Cell>
                   <Button
-                    primary={!player.followed}
-                    disabled={player.followed}
+                    primary={
+                      user.data.me.favoritePlayers.find(id => id === player.id)
+                        ? false
+                        : true
+                    }
+                    disabled={
+                      user.data.me.favoritePlayers.find(id => id === player.id)
+                        ? true
+                        : false
+                    }
                     size="tiny"
                     content={'Follow'}
-                    onClick={() => handleButtonClick(player)}
+                    onClick={() => handleFollow(player)}
                   />
                 </Table.Cell>
               </Table.Row>
