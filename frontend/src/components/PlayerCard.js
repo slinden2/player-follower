@@ -29,7 +29,10 @@ const PlayerCard = ({ player }) => {
     try {
       const id = await unfollowPlayer({ variables: { id: player.id } })
       if (id.data.unfollowPlayer) {
-        setNotification('positive', `You unfollowed ${id.data.unfollowPlayer}.`)
+        setNotification(
+          'positive',
+          `You unfollowed ${id.data.unfollowPlayer.fullName}.`
+        )
       }
     } catch (exception) {
       handleException(exception)

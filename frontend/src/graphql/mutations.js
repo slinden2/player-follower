@@ -72,7 +72,10 @@ const FOLLOW_PLAYER = gql`
 
 const UNFOLLOW_PLAYER = gql`
   mutation unfollowPlayer($id: String!) {
-    unfollowPlayer(id: $id)
+    unfollowPlayer(id: $id) {
+      id
+      fullName
+    }
   }
 `
 

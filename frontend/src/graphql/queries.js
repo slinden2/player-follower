@@ -3,7 +3,7 @@ import { gql } from 'apollo-boost'
 const BEST_PLAYERS = gql`
   query getBestPlayers {
     bestPlayers {
-      threeGames {
+      oneGame {
         firstName
         lastName
         primaryNumber
@@ -58,7 +58,7 @@ const BEST_PLAYERS = gql`
 const FAVORITE_PLAYERS = gql`
   query getFavoritePlayers {
     favoritePlayers {
-      threeGames {
+      oneGame {
         firstName
         lastName
         primaryNumber

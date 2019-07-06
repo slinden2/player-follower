@@ -11,7 +11,7 @@ const CardContainer = ({ query }) => {
     return <Loader active inline="centered" />
   }
 
-  const { threeGames, fiveGames, tenGames } =
+  const { oneGame, fiveGames, tenGames } =
     query.data.bestPlayers || query.data.favoritePlayers
 
   const createRow = playerResults => {
@@ -34,8 +34,8 @@ const CardContainer = ({ query }) => {
 
   return (
     <Container>
-      <Header>Last 3 games</Header>
-      {createRow(threeGames)}
+      <Header>Last night</Header>
+      {createRow(oneGame)}
       <Divider />
       <Header>Last 5 games</Header>
       {createRow(fiveGames)}

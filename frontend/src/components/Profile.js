@@ -53,11 +53,11 @@ const Profile = () => {
         <Table.Body>
           <Table.Row>
             <Table.Cell>Username</Table.Cell>
-            <Table.Cell>{user.username}</Table.Cell>
+            <Table.Cell>{user.data.me && user.data.me.username}</Table.Cell>
           </Table.Row>
           <Table.Row>
             <Table.Cell>Email</Table.Cell>
-            <Table.Cell>{user.email}</Table.Cell>
+            <Table.Cell>{user.data.me && user.data.me.email}</Table.Cell>
           </Table.Row>
           <Table.Row>
             <Table.Cell>Password</Table.Cell>

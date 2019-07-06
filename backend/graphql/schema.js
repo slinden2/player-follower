@@ -115,7 +115,7 @@ const typeDefs = gql`
   }
 
   type periodStats {
-    threeGames: [Player]
+    oneGame: [Player]
     fiveGames: [Player]
     tenGames: [Player]
   }
@@ -188,7 +188,7 @@ const typeDefs = gql`
     setNewPassword(token: String!, password: String!): User
     changePassword(password: String!): User
     followPlayer(id: String!): Player!
-    unfollowPlayer(id: String!): String!
+    unfollowPlayer(id: String!): Player!
   }
 `
 

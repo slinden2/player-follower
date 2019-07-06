@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext } from 'react'
 import { useQuery, useMutation } from 'react-apollo-hooks'
 import { USER, BEST_PLAYERS, FAVORITE_PLAYERS } from '../graphql/queries'
 import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
