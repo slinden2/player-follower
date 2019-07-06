@@ -170,6 +170,10 @@ const typeDefs = gql`
       primaryPosition: String
     ): [Player!]!
     """
+    Used for player search field.
+    """
+    findByName(searchString: String!): [Player]!
+    """
     Returns the logged user
     """
     me: User

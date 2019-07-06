@@ -127,6 +127,8 @@ const playerSchema = mongoose.Schema({
 
 playerSchema.plugin(uniqueValidator)
 
+playerSchema.index({ firstName: 'text', lastName: 'text' })
+
 playerSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
