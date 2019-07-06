@@ -142,20 +142,36 @@ const fetchGames = async date => {
   }
 }
 
-const dates = [
-  // '2019-01-09',
-  '2019-01-10',
-  // '2019-01-11',
-  // '2019-01-12',
-  // '2019-01-13',
-  // '2019-01-14',
-  // '2019-01-15',
-  // '2019-01-16',
-  // '2019-01-17',
-  // '2019-01-18',
-  // '2019-01-19',
-  // '2019-01-20',
-]
+// construct current date in YYYY-MM-DD format
+const d = new Date()
+const UTC_DATE = `${d.getUTCFullYear()}-${(d.getUTCMonth() + 1)
+  .toString()
+  .padStart(2, '0')}-${d
+  .getUTCDay()
+  .toString()
+  .padStart(2, '0')}`
+
+const date = process.env.FETCH_DATE || UTC_DATE
+
+console.log(`Data fetching starting for the date ${date}`)
+fetchGames(date).then(() => mongoose.connection.close())
+
+// How to handle dates with no games? For example 2019-01-24
+
+// const dates = [
+// '2019-01-09',
+// '2019-01-10',
+// '2019-01-11',
+// '2019-01-12',
+// '2019-01-13',
+// '2019-01-14',
+// '2019-01-15',
+// '2019-01-16',
+// '2019-01-17',
+// '2019-01-18',
+// '2019-01-19',
+// '2019-01-20',
+// ]
 // const dates = [
 //   '2019-01-13',
 //   '2019-01-14',
@@ -179,13 +195,12 @@ const dates = [
 // const dates = ['2019-01-30', '2019-01-31', '2019-02-01', '2019-02-02']
 // const dates = ['2019-02-03', '2019-02-04', '2019-02-05']
 // const dates = ['2019-02-06']
-const promises = []
 
-for (const date of dates) {
-  const promise = fetchGames(date)
-  promises.push(promise)
-}
+// const promises = []
 
-Promise.all(promises).then(() => mongoose.connection.close())
+// for (const date of dates) {
+//   const promise = fetchGames(date)
+//   promises.push(promise)
+// }
 
-// How to handle dates with no games? For example 2019-01-24
+// Promise.all(promises).then(() => mongoose.connection.close())
