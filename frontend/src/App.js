@@ -1,8 +1,6 @@
 import React, { useContext } from 'react'
-import { useQuery } from 'react-apollo-hooks'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
-import { BEST_PLAYERS } from './graphql/queries'
 import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
 import Notification from './components/Notification'

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Card, Image, Icon } from 'semantic-ui-react'
 import { NotificationContext } from '../contexts/NotificationContext'
 import { AuthContext } from '../contexts/AuthContext'
@@ -38,6 +38,8 @@ const PlayerCard = ({ player }) => {
       handleException(exception)
     }
   }
+
+  // console.log(user)
 
   const idInArray = (array, id) => array.some(pid => pid === id)
 
