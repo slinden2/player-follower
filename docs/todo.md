@@ -23,6 +23,8 @@
 - [ ] Footer
 - [ ] Error handling for backend
 - [ ] Tests for backend
+  - [ ] Unit tests for get best players etc
+  - [ ] Integration tests
 - [ ] Tests for frontend
 - [ ] Fix error handling for dates when there are no games eg 24.1.2019
 - [ ] Email formatting for account confirmation & forgot password

@@ -30,17 +30,23 @@ const reduceStats = (player, numOfGames) => {
     player.boxscores = player.boxscores.slice(0, numOfGames)
   }
 
-  const stats = player.boxscores.reduce((acc, cur) => {
-    if (!acc.gamePks) acc.gamePks = [acc.gamePk]
-    for (const field in cur) {
-      if (!EXCLUDED_FIELDS.includes(field)) {
-        acc[field] += cur[field]
+  let stats
+
+  if (numOfGames > 1) {
+    stats = player.boxscores.reduce((acc, cur) => {
+      if (!acc.gamePks) acc.gamePks = [acc.gamePk]
+      for (const field in cur) {
+        if (!EXCLUDED_FIELDS.includes(field)) {
+          acc[field] += cur[field]
+        }
       }
-    }
-    acc.points = acc.goals + acc.assists
-    acc.gamePks.push(cur.gamePk)
-    return acc
-  })
+      acc.points = acc.goals + acc.assists
+      acc.gamePks.push(cur.gamePk)
+      return acc
+    })
+  } else {
+    stats = player.boxscores[0]
+  }
 
   // If numOfGames is 1 the reduce method won't run.
   // Handle one game stats separately.
@@ -61,5 +67,5 @@ const reduceStats = (player, numOfGames) => {
 
 module.exports =
   process.env.NODE_ENV !== 'test'
-    ? reduceStats
+    ? { reduceStats }
     : { reduceStats, generatePerGameStats }

@@ -38,4 +38,5 @@
 | 05.07.2019 | 5    | created search functionality                                      |
 | 06.07.2019 | 5    | worked on search and production version of the application        |
 |            | 1    | bug fix in the reduce-stats program                               |
-|   total    | 102  |                                                                   |
+| 07.07.2019 | 4    | unit tests                                                        |
+|   total    | 106  |                                                                   |
