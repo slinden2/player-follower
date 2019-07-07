@@ -2,18 +2,20 @@ const roundToOneDecimal = require('./round-to-one-decimal')
 
 const EXCLUDED_FIELDS = ['gamePk', 'date', 'decision', 'id']
 
-const generatePerGameStats = (player, stats, numOfGames) => {
+const generatePerGameStats = (stats, numOfGames) => {
   if (stats.saves) {
     stats.savePctTotal = roundToOneDecimal((stats.saves / stats.shots) * 100)
   }
 
-  const games = numOfGames ? numOfGames : player.boxscores.length
+  // const games = numOfGames ? numOfGames : player.boxscores.length
 
-  stats.timeOnIcePerGame = Math.round(stats.timeOnIce / games)
-  stats.evenTimeOnIcePerGame = Math.round(stats.evenTimeOnIce / games)
-  stats.powerPlayTimeOnIcePerGame = Math.round(stats.powerPlayTimeOnIce / games)
+  stats.timeOnIcePerGame = Math.round(stats.timeOnIce / numOfGames)
+  stats.evenTimeOnIcePerGame = Math.round(stats.evenTimeOnIce / numOfGames)
+  stats.powerPlayTimeOnIcePerGame = Math.round(
+    stats.powerPlayTimeOnIce / numOfGames
+  )
   stats.shortHandedTimeOnIcePerGame = Math.round(
-    stats.shortHandedTimeOnIce / games
+    stats.shortHandedTimeOnIce / numOfGames
   )
 
   return stats
@@ -56,8 +58,11 @@ const reduceStats = (player, numOfGames) => {
     delete stats.decision
   }
 
-  const statsWithPercentuals = generatePerGameStats(player, stats, numOfGames)
+  const statsWithPercentuals = generatePerGameStats(stats, numOfGames)
   return statsWithPercentuals
 }
 
-module.exports = reduceStats
+module.exports =
+  process.env.NODE_ENV !== 'test'
+    ? reduceStats
+    : { reduceStats, generatePerGameStats }
