@@ -28,17 +28,15 @@ const getBestPlayers = (players, numOfGames) => {
   const newPlayers = []
   for (const player of playersSorted) {
     player.stats = reduceStats(player, numOfGames)
+    if (numOfGames === 1 && player.lastName === 'Giroux') {
+      console.log('with stats ', player)
+    }
     newPlayers.push(player)
   }
 
-  const sortedPlayers = newPlayers.sort((a, b) => sortByPerformance(a, b))
-  // .slice(0, 5)
-
-  for (const test of sortedPlayers) {
-    if (test.lastName === 'Niskanen') {
-      console.log(test)
-    }
-  }
+  const sortedPlayers = newPlayers
+    .sort((a, b) => sortByPerformance(a, b))
+    .slice(0, 5)
 
   return sortedPlayers.map(player => ({
     ...player,
