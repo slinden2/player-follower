@@ -1,20 +1,19 @@
-const reduceStats = require('./reduce-stats')
+const { reduceStats } = require('./reduce-stats')
 
 /*
 For sorting boxscore. Must be corrected to date in the future.
 It is not guaranteed that gamePks are in progressive order.
 */
-const sortByGameDate = (a, b) => b.gameDate - a.gameDate
+const sortByGameDate = boxscores => {
+  return boxscores.sort((a, b) => b.gameDate - a.gameDate)
+}
 
-const sortByPerformance = (a, b) => {
-  if (a.lastName === 'Josi' && b.lastName === 'Gallagher') {
-    console.log(a)
-    console.log(b)
-  }
-  return (
-    b.stats.points - a.stats.points ||
-    b.stats.goals - a.stats.goals ||
-    b.stats.plusMinus - a.stats.plusMinus
+const sortByPerformance = players => {
+  return players.sort(
+    (a, b) =>
+      b.stats.points - a.stats.points ||
+      b.stats.goals - a.stats.goals ||
+      b.stats.plusMinus - a.stats.plusMinus
   )
 }
 
@@ -28,7 +27,7 @@ const getBestPlayers = (players, numOfGames) => {
   const playersJSON = JSON.parse(JSON.stringify(players))
 
   const playersSorted = playersJSON.map(player => {
-    player.boxscores = player.boxscores.sort((a, b) => sortByGameDate(a, b))
+    player.boxscores = sortByGameDate(player.boxscores)
     return player
   })
 
@@ -38,9 +37,7 @@ const getBestPlayers = (players, numOfGames) => {
     newPlayers.push(player)
   }
 
-  const sortedPlayers = newPlayers
-    .sort((a, b) => sortByPerformance(a, b))
-    .slice(0, 5)
+  const sortedPlayers = sortByPerformance(newPlayers).slice(0, 5)
 
   return sortedPlayers.map(player => ({
     ...player,
@@ -48,4 +45,7 @@ const getBestPlayers = (players, numOfGames) => {
   }))
 }
 
-module.exports = getBestPlayers
+module.exports =
+  process.env.NODE_ENV !== 'test'
+    ? { getBestPlayers }
+    : { getBestPlayers, sortByGameDate, sortByPerformance }

@@ -5,7 +5,7 @@ const Player = require('../models/player')
 const User = require('../models/user')
 const Token = require('../models/token')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
-const getBestPlayers = require('../utils/get-best-players')
+const { getBestPlayers } = require('../utils/get-best-players')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -54,10 +54,12 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     bestPlayers: async () => {
-      // const players = await Player.find({
-      //   playerId: { $in: [8471214, 8478402, 8476453] }, // , 8478427, 8477493
-      // })
-      const players = await Player.find({})
+      const players = await Player.find({
+        playerId: {
+          $in: [8473512, 8471214, 8478427, 8478402, 8476453, 8477493, 8468498],
+        },
+      })
+      // const players = await Player.find({})
       const playersJSON = players.map(player => player.toJSON())
       const bestPlayers1 = getBestPlayers(playersJSON, 1)
       const bestPlayers5 = getBestPlayers(playersJSON, 5)
