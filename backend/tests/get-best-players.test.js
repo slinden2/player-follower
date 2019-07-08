@@ -6,6 +6,7 @@ const {
 const {
   playerArrayRaw,
   boxscoresForSortByGameDate,
+  playerArrayWithStats,
 } = require('./get-best-players-helper')
 
 describe('players are sorted correctly', () => {
@@ -50,5 +51,13 @@ test('sortByGameDate', () => {
   const result = sortByGameDate(boxscoresForSortByGameDate)
   for (let i = 1; i < result.length; i++) {
     expect(result[i - 1].gameDate).toBeGreaterThan(result[i].gameDate)
+  }
+})
+
+test('sortByPerformance', () => {
+  const lastNamesInOrder = ['Aho', 'McDavid', 'Ovechkin', 'Giroux', 'Kucherov']
+  const result = sortByPerformance(playerArrayWithStats)
+  for (const [i, lastName] of lastNamesInOrder.entries()) {
+    expect(result[i].lastName).toBe(lastName)
   }
 })

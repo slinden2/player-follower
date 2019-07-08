@@ -13,7 +13,7 @@ def copy_backend():
     shutil.copytree(
         os.path.join(FILE_PATH, 'backend'),
         os.path.join(FILE_PATH, 'web'),
-        ignore=shutil.ignore_patterns('node_modules', '.env', 'db.json', '.eslintrc.js'))
+        ignore=shutil.ignore_patterns('node_modules', '.env', 'db.json', '.eslintrc.js', 'tests'))
 
 
 def build_frontend():

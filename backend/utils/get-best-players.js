@@ -8,10 +8,14 @@ const sortByGameDate = boxscores => {
   return boxscores.sort((a, b) => b.gameDate - a.gameDate)
 }
 
-const sortByPerformance = (a, b) =>
-  b.stats.points - a.stats.points ||
-  b.stats.goals - a.stats.goals ||
-  b.stats.plusMinus - a.stats.plusMinus
+const sortByPerformance = players => {
+  return players.sort(
+    (a, b) =>
+      b.stats.points - a.stats.points ||
+      b.stats.goals - a.stats.goals ||
+      b.stats.plusMinus - a.stats.plusMinus
+  )
+}
 
 /*
 The function consumes a raw list of players from the db and
@@ -33,9 +37,7 @@ const getBestPlayers = (players, numOfGames) => {
     newPlayers.push(player)
   }
 
-  const sortedPlayers = newPlayers
-    .sort((a, b) => sortByPerformance(a, b))
-    .slice(0, 5)
+  const sortedPlayers = sortByPerformance(newPlayers).slice(0, 5)
 
   return sortedPlayers.map(player => ({
     ...player,
