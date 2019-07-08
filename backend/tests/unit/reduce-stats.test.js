@@ -1,4 +1,4 @@
-const { reduceStats, generatePerGameStats } = require('../utils/reduce-stats')
+const { reduceStats, generatePerGameStats } = require('../../utils/reduce-stats')
 const {
   mockPlayer1GameRaw,
   mockPlayer10GamesRaw,

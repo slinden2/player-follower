@@ -2,7 +2,7 @@ const {
   getBestPlayers,
   sortByPerformance,
   sortByGameDate,
-} = require('../utils/get-best-players')
+} = require('../../utils/get-best-players')
 const {
   playerArrayRaw,
   boxscoresForSortByGameDate,

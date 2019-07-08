@@ -30,3 +30,4 @@
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] A view for single players
 - [ ] Backside of the player cards
+- [ ] GraphQL fragments
