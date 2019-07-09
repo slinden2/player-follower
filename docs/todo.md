@@ -31,3 +31,5 @@
 - [ ] A view for single players
 - [ ] Backside of the player cards
 - [ ] GraphQL fragments
+- [ ] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
+- [ ] Consider implementing login functionality out of GraphQL

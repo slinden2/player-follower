@@ -6,7 +6,7 @@ const typeDefs = gql`
     """
     Link that leads to the player details in the API
     """
-    link: String
+    link: String!
     firstName: String!
     lastName: String!
     fullName: String!
@@ -40,8 +40,8 @@ const typeDefs = gql`
     An array of the boxcores of all the games that the player
     has played. Scratched games are not included.
     """
-    boxscores: [Stat]
-    stats: Stat
+    boxscores: [Stat!]!
+    stats: Stat!
     id: ID!
     numOfGamesId: Int
   }

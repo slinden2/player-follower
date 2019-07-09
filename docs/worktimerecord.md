@@ -39,4 +39,5 @@
 | 06.07.2019 | 5    | worked on search and production version of the application        |
 |            | 1    | bug fix in the reduce-stats program                               |
 | 07.07.2019 | 4    | unit tests                                                        |
-|   total    | 106  |                                                                   |
+| 08.07.2019 | 5    | unit tests and started studying tests for graphql                 |
+|   total    | 111  |                                                                   |
