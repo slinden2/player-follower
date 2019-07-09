@@ -1,8 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Card, Image, Icon } from 'semantic-ui-react'
 import { NotificationContext } from '../contexts/NotificationContext'
 import { AuthContext } from '../contexts/AuthContext'
 import { PlayerContext } from '../contexts/PlayerContext'
+
+// const imgUrl = playerId => `http://3.cdn.nhle.com/photos/mugs/${playerId}.jpg`
+const imgUrl = playerId =>
+  `https://nhl.bamcontent.com/images/headshots/current/168x168/${playerId}.jpg`
 
 const PlayerCard = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
@@ -45,7 +49,7 @@ const PlayerCard = ({ player }) => {
 
   return (
     <Card>
-      <Image src="img/test.png" wrapped ui={false} />
+      <Image src={imgUrl(player.playerId)} wrapped ui={false} />
       <Card.Content>
         <Card.Header>
           {player.firstName} {player.lastName}

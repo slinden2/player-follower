@@ -41,4 +41,5 @@
 | 07.07.2019 | 4    | unit tests                                                        |
 | 08.07.2019 | 5    | unit tests and started studying tests for graphql                 |
 | 09.07.2019 | 5    | units tests for graphql schema                                    |
-|   total    | 116  |                                                                   |
+|            | 1    | searched for a source for player images and found one             |
+|   total    | 117  |                                                                   |

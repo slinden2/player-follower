@@ -41,4 +41,7 @@
 - Interesting repo https://github.com/AndyJMatthews/AndyJMatthews.github.io
 - And site https://andyjmatthews.github.io/
 - Team logos: https://www-league.nhlstatic.com/nhl.com/builds/site-core/a2d98717aeb7d8dfe2694701e13bd3922887b1f2_1542226749/images/logos/team/current/team-22-dark.svg
+
+* https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/TEAMID.svg
+
 - http://statsapi.web.nhl.com/api/v1/game/2018021000/content for highlight videos
