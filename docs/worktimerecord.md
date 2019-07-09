@@ -40,4 +40,5 @@
 |            | 1    | bug fix in the reduce-stats program                               |
 | 07.07.2019 | 4    | unit tests                                                        |
 | 08.07.2019 | 5    | unit tests and started studying tests for graphql                 |
-|   total    | 111  |                                                                   |
+| 09.07.2019 | 5    | units tests for graphql schema                                    |
+|   total    | 116  |                                                                   |

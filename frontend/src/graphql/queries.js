@@ -1,113 +1,56 @@
 import { gql } from 'apollo-boost'
 
+const PLAYER_DETAILS = gql`
+  fragment PlayerDetails on Player {
+    firstName
+    lastName
+    primaryNumber
+    playerId
+    id
+    numOfGamesId
+    stats {
+      gamePks
+      goals
+      assists
+      points
+      plusMinus
+      penaltyMinutes
+    }
+  }
+`
+
 const BEST_PLAYERS = gql`
   query getBestPlayers {
     bestPlayers {
       oneGame {
-        firstName
-        lastName
-        primaryNumber
-        playerId
-        id
-        numOfGamesId
-        stats {
-          gamePks
-          goals
-          assists
-          points
-          plusMinus
-          penaltyMinutes
-        }
+        ...PlayerDetails
       }
       fiveGames {
-        firstName
-        lastName
-        primaryNumber
-        playerId
-        id
-        numOfGamesId
-        stats {
-          gamePks
-          goals
-          assists
-          points
-          plusMinus
-          penaltyMinutes
-        }
+        ...PlayerDetails
       }
       tenGames {
-        firstName
-        lastName
-        primaryNumber
-        playerId
-        id
-        numOfGamesId
-        stats {
-          gamePks
-          goals
-          assists
-          points
-          plusMinus
-          penaltyMinutes
-        }
+        ...PlayerDetails
       }
     }
   }
+  ${PLAYER_DETAILS}
 `
 
 const FAVORITE_PLAYERS = gql`
   query getFavoritePlayers {
     favoritePlayers {
       oneGame {
-        firstName
-        lastName
-        primaryNumber
-        playerId
-        id
-        numOfGamesId
-        stats {
-          gamePks
-          goals
-          assists
-          points
-          plusMinus
-          penaltyMinutes
-        }
+        ...PlayerDetails
       }
       fiveGames {
-        firstName
-        lastName
-        primaryNumber
-        playerId
-        id
-        numOfGamesId
-        stats {
-          gamePks
-          goals
-          assists
-          points
-          plusMinus
-          penaltyMinutes
-        }
+        ...PlayerDetails
       }
       tenGames {
-        firstName
-        lastName
-        primaryNumber
-        playerId
-        id
-        numOfGamesId
-        stats {
-          gamePks
-          goals
-          assists
-          points
-          plusMinus
-          penaltyMinutes
-        }
+        ...PlayerDetails
       }
     }
   }
+  ${PLAYER_DETAILS}
 `
 
 const USER = gql`
