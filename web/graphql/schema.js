@@ -6,7 +6,7 @@ const typeDefs = gql`
     """
     Link that leads to the player details in the API
     """
-    link: String
+    link: String!
     firstName: String!
     lastName: String!
     fullName: String!
@@ -40,8 +40,8 @@ const typeDefs = gql`
     An array of the boxcores of all the games that the player
     has played. Scratched games are not included.
     """
-    boxscores: [Stat]
-    stats: Stat
+    boxscores: [Stat!]!
+    stats: Stat!
     id: ID!
     numOfGamesId: Int
   }
@@ -124,7 +124,7 @@ const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
-    favoritePlayers: [String]
+    favoritePlayers: [String]!
   }
 
   type Token {
@@ -180,13 +180,13 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(username: String!, password: String!, email: String!): User
-    verifyUser(token: String!): User
-    cancelUser(token: String!): User
-    login(username: String!, password: String!): Token
-    forgotPassword(email: String!): User
-    setNewPassword(token: String!, password: String!): User
-    changePassword(password: String!): User
+    createUser(username: String!, password: String!, email: String!): User!
+    verifyUser(token: String!): User!
+    cancelUser(token: String!): User!
+    login(username: String!, password: String!): Token!
+    forgotPassword(email: String!): User!
+    setNewPassword(token: String!, password: String!): User!
+    changePassword(password: String!): User!
     followPlayer(id: String!): Player!
     unfollowPlayer(id: String!): Player!
   }
