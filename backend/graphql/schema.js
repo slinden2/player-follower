@@ -180,13 +180,13 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(username: String!, password: String!, email: String!): User
-    verifyUser(token: String!): User
-    cancelUser(token: String!): User
-    login(username: String!, password: String!): Token
-    forgotPassword(email: String!): User
-    setNewPassword(token: String!, password: String!): User
-    changePassword(password: String!): User
+    createUser(username: String!, password: String!, email: String!): User!
+    verifyUser(token: String!): User!
+    cancelUser(token: String!): User!
+    login(username: String!, password: String!): Token!
+    forgotPassword(email: String!): User!
+    setNewPassword(token: String!, password: String!): User!
+    changePassword(password: String!): User!
     followPlayer(id: String!): Player!
     unfollowPlayer(id: String!): Player!
   }

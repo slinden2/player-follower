@@ -391,6 +391,221 @@ const testMe = {
   },
 }
 
+const testCreateUser = {
+  id: 'createUser consumes username, password and email and returns a user',
+  mutation: `
+    mutation createUser($username: String!, $password: String!, $email: String!) {
+      createUser(username: $username, password: $password, email: $email) {
+        id
+        username
+        email
+      }
+    }
+  `,
+  variables: {
+    username: 'Test String',
+    password: 'Test String',
+    email: 'Test String',
+  },
+  expected: {
+    data: {
+      createUser: {
+        id: 'Test ID String',
+        username: 'Test String',
+        email: 'Test String',
+      },
+    },
+  },
+}
+
+const testVerifyUser = {
+  id: 'verifyUser consumes a token and returns a user',
+  mutation: `
+    mutation verifyUser($token: String!) {
+      verifyUser(token: $token) {
+        id
+        username
+        email
+      }
+    }
+  `,
+  variables: {
+    token: 'Test String',
+  },
+  expected: {
+    data: {
+      verifyUser: {
+        id: 'Test ID String',
+        username: 'Test String',
+        email: 'Test String',
+      },
+    },
+  },
+}
+
+const testCancelUser = {
+  id: 'cancelUser consumes a token and returns a user',
+  mutation: `
+    mutation cancelUser($token: String!) {
+      cancelUser(token: $token) {
+        id
+        username
+        email
+      }
+    }
+  `,
+  variables: {
+    token: 'Test String',
+  },
+  expected: {
+    data: {
+      cancelUser: {
+        id: 'Test ID String',
+        username: 'Test String',
+        email: 'Test String',
+      },
+    },
+  },
+}
+
+const testLogin = {
+  id: 'Login consumes a username and a password returns a token',
+  mutation: `
+    mutation login($username: String!, $password: String!) {
+      login(username: $username, password: $password) {
+        value
+      }
+    }
+  `,
+  variables: {
+    username: 'Test String',
+    password: 'Test String',
+  },
+  expected: {
+    data: {
+      login: {
+        value: 'Test String',
+      },
+    },
+  },
+}
+
+const testForgotPassword = {
+  id: 'forgotPassword consumes an email and returns a user',
+  mutation: `
+    mutation forgotPassword($email: String!) {
+      forgotPassword(email: $email) {
+        id
+        username
+      }
+    }
+  `,
+  variables: {
+    email: 'Test String',
+  },
+  expected: {
+    data: {
+      forgotPassword: {
+        id: 'Test ID String',
+        username: 'Test String',
+      },
+    },
+  },
+}
+
+const testSetNewPassword = {
+  id: 'setNewPassword consumes a token and a password and returns a user',
+  mutation: `
+    mutation setNewPassword($token: String!, $password: String!) {
+      setNewPassword(token: $token, password: $password) {
+        id
+        username
+      }
+    }
+  `,
+  variables: {
+    token: 'Test String',
+    password: 'Test String',
+  },
+  expected: {
+    data: {
+      setNewPassword: {
+        id: 'Test ID String',
+        username: 'Test String',
+      },
+    },
+  },
+}
+
+const testChangePassword = {
+  id: 'changePassword consumes a password and returns a user',
+  mutation: `
+    mutation changePassword($password: String!) {
+      changePassword(password: $password) {
+        id
+        username
+      }
+    }
+  `,
+  variables: {
+    password: 'Test String',
+  },
+  expected: {
+    data: {
+      changePassword: {
+        id: 'Test ID String',
+        username: 'Test String',
+      },
+    },
+  },
+}
+
+const testFollowPlayer = {
+  id: 'followPlayer consumes a password and returns a player',
+  mutation: `
+    mutation followPlayer($id: String!) {
+      followPlayer(id: $id) {
+        id
+        fullName
+      }
+    }
+  `,
+  variables: {
+    id: 'Test String',
+  },
+  expected: {
+    data: {
+      followPlayer: {
+        id: 'Test ID String',
+        fullName: 'Test String',
+      },
+    },
+  },
+}
+
+const testUnfollowPlayer = {
+  id: 'unfollowPlayer consumes a password and returns a player',
+  mutation: `
+    mutation unfollowPlayer($id: String!) {
+      unfollowPlayer(id: $id) {
+        id
+        fullName
+      }
+    }
+  `,
+  variables: {
+    id: 'Test String',
+  },
+  expected: {
+    data: {
+      unfollowPlayer: {
+        id: 'Test ID String',
+        fullName: 'Test String',
+      },
+    },
+  },
+}
+
 const mocks = {
   Int: () => 10,
   Float: () => 10.5,
@@ -407,5 +622,14 @@ module.exports = {
   testFavoritePlayers,
   testFindByName,
   testMe,
+  testCreateUser,
+  testVerifyUser,
+  testCancelUser,
+  testLogin,
+  testForgotPassword,
+  testSetNewPassword,
+  testChangePassword,
+  testFollowPlayer,
+  testUnfollowPlayer,
   mocks,
 }
