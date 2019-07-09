@@ -345,6 +345,52 @@ const testFavoritePlayers = {
   },
 }
 
+const testFindByName = {
+  id: 'findByName return an array of players',
+  query: `
+    query findByName($searchString: String!) {
+      findByName(searchString: $searchString) {
+        id
+        fullName
+      }
+    }
+  `,
+  variables: { searchString: 'Search String' },
+  expected: {
+    data: {
+      findByName: [
+        { fullName: 'Test String', id: 'Test ID String' },
+        { fullName: 'Test String', id: 'Test ID String' },
+      ],
+    },
+  },
+}
+
+const testMe = {
+  id: 'User type returns correct fields',
+  query: `
+    query {
+      me {
+        id
+        username
+        email
+        favoritePlayers
+      }
+    }
+  `,
+  variables: null,
+  expected: {
+    data: {
+      me: {
+        id: 'Test ID String',
+        username: 'Test String',
+        email: 'Test String',
+        favoritePlayers: ['Test String', 'Test String'],
+      },
+    },
+  },
+}
+
 const mocks = {
   Int: () => 10,
   Float: () => 10.5,
@@ -359,5 +405,7 @@ module.exports = {
   testAllPlayers,
   testBestPlayers,
   testFavoritePlayers,
+  testFindByName,
+  testMe,
   mocks,
 }

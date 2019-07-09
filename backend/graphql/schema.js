@@ -124,7 +124,7 @@ const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
-    favoritePlayers: [String]
+    favoritePlayers: [String]!
   }
 
   type Token {

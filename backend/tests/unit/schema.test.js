@@ -10,23 +10,29 @@ const {
   testAllPlayers,
   testBestPlayers,
   testFavoritePlayers,
+  testFindByName,
+  testMe,
   mocks,
 } = require('./schema-helper')
 
 describe('Schema Unit Tests', () => {
-  // array of all test cases, just 1 for now
+  // array of all test cases
   const testCases = [
     testPlayerCount,
     testFindPlayer,
     testAllPlayers,
     testBestPlayers,
     testFavoritePlayers,
+    testFindByName,
+    testMe,
   ]
-  // make the actual schema and resolvers executable
+
+  // make the actual schema executable with mocks
   const schema = makeExecutableSchema({ typeDefs })
   addMockFunctionsToSchema({ schema, mocks })
 
   for (const testCase of testCases) {
+    // eslint-disable-next-line no-unused-vars
     const { id, query, context, variables, expected } = testCase
 
     test(`query: ${id}`, async () => {
@@ -36,5 +42,3 @@ describe('Schema Unit Tests', () => {
     })
   }
 })
-
-// https://medium.com/@nzaghini/properly-test-a-graphql-server-d178241464e7
