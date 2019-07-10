@@ -120,6 +120,41 @@ const typeDefs = gql`
     tenGames: [Player]
   }
 
+  type CumulativeStats {
+    assists: Int!
+    faceoffWinPctg: Float!
+    gameWinningGoals: Int!
+    gamesPlayed: Int!
+    goals: Int!
+    otGoals: Int!
+    penaltyMinutes: Int!
+    playerBirthCity: String!
+    playerBirthCountry: String!
+    playerBirthDate: String!
+    playerBirthStateProvince: String!
+    playerDraftOverallPickNo: Int!
+    playerDraftRoundNo: Int!
+    playerDraftYear: Int!
+    playerFirstName: String!
+    playerId: Int!
+    playerLastName: String!
+    playerName: String!
+    playerNationality: String!
+    playerPositionCode: String!
+    playerShootsCatches: String!
+    plusMinus: Int!
+    points: Int!
+    pointsPerGame: Float!
+    ppGoals: Int!
+    ppPoints: Int!
+    shGoals: Int!
+    shPoints: Int!
+    shiftsPerGame: Float!
+    shootingPctg: Float!
+    shots: Int!
+    timeOnIcePerGame: Float!
+  }
+
   type User {
     id: ID!
     username: String!
@@ -174,6 +209,7 @@ const typeDefs = gql`
       shootsCatches: String
       primaryPosition: String
     ): [Player!]!
+    cumulativeStats: [CumulativeStats!]!
     """
     Used for player search field.
     """

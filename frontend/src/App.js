@@ -1,6 +1,9 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
+import { NotificationContext } from './contexts/NotificationContext'
+import { AuthContext } from './contexts/AuthContext'
+import { PlayerContext } from './contexts/PlayerContext'
 import TopNavBar from './components/TopNavBar'
 import CardContainer from './components/CardContainer'
 import Notification from './components/Notification'
@@ -12,9 +15,7 @@ import ForgotPassword from './components/ForgotPassword'
 import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
 import FindPlayers from './components/FindPlayers'
-import { NotificationContext } from './contexts/NotificationContext'
-import { AuthContext } from './contexts/AuthContext'
-import { PlayerContext } from './contexts/PlayerContext'
+import CumulativeStats from './components/CumulativeStats'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
@@ -32,7 +33,7 @@ const App = () => {
           path="/"
           render={() => <CardContainer query={bestPlayers} />}
         />
-        <Route path="/stats" render={() => <div>Stats</div>} />
+        <Route path="/stats" render={() => <CumulativeStats />} />
         <Route path="/standings" render={() => <div>Standings</div>} />
         <Route path="/about" render={() => <div>About</div>} />
         {token && (

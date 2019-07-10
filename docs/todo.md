@@ -17,6 +17,7 @@
 - [x] Search functionality
 - [x] Password requirements
 - [x] GraphQL fragments
+- [x] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
 - [ ] Stats (how to to fetch data from API?)
 - [ ] Standings (how to to fetch data from API?)
 - [ ] Nicer player cards
@@ -32,7 +33,6 @@
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] A view for single players
 - [ ] Backside of the player cards
-- [ ] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
 - [ ] Consider implementing login functionality out of GraphQL
 - [ ] Redesign site with styled components?
 
