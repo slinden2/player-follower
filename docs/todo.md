@@ -19,6 +19,10 @@
 - [x] GraphQL fragments
 - [x] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
 - [ ] Stats (how to to fetch data from API?)
+  - [x] First version done via external API.
+  - [ ] Create a schema and a fetch script.
+  - [ ] Implement pagination
+  - [ ] Implement table sorting
 - [ ] Standings (how to to fetch data from API?)
 - [ ] Nicer player cards
 - [ ] About
@@ -35,6 +39,7 @@
 - [ ] Backside of the player cards
 - [ ] Consider implementing login functionality out of GraphQL
 - [ ] Redesign site with styled components?
+- [ ] Do recent stats calculations as a scheduled task and save results in db daily as string
 
 ## Notes
 
