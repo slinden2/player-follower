@@ -81,6 +81,8 @@ const CUMULATIVE_STATS = gql`
       playerId
       playerFirstName
       playerLastName
+      playerTeamsPlayedFor
+      playerPositionCode
       gamesPlayed
       goals
       assists

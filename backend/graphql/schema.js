@@ -142,6 +142,7 @@ const typeDefs = gql`
     playerNationality: String!
     playerPositionCode: String!
     playerShootsCatches: String!
+    playerTeamsPlayedFor: String!
     plusMinus: Int!
     points: Int!
     pointsPerGame: Float!

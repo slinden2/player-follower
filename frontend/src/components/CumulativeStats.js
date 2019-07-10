@@ -12,7 +12,9 @@ const CumulativeStats = () => {
 
   const headers = [
     'Player',
-    'GM',
+    'Team',
+    'POS',
+    'GP',
     'G',
     'A',
     'P',
