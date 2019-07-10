@@ -247,7 +247,7 @@ const resolvers = {
           )),
         UNFOLLOW: () =>
           (currentUser.favoritePlayers = currentUser.favoritePlayers.filter(
-            pid => pid === id
+            _id => _id.toString() !== id
           )),
       }
 

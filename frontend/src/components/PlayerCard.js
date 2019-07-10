@@ -16,7 +16,7 @@ const PlayerCard = ({ player }) => {
   const handleFollow = async () => {
     try {
       const followedPlayer = await followPlayer({
-        variables: { id: player.id },
+        variables: { id: player.id, followType: 'FOLLOW' },
       })
       if (followedPlayer.data.followPlayer) {
         setNotification(
@@ -31,7 +31,9 @@ const PlayerCard = ({ player }) => {
 
   const handleUnfollow = async () => {
     try {
-      const id = await unfollowPlayer({ variables: { id: player.id } })
+      const id = await unfollowPlayer({
+        variables: { id: player.id, followType: 'UNFOLLOW' },
+      })
       if (id.data.unfollowPlayer) {
         setNotification(
           'positive',
@@ -42,8 +44,6 @@ const PlayerCard = ({ player }) => {
       handleException(exception)
     }
   }
-
-  // console.log(user)
 
   const idInArray = (array, id) => array.some(pid => pid === id)
 

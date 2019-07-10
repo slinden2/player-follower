@@ -31,7 +31,7 @@ const FindPlayers = () => {
   const handleFollow = async player => {
     try {
       const followedPlayer = await followPlayer({
-        variables: { id: player.id },
+        variables: { id: player.id, followType: 'FOLLOW' },
       })
       if (followedPlayer.data.followPlayer) {
         setNotification(

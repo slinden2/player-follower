@@ -69,8 +69,8 @@ const CHANGE_PASSWORD = gql`
 `
 
 const FOLLOW_PLAYER = gql`
-  mutation followPlayer($id: String!) {
-    followPlayer(id: $id) {
+  mutation followPlayer($id: String!, $followType: FollowType!) {
+    followPlayer(id: $id, followType: $followType) {
       id
       fullName
     }
@@ -78,8 +78,8 @@ const FOLLOW_PLAYER = gql`
 `
 
 const UNFOLLOW_PLAYER = gql`
-  mutation unfollowPlayer($id: String!) {
-    unfollowPlayer(id: $id) {
+  mutation unfollowPlayer($id: String!, $followType: FollowType!) {
+    followPlayer(id: $id, followType: $followType) {
       id
       fullName
     }
