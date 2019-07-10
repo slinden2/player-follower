@@ -34,6 +34,7 @@
 - [ ] Backside of the player cards
 - [ ] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
 - [ ] Consider implementing login functionality out of GraphQL
+- [ ] Redesign site with styled components?
 
 ## Notes
 

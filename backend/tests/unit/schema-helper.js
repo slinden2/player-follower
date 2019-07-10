@@ -228,7 +228,7 @@ const testAllPlayers = {
 }
 
 const testBestPlayers = {
-  id: 'Best players return periodStats',
+  id: 'Best players return PeriodStats',
   query: `
     query {
       bestPlayers {
@@ -287,7 +287,7 @@ const testBestPlayers = {
 }
 
 const testFavoritePlayers = {
-  id: 'Favorite players return periodStats',
+  id: 'Favorite players return PeriodStats',
   query: `
     query {
       favoritePlayers {

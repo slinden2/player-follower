@@ -238,7 +238,19 @@ const resolvers = {
         throw new AuthenticationError('you must be logged in')
       }
 
-      const { id } = args
+      const { id, followType } = args
+
+      const action = {
+        FOLLOW: () =>
+          (currentUser.favoritePlayers = currentUser.favoritePlayers.concat(
+            id
+          )),
+        UNFOLLOW: () =>
+          (currentUser.favoritePlayers = currentUser.favoritePlayers.filter(
+            pid => pid === id
+          )),
+      }
+
       const player = await Player.findOne({ _id: id })
 
       if (!player) {
@@ -246,10 +258,16 @@ const resolvers = {
       }
 
       if (currentUser.favoritePlayers.includes(id)) {
-        throw new UserInputError('you already follow this player')
+        if (followType === 'FOLLOW') {
+          throw new UserInputError('you already follow this player')
+        }
+      } else {
+        if (followType === 'UNFOLLOW') {
+          throw new UserInputError('you are not following this player')
+        }
       }
 
-      currentUser.favoritePlayers = currentUser.favoritePlayers.concat(id)
+      action[followType]()
       await currentUser.save()
 
       return player.toJSON()

@@ -114,7 +114,7 @@ const typeDefs = gql`
     savePctTotal: Float
   }
 
-  type periodStats {
+  type PeriodStats {
     oneGame: [Player]
     fiveGames: [Player]
     tenGames: [Player]
@@ -131,6 +131,11 @@ const typeDefs = gql`
     value: String!
   }
 
+  enum FollowType {
+    FOLLOW
+    UNFOLLOW
+  }
+
   type Query {
     playerCount: Int!
     """
@@ -140,11 +145,11 @@ const typeDefs = gql`
     """
     Returns best players for the last 3, 5 and 10 games.
     """
-    bestPlayers: periodStats!
+    bestPlayers: PeriodStats!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """
-    favoritePlayers: periodStats!
+    favoritePlayers: PeriodStats!
     """
     Single player by playerId
     """
@@ -187,7 +192,7 @@ const typeDefs = gql`
     forgotPassword(email: String!): User!
     setNewPassword(token: String!, password: String!): User!
     changePassword(password: String!): User!
-    followPlayer(id: String!): Player!
+    followPlayer(id: String!, followType: FollowType!): Player!
     unfollowPlayer(id: String!): Player!
   }
 `
