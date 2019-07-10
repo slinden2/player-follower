@@ -272,27 +272,6 @@ const resolvers = {
 
       return player.toJSON()
     },
-    unfollowPlayer: async (root, args, ctx) => {
-      const { currentUser } = ctx
-      if (!currentUser) {
-        throw new AuthenticationError('you must be logged in')
-      }
-
-      const { id } = args
-
-      if (!currentUser.favoritePlayers.includes(id)) {
-        throw new UserInputError('you are not following this player')
-      }
-
-      currentUser.favoritePlayers = currentUser.favoritePlayers.filter(
-        _id => _id.toString() !== id
-      )
-      await currentUser.save()
-
-      const player = await Player.findOne({ _id: id })
-
-      return player.toJSON()
-    },
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,

@@ -193,7 +193,6 @@ const typeDefs = gql`
     setNewPassword(token: String!, password: String!): User!
     changePassword(password: String!): User!
     followPlayer(id: String!, followType: FollowType!): Player!
-    unfollowPlayer(id: String!): Player!
   }
 `
 

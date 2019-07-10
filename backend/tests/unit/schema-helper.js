@@ -563,8 +563,8 @@ const testChangePassword = {
 const testFollowPlayer = {
   id: 'followPlayer consumes a password and returns a player',
   mutation: `
-    mutation followPlayer($id: String!) {
-      followPlayer(id: $id) {
+    mutation followPlayer($id: String!, $followType: FollowType!) {
+      followPlayer(id: $id, followType: $followType) {
         id
         fullName
       }
@@ -572,6 +572,7 @@ const testFollowPlayer = {
   `,
   variables: {
     id: 'Test String',
+    followType: 'FOLLOW',
   },
   expected: {
     data: {
@@ -586,8 +587,8 @@ const testFollowPlayer = {
 const testUnfollowPlayer = {
   id: 'unfollowPlayer consumes a password and returns a player',
   mutation: `
-    mutation unfollowPlayer($id: String!) {
-      unfollowPlayer(id: $id) {
+    mutation unfollowPlayer($id: String!, $followType: FollowType!) {
+      followPlayer(id: $id, followType: $followType) {
         id
         fullName
       }
@@ -595,10 +596,11 @@ const testUnfollowPlayer = {
   `,
   variables: {
     id: 'Test String',
+    followType: 'UNFOLLOW',
   },
   expected: {
     data: {
-      unfollowPlayer: {
+      followPlayer: {
         id: 'Test ID String',
         fullName: 'Test String',
       },

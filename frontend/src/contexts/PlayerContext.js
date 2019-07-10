@@ -23,7 +23,6 @@ const PlayerContextProvider = props => {
   const unfollowPlayer = useMutation(UNFOLLOW_PLAYER, {
     refetchQueries: [{ query: FAVORITE_PLAYERS }],
     update: (store, response) => {
-      console.log(response)
       const dataInStore = store.readQuery({ query: USER })
       dataInStore.me.favoritePlayers = dataInStore.me.favoritePlayers.filter(
         id => id !== response.data.followPlayer.id
