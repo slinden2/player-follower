@@ -46,3 +46,4 @@
 * https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/TEAMID.svg
 
 - http://statsapi.web.nhl.com/api/v1/game/2018021000/content for highlight videos
+- Should last game statistics be calculated from cumulative stats instead of boxscores?

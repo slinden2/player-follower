@@ -75,4 +75,28 @@ const FIND_BY_NAME = gql`
   }
 `
 
-export { BEST_PLAYERS, FAVORITE_PLAYERS, USER, FIND_BY_NAME }
+const CUMULATIVE_STATS = gql`
+  query getCumulativeStats {
+    cumulativeStats {
+      playerId
+      playerFirstName
+      playerLastName
+      gamesPlayed
+      goals
+      assists
+      points
+      plusMinus
+      penaltyMinutes
+      pointsPerGame
+      gameWinningGoals
+      otGoals
+      ppGoals
+      ppPoints
+      shGoals
+      shPoints
+      shots
+    }
+  }
+`
+
+export { BEST_PLAYERS, FAVORITE_PLAYERS, USER, FIND_BY_NAME, CUMULATIVE_STATS }
