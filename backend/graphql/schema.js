@@ -156,6 +156,17 @@ const typeDefs = gql`
     timeOnIcePerGame: Float!
   }
 
+  type Standings {
+    team: String!
+    wins: Int!
+    losses: Int!
+    ot: Int!
+    goalsAgainst: Int!
+    goalsScored: Int!
+    points: Int!
+    gamesPlayed: Int!
+  }
+
   type User {
     id: ID!
     username: String!
@@ -170,6 +181,12 @@ const typeDefs = gql`
   enum FollowType {
     FOLLOW
     UNFOLLOW
+  }
+
+  enum StandingsType {
+    DIVISION
+    CONFERENCE
+    LEAGUE
   }
 
   type Query {
@@ -210,7 +227,14 @@ const typeDefs = gql`
       shootsCatches: String
       primaryPosition: String
     ): [Player!]!
+    """
+    Cumulative player stats considering all games of the season.
+    """
     cumulativeStats: [CumulativeStats!]!
+    """
+    Team standings.
+    """
+    standings(type: StandingsType): [Standings]!
     """
     Used for player search field.
     """

@@ -16,6 +16,7 @@ import SetNewPassword from './components/SetNewPassword'
 import Profile from './components/Profile'
 import FindPlayers from './components/FindPlayers'
 import CumulativeStats from './components/CumulativeStats'
+import Standings from './components/Standings'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
@@ -34,7 +35,7 @@ const App = () => {
           render={() => <CardContainer query={bestPlayers} />}
         />
         <Route path="/stats" render={() => <CumulativeStats />} />
-        <Route path="/standings" render={() => <div>Standings</div>} />
+        <Route path="/standings" render={() => <Standings />} />
         <Route path="/about" render={() => <div>About</div>} />
         {token && (
           <>

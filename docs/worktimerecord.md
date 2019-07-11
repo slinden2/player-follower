@@ -42,4 +42,6 @@
 | 08.07.2019 | 5    | unit tests and started studying tests for graphql                 |
 | 09.07.2019 | 5    | units tests for graphql schema                                    |
 |            | 1    | searched for a source for player images and found one             |
-|   total    | 117  |                                                                   |
+| 10.07.2019 | 4    | first version of player stats done. still needs a lot of work.    |
+|            | 2    | thinking how to reorganize the database                           |
+|   total    | 123  |                                                                   |
