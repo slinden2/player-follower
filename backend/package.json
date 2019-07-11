@@ -19,6 +19,9 @@
     "dev": "concurrently \"npm run watch\" \"npm run client\"",
     "lint": "eslint .",
     "fetch": "cross-env NODE_ENV=development node jobs/fetch-data.js",
+    "fetch_conferences": "cross-env NODE_ENV=development node jobs/fetch-conferences.js",
+    "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
+    "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
     "server": "json-server -p3001 --watch db.json"
   },
   "author": "Samu Linden",

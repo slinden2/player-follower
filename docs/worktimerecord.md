@@ -44,4 +44,5 @@
 |            | 1    | searched for a source for player images and found one             |
 | 10.07.2019 | 4    | first version of player stats done. still needs a lot of work.    |
 |            | 2    | thinking how to reorganize the database                           |
-|   total    | 123  |                                                                   |
+| 11.07.2019 | 4    | started the db reorganization                                     |
+|   total    | 127  |                                                                   |
