@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const Conference = require('../models/conference')
+const Division = require('../models/division')
+const Team = require('../models/team')
 const Player = require('../models/player')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
@@ -10,6 +13,12 @@ const config = require('../utils/config')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
+const deleteLeague = async () => {
+  await Conference.deleteMany({})
+  await Division.deleteMany({})
+  await Team.deleteMany({})
+}
+
 const deletePlayers = async () => {
   await Player.deleteMany({})
 }
@@ -19,7 +28,15 @@ const deletePlayerBoxscores = async () => {
 }
 
 const deleteGoalieBoxscores = async () => {
-  await SkaterBoxscore.deleteMany({})
+  await GoalieBoxscore.deleteMany({})
+}
+
+const deletePlayerStats = async () => {
+  await SkaterStats.deleteMany({})
+}
+
+const deleteGoalieStats = async () => {
+  await GoalieStats.deleteMany({})
 }
 
 const addPlayerBoxscore = async () => {
@@ -103,9 +120,12 @@ const populatePlayer = async () => {
   console.log(boxscore)
 }
 
+deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
 // deleteGoalieBoxscores().then(() => mongoose.connection.close())
+// deletePlayerStats().then(() => mongoose.connection.close())
+// deleteGoalieStats().then(() => mongoose.connection.close())
 // addPlayerBoxscore().then(() => mongoose.connection.close())
 // addGoalieBoxscore().then(() => mongoose.connection.close())
 // addPlayerStats().then(() => mongoose.connection.close())

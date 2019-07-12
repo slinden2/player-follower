@@ -21,7 +21,6 @@ const playerSchema = mongoose.Schema({
   },
   primaryNumber: {
     type: Number,
-    required: true,
   },
   birthDate: {
     type: Date,
@@ -38,7 +37,6 @@ const playerSchema = mongoose.Schema({
   },
   nationality: {
     type: String,
-    required: true,
   },
   height: {
     type: Number,
@@ -62,7 +60,6 @@ const playerSchema = mongoose.Schema({
   },
   shootsCatches: {
     type: String,
-    required: true,
   },
   rosterStatus: {
     type: String,
@@ -112,7 +109,7 @@ playerSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject.boxscoreType
-    delete returnedObject.boxscoreType
+    delete returnedObject.statType
     delete returnedObject._id
     delete returnedObject.__v
   },
