@@ -22,6 +22,8 @@
     "fetch_conferences": "cross-env NODE_ENV=development node jobs/fetch-conferences.js",
     "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
     "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
+    "fetch_players": "cross-env NODE_ENV=development node jobs/fetch-players.js",
+    "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "server": "json-server -p3001 --watch db.json"
   },
   "author": "Samu Linden",

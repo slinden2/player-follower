@@ -48,10 +48,6 @@ const playerSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  active: {
-    type: Boolean,
-    required: true,
-  },
   alternateCaptain: {
     type: Boolean,
     required: true,
@@ -80,12 +76,32 @@ const playerSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  boxscoreSkater: [
+  boxscores: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'BoxscoreSkater',
+      refPath: 'boxscoreType',
     },
   ],
+  stats: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: 'statType',
+    },
+  ],
+  boxscoreType: {
+    type: String,
+    required: true,
+    enum: ['SkaterBoxscore', 'GoalieBoxscore'],
+  },
+  statType: {
+    type: String,
+    required: true,
+    enum: ['SkaterStats', 'GoalieStats'],
+  },
+  active: {
+    type: Boolean,
+    required: true,
+  },
 })
 
 playerSchema.plugin(uniqueValidator)
@@ -95,6 +111,8 @@ playerSchema.index({ firstName: 'text', lastName: 'text' })
 playerSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
+    delete returnedObject.boxscoreType
+    delete returnedObject.boxscoreType
     delete returnedObject._id
     delete returnedObject.__v
   },

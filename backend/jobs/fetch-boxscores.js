@@ -10,7 +10,7 @@ const {
   convertLbsToKg,
   isDuplicate,
   convertMMSStoSec,
-} = require('./helpers')
+} = require('./fetch-helpers')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 

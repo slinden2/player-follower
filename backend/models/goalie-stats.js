@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const boxscoreSkaterSchema = mongoose.Schema({
+const goalieStatsSchema = mongoose.Schema({
   gamePk: {
     type: Number,
     required: true,
@@ -13,11 +13,11 @@ const boxscoreSkaterSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player',
   },
-  assists: {
+  saves: {
     type: Number,
     required: true,
   },
-  goals: {
+  shotsAgainst: {
     type: Number,
     required: true,
   },
@@ -91,7 +91,7 @@ const boxscoreSkaterSchema = mongoose.Schema({
   },
 })
 
-boxscoreSkaterSchema.set('toJSON', {
+goalieStatsSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -99,4 +99,4 @@ boxscoreSkaterSchema.set('toJSON', {
   },
 })
 
-module.exports = mongoose.model('', boxscoreSkaterSchema)
+module.exports = mongoose.model('GoalieStats', goalieStatsSchema)
