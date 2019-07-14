@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const playerSchema = mongoose.Schema({
   playerId: {
-    type: String,
+    type: Number,
     required: true,
     unique: true,
   },

@@ -40,6 +40,7 @@
 - [ ] Consider implementing login functionality out of GraphQL
 - [ ] Redesign site with styled components?
 - [ ] Do recent stats calculations as a scheduled task and save results in db daily as string
+- [ ] A view to show top performes. For example, most goals / points this month, this season etc.
 
 ## Notes
 

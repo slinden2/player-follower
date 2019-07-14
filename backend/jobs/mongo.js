@@ -17,6 +17,7 @@ const deleteLeague = async () => {
   await Conference.deleteMany({})
   await Division.deleteMany({})
   await Team.deleteMany({})
+  await Player.deleteMany({})
 }
 
 const deletePlayers = async () => {
@@ -120,7 +121,7 @@ const populatePlayer = async () => {
   console.log(boxscore)
 }
 
-deleteLeague().then(() => mongoose.connection.close())
+// deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
 // deleteGoalieBoxscores().then(() => mongoose.connection.close())

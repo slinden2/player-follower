@@ -18,11 +18,11 @@
     "client": "npm start --prefix ../frontend",
     "dev": "concurrently \"npm run watch\" \"npm run client\"",
     "lint": "eslint .",
-    "fetch": "cross-env NODE_ENV=development node jobs/fetch-data.js",
     "fetch_conferences": "cross-env NODE_ENV=development node jobs/fetch-conferences.js",
     "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
     "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
     "fetch_players": "cross-env NODE_ENV=development node jobs/fetch-players.js",
+    "fetch_boxscores": "cross-env NODE_ENV=development node jobs/fetch-boxscores.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "server": "json-server -p3001 --watch db.json"
   },

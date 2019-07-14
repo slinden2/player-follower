@@ -45,5 +45,6 @@
 | 10.07.2019 | 4    | first version of player stats done. still needs a lot of work.    |
 |            | 2    | thinking how to reorganize the database                           |
 | 11.07.2019 | 4    | started the db reorganization                                     |
-|            | 5    | worked on data fetching scripts                                   |
-|   total    | 132  |                                                                   |
+| 12.07.2019 | 5    | worked on data fetching scripts                                   |
+| 14.07.2019 | 2    | data fetching scripts                                             |
+|   total    | 134  |                                                                   |
