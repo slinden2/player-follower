@@ -15,8 +15,8 @@ const convertMMSStoSec = time => {
 }
 
 const isDuplicate = (player, gamePk) => {
-  const result = player.boxscores.filter(obj => obj.gamePk === gamePk)
-  return result.length > 0
+  if (player.boxscores.some(boxscore => boxscore.gamePk === gamePk)) return true
+  return false
 }
 
 module.exports = {

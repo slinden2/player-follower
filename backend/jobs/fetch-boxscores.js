@@ -1,11 +1,6 @@
 const axios = require('axios')
 const mongoose = require('mongoose')
-const {
-  convertFtToCm,
-  convertLbsToKg,
-  isDuplicate,
-  convertMMSStoSec,
-} = require('./fetch-helpers')
+const { isDuplicate, convertMMSStoSec } = require('./fetch-helpers')
 const Player = require('../models/player')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
@@ -41,6 +36,10 @@ const handlePlayer = async (playerInDb, stats, gamePk, gameDate, isGoalie) => {
   const boxscore = { gamePk, gameDate, player: playerInDb._id, ...stats }
 
   try {
+    if (isDuplicate(playerInDb, gamePk)) {
+      throw new Error('Duplicate internal game id!')
+    }
+
     let savedBoxscore
     isGoalie
       ? (savedBoxscore = await new GoalieBoxscore(boxscore).save())
@@ -74,7 +73,9 @@ const fetchBoxscore = async (gamePk, gameDate) => {
     ...goaliesAway,
   ]
 
-  const playersInDb = await Player.find({ playerId: { $in: playerIds } })
+  const playersInDb = await Player.find({
+    playerId: { $in: playerIds },
+  }).populate('boxscores', { gamePk: 1 })
 
   const playerIdsInDb = playersInDb.map(player => player.playerId)
   const playerIdsNotInDb = playerIds.filter(
@@ -131,4 +132,4 @@ const fetchGames = async date => {
   }
 }
 
-fetchGames('2019-01-12').then(() => mongoose.connection.close())
+fetchGames('2019-01-09').then(() => mongoose.connection.close())
