@@ -6,7 +6,7 @@ const skaterBoxscoreSchema = mongoose.Schema({
     required: true,
   },
   gameDate: {
-    type: Number,
+    type: Date,
     required: true,
   },
   player: {
@@ -90,6 +90,8 @@ const skaterBoxscoreSchema = mongoose.Schema({
     required: true,
   },
 })
+
+skaterBoxscoreSchema.index({ gamePk: 1, player: 1 }, { unique: true })
 
 skaterBoxscoreSchema.set('toJSON', {
   transform: (document, returnedObject) => {

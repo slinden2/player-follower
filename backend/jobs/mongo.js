@@ -26,10 +26,20 @@ const deletePlayers = async () => {
 
 const deletePlayerBoxscores = async () => {
   await SkaterBoxscore.deleteMany({})
+  const players = await Player.find({ boxscoreType: 'SkaterBoxsore' })
+  for (const player of players) {
+    player.boxscores = []
+    await player.save()
+  }
 }
 
 const deleteGoalieBoxscores = async () => {
   await GoalieBoxscore.deleteMany({})
+  const players = await Player.find({ boxscoreType: 'GoalieBoxsore' })
+  for (const player of players) {
+    player.boxscores = []
+    await player.save()
+  }
 }
 
 const deletePlayerStats = async () => {

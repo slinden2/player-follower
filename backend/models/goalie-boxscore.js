@@ -6,22 +6,22 @@ const goalieBoxscoreSchema = mongoose.Schema({
     required: true,
   },
   gameDate: {
-    type: Number,
+    type: Date,
     required: true,
   },
   player: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player',
   },
-  saves: {
+  timeOnIce: {
     type: Number,
     required: true,
   },
-  shotsAgainst: {
+  assists: {
     type: Number,
     required: true,
   },
-  plusMinus: {
+  goals: {
     type: Number,
     required: true,
   },
@@ -29,67 +29,53 @@ const goalieBoxscoreSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  powerPlayAssists: {
+  saves: {
     type: Number,
     required: true,
   },
-  powerPlayGoals: {
+  powerPlaySaves: {
     type: Number,
     required: true,
   },
-  shortHandedAssists: {
+  shortHandedSaves: {
     type: Number,
     required: true,
   },
-  shortHandedGoals: {
+  evenSaves: {
     type: Number,
     required: true,
   },
-  shots: {
+  shotsAgainst: {
     type: Number,
     required: true,
   },
-  hits: {
+  powerPlayShotsAgainst: {
     type: Number,
     required: true,
   },
-  blocked: {
+  shortHandedShotsAgainst: {
     type: Number,
     required: true,
   },
-  takeaways: {
+  decision: {
+    type: String,
+  },
+  savePercentage: {
     type: Number,
     required: true,
   },
-  giveaways: {
+  powerPlaySavePercentage: {
     type: Number,
-    required: true,
   },
-  faceOffWins: {
+  shortHandedSavePercentage: {
     type: Number,
-    required: true,
   },
-  faceOffsTaken: {
+  evenStrengthSavePercentage: {
     type: Number,
-    required: true,
-  },
-  timeOnIce: {
-    type: Number,
-    required: true,
-  },
-  evenTimeOnIce: {
-    type: Number,
-    required: true,
-  },
-  powerPlayTimeOnIce: {
-    type: Number,
-    required: true,
-  },
-  shortHandedTimeOnIce: {
-    type: Number,
-    required: true,
   },
 })
+
+goalieBoxscoreSchema.index({ gamePk: 1, player: 1 }, { unique: true })
 
 goalieBoxscoreSchema.set('toJSON', {
   transform: (document, returnedObject) => {
