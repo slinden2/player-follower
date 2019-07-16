@@ -10,6 +10,14 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
+// validate date string
+if (process.argv[2]) {
+  const dateArg = process.argv[2]
+  if (!/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(dateArg)) {
+    throw new Error('Invalid date argument')
+  }
+}
+
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
 const gamesUrl = date =>
@@ -132,4 +140,9 @@ const fetchGames = async date => {
   }
 }
 
-fetchGames('2019-01-09').then(() => mongoose.connection.close())
+// construct current date in YYYY-MM-DD format
+const UTC_DATE = new Date().toISOString().split('T')[0]
+const date = process.argv[2] || UTC_DATE
+
+console.log(`Data fetch starting for the date ${date}`)
+fetchGames(date).then(() => mongoose.connection.close())

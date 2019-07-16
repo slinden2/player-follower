@@ -1,4 +1,3 @@
-import subprocess
 import os
 
 FILE_PATH = os.path.join(os.path.dirname(
