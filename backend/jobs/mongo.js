@@ -7,6 +7,7 @@ const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
 const SkaterStats = require('../models/skater-stats')
 const GoalieStats = require('../models/goalie-stats')
+const TeamStats = require('../models/team-stats')
 const config = require('../utils/config')
 
 /* eslint-disable no-unused-vars */
@@ -57,6 +58,15 @@ const deleteGoalieStats = async () => {
   for (const player of players) {
     player.stats = []
     await player.save()
+  }
+}
+
+const deleteTeamStats = async () => {
+  await TeamStats.deleteMany({})
+  const teams = await Team.find({})
+  for (const team of teams) {
+    team.stats = []
+    await team.save()
   }
 }
 
@@ -147,6 +157,7 @@ const populatePlayer = async () => {
 // deleteGoalieBoxscores().then(() => mongoose.connection.close())
 // deletePlayerStats().then(() => mongoose.connection.close())
 // deleteGoalieStats().then(() => mongoose.connection.close())
+// deleteTeamStats().then(() => mongoose.connection.close())
 // addPlayerBoxscore().then(() => mongoose.connection.close())
 // addGoalieBoxscore().then(() => mongoose.connection.close())
 // addPlayerStats().then(() => mongoose.connection.close())

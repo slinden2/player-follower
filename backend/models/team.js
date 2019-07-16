@@ -59,6 +59,12 @@ const teamSchema = mongoose.Schema({
       ref: 'Player',
     },
   ],
+  stats: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'TeamStats',
+    },
+  ],
   active: {
     type: Boolean,
     required: true,

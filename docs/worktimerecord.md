@@ -48,4 +48,5 @@
 | 12.07.2019 | 5    | worked on data fetching scripts                                   |
 | 14.07.2019 | 2    | data fetching scripts                                             |
 | 15.07.2019 | 2    | data fetching scripts                                             |
-|   total    | 136  |                                                                   |
+| 16.07.2019 | 5    | data fetching scripts                                             |
+|   total    | 141  |                                                                   |
