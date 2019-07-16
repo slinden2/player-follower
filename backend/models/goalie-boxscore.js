@@ -60,17 +60,17 @@ const goalieBoxscoreSchema = mongoose.Schema({
   decision: {
     type: String,
   },
-  savePercentage: {
+  savePct: {
     type: Number,
     required: true,
   },
-  powerPlaySavePercentage: {
+  powerPlaySavePct: {
     type: Number,
   },
-  shortHandedSavePercentage: {
+  shortHandedSavePct: {
     type: Number,
   },
-  evenStrengthSavePercentage: {
+  evenSavePct: {
     type: Number,
   },
 })

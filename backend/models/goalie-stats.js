@@ -1,75 +1,39 @@
 const mongoose = require('mongoose')
 
 const goalieStatsSchema = mongoose.Schema({
-  gamePk: {
-    type: Number,
-    required: true,
-  },
-  gameDate: {
-    type: Number,
-    required: true,
-  },
   player: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player',
   },
-  saves: {
+  date: {
+    type: String,
+    required: true,
+  },
+  seasonId: {
+    type: String,
+    required: true,
+  },
+  gamesPlayed: {
     type: Number,
     required: true,
   },
-  shotsAgainst: {
+  gamesStarted: {
     type: Number,
     required: true,
   },
-  plusMinus: {
+  ot: {
     type: Number,
     required: true,
   },
-  penaltyMinutes: {
+  shutouts: {
     type: Number,
     required: true,
   },
-  powerPlayAssists: {
+  wins: {
     type: Number,
     required: true,
   },
-  powerPlayGoals: {
-    type: Number,
-    required: true,
-  },
-  shortHandedAssists: {
-    type: Number,
-    required: true,
-  },
-  shortHandedGoals: {
-    type: Number,
-    required: true,
-  },
-  shots: {
-    type: Number,
-    required: true,
-  },
-  hits: {
-    type: Number,
-    required: true,
-  },
-  blocked: {
-    type: Number,
-    required: true,
-  },
-  takeaways: {
-    type: Number,
-    required: true,
-  },
-  giveaways: {
-    type: Number,
-    required: true,
-  },
-  faceOffWins: {
-    type: Number,
-    required: true,
-  },
-  faceOffsTaken: {
+  losses: {
     type: Number,
     required: true,
   },
@@ -77,19 +41,66 @@ const goalieStatsSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  evenTimeOnIce: {
+  timeOnIcePerGame: {
     type: Number,
     required: true,
   },
-  powerPlayTimeOnIce: {
+  saves: {
     type: Number,
     required: true,
   },
-  shortHandedTimeOnIce: {
+  evenSaves: {
     type: Number,
     required: true,
+  },
+  powerPlaySaves: {
+    type: Number,
+    required: true,
+  },
+  shortHandedSaves: {
+    type: Number,
+    required: true,
+  },
+  shotsAgainst: {
+    type: Number,
+    required: true,
+  },
+  evenShotsAgainst: {
+    type: Number,
+    required: true,
+  },
+  powerPlayShotsAgainst: {
+    type: Number,
+    required: true,
+  },
+  shortHandedShotsAgainst: {
+    type: Number,
+    required: true,
+  },
+  goalsAgainst: {
+    type: Number,
+    required: true,
+  },
+  goalsAgainstAverage: {
+    type: Number,
+    required: true,
+  },
+  savePct: {
+    type: Number,
+    required: true,
+  },
+  evenSavePct: {
+    type: Number,
+  },
+  powerPlaySavePct: {
+    type: Number,
+  },
+  shortHandedSavePct: {
+    type: Number,
   },
 })
+
+goalieStatsSchema.index({ date: 1, player: 1 }, { unique: true })
 
 goalieStatsSchema.set('toJSON', {
   transform: (document, returnedObject) => {

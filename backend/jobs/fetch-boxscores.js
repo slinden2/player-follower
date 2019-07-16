@@ -38,6 +38,10 @@ const handlePlayer = async (playerInDb, stats, gamePk, gameDate, isGoalie) => {
   } else {
     stats.shotsAgainst = stats.shots
     stats.penaltyMinutes = stats.pim
+    stats.savePct = stats.savePercentage
+    stats.evenSavePct = stats.evenStrengthSavePercentage
+    stats.powerPlaySavePct = stats.powerPlaySavePercentage
+    stats.shortHandedSavePct = stats.shortHandedSavePercentage
   }
 
   stats.timeOnIce = convertMMSStoSec(stats.timeOnIce)

@@ -1,17 +1,21 @@
 const mongoose = require('mongoose')
 
 const skaterStatsSchema = mongoose.Schema({
-  gamePk: {
-    type: Number,
-    required: true,
-  },
-  gameDate: {
-    type: Number,
-    required: true,
-  },
   player: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player',
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  seasonId: {
+    type: String,
+    required: true,
+  },
+  gamesPlayed: {
+    type: Number,
+    required: true,
   },
   assists: {
     type: Number,
@@ -45,6 +49,14 @@ const skaterStatsSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  gameWinningGoals: {
+    type: Number,
+    required: true,
+  },
+  overTimeGoals: {
+    type: Number,
+    required: true,
+  },
   shots: {
     type: Number,
     required: true,
@@ -57,19 +69,11 @@ const skaterStatsSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  takeaways: {
+  shifts: {
     type: Number,
     required: true,
   },
-  giveaways: {
-    type: Number,
-    required: true,
-  },
-  faceOffWins: {
-    type: Number,
-    required: true,
-  },
-  faceOffsTaken: {
+  faceOffPct: {
     type: Number,
     required: true,
   },
@@ -90,6 +94,8 @@ const skaterStatsSchema = mongoose.Schema({
     required: true,
   },
 })
+
+skaterStatsSchema.index({ date: 1, player: 1 }, { unique: true })
 
 skaterStatsSchema.set('toJSON', {
   transform: (document, returnedObject) => {
