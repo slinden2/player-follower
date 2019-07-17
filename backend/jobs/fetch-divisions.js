@@ -1,11 +1,12 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
 const axios = require('axios')
 const mongoose = require('mongoose')
 const Conference = require('../models/conference')
 const Division = require('../models/division')
 const config = require('../utils/config')
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 

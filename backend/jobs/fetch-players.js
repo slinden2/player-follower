@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const config = require('../utils/config')
 const Team = require('../models/team')
 const Player = require('../models/player')
-const { convertFtToCm, convertLbsToKg } = require('./fetch-helpers')
+const { convertFtToCm, convertLbsToKg } = require('./helpers/fetch-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()

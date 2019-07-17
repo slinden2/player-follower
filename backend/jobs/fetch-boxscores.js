@@ -1,6 +1,6 @@
 const axios = require('axios')
 const mongoose = require('mongoose')
-const { isDuplicate, convertMMSStoSec } = require('./fetch-helpers')
+const { isDuplicate, convertMMSStoSec } = require('./helpers/fetch-helpers')
 const Player = require('../models/player')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')

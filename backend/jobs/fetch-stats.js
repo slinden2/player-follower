@@ -4,7 +4,7 @@ const Player = require('../models/player')
 const SkaterStats = require('../models/skater-stats')
 const GoalieStats = require('../models/goalie-stats')
 const config = require('../utils/config')
-const { convertMMSStoSec } = require('./fetch-helpers')
+const { convertMMSStoSec } = require('./helpers/fetch-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
