@@ -28,8 +28,6 @@ Returns a list of 5 players performance order.
 const getBestPlayers = (players, numOfGames) => {
   const playersJSON = JSON.parse(JSON.stringify(players))
 
-  playersJSON[0].boxscores.forEach(score => console.log(score.gameDate))
-
   const playersSorted = playersJSON.map(player => {
     player.boxscores = sortByGameDate(player.boxscores)
     return player

@@ -25,6 +25,7 @@
     "fetch_boxscores": "cross-env NODE_ENV=development node jobs/fetch-boxscores.js",
     "fetch_stats": "cross-env NODE_ENV=development node jobs/fetch-stats.js",
     "fetch_team_stats": "cross-env NODE_ENV=development node jobs/fetch-team-stats.js",
+    "update_best_players": "cross-env NODE_ENV=development node jobs/update-best-players.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "server": "json-server -p3001 --watch db.json"
   },
