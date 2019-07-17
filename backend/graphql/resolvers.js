@@ -7,8 +7,8 @@ require('../models/skater-boxscore') // needed for populate player
 require('../models/goalie-boxscore') // needed for populate player
 const User = require('../models/user')
 const Token = require('../models/token')
+const BestPlayers = require('../models/best-players')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
-const { getBestPlayers } = require('../utils/get-best-players')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -60,36 +60,38 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     bestPlayers: async () => {
-      const players = await Player.find({
-        boxscoreType: 'SkaterBoxscore',
-      }).populate('boxscores')
+      const bestPlayers = await BestPlayers.find({})
+        .sort({ _id: -1 })
+        .limit(1)
 
-      const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers1 = getBestPlayers(playersJSON, 1)
-      const bestPlayers5 = getBestPlayers(playersJSON, 5)
-      const bestPlayers10 = getBestPlayers(playersJSON, 10)
       return {
-        oneGame: bestPlayers1,
-        fiveGames: bestPlayers5,
-        tenGames: bestPlayers10,
+        oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 15),
+        fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 15),
+        tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 15),
       }
     },
     favoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) {
         return { oneGame: [], fiveGames: [], tenGames: [] }
       }
-      const players = await Player.find({
-        _id: { $in: ctx.currentUser.favoritePlayers },
-      }).populate('boxscores')
-      const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers1 = getBestPlayers(playersJSON, 3)
-      const bestPlayers5 = getBestPlayers(playersJSON, 5)
-      const bestPlayers10 = getBestPlayers(playersJSON, 10)
-      return {
-        oneGame: bestPlayers1,
-        fiveGames: bestPlayers5,
-        tenGames: bestPlayers10,
-      }
+
+      const bestPlayers = await BestPlayers.find({})
+        .sort({ _id: -1 })
+        .limit(1)
+
+      const oneGame = JSON.parse(bestPlayers[0].oneGame).filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player.id)
+      )
+
+      const fiveGames = JSON.parse(bestPlayers[0].fiveGames).filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player.id)
+      )
+
+      const tenGames = JSON.parse(bestPlayers[0].tenGames).filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player.id)
+      )
+
+      return { oneGame, fiveGames, tenGames }
     },
     cumulativeStats: async () => {
       try {

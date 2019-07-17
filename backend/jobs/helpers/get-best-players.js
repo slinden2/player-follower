@@ -40,7 +40,7 @@ const getBestPlayers = (players, numOfGames) => {
     newPlayers.push(player)
   }
 
-  const sortedPlayers = sortByPerformance(newPlayers).slice(0, 5)
+  const sortedPlayers = sortByPerformance(newPlayers)
 
   return sortedPlayers.map(player => ({
     ...player,

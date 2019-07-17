@@ -10,7 +10,7 @@ const typeDefs = gql`
     firstName: String!
     lastName: String!
     fullName: String!
-    primaryNumber: Int!
+    primaryNumber: Int
     birthDate: String!
     birthCity: String!
     birthStateProvince: String
