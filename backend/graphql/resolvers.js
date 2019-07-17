@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
 const axios = require('axios')
 const Player = require('../models/player')
+require('../models/skater-boxscore') // needed for populate player
+require('../models/goalie-boxscore') // needed for populate player
 const User = require('../models/user')
 const Token = require('../models/token')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
@@ -58,12 +60,10 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     bestPlayers: async () => {
-      // const players = await Player.find({
-      //   playerId: {
-      //     $in: [8473512, 8471214, 8478427, 8478402, 8476453, 8477493, 8468498],
-      //   },
-      // })
-      const players = await Player.find({})
+      const players = await Player.find({
+        boxscoreType: 'SkaterBoxscore',
+      }).populate('boxscores')
+
       const playersJSON = players.map(player => player.toJSON())
       const bestPlayers1 = getBestPlayers(playersJSON, 1)
       const bestPlayers5 = getBestPlayers(playersJSON, 5)
@@ -80,7 +80,7 @@ const resolvers = {
       }
       const players = await Player.find({
         _id: { $in: ctx.currentUser.favoritePlayers },
-      })
+      }).populate('boxscores')
       const playersJSON = players.map(player => player.toJSON())
       const bestPlayers1 = getBestPlayers(playersJSON, 3)
       const bestPlayers5 = getBestPlayers(playersJSON, 5)

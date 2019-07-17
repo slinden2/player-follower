@@ -1,6 +1,6 @@
 const roundToOneDecimal = require('./round-to-one-decimal')
 
-const EXCLUDED_FIELDS = ['gamePk', 'date', 'decision', 'id', 'gameDate']
+const EXCLUDED_FIELDS = ['gamePk', 'decision', 'id', 'gameDate']
 
 const generatePerGameStats = (stats, numOfGames) => {
   if (stats.saves) {
