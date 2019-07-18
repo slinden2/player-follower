@@ -23,7 +23,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020807,
       gameDate: 1549324800,
-      date: 1562259423,
       timeOnIce: 1245,
       assists: 0,
       goals: 0,
@@ -48,7 +47,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020789,
       gameDate: 1549130400,
-      date: 1562259344,
       timeOnIce: 1490,
       assists: 2,
       goals: 1,
@@ -73,7 +71,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020778,
       gameDate: 1548979200,
-      date: 1562259340,
       timeOnIce: 1266,
       assists: 0,
       goals: 1,
@@ -98,7 +95,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020774,
       gameDate: 1548808200,
-      date: 1562256175,
       timeOnIce: 1169,
       assists: 0,
       goals: 0,
@@ -123,7 +119,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020771,
       gameDate: 1548720000,
-      date: 1562256166,
       timeOnIce: 1333,
       assists: 0,
       goals: 0,
@@ -148,7 +143,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018040643,
       gameDate: 1548558900,
-      date: 1562256172,
       timeOnIce: 388,
       assists: 0,
       goals: 1,
@@ -173,7 +167,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018040642,
       gameDate: 1548555300,
-      date: 1562256168,
       timeOnIce: 330,
       assists: 1,
       goals: 0,
@@ -198,7 +191,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020743,
       gameDate: 1547942400,
-      date: 1562256047,
       timeOnIce: 1303,
       assists: 0,
       goals: 0,
@@ -223,7 +215,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020722,
       gameDate: 1547685000,
-      date: 1562256005,
       timeOnIce: 1256,
       assists: 2,
       goals: 0,
@@ -248,7 +239,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020708,
       gameDate: 1547510400,
-      date: 1562256017,
       timeOnIce: 1220,
       assists: 2,
       goals: 0,
@@ -273,7 +263,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020687,
       gameDate: 1547316000,
-      date: 1562255874,
       timeOnIce: 1458,
       assists: 0,
       goals: 0,
@@ -298,7 +287,6 @@ const mockPlayer1GameRaw = {
     {
       gamePk: 2018020674,
       gameDate: 1547164800,
-      date: 1562255894,
       timeOnIce: 1261,
       assists: 1,
       goals: 0,
@@ -349,7 +337,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020671,
       gameDate: 1547164800,
-      date: 1562255873,
       timeOnIce: 1209,
       assists: 0,
       goals: 0,
@@ -374,7 +361,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020692,
       gameDate: 1547337600,
-      date: 1562255903,
       timeOnIce: 1319,
       assists: 0,
       goals: 0,
@@ -399,7 +385,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020751,
       gameDate: 1548005400,
-      date: 1562255986,
       timeOnIce: 1216,
       assists: 1,
       goals: 1,
@@ -424,7 +409,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020735,
       gameDate: 1547857800,
-      date: 1562256017,
       timeOnIce: 1352,
       assists: 0,
       goals: 0,
@@ -449,7 +433,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020709,
       gameDate: 1547510400,
-      date: 1562256029,
       timeOnIce: 1241,
       assists: 0,
       goals: 0,
@@ -474,7 +457,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020716,
       gameDate: 1547600400,
-      date: 1562256047,
       timeOnIce: 1207,
       assists: 0,
       goals: 0,
@@ -499,7 +481,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020760,
       gameDate: 1548201600,
-      date: 1562256129,
       timeOnIce: 1358,
       assists: 0,
       goals: 0,
@@ -524,7 +505,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020765,
       gameDate: 1548289800,
-      date: 1562256163,
       timeOnIce: 1287,
       assists: 0,
       goals: 1,
@@ -549,7 +529,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020785,
       gameDate: 1549065600,
-      date: 1562259363,
       timeOnIce: 1155,
       assists: 0,
       goals: 0,
@@ -574,7 +553,6 @@ const mockPlayer10GamesRaw = {
     {
       gamePk: 2018020802,
       gameDate: 1549215000,
-      date: 1562259414,
       timeOnIce: 1321,
       assists: 0,
       goals: 0,

@@ -1,4 +1,7 @@
-const { reduceStats, generatePerGameStats } = require('../../utils/reduce-stats')
+const {
+  reduceStats,
+  generatePerGameStats,
+} = require('../../jobs/helpers/reduce-stats')
 const {
   mockPlayer1GameRaw,
   mockPlayer10GamesRaw,
@@ -50,7 +53,6 @@ describe('reduceStats', () => {
     expect(result.gamePk).toBeUndefined()
     expect(result.id).toBeUndefined()
     expect(result.gameDate).toBeUndefined()
-    expect(result.date).toBeUndefined()
     expect(result.decision).toBeUndefined()
   })
 

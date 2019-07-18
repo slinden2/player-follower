@@ -6,7 +6,7 @@ It is not guaranteed that gamePks are in progressive order.
 */
 const sortByGameDate = boxscores => {
   return boxscores.sort((a, b) => {
-    return a.gameDate > b.gameDate ? 1 : -1
+    return a.gameDate > b.gameDate ? -1 : 1
   })
 }
 
