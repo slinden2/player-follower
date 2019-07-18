@@ -66,8 +66,8 @@ const playerSchema = mongoose.Schema({
     required: true,
   },
   currentTeam: {
-    type: Number,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
   },
   primaryPosition: {
     type: String,
