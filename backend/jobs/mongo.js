@@ -8,6 +8,7 @@ const GoalieBoxscore = require('../models/goalie-boxscore')
 const SkaterStats = require('../models/skater-stats')
 const GoalieStats = require('../models/goalie-stats')
 const TeamStats = require('../models/team-stats')
+const BestPlayers = require('../models/best-players')
 const config = require('../utils/config')
 
 /* eslint-disable no-unused-vars */
@@ -19,6 +20,12 @@ const deleteLeague = async () => {
   await Division.deleteMany({})
   await Team.deleteMany({})
   await Player.deleteMany({})
+  await SkaterBoxscore.deleteMany({})
+  await GoalieBoxscore.deleteMany({})
+  await SkaterStats.deleteMany({})
+  await GoalieStats.deleteMany({})
+  await TeamStats.deleteMany({})
+  await BestPlayers.deleteMany({})
 }
 
 const deletePlayers = async () => {
