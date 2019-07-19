@@ -18,9 +18,10 @@
 - [x] Password requirements
 - [x] GraphQL fragments
 - [x] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
-- [ ] Stats (how to to fetch data from API?)
+- [x] Do recent stats calculations as a scheduled task and save results in db daily as string
+- [] Stats (how to to fetch data from API?)
   - [x] First version done via external API.
-  - [ ] Create a schema and a fetch script.
+  - [x] Create a schema and a fetch script.
   - [ ] Implement pagination
   - [ ] Implement table sorting
 - [ ] Standings (how to to fetch data from API?)
@@ -33,13 +34,11 @@
   - [x] Unit tests for GraphQL schema
   - [ ] Integration tests
 - [ ] Tests for frontend
-- [ ] Fix error handling for dates when there are no games eg 24.1.2019
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] A view for single players
 - [ ] Backside of the player cards
 - [ ] Consider implementing login functionality out of GraphQL
 - [ ] Redesign site with styled components?
-- [ ] Do recent stats calculations as a scheduled task and save results in db daily as string
 - [ ] A view to show top performes. For example, most goals / points this month, this season etc.
 
 ## Notes
@@ -52,4 +51,3 @@
 * https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/TEAMID.svg
 
 - http://statsapi.web.nhl.com/api/v1/game/2018021000/content for highlight videos
-- Should last game statistics be calculated from cumulative stats instead of boxscores?

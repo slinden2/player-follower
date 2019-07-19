@@ -1,13 +1,14 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
-const axios = require('axios')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for populate player
 require('../models/goalie-boxscore') // needed for populate player
+require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
 const BestPlayers = require('../models/best-players')
+const SkaterStats = require('../models/skater-stats')
 const roundToOneDecimal = require('../utils/round-to-one-decimal')
 const {
   sendVerificationEmail,
@@ -93,15 +94,31 @@ const resolvers = {
 
       return { oneGame, fiveGames, tenGames }
     },
-    cumulativeStats: async () => {
-      try {
-        const response = await axios.get(
-          'https://api.nhle.com/stats/rest/skaters?isAggregate=false&reportType=basic&isGame=false&reportName=skatersummary&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22goals%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22assists%22,%22direction%22:%22DESC%22%7D%5D&cayenneExp=leagueId=133%20and%20gameTypeId=2%20and%20seasonId%3E=20182019%20and%20seasonId%3C=20182019'
-        )
-        return response.data.data
-      } catch ({ name, message }) {
-        console.log(`${name}: ${message}`)
-      }
+    GetCumulativeStats: async () => {
+      // try {
+      const allStats = await SkaterStats.find({})
+        .limit(1)
+        .populate({
+          path: 'player',
+          model: 'Player',
+          select: 'firstName lastName primaryPosition',
+          populate: {
+            path: 'currentTeam',
+            model: 'Team',
+          },
+        })
+
+      const cumulativeStats = allStats.map(entry => {
+        return {
+          firstName: entry.player.firstName,
+          lastName: entry.player.firstName,
+        }
+      })
+
+      return cumulativeStats
+      // } catch ({ name, message }) {
+      //   console.log(`${name}: ${message}`)
+      // }
     },
   },
   Mutation: {
@@ -307,6 +324,9 @@ const resolvers = {
       const player = await Player.findOne({ 'boxscores._id': root._id })
       return player.boxscores.length
     },
+  },
+  CumulativeStats: {
+    fullName: root => `${root.firstName} ${root.lastName}`,
   },
 }
 

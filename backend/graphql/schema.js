@@ -121,39 +121,23 @@ const typeDefs = gql`
   }
 
   type CumulativeStats {
-    assists: Int!
-    faceoffWinPctg: Float!
-    gameWinningGoals: Int!
+    fullName: String!
+    team: String!
+    position: String!
     gamesPlayed: Int!
     goals: Int!
-    otGoals: Int!
-    penaltyMinutes: Int!
-    playerBirthCity: String!
-    playerBirthCountry: String!
-    playerBirthDate: String!
-    playerBirthStateProvince: String!
-    playerDraftOverallPickNo: Int!
-    playerDraftRoundNo: Int!
-    playerDraftYear: Int!
-    playerFirstName: String!
-    playerId: Int!
-    playerLastName: String!
-    playerName: String!
-    playerNationality: String!
-    playerPositionCode: String!
-    playerShootsCatches: String!
-    playerTeamsPlayedFor: String!
-    plusMinus: Int!
+    assists: Int!
     points: Int!
-    pointsPerGame: Float!
-    ppGoals: Int!
-    ppPoints: Int!
-    shGoals: Int!
-    shPoints: Int!
-    shiftsPerGame: Float!
-    shootingPctg: Float!
+    plusMinus: Int!
+    penaltyMinutes: Int!
+    pointsPerGame: Int!
+    gameWinningGoals: Int!
+    overTimeGoals: Int!
+    powerPlayGoals: Int!
+    powerPlayerPoints: Int!
+    shortHandedGoals: Int!
+    shortHandedPoints: Int!
     shots: Int!
-    timeOnIcePerGame: Float!
   }
 
   type Standings {
@@ -230,7 +214,7 @@ const typeDefs = gql`
     """
     Cumulative player stats considering all games of the season.
     """
-    cumulativeStats: [CumulativeStats!]!
+    GetCumulativeStats: [CumulativeStats!]!
     """
     Team standings.
     """
