@@ -173,6 +173,31 @@ const typeDefs = gql`
     LEAGUE
   }
 
+  enum SortBy {
+    PLAYER
+    TEAM
+    POSITION
+    GP
+    GOALS
+    ASSISTS
+    POINTS
+    PLUSMINUS
+    PM
+    POINTS_PER_GAME
+    GWG
+    OTG
+    PPG
+    PPP
+    SHG
+    SHP
+    SHOTS
+  }
+
+  enum SortDir {
+    ASC
+    DESC
+  }
+
   type Query {
     playerCount: Int!
     """
@@ -214,7 +239,11 @@ const typeDefs = gql`
     """
     Cumulative player stats considering all games of the season.
     """
-    GetCumulativeStats(offset: Int!): [CumulativeStats!]!
+    GetCumulativeStats(
+      offset: Int!
+      sortBy: SortBy!
+      sortDir: SortDir!
+    ): [CumulativeStats!]!
     """
     Team standings.
     """

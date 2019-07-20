@@ -10,6 +10,7 @@ const Token = require('../models/token')
 const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
 const roundToDecimal = require('../utils/round-to-decimal')
+const getSortField = require('../utils/get-sort-field')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -96,6 +97,15 @@ const resolvers = {
     },
     GetCumulativeStats: async (root, args) => {
       try {
+        const sortByEnum = args.sortBy
+        const sortDirEnum = args.sortDir
+
+        let sortBy = getSortField(sortByEnum)
+        const sortDir = sortDirEnum === 'DESC' ? '-' : ''
+
+        console.log(sortBy)
+        console.log(sortDir)
+
         const allStatsAggregate = await SkaterStats.aggregate()
           .project({
             gamesPlayed: 1,
@@ -120,7 +130,7 @@ const resolvers = {
             shots: 1,
             player: 1,
           })
-          .sort('field -points')
+          .sort(`field ${sortDir}${sortBy}`)
           .skip(args.offset)
           .limit(25)
 
@@ -143,7 +153,7 @@ const resolvers = {
             position: entry.player.primaryPosition,
             gamesPlayed: entry.gamesPlayed,
             goals: entry.goals,
-            assists: entry.goals,
+            assists: entry.assists,
             points: entry.points,
             plusMinus: entry.plusMinus,
             penaltyMinutes: entry.penaltyMinutes,

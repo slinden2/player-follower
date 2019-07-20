@@ -76,8 +76,12 @@ const FIND_BY_NAME = gql`
 `
 
 const CUMULATIVE_STATS = gql`
-  query GetCumulativeStats($offset: Int!) {
-    GetCumulativeStats(offset: $offset) {
+  query GetCumulativeStats(
+    $offset: Int!
+    $sortBy: SortBy!
+    $sortDir: SortDir!
+  ) {
+    GetCumulativeStats(offset: $offset, sortBy: $sortBy, sortDir: $sortDir) {
       fullName
       team
       position
