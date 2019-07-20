@@ -51,5 +51,6 @@
 | 16.07.2019 | 5    | data fetching scripts                                             |
 | 17.07.2019 | 4    | finished the data fetching and created script for best players    |
 | 18.07.2019 | 2    | fixed unit test after significant changes in data structures      |
-| 19.07.2019 |      |                                                                   |
-|   total    | 147  |                                                                   |
+| 19.07.2019 | 4    | bug fixes and CumulativeStats resolver                            |
+| 20.07.2019 |      |                                                                   |
+|   total    | 151  |                                                                   |

@@ -1,10 +1,10 @@
-const roundToOneDecimal = require('../../utils/round-to-one-decimal')
+const roundToOneDecimal = require('../../utils/round-to-decimal')
 
 const EXCLUDED_FIELDS = ['gamePk', 'decision', 'id', 'gameDate']
 
 const generatePerGameStats = (stats, numOfGames) => {
   if (stats.saves) {
-    stats.savePctTotal = roundToOneDecimal((stats.saves / stats.shots) * 100)
+    stats.savePctTotal = roundToOneDecimal((stats.saves / stats.shots) * 100, 1)
   }
 
   stats.timeOnIcePerGame = Math.round(stats.timeOnIce / numOfGames)

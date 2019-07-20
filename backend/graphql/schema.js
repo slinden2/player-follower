@@ -130,11 +130,11 @@ const typeDefs = gql`
     points: Int!
     plusMinus: Int!
     penaltyMinutes: Int!
-    pointsPerGame: Int!
+    pointsPerGame: Float!
     gameWinningGoals: Int!
     overTimeGoals: Int!
     powerPlayGoals: Int!
-    powerPlayerPoints: Int!
+    powerPlayPoints: Int!
     shortHandedGoals: Int!
     shortHandedPoints: Int!
     shots: Int!

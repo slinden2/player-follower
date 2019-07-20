@@ -9,7 +9,7 @@ const User = require('../models/user')
 const Token = require('../models/token')
 const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
-const roundToOneDecimal = require('../utils/round-to-one-decimal')
+const roundToDecimal = require('../utils/round-to-decimal')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -105,13 +105,30 @@ const resolvers = {
           populate: {
             path: 'currentTeam',
             model: 'Team',
+            select: 'abbreviation',
           },
         })
+
+      console.log(allStats)
 
       const cumulativeStats = allStats.map(entry => {
         return {
           firstName: entry.player.firstName,
-          lastName: entry.player.firstName,
+          lastName: entry.player.lastName,
+          team: entry.player.currentTeam.abbreviation,
+          position: entry.player.primaryPosition,
+          gamesPlayed: entry.gamesPlayed,
+          goals: entry.goals,
+          assists: entry.goals,
+          plusMinus: entry.plusMinus,
+          penaltyMinutes: entry.penaltyMinutes,
+          gameWinningGoals: entry.gameWinningGoals,
+          overTimeGoals: entry.overTimeGoals,
+          powerPlayGoals: entry.powerPlayGoals,
+          powerPlayAssists: entry.powerPlayAssists,
+          shortHandedGoals: entry.shortHandedGoals,
+          shortHandedAssists: entry.shortHandedAssists,
+          shots: entry.shots,
         }
       })
 
@@ -309,15 +326,15 @@ const resolvers = {
   Stat: {
     faceOffPct: root => {
       if (root.faceoffTaken === 0) return 0
-      return roundToOneDecimal(root.faceOffWins / root.faceoffTaken)
+      return roundToDecimal(root.faceOffWins / root.faceoffTaken, 1)
     },
     shotPct: root => {
       if (root.shots === 0) return 0
-      return roundToOneDecimal(root.goals / root.shots)
+      return roundToDecimal(root.goals / root.shots, 1)
     },
     savePct: root => {
       if (root.saves === 0) return 0
-      return roundToOneDecimal(root.goals / root.saves)
+      return roundToDecimal(root.goals / root.saves, 1)
     },
     points: root => root.goals + root.assists,
     numOfGames: async root => {
@@ -327,6 +344,11 @@ const resolvers = {
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
+    points: root => root.assists + root.goals,
+    pointsPerGame: root =>
+      roundToDecimal((root.assists + root.goals) / root.gamesPlayed, 2),
+    powerPlayPoints: root => root.powerPlayAssists + root.powerPlayGoals,
+    shortHandedPoints: root => root.shortHandedAssists + root.shortHandedGoals,
   },
 }
 
