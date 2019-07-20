@@ -214,7 +214,7 @@ const typeDefs = gql`
     """
     Cumulative player stats considering all games of the season.
     """
-    GetCumulativeStats: [CumulativeStats!]!
+    GetCumulativeStats(offset: Int!): [CumulativeStats!]!
     """
     Team standings.
     """

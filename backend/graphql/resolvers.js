@@ -94,7 +94,7 @@ const resolvers = {
 
       return { oneGame, fiveGames, tenGames }
     },
-    GetCumulativeStats: async () => {
+    GetCumulativeStats: async (root, args) => {
       try {
         const allStatsAggregate = await SkaterStats.aggregate()
           .project({
@@ -121,7 +121,8 @@ const resolvers = {
             player: 1,
           })
           .sort('field -points')
-          .limit(20)
+          .skip(args.offset)
+          .limit(25)
 
         const allStats = await Player.populate(allStatsAggregate, {
           path: 'player',
