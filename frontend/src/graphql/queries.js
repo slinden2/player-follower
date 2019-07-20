@@ -76,13 +76,11 @@ const FIND_BY_NAME = gql`
 `
 
 const CUMULATIVE_STATS = gql`
-  query getCumulativeStats {
-    cumulativeStats {
-      playerId
-      playerFirstName
-      playerLastName
-      playerTeamsPlayedFor
-      playerPositionCode
+  query GetCumulativeStats {
+    GetCumulativeStats {
+      fullName
+      team
+      position
       gamesPlayed
       goals
       assists
@@ -91,11 +89,11 @@ const CUMULATIVE_STATS = gql`
       penaltyMinutes
       pointsPerGame
       gameWinningGoals
-      otGoals
-      ppGoals
-      ppPoints
-      shGoals
-      shPoints
+      overTimeGoals
+      powerPlayGoals
+      powerPlayPoints
+      shortHandedGoals
+      shortHandedPoints
       shots
     }
   }

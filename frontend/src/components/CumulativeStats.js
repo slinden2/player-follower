@@ -30,33 +30,33 @@ const CumulativeStats = () => {
     'Shots',
   ]
 
+  const createHeaders = () => (
+    <Table.Row>
+      {headers.map(header => (
+        <Table.HeaderCell key={header}>{header}</Table.HeaderCell>
+      ))}
+    </Table.Row>
+  )
+
+  const createCells = () =>
+    data.GetCumulativeStats.map((player, idx) => (
+      <Table.Row key={`${player.playerId}${idx}`}>
+        {Object.keys(player)
+          .slice(0, -1)
+          .map((key, idx) => (
+            <Table.Cell key={`${player.playerId}${idx}`}>
+              {player[key]}
+            </Table.Cell>
+          ))}
+      </Table.Row>
+    ))
+
   return (
     <div>
       <Header>Stats</Header>
       <Table celled>
-        <Table.Header>
-          <Table.Row>
-            {headers.map(header => (
-              <Table.HeaderCell key={header}>{header}</Table.HeaderCell>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {data.cumulativeStats.map(player => (
-            <Table.Row key={player.playerId}>
-              <Table.Cell>{`${player.playerFirstName} ${
-                player.playerLastName
-              }`}</Table.Cell>
-              {Object.keys(player)
-                .slice(3, -1)
-                .map(key => (
-                  <Table.Cell key={parseInt(player.playerId) + key}>
-                    {player[key]}
-                  </Table.Cell>
-                ))}
-            </Table.Row>
-          ))}
-        </Table.Body>
+        <Table.Header>{createHeaders()}</Table.Header>
+        <Table.Body>{createCells()}</Table.Body>
       </Table>
     </div>
   )

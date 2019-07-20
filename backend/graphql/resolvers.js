@@ -95,10 +95,35 @@ const resolvers = {
       return { oneGame, fiveGames, tenGames }
     },
     GetCumulativeStats: async () => {
-      // try {
-      const allStats = await SkaterStats.find({})
-        .limit(1)
-        .populate({
+      try {
+        const allStatsAggregate = await SkaterStats.aggregate()
+          .project({
+            gamesPlayed: 1,
+            goals: 1,
+            assists: 1,
+            points: { $add: ['$goals', '$assists'] },
+            plusMinus: 1,
+            penaltyMinutes: 1,
+            pointsPerGame: {
+              $divide: [{ $add: ['$goals', '$assists'] }, '$gamesPlayed'],
+            },
+            gameWinningGoals: 1,
+            overTimeGoals: 1,
+            powerPlayGoals: 1,
+            powerPlayAssists: 1,
+            powerPlayPoints: { $add: ['$powerPlayGoals', '$powerPlayAssists'] },
+            shortHandedGoals: 1,
+            shortHandedAssists: 1,
+            shortHandedPoints: {
+              $add: ['$shortHandedGoals', '$shortHandedAssists'],
+            },
+            shots: 1,
+            player: 1,
+          })
+          .sort('field -points')
+          .limit(20)
+
+        const allStats = await Player.populate(allStatsAggregate, {
           path: 'player',
           model: 'Player',
           select: 'firstName lastName primaryPosition',
@@ -109,33 +134,33 @@ const resolvers = {
           },
         })
 
-      console.log(allStats)
+        const cumulativeStats = allStats.map(entry => {
+          return {
+            firstName: entry.player.firstName,
+            lastName: entry.player.lastName,
+            team: entry.player.currentTeam.abbreviation,
+            position: entry.player.primaryPosition,
+            gamesPlayed: entry.gamesPlayed,
+            goals: entry.goals,
+            assists: entry.goals,
+            points: entry.points,
+            plusMinus: entry.plusMinus,
+            penaltyMinutes: entry.penaltyMinutes,
+            pointsPerGame: entry.pointsPerGame,
+            gameWinningGoals: entry.gameWinningGoals,
+            overTimeGoals: entry.overTimeGoals,
+            powerPlayGoals: entry.powerPlayGoals,
+            powerPlayPoints: entry.powerPlayPoints,
+            shortHandedGoals: entry.shortHandedGoals,
+            shortHandedPoints: entry.shortHandedPoints,
+            shots: entry.shots,
+          }
+        })
 
-      const cumulativeStats = allStats.map(entry => {
-        return {
-          firstName: entry.player.firstName,
-          lastName: entry.player.lastName,
-          team: entry.player.currentTeam.abbreviation,
-          position: entry.player.primaryPosition,
-          gamesPlayed: entry.gamesPlayed,
-          goals: entry.goals,
-          assists: entry.goals,
-          plusMinus: entry.plusMinus,
-          penaltyMinutes: entry.penaltyMinutes,
-          gameWinningGoals: entry.gameWinningGoals,
-          overTimeGoals: entry.overTimeGoals,
-          powerPlayGoals: entry.powerPlayGoals,
-          powerPlayAssists: entry.powerPlayAssists,
-          shortHandedGoals: entry.shortHandedGoals,
-          shortHandedAssists: entry.shortHandedAssists,
-          shots: entry.shots,
-        }
-      })
-
-      return cumulativeStats
-      // } catch ({ name, message }) {
-      //   console.log(`${name}: ${message}`)
-      // }
+        return cumulativeStats
+      } catch ({ name, message }) {
+        console.log(`${name}: ${message}`)
+      }
     },
   },
   Mutation: {
@@ -344,11 +369,7 @@ const resolvers = {
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
-    points: root => root.assists + root.goals,
-    pointsPerGame: root =>
-      roundToDecimal((root.assists + root.goals) / root.gamesPlayed, 2),
-    powerPlayPoints: root => root.powerPlayAssists + root.powerPlayGoals,
-    shortHandedPoints: root => root.shortHandedAssists + root.shortHandedGoals,
+    pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
   },
 }
 
