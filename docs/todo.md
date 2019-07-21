@@ -19,12 +19,15 @@
 - [x] GraphQL fragments
 - [x] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
 - [x] Do recent stats calculations as a scheduled task and save results in db daily as string
-- [] Stats (how to to fetch data from API?)
+- [x] Stats
   - [x] First version done via external API.
   - [x] Create a schema and a fetch script.
-  - [ ] Implement pagination
-  - [ ] Implement table sorting
-- [ ] Standings (how to to fetch data from API?)
+  - [x] Implement pagination
+  - [x] Implement table sorting
+- [x] Standings
+  - [x] Set up models and schema
+  - [x] Resolver
+  - [x] Possibility to visualize standings by league/conference/division
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer

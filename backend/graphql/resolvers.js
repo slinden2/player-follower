@@ -169,29 +169,25 @@ const resolvers = {
         latestStats: { $slice: ['$stats', -1] },
       })
 
-      // TODO how to populate three fields with one query?
-      const standings = await Team.populate(standingsAggregate, {
-        path: 'latestStats',
-        model: 'TeamStats',
-        select: '-seasonId -date -team',
-      })
-
-      const standingsWithConference = await Team.populate(standings, {
-        path: 'conference',
-        model: 'Conference',
-        select: 'name',
-      })
-
-      const standingsWithDivisions = await Team.populate(
-        standingsWithConference,
+      const standings = await Team.populate(standingsAggregate, [
+        {
+          path: 'latestStats',
+          model: 'TeamStats',
+          select: '-seasonId -date -team',
+        },
+        {
+          path: 'conference',
+          model: 'Conference',
+          select: 'name',
+        },
         {
           path: 'division',
           model: 'Division',
           select: 'name',
-        }
-      )
+        },
+      ])
 
-      const sortedStandings = standingsWithDivisions
+      const sortedStandings = standings
         .map(team => {
           return {
             teamName: team.name,

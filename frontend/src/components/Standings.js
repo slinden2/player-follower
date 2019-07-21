@@ -4,9 +4,37 @@ import { Loader, Table, Header } from 'semantic-ui-react'
 import { STANDINGS } from '../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'
+import StandingsTable from './StandingsTable'
 
+// group standings by conference or division
 const groupBy = (array, property) => {
   return _.groupBy(array, team => team[property].name)
+}
+
+// used to clean up division and conference objects from the
+// standing arrays so that they can be used as react children.
+const cleanUpLeagueStandings = standings => {
+  return [
+    ...standings.map(team => {
+      const { __typename, division, conference, ...teamData } = team
+      return teamData
+    }),
+  ]
+}
+
+// used to clean up division and conference objects from the
+// standing arrays so that they can be used as react children.
+const cleanUpDivisionStandings = standings => {
+  Object.keys(standings).forEach(conference => {
+    standings[conference] = [
+      ...standings[conference].map(team => {
+        const { __typename, division, conference, ...teamData } = team
+        return teamData
+      }),
+    ]
+  })
+
+  return standings
 }
 
 const Standings = () => {
@@ -17,71 +45,33 @@ const Standings = () => {
     return <Loader active inline="centered" />
   }
 
-  const cleanStandings = [
-    ...data.Standings.map(team => {
-      const { __typename, division, conference, ...teamData } = team
-      return teamData
-    }),
-  ]
-
   const standings =
     standingsType === 'CONFERENCE'
       ? groupBy(data.Standings, 'conference')
       : standingsType === 'DIVISION'
       ? groupBy(data.Standings, 'division')
-      : cleanStandings
+      : data.Standings
 
-  const headers = [
-    { headerText: 'Team', sortString: 'teamName' },
-    { headerText: 'GP', sortString: 'gamesPlayed' },
-    { headerText: 'W', sortString: 'wins' },
-    { headerText: 'L', sortString: 'losses' },
-    { headerText: 'T', sortString: 'ties' },
-    { headerText: 'OT', sortString: 'otLosses' },
-    { headerText: 'P', sortString: 'points' },
-    { headerText: 'ROW', sortString: 'regPlusOtWins' },
-    { headerText: 'P%', sortString: 'pointPct' },
-    { headerText: 'GF', sortString: 'goalsFor' },
-    { headerText: 'GA', sortString: 'goalsAgainst' },
-    { headerText: 'S/O Wins', sortString: 'shootoutGamesWon' },
-    { headerText: 'GF/GP', sortString: 'goalsForPerGame' },
-    { headerText: 'GA/GP', sortString: 'goalsAgainsPerGame' },
-    { headerText: 'PP%', sortString: 'ppPct' },
-    { headerText: 'PK%', sortString: 'pkPct' },
-    { headerText: 'Shots/GP', sortString: 'shotsForPerGame' },
-    { headerText: 'SA/GP', sortString: 'shotsAgainstPerGame' },
-    { headerText: 'FOW%', sortString: 'faceOffWinPct' },
-  ]
-
-  const createHeaders = () => (
-    <Table.Row>
-      {headers.map(header => (
-        <Table.HeaderCell key={header.headerText}>
-          {header.headerText}
-        </Table.HeaderCell>
-      ))}
-    </Table.Row>
-  )
-
-  const createCells = () =>
-    standings.map(team => (
-      <Table.Row key={team.teamName}>
-        {Object.keys(team)
-          // .slice(0, -3)
-          .map(key => (
-            <Table.Cell key={`${key}`}>{team[key]}</Table.Cell>
-          ))}
-      </Table.Row>
-    ))
+  const cleanStandings =
+    standingsType === 'LEAGUE'
+      ? cleanUpLeagueStandings(standings)
+      : cleanUpDivisionStandings(standings)
 
   return (
     <div>
       <Header>Standings</Header>
       <StandingsTypeDropdown setStandingsType={setStandingsType} />
-      <Table celled>
-        <Table.Header>{createHeaders()}</Table.Header>
-        <Table.Body>{createCells()}</Table.Body>
-      </Table>
+      {standingsType === 'LEAGUE' ? (
+        <StandingsTable standings={cleanStandings} />
+      ) : (
+        Object.keys(standings).map(conference => (
+          <StandingsTable
+            key={conference}
+            standings={cleanStandings[conference]}
+            title={conference}
+          />
+        ))
+      )}
     </div>
   )
 }
