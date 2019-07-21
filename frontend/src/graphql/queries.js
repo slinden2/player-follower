@@ -103,4 +103,37 @@ const CUMULATIVE_STATS = gql`
   }
 `
 
-export { BEST_PLAYERS, FAVORITE_PLAYERS, USER, FIND_BY_NAME, CUMULATIVE_STATS }
+const STANDINGS = gql`
+  query getStandings($type: StandingsType!) {
+    Standings(type: $type) {
+      teamName
+      gamesPlayed
+      wins
+      losses
+      ties
+      otLosses
+      points
+      regPlusOtWins
+      pointPct
+      goalsFor
+      goalsAgainst
+      shootoutGamesWon
+      goalsForPerGame
+      goalsAgainstPerGame
+      ppPct
+      pkPct
+      shotsForPerGame
+      shotsAgainstPerGame
+      faceOffWinPct
+    }
+  }
+`
+
+export {
+  BEST_PLAYERS,
+  FAVORITE_PLAYERS,
+  USER,
+  FIND_BY_NAME,
+  CUMULATIVE_STATS,
+  STANDINGS,
+}

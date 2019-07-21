@@ -147,7 +147,7 @@ const typeDefs = gql`
     wins: Int!
     losses: Int!
     ties: Int!
-    overTimeLosses: Int!
+    otLosses: Int!
     points: Int!
     regPlusOtWins: Int!
     pointPct: Float!
@@ -155,7 +155,7 @@ const typeDefs = gql`
     goalsAgainst: Int!
     shootoutGamesWon: Int!
     goalsForPerGame: Float!
-    goalsAgainsPerGame: Float!
+    goalsAgainstPerGame: Float!
     ppPct: Float!
     pkPct: Float!
     shotsForPerGame: Float!
@@ -259,7 +259,7 @@ const typeDefs = gql`
     """
     Team standings.
     """
-    Standings(type: StandingsType): [Standings]!
+    Standings(type: StandingsType!): [Standings]!
     """
     Used for player search field.
     """

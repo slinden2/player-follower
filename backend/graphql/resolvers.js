@@ -186,6 +186,8 @@ const resolvers = {
           })
           .sort((teamA, teamB) => teamB.points - teamA.points)
 
+        console.log(sortedStandings[0])
+
         return sortedStandings
       }
     },
