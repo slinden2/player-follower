@@ -2,11 +2,11 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
 const Player = require('../models/player')
-require('../models/skater-boxscore') // needed for populate player
-require('../models/goalie-boxscore') // needed for populate player
-require('../models/team-stats')
-// const Conference = require('../models/conference')
-// const Division = require('../models/division')
+require('../models/skater-boxscore') // needed for field population
+require('../models/goalie-boxscore') // needed for field population
+require('../models/team-stats') // needed for field population
+require('../models/conference') // needed for field population
+require('../models/division') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
@@ -160,36 +160,50 @@ const resolvers = {
         console.log(`${name}: ${message}`)
       }
     },
-    Standings: async (root, args) => {
-      const excludedStats = '-seasonId -date -team'
+    Standings: async () => {
+      const standingsAggregate = await Team.aggregate().project({
+        name: 1,
+        abbreviation: 1,
+        conference: 1,
+        division: 1,
+        latestStats: { $slice: ['$stats', -1] },
+      })
 
-      if (args.type === 'LEAGUE') {
-        const standingsAggregate = await Team.aggregate().project({
-          name: 1,
-          abbreviation: 1,
-          latestStats: { $slice: ['$stats', -1] },
+      // TODO how to populate three fields with one query?
+      const standings = await Team.populate(standingsAggregate, {
+        path: 'latestStats',
+        model: 'TeamStats',
+        select: '-seasonId -date -team',
+      })
+
+      const standingsWithConference = await Team.populate(standings, {
+        path: 'conference',
+        model: 'Conference',
+        select: 'name',
+      })
+
+      const standingsWithDivisions = await Team.populate(
+        standingsWithConference,
+        {
+          path: 'division',
+          model: 'Division',
+          select: 'name',
+        }
+      )
+
+      const sortedStandings = standingsWithDivisions
+        .map(team => {
+          return {
+            teamName: team.name,
+            teamAbbr: team.abbreviation,
+            conference: team.conference,
+            division: team.division,
+            ...team.latestStats[0].toJSON(),
+          }
         })
+        .sort((teamA, teamB) => teamB.points - teamA.points)
 
-        const standings = await Team.populate(standingsAggregate, {
-          path: 'latestStats',
-          model: 'TeamStats',
-          select: excludedStats,
-        })
-
-        const sortedStandings = standings
-          .map(team => {
-            return {
-              teamName: team.name,
-              teamAbbr: team.abbreviation,
-              ...team.latestStats[0].toJSON(),
-            }
-          })
-          .sort((teamA, teamB) => teamB.points - teamA.points)
-
-        console.log(sortedStandings[0])
-
-        return sortedStandings
-      }
+      return sortedStandings
     },
   },
   Mutation: {

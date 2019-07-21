@@ -104,8 +104,8 @@ const CUMULATIVE_STATS = gql`
 `
 
 const STANDINGS = gql`
-  query getStandings($type: StandingsType!) {
-    Standings(type: $type) {
+  query getStandings {
+    Standings {
       teamName
       gamesPlayed
       wins
@@ -125,6 +125,12 @@ const STANDINGS = gql`
       shotsForPerGame
       shotsAgainstPerGame
       faceOffWinPct
+      conference {
+        name
+      }
+      division {
+        name
+      }
     }
   }
 `

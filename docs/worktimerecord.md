@@ -53,4 +53,5 @@
 | 18.07.2019 | 2     | fixed unit test after significant changes in data structures      |
 | 19.07.2019 | 4     | bug fixes and cumulativestats resolver                            |
 | 20.07.2019 | 8,5   | cumulative stats in fe and be. sorting and pagination working.    |
-|   total    | 159,5 |                                                                   |
+| 21.07.2019 | 8     | working on standings, backend and frontend                        |
+|   total    | 167,5 |                                                                   |

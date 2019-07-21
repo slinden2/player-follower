@@ -140,9 +140,51 @@ const typeDefs = gql`
     shots: Int!
   }
 
+  type Conference {
+    id: ID!
+    divisions: [Division!]!
+    teams: [Team!]!
+    conferenceId: Int!
+    link: String!
+    name: String!
+    shortName: String!
+    abbreviation: String!
+    active: Boolean!
+  }
+
+  type Division {
+    id: ID!
+    conference: Conference!
+    teams: [Team!]!
+    divisionId: Int!
+    link: String!
+    name: String!
+    shortName: String!
+    abbreviation: String!
+    active: Boolean!
+  }
+
+  type Team {
+    id: ID!
+    conference: Conference!
+    division: Division!
+    teamId: Int!
+    link: String!
+    name: String!
+    teamName: String!
+    shortName: String!
+    abbreviation: String!
+    locationName: String!
+    firstYearOfPlay: Int!
+    officialSiteUrl: String!
+    active: Boolean!
+  }
+
   type Standings {
     teamName: String!
     teamAbbr: String!
+    conference: Conference!
+    division: Division!
     gamesPlayed: Int!
     wins: Int!
     losses: Int!
@@ -177,12 +219,6 @@ const typeDefs = gql`
   enum FollowType {
     FOLLOW
     UNFOLLOW
-  }
-
-  enum StandingsType {
-    DIVISION
-    CONFERENCE
-    LEAGUE
   }
 
   enum SortBy {
@@ -259,7 +295,7 @@ const typeDefs = gql`
     """
     Team standings.
     """
-    Standings(type: StandingsType!): [Standings]!
+    Standings: [Standings]!
     """
     Used for player search field.
     """

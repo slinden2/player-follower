@@ -1,16 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Loader, Table, Header } from 'semantic-ui-react'
 import { STANDINGS } from '../graphql/queries'
+import StandingsTypeDropdown from './StandingsTypeDropdown'
+import _ from 'lodash'
+
+const groupBy = (array, property) => {
+  return _.groupBy(array, team => team[property].name)
+}
 
 const Standings = () => {
-  const { loading, data } = useQuery(STANDINGS, {
-    variables: { type: 'LEAGUE' },
-  })
+  const [standingsType, setStandingsType] = useState('LEAGUE')
+  const { loading, data } = useQuery(STANDINGS)
 
   if (loading) {
     return <Loader active inline="centered" />
   }
+
+  const cleanStandings = [
+    ...data.Standings.map(team => {
+      const { __typename, division, conference, ...teamData } = team
+      return teamData
+    }),
+  ]
+
+  const standings =
+    standingsType === 'CONFERENCE'
+      ? groupBy(data.Standings, 'conference')
+      : standingsType === 'DIVISION'
+      ? groupBy(data.Standings, 'division')
+      : cleanStandings
 
   const headers = [
     { headerText: 'Team', sortString: 'teamName' },
@@ -45,10 +64,10 @@ const Standings = () => {
   )
 
   const createCells = () =>
-    data.Standings.map(team => (
+    standings.map(team => (
       <Table.Row key={team.teamName}>
         {Object.keys(team)
-          .slice(0, -1)
+          // .slice(0, -3)
           .map(key => (
             <Table.Cell key={`${key}`}>{team[key]}</Table.Cell>
           ))}
@@ -58,6 +77,7 @@ const Standings = () => {
   return (
     <div>
       <Header>Standings</Header>
+      <StandingsTypeDropdown setStandingsType={setStandingsType} />
       <Table celled>
         <Table.Header>{createHeaders()}</Table.Header>
         <Table.Body>{createCells()}</Table.Body>
