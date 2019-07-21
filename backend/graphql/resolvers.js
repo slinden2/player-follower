@@ -4,7 +4,10 @@ const { UserInputError, AuthenticationError } = require('apollo-server')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for populate player
 require('../models/goalie-boxscore') // needed for populate player
-require('../models/team')
+require('../models/team-stats')
+// const Conference = require('../models/conference')
+// const Division = require('../models/division')
+const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
 const BestPlayers = require('../models/best-players')
@@ -103,32 +106,16 @@ const resolvers = {
         let sortBy = getSortField(sortByEnum)
         const sortDir = sortDirEnum === 'DESC' ? '-' : ''
 
-        console.log(sortBy)
-        console.log(sortDir)
-
         const allStatsAggregate = await SkaterStats.aggregate()
-          .project({
-            gamesPlayed: 1,
-            goals: 1,
-            assists: 1,
+          .addFields({
             points: { $add: ['$goals', '$assists'] },
-            plusMinus: 1,
-            penaltyMinutes: 1,
             pointsPerGame: {
               $divide: [{ $add: ['$goals', '$assists'] }, '$gamesPlayed'],
             },
-            gameWinningGoals: 1,
-            overTimeGoals: 1,
-            powerPlayGoals: 1,
-            powerPlayAssists: 1,
             powerPlayPoints: { $add: ['$powerPlayGoals', '$powerPlayAssists'] },
-            shortHandedGoals: 1,
-            shortHandedAssists: 1,
             shortHandedPoints: {
               $add: ['$shortHandedGoals', '$shortHandedAssists'],
             },
-            shots: 1,
-            player: 1,
           })
           .sort(`field ${sortDir}${sortBy}`)
           .skip(args.offset)
@@ -171,6 +158,35 @@ const resolvers = {
         return cumulativeStats
       } catch ({ name, message }) {
         console.log(`${name}: ${message}`)
+      }
+    },
+    Standings: async (root, args) => {
+      const excludedStats = '-seasonId -date -team'
+
+      if (args.type === 'LEAGUE') {
+        const standingsAggregate = await Team.aggregate().project({
+          name: 1,
+          abbreviation: 1,
+          latestStats: { $slice: ['$stats', -1] },
+        })
+
+        const standings = await Team.populate(standingsAggregate, {
+          path: 'latestStats',
+          model: 'TeamStats',
+          select: excludedStats,
+        })
+
+        const sortedStandings = standings
+          .map(team => {
+            return {
+              teamName: team.name,
+              teamAbbr: team.abbreviation,
+              ...team.latestStats[0].toJSON(),
+            }
+          })
+          .sort((teamA, teamB) => teamB.points - teamA.points)
+
+        return sortedStandings
       }
     },
   },

@@ -141,14 +141,26 @@ const typeDefs = gql`
   }
 
   type Standings {
-    team: String!
+    teamName: String!
+    teamAbbr: String!
+    gamesPlayed: Int!
     wins: Int!
     losses: Int!
-    ot: Int!
-    goalsAgainst: Int!
-    goalsScored: Int!
+    ties: Int!
+    overTimeLosses: Int!
     points: Int!
-    gamesPlayed: Int!
+    regPlusOtWins: Int!
+    pointPct: Float!
+    goalsFor: Int!
+    goalsAgainst: Int!
+    shootoutGamesWon: Int!
+    goalsForPerGame: Float!
+    goalsAgainsPerGame: Float!
+    ppPct: Float!
+    pkPct: Float!
+    shotsForPerGame: Float!
+    shotsAgainstPerGame: Float!
+    faceOffWinPct: Float!
   }
 
   type User {
@@ -247,7 +259,7 @@ const typeDefs = gql`
     """
     Team standings.
     """
-    standings(type: StandingsType): [Standings]!
+    Standings(type: StandingsType): [Standings]!
     """
     Used for player search field.
     """

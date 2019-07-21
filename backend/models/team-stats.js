@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const teamStatsSchema = mongoose.Schema({
+  createdAt: {
+    type: Date,
+    required: true,
+  },
   team: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team',
