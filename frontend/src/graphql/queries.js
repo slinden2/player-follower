@@ -53,6 +53,58 @@ const FAVORITE_PLAYERS = gql`
   ${PLAYER_DETAILS}
 `
 
+const PLAYER_PROFILE = gql`
+  query getPlayerProfile($siteLink: String!) {
+    findPlayer(siteLink: $siteLink) {
+      id
+      fullName
+      primaryNumber
+      birthDate
+      birthCity
+      birthStateProvince
+      nationality
+      height
+      weight
+      alternateCaptain
+      captain
+      rookie
+      shootsCatches
+      currentTeam {
+        name
+        abbreviation
+        locationName
+      }
+      primaryPosition
+      playerId
+      boxscores {
+        id
+        assists
+        blocked
+        faceOffsTaken
+        faceOffWins
+        gameDate
+        gamePk
+        giveaways
+        goals
+        hits
+        penaltyMinutes
+        plusMinus
+        points
+        powerPlayAssists
+        powerPlayGoals
+        powerPlayTimeOnIce
+        shortHandedAssists
+        shortHandedGoals
+        shortHandedTimeOnIce
+        shotPct
+        shots
+        takeaways
+        timeOnIce
+      }
+    }
+  }
+`
+
 const USER = gql`
   query loggedUser {
     me {
@@ -142,4 +194,5 @@ export {
   FIND_BY_NAME,
   CUMULATIVE_STATS,
   STANDINGS,
+  PLAYER_PROFILE,
 }

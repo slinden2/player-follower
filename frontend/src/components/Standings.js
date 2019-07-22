@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { Loader, Table, Header } from 'semantic-ui-react'
+import { Loader, Header } from 'semantic-ui-react'
 import { STANDINGS } from '../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'

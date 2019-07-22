@@ -4,7 +4,7 @@ import { Card, Image, Icon } from 'semantic-ui-react'
 import { NotificationContext } from '../contexts/NotificationContext'
 import { AuthContext } from '../contexts/AuthContext'
 import { PlayerContext } from '../contexts/PlayerContext'
-import { imgUrl } from '../utils'
+import { cardImgUrl } from '../utils'
 
 const PlayerCard = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
@@ -47,7 +47,7 @@ const PlayerCard = ({ player }) => {
 
   return (
     <Card>
-      <Image src={imgUrl(player.playerId)} wrapped ui={false} />
+      <Image src={cardImgUrl(player.playerId)} wrapped ui={false} />
       <Card.Content>
         <Card.Header as={Link} to={'/players/' + player.siteLink}>
           {player.firstName} {player.lastName}

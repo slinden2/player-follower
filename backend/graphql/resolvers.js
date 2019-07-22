@@ -36,7 +36,16 @@ const resolvers = {
       return players
     },
     findPlayer: async (root, args) => {
-      const player = await Player.findOne(args).populate('boxscores')
+      const player = await Player.findOne(args).populate([
+        {
+          path: 'boxscores',
+          model: 'SkaterBoxscore', // TODO how to work with goalies?
+        },
+        {
+          path: 'currentTeam',
+          model: 'Team',
+        },
+      ])
       return player.toJSON()
     },
     findPlayers: async (root, args) => {

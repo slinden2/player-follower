@@ -18,7 +18,10 @@ const setCookie = (name, value) => {
 }
 
 // const imgUrl = playerId => `http://3.cdn.nhle.com/photos/mugs/${playerId}.jpg`
-const imgUrl = playerId =>
+const cardImgUrl = playerId =>
   `https://nhl.bamcontent.com/images/headshots/current/168x168/${playerId}.jpg`
 
-export { getCookie, removeCookie, setCookie, imgUrl }
+const profileImgUrl = playerId =>
+  `https://nhl.bamcontent.com/images/actionshots/${playerId}.jpg`
+
+export { getCookie, removeCookie, setCookie, cardImgUrl, profileImgUrl }

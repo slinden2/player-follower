@@ -98,7 +98,7 @@ const typeDefs = gql`
     rookie: Boolean!
     shootsCatches: String!
     rosterStatus: String!
-    currentTeam: Int!
+    currentTeam: Team!
     primaryPosition: String!
     """
     Internal id number from NHL API.
@@ -141,15 +141,15 @@ const typeDefs = gql`
     timeOnIce: Int!
 
     # Group for all boxscore-only related stats
+    faceOffsTaken: Int!
+    faceOffWins: Int!
     gameDate: String!
     """
     Internal progressive game id from NHL API.
     """
     gamePk: Int!
-    takeaways: Int!
     giveaways: Int!
-    faceOffWins: Int!
-    faceoffTaken: Int!
+    takeaways: Int!
 
     # Group for all cumulative-stats-only related stats
     faceOffPct: Float!
