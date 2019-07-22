@@ -17,6 +17,7 @@ import Profile from './components/Profile'
 import FindPlayers from './components/FindPlayers'
 import CumulativeStats from './components/CumulativeStats'
 import Standings from './components/Standings'
+import PlayerProfile from './components/PlayerProfile'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
@@ -37,6 +38,12 @@ const App = () => {
         <Route path="/stats" render={() => <CumulativeStats />} />
         <Route path="/standings" render={() => <Standings />} />
         <Route path="/about" render={() => <div>About</div>} />
+        <Route
+          path="/players/:siteLink"
+          render={({ match }) => (
+            <PlayerProfile siteLink={match.params.siteLink} />
+          )}
+        />
         {token && (
           <>
             <Route

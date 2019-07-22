@@ -1,145 +1,6 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
-  "Contains player general info"
-  type Player {
-    """
-    Link that leads to the player details in the API
-    """
-    link: String!
-    firstName: String!
-    lastName: String!
-    fullName: String!
-    primaryNumber: Int
-    birthDate: String!
-    birthCity: String!
-    birthStateProvince: String
-    birthCountry: String!
-    nationality: String!
-    """
-    Height in cm.
-    """
-    height: Int!
-    """
-    Weight in kg.
-    """
-    weight: Int!
-    active: Boolean!
-    alternateCaptain: Boolean!
-    captain: Boolean!
-    rookie: Boolean!
-    shootsCatches: String!
-    rosterStatus: String!
-    currentTeam: Int!
-    primaryPosition: String!
-    """
-    Internal id number from NHL API.
-    """
-    playerId: Int!
-    """
-    An array of the boxcores of all the games that the player
-    has played. Scratched games are not included.
-    """
-    boxscores: [Stat!]!
-    stats: Stat!
-    id: ID!
-    numOfGamesId: Int
-  }
-
-  "Boxscore per game"
-  type Stat {
-    """
-    Internal progressive game id from NHL API.
-    Each game has an id, so each gamePk is related
-    to the players of two different teams.
-    """
-    gamePk: Int!
-    """
-    Array of games that are considered in the calculated stats.
-    """
-    gamePks: [Int]
-    """
-    UTC seconds for the moment the data was fetched
-    """
-    date: Int!
-    """
-    Total number of played games
-    """
-    numOfGames: Int
-    timeOnIce: Int!
-    assists: Int!
-    goals: Int!
-    points: Int!
-    shots: Int!
-    shotPct: Float
-    hits: Int
-    powerPlayGoals: Int
-    powerPlayAssists: Int
-    penaltyMinutes: Int!
-    faceOffWins: Int
-    faceoffTaken: Int
-    faceOffPct: Float
-    takeaways: Int
-    giveaways: Int
-    shortHandedGoals: Int
-    shortHandedAssists: Int
-    blocked: Int
-    plusMinus: Int
-    evenTimeOnIce: Int
-    powerPlayTimeOnIce: Int
-    shortHandedTimeOnIce: Int
-    # Only goalie stats below
-    saves: Int
-    """
-    savePct considers only 1 game. If you need more games, use
-    savePctTotal.
-    """
-    savePct: Float
-    """
-    savePct over multiple games.
-    """
-    powerPlaySaves: Int
-    shortHandedSaves: Int
-    evenSaves: Int
-    shortHandedShotsAgainst: Int
-    evenShotsAgainst: Int
-    powerPlayShotsAgainst: Int
-    decision: String
-    id: ID!
-    # Stats below are queryable only with getStatsInRange
-    timeOnIcePerGame: Int
-    evenTimeOnIcePerGame: Int
-    powerPlayTimeOnIcePerGame: Int
-    shortHandedTimeOnIcePerGame: Int
-    savePctTotal: Float
-  }
-
-  type PeriodStats {
-    oneGame: [Player]
-    fiveGames: [Player]
-    tenGames: [Player]
-  }
-
-  type CumulativeStats {
-    fullName: String!
-    team: String!
-    position: String!
-    gamesPlayed: Int!
-    goals: Int!
-    assists: Int!
-    points: Int!
-    plusMinus: Int!
-    penaltyMinutes: Int!
-    pointsPerGame: Float!
-    gameWinningGoals: Int!
-    overTimeGoals: Int!
-    powerPlayGoals: Int!
-    powerPlayPoints: Int!
-    shortHandedGoals: Int!
-    shortHandedPoints: Int!
-    shots: Int!
-  }
-
   type Conference {
     id: ID!
     divisions: [Division!]!
@@ -205,6 +66,172 @@ const typeDefs = gql`
     faceOffWinPct: Float!
   }
 
+  """
+  Player bio
+  """
+  type Player {
+    """
+    Link that leads to the player details in the API
+    """
+    link: String!
+    siteLink: String!
+    firstName: String!
+    lastName: String!
+    fullName: String!
+    primaryNumber: Int
+    birthDate: String!
+    birthCity: String!
+    birthStateProvince: String
+    birthCountry: String!
+    nationality: String!
+    """
+    Height in cm.
+    """
+    height: Int!
+    """
+    Weight in kg.
+    """
+    weight: Int!
+    active: Boolean!
+    alternateCaptain: Boolean!
+    captain: Boolean!
+    rookie: Boolean!
+    shootsCatches: String!
+    rosterStatus: String!
+    currentTeam: Int!
+    primaryPosition: String!
+    """
+    Internal id number from NHL API.
+    """
+    playerId: Int!
+    """
+    An array of the boxcores of all the games that the player
+    has played. Scratched games are not included.
+    """
+    boxscores: [Stats!]!
+    stats: Stats!
+    id: ID!
+    numOfGamesId: Int!
+  }
+
+  """
+  Shared type for all skater/goalie stats:
+  boxscores, cumulativeS stats, statsNgames
+  """
+  type Stats {
+    # Group for all the base stats relative to
+    # all different queryable stats
+    id: ID!
+    assists: Int!
+    blocked: Int!
+    evenTimeOnIce: Int!
+    goals: Int!
+    hits: Int!
+    penaltyMinutes: Int!
+    plusMinus: Int!
+    points: Int!
+    powerPlayAssists: Int!
+    powerPlayGoals: Int!
+    powerPlayTimeOnIce: Int!
+    shortHandedAssists: Int!
+    shortHandedGoals: Int!
+    shortHandedTimeOnIce: Int!
+    shotPct: Float
+    shots: Int!
+    timeOnIce: Int!
+
+    # Group for all boxscore-only related stats
+    gameDate: String!
+    """
+    Internal progressive game id from NHL API.
+    """
+    gamePk: Int!
+    takeaways: Int!
+    giveaways: Int!
+    faceOffWins: Int!
+    faceoffTaken: Int!
+
+    # Group for all cumulative-stats-only related stats
+    faceOffPct: Float!
+    gamesPlayed: Int!
+    gameWinningGoals: Int!
+    shifts: Int!
+
+    # Group for all StatsNGames-only related stats
+    """
+    Array of gamePks available with StatsNGames type
+    """
+    gamePks: [Int]
+
+    # Group for all goalie related stats
+    evenSavePct: Float!
+    evenSaves: Int!
+    powerPlaySaves: Int!
+    savePct: Float!
+    saves: Int!
+    shortHandedSavePct: Float!
+    shortHandedSaves: Int!
+    shortHandedShotsAgainst: Int!
+    shotsAgainst: Int!
+    # you can query also timeOnIce
+
+    # Group for goalie boxscore-only related stats
+    decision: String!
+    powerPlayShotsAgainst: Int!
+    # available also:
+    # assists, goals, gamePk, penaltyMinutes, gameDate
+
+    # Group for goalie cumulative-stats-only related stats
+    evenShotsAgainst: Int!
+    gamesStarted: Int!
+    goalsAgainst: Int!
+    goalsAgainstAverage: Float!
+    losses: Int!
+    ot: Int!
+    powerPlaySavePct: Float!
+    shutouts: Int!
+    timeOnIcePerGame: Int!
+    wins: Int!
+    # you can query only gamesPlayed
+  }
+
+  type StatsNGames {
+    oneGame: [PlayerCard!]!
+    fiveGames: [PlayerCard!]!
+    tenGames: [PlayerCard!]!
+  }
+
+  type PlayerCard {
+    firstName: String!
+    lastName: String!
+    primaryNumber: Int
+    playerId: Int!
+    id: ID!
+    numOfGamesId: Int!
+    siteLink: String!
+    stats: Stats!
+  }
+
+  type CumulativeStats {
+    fullName: String!
+    team: String!
+    position: String!
+    gamesPlayed: Int!
+    goals: Int!
+    assists: Int!
+    points: Int!
+    plusMinus: Int!
+    penaltyMinutes: Int!
+    pointsPerGame: Float!
+    gameWinningGoals: Int!
+    overTimeGoals: Int!
+    powerPlayGoals: Int!
+    powerPlayPoints: Int!
+    shortHandedGoals: Int!
+    shortHandedPoints: Int!
+    shots: Int!
+  }
+
   type User {
     id: ID!
     username: String!
@@ -255,15 +282,15 @@ const typeDefs = gql`
     """
     Returns best players for the last 3, 5 and 10 games.
     """
-    bestPlayers: PeriodStats!
+    bestPlayers: StatsNGames!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """
-    favoritePlayers: PeriodStats!
+    favoritePlayers: StatsNGames!
     """
     Single player by playerId
     """
-    findPlayer(playerId: Int!): Player!
+    findPlayer(playerId: Int, siteLink: String): Player!
     """
     Array of players by arbitrary search terms
     """

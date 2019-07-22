@@ -36,10 +36,8 @@ const resolvers = {
       return players
     },
     findPlayer: async (root, args) => {
-      const player = await Player.findOne({
-        playerId: args.playerId,
-      })
-      return player
+      const player = await Player.findOne(args).populate('boxscores')
+      return player.toJSON()
     },
     findPlayers: async (root, args) => {
       const players = await Player.find(args)
@@ -387,11 +385,7 @@ const resolvers = {
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
   },
-  Stat: {
-    faceOffPct: root => {
-      if (root.faceoffTaken === 0) return 0
-      return roundToDecimal(root.faceOffWins / root.faceoffTaken, 1)
-    },
+  Stats: {
     shotPct: root => {
       if (root.shots === 0) return 0
       return roundToDecimal(root.goals / root.shots, 1)
@@ -401,10 +395,6 @@ const resolvers = {
       return roundToDecimal(root.goals / root.saves, 1)
     },
     points: root => root.goals + root.assists,
-    numOfGames: async root => {
-      const player = await Player.findOne({ 'boxscores._id': root._id })
-      return player.boxscores.length
-    },
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,

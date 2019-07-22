@@ -1,15 +1,15 @@
 import { gql } from 'apollo-boost'
 
 const PLAYER_DETAILS = gql`
-  fragment PlayerDetails on Player {
+  fragment PlayerDetails on PlayerCard {
     firstName
     lastName
     primaryNumber
     playerId
     id
     numOfGamesId
+    siteLink
     stats {
-      gamePks
       goals
       assists
       points
