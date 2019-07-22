@@ -19,9 +19,18 @@ const isDuplicate = (player, gamePk) => {
   return false
 }
 
+const generateSiteLink = (firstName, lastName) => {
+  const fullName = firstName + ' ' + lastName
+  return fullName
+    .replace(/[^a-zA-Z0-9\s]/g, '')
+    .replace(/\s/, '-')
+    .toLowerCase()
+}
+
 module.exports = {
   convertFtToCm,
   convertLbsToKg,
   isDuplicate,
   convertMMSStoSec,
+  generateSiteLink,
 }

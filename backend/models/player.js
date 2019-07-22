@@ -11,6 +11,11 @@ const playerSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  siteLink: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   firstName: {
     type: String,
     required: true,

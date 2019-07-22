@@ -158,6 +158,21 @@ const populatePlayer = async () => {
   console.log(boxscore)
 }
 
+const generatePlayerLinks = async () => {
+  const players = await Player.find({})
+
+  for (const player of players) {
+    await player.updateOne({
+      $set: {
+        siteLink: `${player.firstName} ${player.lastName}`
+          .replace(/[^a-zA-Z0-9\s]/g, '')
+          .replace(/\s/, '-')
+          .toLowerCase(),
+      },
+    })
+  }
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -172,3 +187,4 @@ const populatePlayer = async () => {
 // populatePlayerBoxscores().then(() => mongoose.connection.close())
 // populatePlayerStats().then(() => mongoose.connection.close())
 // populatePlayer().then(() => mongoose.connection.close())
+// generatePlayerLinks().then(() => mongoose.connection.close())
