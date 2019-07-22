@@ -1,52 +1,20 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
-const statsSchema = mongoose.Schema({
-  gamePk: Number,
-  gameDate: Number,
-  date: Number,
-  timeOnIce: Number,
-  assists: Number,
-  goals: Number,
-  shots: Number,
-  hits: Number,
-  powerPlayGoals: Number,
-  powerPlayAssists: Number,
-  penaltyMinutes: Number,
-  faceOffWins: Number,
-  faceoffTaken: Number,
-  takeaways: Number,
-  giveaways: Number,
-  shortHandedGoals: Number,
-  shortHandedAssists: Number,
-  blocked: Number,
-  plusMinus: Number,
-  evenTimeOnIce: Number,
-  powerPlayTimeOnIce: Number,
-  shortHandedTimeOnIce: Number,
-  // Only goalie stats from this point
-  saves: Number,
-  powerPlaySaves: Number,
-  shortHandedSaves: Number,
-  evenSaves: Number,
-  shortHandedShotsAgainst: Number,
-  evenShotsAgainst: Number,
-  powerPlayShotsAgainst: Number,
-  decision: String,
-})
-
-statsSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  },
-})
-
 const playerSchema = mongoose.Schema({
+  playerId: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
   link: {
     type: String,
     required: true,
+  },
+  siteLink: {
+    type: String,
+    required: true,
+    unique: true,
   },
   firstName: {
     type: String,
@@ -58,7 +26,6 @@ const playerSchema = mongoose.Schema({
   },
   primaryNumber: {
     type: Number,
-    required: true,
   },
   birthDate: {
     type: Date,
@@ -75,7 +42,6 @@ const playerSchema = mongoose.Schema({
   },
   nationality: {
     type: String,
-    required: true,
   },
   height: {
     type: Number,
@@ -83,10 +49,6 @@ const playerSchema = mongoose.Schema({
   },
   weight: {
     type: Number,
-    required: true,
-  },
-  active: {
-    type: Boolean,
     required: true,
   },
   alternateCaptain: {
@@ -103,26 +65,45 @@ const playerSchema = mongoose.Schema({
   },
   shootsCatches: {
     type: String,
-    required: true,
   },
   rosterStatus: {
     type: String,
     required: true,
   },
   currentTeam: {
-    type: Number,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
   },
   primaryPosition: {
     type: String,
     required: true,
   },
-  playerId: {
-    type: Number,
-    unique: true,
+  boxscores: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: 'boxscoreType',
+    },
+  ],
+  stats: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: 'statType',
+    },
+  ],
+  boxscoreType: {
+    type: String,
+    required: true,
+    enum: ['SkaterBoxscore', 'GoalieBoxscore'],
+  },
+  statType: {
+    type: String,
+    required: true,
+    enum: ['SkaterStats', 'GoalieStats'],
+  },
+  active: {
+    type: Boolean,
     required: true,
   },
-  boxscores: [statsSchema],
 })
 
 playerSchema.plugin(uniqueValidator)
@@ -132,6 +113,8 @@ playerSchema.index({ firstName: 'text', lastName: 'text' })
 playerSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
+    delete returnedObject.boxscoreType
+    delete returnedObject.statType
     delete returnedObject._id
     delete returnedObject.__v
   },

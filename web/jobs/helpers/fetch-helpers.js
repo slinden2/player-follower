@@ -15,8 +15,16 @@ const convertMMSStoSec = time => {
 }
 
 const isDuplicate = (player, gamePk) => {
-  const result = player.boxscores.filter(obj => obj.gamePk === gamePk)
-  return result.length > 0
+  if (player.boxscores.some(boxscore => boxscore.gamePk === gamePk)) return true
+  return false
+}
+
+const generateSiteLink = (firstName, lastName) => {
+  const fullName = firstName + ' ' + lastName
+  return fullName
+    .replace(/[^a-zA-Z0-9\s]/g, '')
+    .replace(/\s/, '-')
+    .toLowerCase()
 }
 
 module.exports = {
@@ -24,4 +32,5 @@ module.exports = {
   convertLbsToKg,
   isDuplicate,
   convertMMSStoSec,
+  generateSiteLink,
 }

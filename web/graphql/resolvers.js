@@ -2,10 +2,18 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
 const Player = require('../models/player')
+require('../models/skater-boxscore') // needed for field population
+require('../models/goalie-boxscore') // needed for field population
+require('../models/team-stats') // needed for field population
+require('../models/conference') // needed for field population
+require('../models/division') // needed for field population
+const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
-const roundToOneDecimal = require('../utils/round-to-one-decimal')
-const { getBestPlayers } = require('../utils/get-best-players')
+const BestPlayers = require('../models/best-players')
+const SkaterStats = require('../models/skater-stats')
+const roundToDecimal = require('../utils/round-to-decimal')
+const getSortField = require('../utils/get-sort-field')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -19,16 +27,26 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 const resolvers = {
   Query: {
+    me: async (root, args, ctx) => {
+      return ctx.currentUser
+    },
     playerCount: () => Player.collection.countDocuments(),
     allPlayers: async () => {
       const players = await Player.find({})
       return players
     },
     findPlayer: async (root, args) => {
-      const player = await Player.findOne({
-        playerId: args.playerId,
-      })
-      return player
+      const player = await Player.findOne(args).populate([
+        {
+          path: 'boxscores',
+          model: 'SkaterBoxscore', // TODO how to work with goalies?
+        },
+        {
+          path: 'currentTeam',
+          model: 'Team',
+        },
+      ])
+      return player.toJSON()
     },
     findPlayers: async (root, args) => {
       const players = await Player.find(args)
@@ -54,41 +72,141 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     bestPlayers: async () => {
-      // const players = await Player.find({
-      //   playerId: {
-      //     $in: [8473512, 8471214, 8478427, 8478402, 8476453, 8477493, 8468498],
-      //   },
-      // })
-      const players = await Player.find({})
-      const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers1 = getBestPlayers(playersJSON, 1)
-      const bestPlayers5 = getBestPlayers(playersJSON, 5)
-      const bestPlayers10 = getBestPlayers(playersJSON, 10)
+      const bestPlayers = await BestPlayers.find({})
+        .sort({ _id: -1 })
+        .limit(1)
+
       return {
-        oneGame: bestPlayers1,
-        fiveGames: bestPlayers5,
-        tenGames: bestPlayers10,
+        oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 15),
+        fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 15),
+        tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 15),
       }
     },
     favoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) {
         return { oneGame: [], fiveGames: [], tenGames: [] }
       }
-      const players = await Player.find({
-        _id: { $in: ctx.currentUser.favoritePlayers },
-      })
-      const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers1 = getBestPlayers(playersJSON, 3)
-      const bestPlayers5 = getBestPlayers(playersJSON, 5)
-      const bestPlayers10 = getBestPlayers(playersJSON, 10)
-      return {
-        oneGame: bestPlayers1,
-        fiveGames: bestPlayers5,
-        tenGames: bestPlayers10,
+
+      const bestPlayers = await BestPlayers.find({})
+        .sort({ _id: -1 })
+        .limit(1)
+
+      const oneGame = JSON.parse(bestPlayers[0].oneGame).filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player.id)
+      )
+
+      const fiveGames = JSON.parse(bestPlayers[0].fiveGames).filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player.id)
+      )
+
+      const tenGames = JSON.parse(bestPlayers[0].tenGames).filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player.id)
+      )
+
+      return { oneGame, fiveGames, tenGames }
+    },
+    GetCumulativeStats: async (root, args) => {
+      try {
+        const sortByEnum = args.sortBy
+        const sortDirEnum = args.sortDir
+
+        let sortBy = getSortField(sortByEnum)
+        const sortDir = sortDirEnum === 'DESC' ? '-' : ''
+
+        const allStatsAggregate = await SkaterStats.aggregate()
+          .addFields({
+            points: { $add: ['$goals', '$assists'] },
+            pointsPerGame: {
+              $divide: [{ $add: ['$goals', '$assists'] }, '$gamesPlayed'],
+            },
+            powerPlayPoints: { $add: ['$powerPlayGoals', '$powerPlayAssists'] },
+            shortHandedPoints: {
+              $add: ['$shortHandedGoals', '$shortHandedAssists'],
+            },
+          })
+          .sort(`field ${sortDir}${sortBy}`)
+          .skip(args.offset)
+          .limit(25)
+
+        const allStats = await Player.populate(allStatsAggregate, {
+          path: 'player',
+          model: 'Player',
+          select: 'firstName lastName primaryPosition',
+          populate: {
+            path: 'currentTeam',
+            model: 'Team',
+            select: 'abbreviation',
+          },
+        })
+
+        const cumulativeStats = allStats.map(entry => {
+          return {
+            firstName: entry.player.firstName,
+            lastName: entry.player.lastName,
+            team: entry.player.currentTeam.abbreviation,
+            position: entry.player.primaryPosition,
+            gamesPlayed: entry.gamesPlayed,
+            goals: entry.goals,
+            assists: entry.assists,
+            points: entry.points,
+            plusMinus: entry.plusMinus,
+            penaltyMinutes: entry.penaltyMinutes,
+            pointsPerGame: entry.pointsPerGame,
+            gameWinningGoals: entry.gameWinningGoals,
+            overTimeGoals: entry.overTimeGoals,
+            powerPlayGoals: entry.powerPlayGoals,
+            powerPlayPoints: entry.powerPlayPoints,
+            shortHandedGoals: entry.shortHandedGoals,
+            shortHandedPoints: entry.shortHandedPoints,
+            shots: entry.shots,
+          }
+        })
+
+        return cumulativeStats
+      } catch ({ name, message }) {
+        console.log(`${name}: ${message}`)
       }
     },
-    me: async (root, args, ctx) => {
-      return ctx.currentUser
+    Standings: async () => {
+      const standingsAggregate = await Team.aggregate().project({
+        name: 1,
+        abbreviation: 1,
+        conference: 1,
+        division: 1,
+        latestStats: { $slice: ['$stats', -1] },
+      })
+
+      const standings = await Team.populate(standingsAggregate, [
+        {
+          path: 'latestStats',
+          model: 'TeamStats',
+          select: '-seasonId -date -team',
+        },
+        {
+          path: 'conference',
+          model: 'Conference',
+          select: 'name',
+        },
+        {
+          path: 'division',
+          model: 'Division',
+          select: 'name',
+        },
+      ])
+
+      const sortedStandings = standings
+        .map(team => {
+          return {
+            teamName: team.name,
+            teamAbbr: team.abbreviation,
+            conference: team.conference,
+            division: team.division,
+            ...team.latestStats[0].toJSON(),
+          }
+        })
+        .sort((teamA, teamB) => teamB.points - teamA.points)
+
+      return sortedStandings
     },
   },
   Mutation: {
@@ -238,7 +356,19 @@ const resolvers = {
         throw new AuthenticationError('you must be logged in')
       }
 
-      const { id } = args
+      const { id, followType } = args
+
+      const action = {
+        FOLLOW: () =>
+          (currentUser.favoritePlayers = currentUser.favoritePlayers.concat(
+            id
+          )),
+        UNFOLLOW: () =>
+          (currentUser.favoritePlayers = currentUser.favoritePlayers.filter(
+            _id => _id.toString() !== id
+          )),
+      }
+
       const player = await Player.findOne({ _id: id })
 
       if (!player) {
@@ -246,32 +376,17 @@ const resolvers = {
       }
 
       if (currentUser.favoritePlayers.includes(id)) {
-        throw new UserInputError('you already follow this player')
+        if (followType === 'FOLLOW') {
+          throw new UserInputError('you already follow this player')
+        }
+      } else {
+        if (followType === 'UNFOLLOW') {
+          throw new UserInputError('you are not following this player')
+        }
       }
 
-      currentUser.favoritePlayers = currentUser.favoritePlayers.concat(id)
+      action[followType]()
       await currentUser.save()
-
-      return player.toJSON()
-    },
-    unfollowPlayer: async (root, args, ctx) => {
-      const { currentUser } = ctx
-      if (!currentUser) {
-        throw new AuthenticationError('you must be logged in')
-      }
-
-      const { id } = args
-
-      if (!currentUser.favoritePlayers.includes(id)) {
-        throw new UserInputError('you are not following this player')
-      }
-
-      currentUser.favoritePlayers = currentUser.favoritePlayers.filter(
-        _id => _id.toString() !== id
-      )
-      await currentUser.save()
-
-      const player = await Player.findOne({ _id: id })
 
       return player.toJSON()
     },
@@ -279,24 +394,20 @@ const resolvers = {
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
   },
-  Stat: {
-    faceOffPct: root => {
-      if (root.faceoffTaken === 0) return 0
-      return roundToOneDecimal(root.faceOffWins / root.faceoffTaken)
-    },
+  Stats: {
     shotPct: root => {
       if (root.shots === 0) return 0
-      return roundToOneDecimal(root.goals / root.shots)
+      return roundToDecimal(root.goals / root.shots, 1)
     },
     savePct: root => {
       if (root.saves === 0) return 0
-      return roundToOneDecimal(root.goals / root.saves)
+      return roundToDecimal(root.goals / root.saves, 1)
     },
     points: root => root.goals + root.assists,
-    numOfGames: async root => {
-      const player = await Player.findOne({ 'boxscores._id': root._id })
-      return player.boxscores.length
-    },
+  },
+  CumulativeStats: {
+    fullName: root => `${root.firstName} ${root.lastName}`,
+    pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
   },
 }
 

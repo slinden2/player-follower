@@ -5,7 +5,9 @@ For sorting boxscore. Must be corrected to date in the future.
 It is not guaranteed that gamePks are in progressive order.
 */
 const sortByGameDate = boxscores => {
-  return boxscores.sort((a, b) => b.gameDate - a.gameDate)
+  return boxscores.sort((a, b) => {
+    return a.gameDate > b.gameDate ? -1 : 1
+  })
 }
 
 const sortByPerformance = players => {
@@ -33,11 +35,12 @@ const getBestPlayers = (players, numOfGames) => {
 
   const newPlayers = []
   for (const player of playersSorted) {
+    if (player.boxscores.length < 1) continue
     player.stats = reduceStats(player, numOfGames)
     newPlayers.push(player)
   }
 
-  const sortedPlayers = sortByPerformance(newPlayers).slice(0, 5)
+  const sortedPlayers = sortByPerformance(newPlayers)
 
   return sortedPlayers.map(player => ({
     ...player,
