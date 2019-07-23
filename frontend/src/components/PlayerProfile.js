@@ -33,6 +33,14 @@ const headers = [
   { headerText: 'Takeaways', prop: 'takeaways' },
 ]
 
+const sortBoxscoresByDate = boxscores => {
+  return boxscores.sort((a, b) => {
+    a = a.gameDate.split('/').join('')
+    b = b.gameDate.split('/').join('')
+    return a < b ? 1 : a > b ? -1 : 0
+  })
+}
+
 const PlayerProfile = ({ siteLink }) => {
   const { data, loading } = useQuery(PLAYER_PROFILE, {
     variables: { siteLink },
@@ -43,6 +51,7 @@ const PlayerProfile = ({ siteLink }) => {
   }
 
   const player = data.findPlayer
+  player.boxscores = sortBoxscoresByDate(player.boxscores)
 
   const createHeaders = () => (
     <Table.Row>
