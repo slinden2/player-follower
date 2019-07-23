@@ -28,7 +28,7 @@ const authLink = setContext((_, { headers }) => {
 const cache = new InMemoryCache({
   dataIdFromObject: object => {
     switch (object.__typename) {
-      case 'Player':
+      case 'PlayerCard':
         if (object.numOfGamesId) {
           return object.numOfGamesId + object.id
         }
