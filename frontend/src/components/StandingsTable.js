@@ -2,25 +2,25 @@ import React from 'react'
 import { Table, Header } from 'semantic-ui-react'
 
 const headers = [
-  { headerText: 'Team', sortString: 'teamName' },
-  { headerText: 'GP', sortString: 'gamesPlayed' },
-  { headerText: 'W', sortString: 'wins' },
-  { headerText: 'L', sortString: 'losses' },
-  { headerText: 'T', sortString: 'ties' },
-  { headerText: 'OT', sortString: 'otLosses' },
-  { headerText: 'P', sortString: 'points' },
-  { headerText: 'ROW', sortString: 'regPlusOtWins' },
-  { headerText: 'P%', sortString: 'pointPct' },
-  { headerText: 'GF', sortString: 'goalsFor' },
-  { headerText: 'GA', sortString: 'goalsAgainst' },
-  { headerText: 'S/O Wins', sortString: 'shootoutGamesWon' },
-  { headerText: 'GF/GP', sortString: 'goalsForPerGame' },
-  { headerText: 'GA/GP', sortString: 'goalsAgainsPerGame' },
-  { headerText: 'PP%', sortString: 'ppPct' },
-  { headerText: 'PK%', sortString: 'pkPct' },
-  { headerText: 'Shots/GP', sortString: 'shotsForPerGame' },
-  { headerText: 'SA/GP', sortString: 'shotsAgainstPerGame' },
-  { headerText: 'FOW%', sortString: 'faceOffWinPct' },
+  { headerText: 'Team', prop: 'teamName' },
+  { headerText: 'GP', prop: 'gamesPlayed' },
+  { headerText: 'W', prop: 'wins' },
+  { headerText: 'L', prop: 'losses' },
+  { headerText: 'T', prop: 'ties' },
+  { headerText: 'OT', prop: 'otLosses' },
+  { headerText: 'P', prop: 'points' },
+  { headerText: 'ROW', prop: 'regPlusOtWins' },
+  { headerText: 'P%', prop: 'pointPct' },
+  { headerText: 'GF', prop: 'goalsFor' },
+  { headerText: 'GA', prop: 'goalsAgainst' },
+  { headerText: 'S/O Wins', prop: 'shootoutGamesWon' },
+  { headerText: 'GF/GP', prop: 'goalsForPerGame' },
+  { headerText: 'GA/GP', prop: 'goalsAgainstPerGame' },
+  { headerText: 'PP%', prop: 'ppPct' },
+  { headerText: 'PK%', prop: 'pkPct' },
+  { headerText: 'Shots/GP', prop: 'shotsForPerGame' },
+  { headerText: 'SA/GP', prop: 'shotsAgainstPerGame' },
+  { headerText: 'FOW%', prop: 'faceOffWinPct' },
 ]
 
 const StandingsTable = ({ standings, title }) => {
@@ -37,13 +37,11 @@ const StandingsTable = ({ standings, title }) => {
   const createCells = () =>
     standings.map(team => (
       <Table.Row key={team.teamName}>
-        {Object.keys(team).map(key => (
-          <Table.Cell key={`${key}`}>{team[key]}</Table.Cell>
+        {headers.map(stat => (
+          <Table.Cell key={stat.prop}>{team[stat.prop]}</Table.Cell>
         ))}
       </Table.Row>
     ))
-
-  // const createCells = () => <tr />
 
   return (
     <div>

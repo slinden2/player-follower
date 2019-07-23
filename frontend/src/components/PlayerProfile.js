@@ -53,6 +53,7 @@ const PlayerProfile = ({ siteLink }) => {
       ))}
     </Table.Row>
   )
+
   const createCells = () =>
     player.boxscores.map(game => (
       <Table.Row key={game.gameDate}>

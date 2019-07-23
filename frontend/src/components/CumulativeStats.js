@@ -3,6 +3,26 @@ import { useQuery } from 'react-apollo-hooks'
 import { Loader, Table, Header, Button } from 'semantic-ui-react'
 import { CUMULATIVE_STATS } from '../graphql/queries'
 
+const headers = [
+  { headerText: 'Player', prop: 'fullName', sortString: 'PLAYER' },
+  { headerText: 'Team', prop: 'team', sortString: 'TEAM' },
+  { headerText: 'POS', prop: 'position', sortString: 'POSITION' },
+  { headerText: 'GP', prop: 'gamesPlayed', sortString: 'GP' },
+  { headerText: 'G', prop: 'goals', sortString: 'GOALS' },
+  { headerText: 'A', prop: 'assists', sortString: 'ASSISTS' },
+  { headerText: 'P', prop: 'points', sortString: 'POINTS' },
+  { headerText: '+/-', prop: 'plusMinus', sortString: 'PLUSMINUS' },
+  { headerText: 'PM', prop: 'penaltyMinutes', sortString: 'PM' },
+  { headerText: 'P/G', prop: 'pointsPerGame', sortString: 'POINT_PER_GAME' },
+  { headerText: 'GWG', prop: 'gameWinningGoals', sortString: 'GWG' },
+  { headerText: 'OTG', prop: 'overTimeGoals', sortString: 'OTG' },
+  { headerText: 'PPG', prop: 'powerPlayGoals', sortString: 'PPG' },
+  { headerText: 'PPP', prop: 'powerPlayPoints', sortString: 'PPP' },
+  { headerText: 'SHG', prop: 'shortHandedGoals', sortString: 'SHG' },
+  { headerText: 'SHP', prop: 'shortHandedPoints', sortString: 'SHP' },
+  { headerText: 'Shots', prop: 'shots', sortString: 'SHOTS' },
+]
+
 const CumulativeStats = () => {
   const [variables, setVariables] = useState({
     offset: 0,
@@ -17,29 +37,11 @@ const CumulativeStats = () => {
     return <Loader active inline="centered" />
   }
 
-  const headers = [
-    { headerText: 'Player', sortString: 'PLAYER' },
-    { headerText: 'Team', sortString: 'TEAM' },
-    { headerText: 'POS', sortString: 'POSITION' },
-    { headerText: 'GP', sortString: 'GP' },
-    { headerText: 'G', sortString: 'GOALS' },
-    { headerText: 'A', sortString: 'ASSISTS' },
-    { headerText: 'P', sortString: 'POINTS' },
-    { headerText: '+/-', sortString: 'PLUSMINUS' },
-    { headerText: 'PM', sortString: 'PM' },
-    { headerText: 'P/G', sortString: 'POINT_PER_GAME' },
-    { headerText: 'GWG', sortString: 'GWG' },
-    { headerText: 'OTG', sortString: 'OTG' },
-    { headerText: 'PPG', sortString: 'PPG' },
-    { headerText: 'PPP', sortString: 'PPP' },
-    { headerText: 'SHG', sortString: 'SHG' },
-    { headerText: 'SHP', sortString: 'SHP' },
-    { headerText: 'Shots', sortString: 'SHOTS' },
-  ]
+  const players = data.GetCumulativeStats
 
   const loadMore = () => {
     fetchMore({
-      variables: { offset: data.GetCumulativeStats.length },
+      variables: { offset: players.length },
       updateQuery: (prevResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prevResult
         return {
@@ -82,15 +84,11 @@ const CumulativeStats = () => {
   )
 
   const createCells = () =>
-    data.GetCumulativeStats.map((player, idx) => (
-      <Table.Row key={`${player.playerId}${idx}`}>
-        {Object.keys(player)
-          .slice(0, -1)
-          .map((key, idx) => (
-            <Table.Cell key={`${player.playerId}${idx}`}>
-              {player[key]}
-            </Table.Cell>
-          ))}
+    players.map(player => (
+      <Table.Row key={player.fullName}>
+        {headers.map(stat => (
+          <Table.Cell key={stat.prop}>{player[stat.prop]}</Table.Cell>
+        ))}
       </Table.Row>
     ))
 
