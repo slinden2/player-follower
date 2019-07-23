@@ -15,6 +15,7 @@ const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
 const roundToDecimal = require('../utils/round-to-decimal')
 const getSortField = require('../utils/get-sort-field')
+const convertSecsToMin = require('../utils/convert-secs-to-min')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -407,6 +408,10 @@ const resolvers = {
     },
     points: root => root.goals + root.assists,
     gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
+    timeOnIce: root => convertSecsToMin(root.timeOnIce),
+    evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),
+    powerPlayTimeOnIce: root => convertSecsToMin(root.powerPlayTimeOnIce),
+    shortHandedTimeOnIce: root => convertSecsToMin(root.shortHandedTimeOnIce),
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,

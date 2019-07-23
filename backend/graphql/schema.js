@@ -124,7 +124,7 @@ const typeDefs = gql`
     id: ID!
     assists: Int!
     blocked: Int!
-    evenTimeOnIce: Int!
+    evenTimeOnIce: String!
     goals: Int!
     hits: Int!
     penaltyMinutes: Int!
@@ -132,13 +132,13 @@ const typeDefs = gql`
     points: Int!
     powerPlayAssists: Int!
     powerPlayGoals: Int!
-    powerPlayTimeOnIce: Int!
+    powerPlayTimeOnIce: String!
     shortHandedAssists: Int!
     shortHandedGoals: Int!
-    shortHandedTimeOnIce: Int!
+    shortHandedTimeOnIce: String!
     shotPct: Float
     shots: Int!
-    timeOnIce: Int!
+    timeOnIce: String!
 
     # Group for all boxscore-only related stats
     faceOffsTaken: Int!
