@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
+const dateFns = require('date-fns')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for field population
 require('../models/goalie-boxscore') // needed for field population
@@ -14,6 +15,7 @@ const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
 const roundToDecimal = require('../utils/round-to-decimal')
 const getSortField = require('../utils/get-sort-field')
+const convertSecsToMin = require('../utils/convert-secs-to-min')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -393,6 +395,7 @@ const resolvers = {
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
+    birthDate: root => dateFns.format(root.birthDate, 'D MMM YYYY'),
   },
   Stats: {
     shotPct: root => {
@@ -404,6 +407,11 @@ const resolvers = {
       return roundToDecimal(root.goals / root.saves, 1)
     },
     points: root => root.goals + root.assists,
+    gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
+    timeOnIce: root => convertSecsToMin(root.timeOnIce),
+    evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),
+    powerPlayTimeOnIce: root => convertSecsToMin(root.powerPlayTimeOnIce),
+    shortHandedTimeOnIce: root => convertSecsToMin(root.shortHandedTimeOnIce),
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
