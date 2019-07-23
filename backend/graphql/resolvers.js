@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
+const dateFns = require('date-fns')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for field population
 require('../models/goalie-boxscore') // needed for field population
@@ -393,6 +394,7 @@ const resolvers = {
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
+    birthDate: root => dateFns.format(root.birthDate, 'D MMM YYYY'),
   },
   Stats: {
     shotPct: root => {
@@ -404,6 +406,7 @@ const resolvers = {
       return roundToDecimal(root.goals / root.saves, 1)
     },
     points: root => root.goals + root.assists,
+    gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,

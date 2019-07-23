@@ -13,7 +13,7 @@ const headers = [
   { headerText: 'P', prop: 'points', sortString: 'POINTS' },
   { headerText: '+/-', prop: 'plusMinus', sortString: 'PLUSMINUS' },
   { headerText: 'PM', prop: 'penaltyMinutes', sortString: 'PM' },
-  { headerText: 'P/G', prop: 'pointsPerGame', sortString: 'POINT_PER_GAME' },
+  { headerText: 'P/G', prop: 'pointsPerGame', sortString: 'POINTS_PER_GAME' },
   { headerText: 'GWG', prop: 'gameWinningGoals', sortString: 'GWG' },
   { headerText: 'OTG', prop: 'overTimeGoals', sortString: 'OTG' },
   { headerText: 'PPG', prop: 'powerPlayGoals', sortString: 'PPG' },
