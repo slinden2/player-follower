@@ -1,3 +1,4 @@
+const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
@@ -48,7 +49,49 @@ const resolvers = {
           model: 'Team',
         },
       ])
-      return player.toJSON()
+
+      const playerJSON = player.toJSON()
+
+      return playerJSON
+    },
+    GetMilestones: async (root, args) => {
+      const contentUrl = gamePk =>
+        `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/content`
+
+      const { gamePks, playerId } = args
+
+      const contentByGame = []
+
+      gamePks
+        .slice(0, 10)
+        .forEach(gamePk => contentByGame.push(axios.get(contentUrl(gamePk))))
+
+      const responseArray = await Promise.all(contentByGame)
+
+      // Extract goal highlights from the response array and
+      // generate milestone objects
+      const goals = responseArray
+        .map(response =>
+          response.data.media.milestones.items
+            .filter(
+              milestone =>
+                milestone.type === 'GOAL' &&
+                Number(milestone.playerId) === playerId &&
+                Object.keys(milestone.highlight).length
+            )
+            .map(milestone => ({
+              title: milestone.highlight.title,
+              description: milestone.highlight.description,
+              blurb: milestone.highlight.blurb,
+              playback:
+                milestone.highlight.playbacks[
+                  milestone.highlight.playbacks.length - 1
+                ],
+            }))
+        )
+        .filter(game => game.length)
+
+      return goals
     },
     findPlayers: async (root, args) => {
       const players = await Player.find(args)

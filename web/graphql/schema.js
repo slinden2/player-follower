@@ -232,6 +232,20 @@ const typeDefs = gql`
     shots: Int!
   }
 
+  type PlayerMilestone {
+    title: String!
+    description: String!
+    blurb: String!
+    playback: Video!
+  }
+
+  type Video {
+    name: String!
+    height: Int!
+    width: Int!
+    url: String!
+  }
+
   type User {
     id: ID!
     username: String!
@@ -327,6 +341,10 @@ const typeDefs = gql`
     Used for player search field.
     """
     findByName(searchString: String!): [Player]!
+    """
+    Fetches game related milestones from the API
+    """
+    GetMilestones(playerId: Int!, gamePks: [Int!]!): [[PlayerMilestone]!]!
     """
     Returns the logged user
     """
