@@ -3,6 +3,7 @@ import { useQuery } from 'react-apollo-hooks'
 import { Loader, Image, Header, List, Divider, Table } from 'semantic-ui-react'
 import { profileImgUrl } from '../utils'
 import { PLAYER_PROFILE } from '../graphql/queries'
+import PlayerMilestones from './PlayerMilestones'
 
 const positions = {
   R: 'Right Wing',
@@ -52,6 +53,7 @@ const PlayerProfile = ({ siteLink }) => {
 
   const player = data.findPlayer
   player.boxscores = sortBoxscoresByDate(player.boxscores)
+  const gamePks = player.boxscores.map(boxscore => boxscore.gamePk)
 
   const createHeaders = () => (
     <Table.Row>
@@ -104,6 +106,11 @@ const PlayerProfile = ({ siteLink }) => {
         <Table.Header>{createHeaders()}</Table.Header>
         <Table.Body>{createCells()}</Table.Body>
       </Table>
+      <Divider />
+      <PlayerMilestones
+        playerId={player.playerId}
+        gamePks={gamePks.slice(0, 10)}
+      />
     </div>
   )
 }

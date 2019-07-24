@@ -187,6 +187,20 @@ const STANDINGS = gql`
   }
 `
 
+const PLAYER_MILESTONES = gql`
+  query getPlayerMilestones($playerId: Int!, $gamePks: [Int!]!) {
+    GetMilestones(playerId: $playerId, gamePks: $gamePks) {
+      title
+      description
+      playback {
+        width
+        height
+        url
+      }
+    }
+  }
+`
+
 export {
   BEST_PLAYERS,
   FAVORITE_PLAYERS,
@@ -195,4 +209,5 @@ export {
   CUMULATIVE_STATS,
   STANDINGS,
   PLAYER_PROFILE,
+  PLAYER_MILESTONES,
 }
