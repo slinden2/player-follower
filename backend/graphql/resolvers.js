@@ -62,37 +62,36 @@ const resolvers = {
 
       const contentByGame = []
 
-      gamePks.forEach(gamePk =>
-        contentByGame.push(axios.get(contentUrl(gamePk)))
-      )
+      gamePks
+        .slice(0, 10)
+        .forEach(gamePk => contentByGame.push(axios.get(contentUrl(gamePk))))
 
       const responseArray = await Promise.all(contentByGame)
 
-      const milestoneArray = responseArray.map(
-        response => response.data.media.milestones.items
-      )
-
-      const goalArray = milestoneArray.map(game =>
-        game.filter(
-          milestone =>
-            milestone.type === 'GOAL' &&
-            parseInt(milestone.playerId) === playerId
+      // Extract goal highlights from the response array and
+      // generate milestone objects
+      const goals = responseArray
+        .map(response =>
+          response.data.media.milestones.items
+            .filter(
+              milestone =>
+                milestone.type === 'GOAL' &&
+                Number(milestone.playerId) === playerId &&
+                Object.keys(milestone.highlight).length
+            )
+            .map(milestone => ({
+              title: milestone.highlight.title,
+              description: milestone.highlight.description,
+              blurb: milestone.highlight.blurb,
+              playback:
+                milestone.highlight.playbacks[
+                  milestone.highlight.playbacks.length - 1
+                ],
+            }))
         )
-      )
+        .filter(game => game.length)
 
-      const contentArray = goalArray.map(game =>
-        game.map(milestone => {
-          const title = milestone.highlight.title
-          const description = milestone.highlight.description
-          const playback =
-            milestone.highlight.playbacks[
-              milestone.highlight.playbacks.length - 1
-            ]
-          return { title, description, playback }
-        })
-      )
-
-      return contentArray
+      return goals
     },
     findPlayers: async (root, args) => {
       const players = await Player.find(args)

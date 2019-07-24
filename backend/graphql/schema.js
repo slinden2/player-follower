@@ -235,6 +235,7 @@ const typeDefs = gql`
   type PlayerMilestone {
     title: String!
     description: String!
+    blurb: String!
     playback: Video!
   }
 

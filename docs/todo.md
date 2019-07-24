@@ -51,6 +51,9 @@
 - [ ] Lazy loading for images
 - [ ] Refactor search debounce to hooks
 - [ ] Load more links on main page
+- [ ] Component for stats tables
+- [ ] Refactor GetMilestones to use a big reducer to avoid maps and filters
+- [ ] Boxscore needs also opponent teamId
 
 ## Notes
 
