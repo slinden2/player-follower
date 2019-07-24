@@ -343,7 +343,7 @@ const typeDefs = gql`
     """
     Fetches game related milestones from the API
     """
-    GetMilestones(playerId: Int!, gamePks: [Int!]!): [PlayerMilestone]!
+    GetMilestones(playerId: Int!, gamePks: [Int!]!): [[PlayerMilestone]!]!
     """
     Returns the logged user
     """

@@ -80,15 +80,18 @@ const resolvers = {
         )
       )
 
-      const contentArray = goalArray.map(milestone => {
-        const title = milestone[0].highlight.title
-        const description = milestone[0].highlight.description
-        const playback =
-          milestone[0].highlight.playbacks[
-            milestone[0].highlight.playbacks.length - 1
-          ]
-        return { title, description, playback }
-      })
+      const contentArray = goalArray.map(game =>
+        game.map(milestone => {
+          const title = milestone.highlight.title
+          const description = milestone.highlight.description
+          const playback =
+            milestone.highlight.playbacks[
+              milestone.highlight.playbacks.length - 1
+            ]
+          return { title, description, playback }
+        })
+      )
+
       return contentArray
     },
     findPlayers: async (root, args) => {
