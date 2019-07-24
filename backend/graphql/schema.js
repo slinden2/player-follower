@@ -234,6 +234,7 @@ const typeDefs = gql`
   }
 
   type PlayerMilestone {
+    gamePk: Int!
     title: String!
     description: String!
     blurb: String!

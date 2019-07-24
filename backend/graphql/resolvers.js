@@ -73,6 +73,10 @@ const resolvers = {
       const goals = responseArray
         .map(response =>
           response.data.media.milestones.items
+            .map(item => ({
+              ...item,
+              gamePk: Number(response.data.link.split('/')[4]),
+            }))
             .filter(
               milestone =>
                 milestone.type === 'GOAL' &&
@@ -80,6 +84,7 @@ const resolvers = {
                 Object.keys(milestone.highlight).length
             )
             .map(milestone => ({
+              gamePk: milestone.gamePk,
               title: milestone.highlight.title,
               description: milestone.highlight.description,
               blurb: milestone.highlight.blurb,
