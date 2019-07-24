@@ -173,6 +173,12 @@ const generatePlayerLinks = async () => {
   }
 }
 
+const deleteAllStarGames = async () => {
+  const boxscores = await GoalieBoxscore.deleteMany({
+    gamePk: { $gte: 2018029999 },
+  })
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -188,3 +194,4 @@ const generatePlayerLinks = async () => {
 // populatePlayerStats().then(() => mongoose.connection.close())
 // populatePlayer().then(() => mongoose.connection.close())
 // generatePlayerLinks().then(() => mongoose.connection.close())
+// deleteAllStarGames().then(() => mongoose.connection.close())

@@ -214,6 +214,7 @@ const typeDefs = gql`
 
   type CumulativeStats {
     fullName: String!
+    siteLink: String!
     team: String!
     position: String!
     gamesPlayed: Int!

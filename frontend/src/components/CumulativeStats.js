@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
+import { Link } from 'react-router-dom'
 import { Loader, Table, Header, Button } from 'semantic-ui-react'
 import { CUMULATIVE_STATS } from '../graphql/queries'
 
@@ -36,6 +37,8 @@ const CumulativeStats = () => {
   if (loading) {
     return <Loader active inline="centered" />
   }
+
+  console.log(data)
 
   const players = data.GetCumulativeStats
 
@@ -86,9 +89,18 @@ const CumulativeStats = () => {
   const createCells = () =>
     players.map(player => (
       <Table.Row key={player.fullName}>
-        {headers.map(stat => (
-          <Table.Cell key={stat.prop}>{player[stat.prop]}</Table.Cell>
-        ))}
+        {headers.map(stat => {
+          if (stat.headerText === 'Player') {
+            return (
+              <Table.Cell key={stat.prop}>
+                <Link to={`players/${player.siteLink}`}>
+                  {player[stat.prop]}
+                </Link>
+              </Table.Cell>
+            )
+          }
+          return <Table.Cell key={stat.prop}>{player[stat.prop]}</Table.Cell>
+        })}
       </Table.Row>
     ))
 

@@ -176,7 +176,7 @@ const resolvers = {
         const allStats = await Player.populate(allStatsAggregate, {
           path: 'player',
           model: 'Player',
-          select: 'firstName lastName primaryPosition',
+          select: 'firstName lastName primaryPosition siteLink',
           populate: {
             path: 'currentTeam',
             model: 'Team',
@@ -188,6 +188,7 @@ const resolvers = {
           return {
             firstName: entry.player.firstName,
             lastName: entry.player.lastName,
+            siteLink: entry.player.siteLink,
             team: entry.player.currentTeam.abbreviation,
             position: entry.player.primaryPosition,
             gamesPlayed: entry.gamesPlayed,

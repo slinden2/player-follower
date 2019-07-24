@@ -135,6 +135,7 @@ const CUMULATIVE_STATS = gql`
   ) {
     GetCumulativeStats(offset: $offset, sortBy: $sortBy, sortDir: $sortDir) {
       fullName
+      siteLink
       team
       position
       gamesPlayed

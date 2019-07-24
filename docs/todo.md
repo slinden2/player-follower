@@ -41,9 +41,9 @@
 - [ ] Tests for frontend
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] A view for single players
-- [x] Bio
-- [x] Performance Game-by-Game
-- [ ] Links to goals videos
+  - [x] Bio
+  - [x] Performance Game-by-Game
+  - [x] Links to goals videos
 - [ ] Backside of the player cards
 - [ ] Redesign site with styled components
 - [ ] A view to show top performes. For example, most goals / points this month, this season etc.
@@ -52,7 +52,6 @@
 - [ ] Refactor search debounce to hooks
 - [ ] Load more links on main page
 - [ ] Component for stats tables
-- [ ] Refactor GetMilestones to use a big reducer to avoid maps and filters
 - [ ] Boxscore needs also opponent teamId
 
 ## Notes
