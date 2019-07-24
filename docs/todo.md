@@ -18,12 +18,15 @@
 - [x] Password requirements
 - [x] GraphQL fragments
 - [x] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
+- [x] Error handling for backend
 - [x] Do recent stats calculations as a scheduled task and save results in db daily as string
-- [x] Stats
+  - [ ] Find a more efficient way to do this...
+- [ ] Stats
   - [x] First version done via external API.
   - [x] Create a schema and a fetch script.
   - [x] Implement pagination
   - [x] Implement table sorting
+  - [ ] Filter stats by team (no pagination needed)
 - [x] Standings
   - [x] Set up models and schema
   - [x] Resolver
@@ -31,7 +34,6 @@
 - [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
-- [ ] Error handling for backend
 - [ ] Tests for backend
   - [x] Unit tests for get best players etc
   - [x] Unit tests for GraphQL schema
@@ -39,10 +41,16 @@
 - [ ] Tests for frontend
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] A view for single players
+- [x] Bio
+- [x] Performance Game-by-Game
+- [ ] Links to goals videos
 - [ ] Backside of the player cards
-- [ ] Consider implementing login functionality out of GraphQL
-- [ ] Redesign site with styled components?
+- [ ] Redesign site with styled components
 - [ ] A view to show top performes. For example, most goals / points this month, this season etc.
+- [ ] A view for single games (highlights videos etc)
+- [ ] Lazy loading for images
+- [ ] Refactor search debounce to hooks
+- [ ] Load more links on main page
 
 ## Notes
 

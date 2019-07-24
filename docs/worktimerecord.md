@@ -55,4 +55,5 @@
 | 20.07.2019 | 8,5  | cumulative stats in fe and be. sorting and pagination working.    |
 | 21.07.2019 | 8    | working on standings, backend and frontend                        |
 | 22.07.2019 | 6,5  | refactored the schemas and did the first proto of player profile  |
-|   total    | 175  |                                                                   |
+| 23.07.2019 | 6    | fixed a cache bug and worked on the player profile.               |
+|   total    | 181  |                                                                   |
