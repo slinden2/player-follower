@@ -53,6 +53,7 @@
 - [ ] Load more links on main page
 - [ ] Component for stats tables
 - [ ] Boxscore needs also opponent teamId
+- [ ] Check our mandril and mailgun
 
 ## Notes
 

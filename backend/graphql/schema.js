@@ -144,6 +144,8 @@ const typeDefs = gql`
     faceOffsTaken: Int!
     faceOffWins: Int!
     gameDate: String!
+    awayTeam: Team!
+    homeTeam: Team!
     """
     Internal progressive game id from NHL API.
     """

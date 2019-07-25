@@ -43,10 +43,16 @@ const resolvers = {
         {
           path: 'boxscores',
           model: 'SkaterBoxscore', // TODO how to work with goalies?
+          populate: {
+            path: 'homeTeam awayTeam',
+            model: 'Team',
+            select: 'abbreviation',
+          },
         },
         {
           path: 'currentTeam',
           model: 'Team',
+          select: 'name abbreviation locationName',
         },
       ])
 

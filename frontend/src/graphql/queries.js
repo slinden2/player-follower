@@ -100,6 +100,12 @@ const PLAYER_PROFILE = gql`
         shots
         takeaways
         timeOnIce
+        homeTeam {
+          abbreviation
+        }
+        awayTeam {
+          abbreviation
+        }
       }
     }
   }

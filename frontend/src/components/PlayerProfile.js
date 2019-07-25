@@ -14,6 +14,7 @@ const positions = {
 
 const headers = [
   { headerText: 'Date', prop: 'gameDate' },
+  { headerText: 'Teams', prop: 'teams' },
   { headerText: 'G', prop: 'goals' },
   { headerText: 'A', prop: 'assists' },
   { headerText: 'P', prop: 'points' },
@@ -68,9 +69,16 @@ const PlayerProfile = ({ siteLink }) => {
   const createCells = () =>
     player.boxscores.map(game => (
       <Table.Row key={game.gameDate}>
-        {headers.map(stat => (
-          <Table.Cell key={stat.prop}>{game[stat.prop]}</Table.Cell>
-        ))}
+        {headers.map(stat => {
+          if (stat.prop === 'teams') {
+            return (
+              <Table.Cell key={stat.prop}>{`${game.awayTeam.abbreviation}@${
+                game.homeTeam.abbreviation
+              }`}</Table.Cell>
+            )
+          }
+          return <Table.Cell key={stat.prop}>{game[stat.prop]}</Table.Cell>
+        })}
       </Table.Row>
     ))
 
