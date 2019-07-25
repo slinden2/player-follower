@@ -19,6 +19,7 @@ const PlayerMilestones = ({ playerId, gamePks }) => {
       game.map(milestone => (
         <div key={milestone.title}>
           <Header>{milestone.title}</Header>
+          <p>{milestone.blurb.split(':')[0]}</p>
           <video
             width={milestone.playback.width}
             height={milestone.playback.height}
@@ -34,7 +35,7 @@ const PlayerMilestones = ({ playerId, gamePks }) => {
 
   return (
     <div>
-      <Header>Goals</Header>
+      <Header>Highlights</Header>
       {createMilestones()}
     </div>
   )
