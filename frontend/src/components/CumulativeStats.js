@@ -38,8 +38,6 @@ const CumulativeStats = () => {
     return <Loader active inline="centered" />
   }
 
-  console.log(data)
-
   const players = data.GetCumulativeStats
 
   const loadMore = () => {
