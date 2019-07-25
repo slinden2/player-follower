@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { Loader, Header, Divider } from 'semantic-ui-react'
+import { Loader, Header, Divider, Button } from 'semantic-ui-react'
 import { PLAYER_MILESTONES } from '../graphql/queries'
 
 const getDate = (gamePk, boxscores) => {
@@ -8,9 +8,15 @@ const getDate = (gamePk, boxscores) => {
   return score.gameDate
 }
 
-const PlayerMilestones = ({ playerId, gamePks, boxscores }) => {
+const PlayerMilestones = ({
+  playerId,
+  gamePks,
+  selectedGamePk,
+  setSelectedGamePk,
+  boxscores,
+}) => {
   const { data, loading } = useQuery(PLAYER_MILESTONES, {
-    variables: { playerId, gamePks },
+    variables: { playerId, gamePks: selectedGamePk || gamePks },
   })
 
   if (loading) {
@@ -43,7 +49,19 @@ const PlayerMilestones = ({ playerId, gamePks, boxscores }) => {
 
   return (
     <div>
-      <Header>Highlights</Header>
+      <Header>
+        Highlights{' '}
+        {selectedGamePk ? (
+          <Button
+            primary
+            size="mini"
+            content="Last 5 games"
+            onClick={() => setSelectedGamePk(null)}
+          />
+        ) : (
+          '| Last 5 games'
+        )}{' '}
+      </Header>
       {createMilestones()}
     </div>
   )

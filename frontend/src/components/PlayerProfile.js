@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Loader, Image, Header, List, Divider, Table } from 'semantic-ui-react'
 import { profileImgUrl } from '../utils'
@@ -44,6 +44,7 @@ const sortBoxscoresByDate = boxscores => {
 }
 
 const PlayerProfile = ({ siteLink }) => {
+  const [selectedGamePk, setSelectedGamePk] = useState(null)
   const { data, loading } = useQuery(PLAYER_PROFILE, {
     variables: { siteLink },
   })
@@ -68,7 +69,10 @@ const PlayerProfile = ({ siteLink }) => {
 
   const createCells = () =>
     player.boxscores.map(game => (
-      <Table.Row key={game.gameDate}>
+      <Table.Row
+        key={game.gameDate}
+        onClick={() => setSelectedGamePk([game.gamePk])}
+      >
         {headers.map(stat => {
           if (stat.prop === 'teams') {
             return (
@@ -117,7 +121,9 @@ const PlayerProfile = ({ siteLink }) => {
       <Divider />
       <PlayerMilestones
         playerId={player.playerId}
-        gamePks={gamePks.slice(0, 10)}
+        gamePks={gamePks.slice(0, 5)}
+        selectedGamePk={selectedGamePk}
+        setSelectedGamePk={setSelectedGamePk}
         boxscores={player.boxscores}
       />
     </div>
