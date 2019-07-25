@@ -1,3 +1,4 @@
+const axios = require('axios')
 const mongoose = require('mongoose')
 const Conference = require('../models/conference')
 const Division = require('../models/division')
@@ -179,6 +180,29 @@ const deleteAllStarGames = async () => {
   })
 }
 
+const addTeamsToBoxscores = async () => {
+  const gamePks = await SkaterBoxscore.find().distinct('gamePk')
+  for (const gamePk of gamePks.slice(0, 1)) {
+    const response = await axios.get(
+      `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
+    )
+    const homeTeam = await Team.findOne({
+      teamId: response.data.teams.home.team.id,
+    })
+
+    const awayTeam = await Team.findOne({
+      teamId: response.data.teams.away.team.id,
+    })
+
+    await GoalieBoxscore.updateMany(
+      { gamePk },
+      { homeTeam: homeTeam._id, awayTeam: awayTeam._id }
+    )
+
+    console.log(gamePk)
+  }
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -195,3 +219,4 @@ const deleteAllStarGames = async () => {
 // populatePlayer().then(() => mongoose.connection.close())
 // generatePlayerLinks().then(() => mongoose.connection.close())
 // deleteAllStarGames().then(() => mongoose.connection.close())
+// addTeamsToBoxscores().then(() => mongoose.connection.close())
