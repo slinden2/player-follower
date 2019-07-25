@@ -3,7 +3,12 @@ import { useQuery } from 'react-apollo-hooks'
 import { Loader, Header, Divider } from 'semantic-ui-react'
 import { PLAYER_MILESTONES } from '../graphql/queries'
 
-const PlayerMilestones = ({ playerId, gamePks }) => {
+const getDate = (gamePk, boxscores) => {
+  const score = boxscores.find(boxscore => boxscore.gamePk === gamePk)
+  return score.gameDate
+}
+
+const PlayerMilestones = ({ playerId, gamePks, boxscores }) => {
   const { data, loading } = useQuery(PLAYER_MILESTONES, {
     variables: { playerId, gamePks },
   })
@@ -19,7 +24,10 @@ const PlayerMilestones = ({ playerId, gamePks }) => {
       game.map(milestone => (
         <div key={milestone.title}>
           <Header>{milestone.title}</Header>
-          <p>{milestone.blurb.split(':')[0]}</p>
+          <div>
+            {getDate(milestone.gamePk, boxscores)}{' '}
+            {milestone.blurb.split(':')[0]}
+          </div>
           <video
             width={milestone.playback.width}
             height={milestone.playback.height}

@@ -118,6 +118,7 @@ const PlayerProfile = ({ siteLink }) => {
       <PlayerMilestones
         playerId={player.playerId}
         gamePks={gamePks.slice(0, 10)}
+        boxscores={player.boxscores}
       />
     </div>
   )
