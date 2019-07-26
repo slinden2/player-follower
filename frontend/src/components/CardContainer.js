@@ -1,8 +1,10 @@
 import React, { useContext } from 'react'
 import { Container, Header, Divider, Loader } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
-import PlayerCard from './PlayerCard'
+import PlayerCardFront from './PlayerCardFront'
 import { NotificationContext } from '../contexts/NotificationContext'
+import PlayerCard from './PlayerCard'
+import PlayerCardBack from './PlayerCardBack'
 
 const CardContainer = ({ query }) => {
   const { setNotification } = useContext(NotificationContext)
@@ -21,11 +23,14 @@ const CardContainer = ({ query }) => {
       <Grid centered={true} columns={5}>
         {playerResults.map(player => (
           <Grid.Column key={player.playerId}>
-            <PlayerCard
-              key={player.playerId}
-              player={player}
-              setNotification={setNotification}
-            />
+            <PlayerCard>
+              <PlayerCardFront
+                key={player.playerId}
+                player={player}
+                setNotification={setNotification}
+              />
+              <PlayerCardBack key={player.playerId} player={player} />
+            </PlayerCard>
           </Grid.Column>
         ))}
       </Grid>

@@ -15,6 +15,17 @@ const PLAYER_DETAILS = gql`
       points
       plusMinus
       penaltyMinutes
+      timeOnIcePerGame
+      shots
+      powerPlayGoals
+      powerPlayPoints
+      shortHandedGoals
+      shortHandedPoints
+      faceOffsTaken
+      hits
+      blocked
+      giveaways
+      takeaways
     }
   }
 `
