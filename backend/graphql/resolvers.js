@@ -462,6 +462,8 @@ const resolvers = {
       return roundToDecimal(root.goals / root.saves, 1)
     },
     points: root => root.goals + root.assists,
+    powerPlayPoints: root => root.powerPlayGoals + root.powerPlayAssists,
+    shortHandedPoints: root => root.shortHandedGoals + root.shortHandedAssists,
     gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),

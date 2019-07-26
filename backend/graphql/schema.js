@@ -132,9 +132,11 @@ const typeDefs = gql`
     points: Int!
     powerPlayAssists: Int!
     powerPlayGoals: Int!
+    powerPlayPoints: Int! # custom resolver
     powerPlayTimeOnIce: String!
     shortHandedAssists: Int!
     shortHandedGoals: Int!
+    shortHandedPoints: Int! # custom resolver
     shortHandedTimeOnIce: String!
     shotPct: Float
     shots: Int!

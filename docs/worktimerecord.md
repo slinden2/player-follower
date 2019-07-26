@@ -57,4 +57,6 @@
 | 22.07.2019 | 6,5  | refactored the schemas and did the first proto of player profile  |
 | 23.07.2019 | 6    | fixed a cache bug and worked on the player profile.               |
 | 24.07.2019 | 5    | added support for milestones (goal videos on player profiles)     |
-|   total    | 186  |                                                                   |
+| 25.07.2019 | 4    | working on the player profile / milestones                        |
+| 26.07.2019 | 2    | added backside to the player cards                                |
+|   total    | 192  |                                                                   |

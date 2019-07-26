@@ -19,6 +19,8 @@
 - [x] GraphQL fragments
 - [x] Create a "vote type" in schema (enum) and use it to combine follow/unfollow mutations
 - [x] Error handling for backend
+- [x] Add teams to all boxscores
+- [x] Backside of the player cards
 - [x] Do recent stats calculations as a scheduled task and save results in db daily as string
   - [ ] Find a more efficient way to do this...
 - [ ] Stats
@@ -31,7 +33,6 @@
   - [x] Set up models and schema
   - [x] Resolver
   - [x] Possibility to visualize standings by league/conference/division
-- [ ] Nicer player cards
 - [ ] About
 - [ ] Footer
 - [ ] Tests for backend
@@ -44,7 +45,6 @@
   - [x] Bio
   - [x] Performance Game-by-Game
   - [x] Links to goals videos
-- [ ] Backside of the player cards
 - [ ] Redesign site with styled components
 - [ ] A view to show top performes. For example, most goals / points this month, this season etc.
 - [ ] A view for single games (highlights videos etc)
@@ -52,7 +52,6 @@
 - [ ] Refactor search debounce to hooks
 - [ ] Load more links on main page
 - [ ] Component for stats tables
-- [ ] Boxscore needs also opponent teamId
 - [ ] Check our mandril and mailgun
 
 ## Notes
