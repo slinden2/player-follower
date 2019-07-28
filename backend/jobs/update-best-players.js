@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Player = require('../models/player')
 require('../models/skater-boxscore')
 const bestPlayers = require('../models/best-players')
-const { getBestPlayers } = require('./helpers/get-best-players')
+const { getBestPlayers } = require('../utils/get-best-players')
 
 const config = require('../utils/config')
 
