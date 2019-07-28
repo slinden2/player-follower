@@ -45,7 +45,7 @@ const StatsTable = ({
     data.map(item => (
       <Table.Row key={item.id}>
         {headers.map(stat => {
-          return <Table.Cell key={stat.prop}>{item[stat.prop]}</Table.Cell>
+          return <Table.Cell key={stat.id}>{item[stat.id]}</Table.Cell>
         })}
       </Table.Row>
     ))
