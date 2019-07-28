@@ -217,6 +217,7 @@ const typeDefs = gql`
   }
 
   type CumulativeStats {
+    id: ID!
     fullName: String!
     siteLink: String!
     team: String!

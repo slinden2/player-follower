@@ -151,6 +151,7 @@ const CUMULATIVE_STATS = gql`
     $sortDir: SortDir!
   ) {
     GetCumulativeStats(offset: $offset, sortBy: $sortBy, sortDir: $sortDir) {
+      id
       fullName
       siteLink
       team

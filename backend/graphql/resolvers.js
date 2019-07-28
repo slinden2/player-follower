@@ -192,6 +192,7 @@ const resolvers = {
 
         const cumulativeStats = allStats.map(entry => {
           return {
+            id: entry.player._id,
             firstName: entry.player.firstName,
             lastName: entry.player.lastName,
             siteLink: entry.player.siteLink,
