@@ -177,6 +177,7 @@ const CUMULATIVE_STATS = gql`
 const STANDINGS = gql`
   query getStandings {
     Standings {
+      id
       teamName
       gamesPlayed
       wins

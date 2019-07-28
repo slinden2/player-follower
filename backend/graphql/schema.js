@@ -42,6 +42,7 @@ const typeDefs = gql`
   }
 
   type Standings {
+    id: ID!
     teamName: String!
     teamAbbr: String!
     conference: Conference!
