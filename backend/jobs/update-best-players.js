@@ -19,13 +19,11 @@ const updateBestPlayers = async () => {
 
   const playersJSON = players.map(player => player.toJSON())
   const oneGame = JSON.stringify(getBestPlayers(playersJSON, 1))
-  const threeGames = JSON.stringify(getBestPlayers(playersJSON, 3))
   const fiveGames = JSON.stringify(getBestPlayers(playersJSON, 5))
   const tenGames = JSON.stringify(getBestPlayers(playersJSON, 10))
 
   const newBestPlayers = new bestPlayers({
     oneGame,
-    threeGames,
     fiveGames,
     tenGames,
   })

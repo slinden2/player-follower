@@ -5,10 +5,6 @@ const bestPlayersSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  threeGames: {
-    type: String,
-    required: true,
-  },
   fiveGames: {
     type: String,
     required: true,

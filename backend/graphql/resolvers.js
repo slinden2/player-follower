@@ -12,6 +12,7 @@ require('../models/division') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
+const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
 const { getBestPlayers } = require('../utils/get-best-players')
 const roundToDecimal = require('../utils/round-to-decimal')
@@ -127,27 +128,15 @@ const resolvers = {
 
       return players.map(player => player.toJSON())
     },
-    // bestPlayers: async () => {
-    //   const bestPlayers = await BestPlayers.find({})
-    //     .sort({ _id: -1 })
-    //     .limit(1)
-
-    //   return {
-    //     oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 15),
-    //     fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 15),
-    //     tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 15),
-    //   }
-    // },
     bestPlayers: async () => {
-      const players = await Player.find({}).populate('boxscores')
-      const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers1 = getBestPlayers(playersJSON, 1).slice(0, 15)
-      const bestPlayers5 = getBestPlayers(playersJSON, 5).slice(0, 15)
-      const bestPlayers10 = getBestPlayers(playersJSON, 10).slice(0, 15)
+      const bestPlayers = await BestPlayers.find({})
+        .sort({ _id: -1 })
+        .limit(1)
+
       return {
-        oneGame: bestPlayers1,
-        fiveGames: bestPlayers5,
-        tenGames: bestPlayers10,
+        oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 15),
+        fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 15),
+        tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 15),
       }
     },
     favoritePlayers: async (root, args, ctx) => {
@@ -167,29 +156,6 @@ const resolvers = {
         tenGames: bestPlayers10,
       }
     },
-    // favoritePlayers: async (root, args, ctx) => {
-    //   if (!ctx.currentUser) {
-    //     return { oneGame: [], fiveGames: [], tenGames: [] }
-    //   }
-
-    //   const bestPlayers = await BestPlayers.find({})
-    //     .sort({ _id: -1 })
-    //     .limit(1)
-
-    //   const oneGame = JSON.parse(bestPlayers[0].oneGame).filter(player =>
-    //     ctx.currentUser.favoritePlayers.includes(player.id)
-    //   )
-
-    //   const fiveGames = JSON.parse(bestPlayers[0].fiveGames).filter(player =>
-    //     ctx.currentUser.favoritePlayers.includes(player.id)
-    //   )
-
-    //   const tenGames = JSON.parse(bestPlayers[0].tenGames).filter(player =>
-    //     ctx.currentUser.favoritePlayers.includes(player.id)
-    //   )
-
-    //   return { oneGame, fiveGames, tenGames }
-    // },
     GetCumulativeStats: async (root, args) => {
       try {
         const sortByEnum = args.sortBy
