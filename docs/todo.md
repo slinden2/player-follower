@@ -53,6 +53,7 @@
 - [ ] Load more links on main page
 - [ ] Component for stats tables
 - [ ] Check our mandril and mailgun
+- [ ] Problem with stat pagination. Duplicate players on load more.
 
 ## Notes
 

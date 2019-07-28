@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
-import { Loader, Table, Header, Button } from 'semantic-ui-react'
+import { Loader, Button } from 'semantic-ui-react'
 import { CUMULATIVE_STATS } from '../graphql/queries'
+import StatsTable from './StatsTable'
 
 const headers = [
   { headerText: 'Player', prop: 'fullName', sortString: 'PLAYER' },
@@ -56,59 +57,20 @@ const CumulativeStats = () => {
     })
   }
 
-  const handleNewVariables = sortBy => {
-    // cant sort by these fields atm because of
-    // how aggregation is done in the backend
-    if (sortBy === 'PLAYER' || sortBy === 'TEAM' || sortBy === 'POSITION')
-      return
-
-    if (sortBy === variables.sortBy) {
-      variables.sortDir === 'DESC'
-        ? setVariables({ offset: 0, sortBy, sortDir: 'ASC' })
-        : setVariables({ offset: 0, sortBy, sortDir: 'DESC' })
-    } else {
-      setVariables({ offset: 0, sortBy, sortDir: 'DESC' })
-    }
-  }
-
-  const createHeaders = () => (
-    <Table.Row>
-      {headers.map(header => (
-        <Table.HeaderCell
-          key={header.headerText}
-          onClick={() => handleNewVariables(header.sortString)}
-        >
-          {header.headerText}
-        </Table.HeaderCell>
-      ))}
-    </Table.Row>
-  )
-
-  const createCells = () =>
-    players.map(player => (
-      <Table.Row key={player.fullName}>
-        {headers.map(stat => {
-          if (stat.headerText === 'Player') {
-            return (
-              <Table.Cell key={stat.prop}>
-                <Link to={`players/${player.siteLink}`}>
-                  {player[stat.prop]}
-                </Link>
-              </Table.Cell>
-            )
-          }
-          return <Table.Cell key={stat.prop}>{player[stat.prop]}</Table.Cell>
-        })}
-      </Table.Row>
-    ))
+  const playersWithLink = players.map(player => ({
+    ...player,
+    fullName: <Link to={`players/${player.siteLink}`}>{player.fullName}</Link>,
+  }))
 
   return (
     <div>
-      <Header>Stats</Header>
-      <Table celled>
-        <Table.Header>{createHeaders()}</Table.Header>
-        <Table.Body>{createCells()}</Table.Body>
-      </Table>
+      <StatsTable
+        headers={headers}
+        stats={'Stats'}
+        data={playersWithLink}
+        sortVariables={variables}
+        setSortVariables={setVariables}
+      />
       <Button onClick={loadMore}>Load more</Button>
     </div>
   )
