@@ -1,10 +1,49 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Image, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
+import styled from 'styled-components'
+import colors from '../../styles/colors'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
 import { PlayerContext } from '../../contexts/PlayerContext'
 import { cardImgUrl } from '../../utils'
+
+const SPlayerCardFront = styled.div`
+  border-radius: 10px;
+
+  && > img {
+    width: 75%;
+    box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+  }
+`
+
+const SPlayerName = styled.div`
+  & > p {
+    display: inline-block;
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+    margin-bottom: 0;
+    padding-right: 10px;
+    font-size: 1.5rem;
+  }
+
+  & > div {
+    display: inline-block;
+    width: 35%;
+    vertical-align: middle;
+    padding-left: 10px;
+    border-left: 2px solid ${colors.grey2};
+
+    & p {
+      margin: 0;
+      font-size: 1.125rem;
+    }
+  }
+`
 
 const PlayerCardFront = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
@@ -46,32 +85,33 @@ const PlayerCardFront = ({ player }) => {
   const idInArray = (array, id) => array.some(pid => pid === id)
 
   return (
-    <>
-      <Image src={cardImgUrl(player.playerId)} wrapped ui={false} />
-      <Card.Content>
-        <Card.Header as={Link} to={'/players/' + player.siteLink}>
-          {player.firstName} {player.lastName}
-        </Card.Header>
-        <Card.Meta>#{player.primaryNumber}</Card.Meta>
-        <Card.Description>
-          G: {player.stats.goals} | A: {player.stats.assists} | P:{' '}
-          {player.stats.points} | PM: {player.stats.penaltyMinutes} | +/-:{' '}
-          {player.stats.plusMinus}
-        </Card.Description>
+    <SPlayerCardFront>
+      <img src={cardImgUrl(player.playerId)} alt="player profile" />
+      <SPlayerName>
+        <p>#{player.primaryNumber}</p>
         <div>
-          {token && user.data.me && (
-            <>
-              {!idInArray(user.data.me.favoritePlayers, player.id) && (
-                <Icon name="thumbs up" onClick={handleFollow} />
-              )}
-              {idInArray(user.data.me.favoritePlayers, player.id) && (
-                <Icon name="thumbs down outline" onClick={handleUnfollow} />
-              )}
-            </>
-          )}
+          <p>{player.firstName}</p>
+          <p>{player.lastName}</p>
         </div>
-      </Card.Content>
-    </>
+      </SPlayerName>
+      <div>
+        G: {player.stats.goals} | A: {player.stats.assists} | P:{' '}
+        {player.stats.points} | PM: {player.stats.penaltyMinutes} | +/-:{' '}
+        {player.stats.plusMinus}
+      </div>
+      <div>
+        {token && user.data.me && (
+          <>
+            {!idInArray(user.data.me.favoritePlayers, player.id) && (
+              <Icon name="thumbs up" onClick={handleFollow} />
+            )}
+            {idInArray(user.data.me.favoritePlayers, player.id) && (
+              <Icon name="thumbs down outline" onClick={handleUnfollow} />
+            )}
+          </>
+        )}
+      </div>
+    </SPlayerCardFront>
   )
 }
 

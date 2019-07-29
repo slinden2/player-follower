@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { Header } from 'semantic-ui-react'
+import { Container, Header } from 'semantic-ui-react'
 import SContainer from './styles/elements/SContainer'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'

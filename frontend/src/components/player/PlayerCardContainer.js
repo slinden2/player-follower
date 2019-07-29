@@ -20,22 +20,16 @@ const PlayerCardContainer = ({ query }) => {
   const createRow = playerResults => {
     if (!playerResults.length) return <div>No results</div>
 
-    return (
-      <Grid centered={true} columns={5}>
-        {playerResults.map(player => (
-          <Grid.Column key={player.playerId}>
-            <PlayerCard>
-              <PlayerCardFront
-                key={player.playerId}
-                player={player}
-                setNotification={setNotification}
-              />
-              <PlayerCardBack key={player.playerId} player={player} />
-            </PlayerCard>
-          </Grid.Column>
-        ))}
-      </Grid>
-    )
+    return playerResults.map(player => (
+      <PlayerCard>
+        <PlayerCardFront
+          key={player.playerId}
+          player={player}
+          setNotification={setNotification}
+        />
+        <PlayerCardBack key={player.playerId} player={player} />
+      </PlayerCard>
+    ))
   }
 
   return (
