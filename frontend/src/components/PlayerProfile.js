@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { Loader, Image, Header, List, Divider, Table } from 'semantic-ui-react'
+import { Loader, Image, Header, List, Divider } from 'semantic-ui-react'
 import { profileImgUrl } from '../utils'
 import { PLAYER_PROFILE } from '../graphql/queries'
+import StatsTable from './StatsTable'
 import PlayerMilestones from './PlayerMilestones'
 
 const positions = {
@@ -13,26 +14,26 @@ const positions = {
 }
 
 const headers = [
-  { headerText: 'Date', prop: 'gameDate' },
-  { headerText: 'Teams', prop: 'teams' },
-  { headerText: 'G', prop: 'goals' },
-  { headerText: 'A', prop: 'assists' },
-  { headerText: 'P', prop: 'points' },
-  { headerText: '+/-', prop: 'plusMinus' },
-  { headerText: 'PM', prop: 'penaltyMinutes' },
-  { headerText: 'PPG', prop: 'powerPlayGoals' },
-  { headerText: 'PPA', prop: 'powerPlayAssists' },
-  { headerText: 'SHG', prop: 'shortHandedGoals' },
-  { headerText: 'SHA', prop: 'shortHandedAssists' },
-  { headerText: 'TON', prop: 'timeOnIce' },
-  { headerText: 'PPTON', prop: 'powerPlayTimeOnIce' },
-  { headerText: 'SHTON', prop: 'shortHandedTimeOnIce' },
-  { headerText: 'Shots', prop: 'shots' },
-  { headerText: 'Shot%', prop: 'shotPct' },
-  { headerText: 'Blocked', prop: 'blocked' },
-  { headerText: 'Hits', prop: 'hits' },
-  { headerText: 'Giveaways', prop: 'giveaways' },
-  { headerText: 'Takeaways', prop: 'takeaways' },
+  { headerText: 'Date', id: 'gameDate' },
+  { headerText: 'Teams', id: 'teams' },
+  { headerText: 'G', id: 'goals' },
+  { headerText: 'A', id: 'assists' },
+  { headerText: 'P', id: 'points' },
+  { headerText: '+/-', id: 'plusMinus' },
+  { headerText: 'PM', id: 'penaltyMinutes' },
+  { headerText: 'PPG', id: 'powerPlayGoals' },
+  { headerText: 'PPA', id: 'powerPlayAssists' },
+  { headerText: 'SHG', id: 'shortHandedGoals' },
+  { headerText: 'SHA', id: 'shortHandedAssists' },
+  { headerText: 'TON', id: 'timeOnIce' },
+  { headerText: 'PPTON', id: 'powerPlayTimeOnIce' },
+  { headerText: 'SHTON', id: 'shortHandedTimeOnIce' },
+  { headerText: 'Shots', id: 'shots' },
+  { headerText: 'Shot%', id: 'shotPct' },
+  { headerText: 'Blocked', id: 'blocked' },
+  { headerText: 'Hits', id: 'hits' },
+  { headerText: 'Giveaways', id: 'giveaways' },
+  { headerText: 'Takeaways', id: 'takeaways' },
 ]
 
 const sortBoxscoresByDate = boxscores => {
@@ -55,36 +56,16 @@ const PlayerProfile = ({ siteLink }) => {
 
   const player = data.findPlayer
   player.boxscores = sortBoxscoresByDate(player.boxscores)
+  player.boxscores = player.boxscores.map(boxscore => ({
+    ...boxscore,
+    teams:
+      boxscore.awayTeam.abbreviation + '@' + boxscore.homeTeam.abbreviation,
+  }))
   const gamePks = player.boxscores.map(boxscore => boxscore.gamePk)
 
-  const createHeaders = () => (
-    <Table.Row>
-      {headers.map(header => (
-        <Table.HeaderCell key={header.headerText}>
-          {header.headerText}
-        </Table.HeaderCell>
-      ))}
-    </Table.Row>
-  )
-
-  const createCells = () =>
-    player.boxscores.map(game => (
-      <Table.Row
-        key={game.gameDate}
-        onClick={() => setSelectedGamePk([game.gamePk])}
-      >
-        {headers.map(stat => {
-          if (stat.prop === 'teams') {
-            return (
-              <Table.Cell key={stat.prop}>{`${game.awayTeam.abbreviation}@${
-                game.homeTeam.abbreviation
-              }`}</Table.Cell>
-            )
-          }
-          return <Table.Cell key={stat.prop}>{game[stat.prop]}</Table.Cell>
-        })}
-      </Table.Row>
-    ))
+  const handleRowClick = rowData => {
+    setSelectedGamePk([rowData.gamePk])
+  }
 
   return (
     <div>
@@ -113,11 +94,12 @@ const PlayerProfile = ({ siteLink }) => {
         </List.Item>
       </List>
       <Divider />
-      <Header size="huge">Performance Game-by-Game</Header>
-      <Table celled>
-        <Table.Header>{createHeaders()}</Table.Header>
-        <Table.Body>{createCells()}</Table.Body>
-      </Table>
+      <StatsTable
+        title="Performance Game-by-Game"
+        headers={headers}
+        data={player.boxscores}
+        handleRowClick={handleRowClick}
+      />
       <Divider />
       <PlayerMilestones
         playerId={player.playerId}

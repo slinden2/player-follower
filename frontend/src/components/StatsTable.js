@@ -7,6 +7,7 @@ const StatsTable = ({
   data,
   sortVariables,
   setSortVariables,
+  handleRowClick,
 }) => {
   const handleNewVariables = sortBy => {
     // cant sort by these fields atm because of
@@ -28,6 +29,10 @@ const StatsTable = ({
     }
   }
 
+  const handleClick = item => {
+    return handleRowClick ? handleRowClick(item) : false
+  }
+
   const createHeaders = () => (
     <Table.Row>
       {headers.map(header => (
@@ -43,7 +48,7 @@ const StatsTable = ({
 
   const createCells = () =>
     data.map(item => (
-      <Table.Row key={item.id}>
+      <Table.Row key={item.id} onClick={() => handleClick(item)}>
         {headers.map(stat => {
           return <Table.Cell key={stat.id}>{item[stat.id]}</Table.Cell>
         })}

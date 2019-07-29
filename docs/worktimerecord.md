@@ -59,4 +59,6 @@
 | 24.07.2019 | 5    | added support for milestones (goal videos on player profiles)     |
 | 25.07.2019 | 4    | working on the player profile / milestones                        |
 | 26.07.2019 | 2    | added backside to the player cards                                |
-|   total    | 192  |                                                                   |
+| 28.07.2019 | 4    | best players optimization, stats table refactoring                |
+| 29.07.2019 |      | stats table refactoring                                           |
+|   total    | 196  |                                                                   |
