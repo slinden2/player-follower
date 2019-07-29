@@ -5,6 +5,7 @@ import ApolloClient from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
+import { Normalize } from 'styled-normalize'
 import App from './App'
 import { getCookie } from './utils'
 import NotificationContextProvider from './contexts/NotificationContext'
@@ -49,6 +50,7 @@ ReactDOM.render(
     <NotificationContextProvider>
       <PlayerContextProvider>
         <AuthContextProvider>
+          <Normalize />
           <App />
         </AuthContextProvider>
       </PlayerContextProvider>

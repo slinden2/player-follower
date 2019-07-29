@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
-import { Container, Header, Divider, Loader } from 'semantic-ui-react'
+import { Header, Loader } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import PlayerCardFront from './PlayerCardFront'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import PlayerCard from './PlayerCard'
 import PlayerCardBack from './PlayerCardBack'
+import SCardContainer from '../../styles/elements/SCardContainer'
 
-const CardContainer = ({ query }) => {
+const PlayerCardContainer = ({ query }) => {
   const { setNotification } = useContext(NotificationContext)
 
   if (query.loading) {
@@ -38,19 +39,21 @@ const CardContainer = ({ query }) => {
   }
 
   return (
-    <Container>
-      <Header>Last game</Header>
-      {createRow(oneGame)}
-      <Divider />
-      <Header>Last 5 games</Header>
-      {createRow(fiveGames)}
-      <Divider />
-      <Header>Last 10 games</Header>
-      {createRow(tenGames)}
-    </Container>
+    <>
+      <SCardContainer>
+        <Header>Last game</Header>
+        {createRow(oneGame)}
+      </SCardContainer>
+      <SCardContainer>
+        <Header>Last 5 games</Header>
+        {createRow(fiveGames)}
+      </SCardContainer>
+      <SCardContainer>
+        <Header>Last 10 games</Header>
+        {createRow(tenGames)}
+      </SCardContainer>
+    </>
   )
 }
 
-export default CardContainer
-
-// Instead of 3 queries make one query for 10 games and process it in the frontend?
+export default PlayerCardContainer
