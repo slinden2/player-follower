@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Loader, Header } from 'semantic-ui-react'
-import { STANDINGS } from '../graphql/queries'
+import { STANDINGS } from '../../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'
-import StatsTable from './StatsTable'
+import StatsTable from '../StatsTable'
 
 const headers = [
   { headerText: 'Team', id: 'teamName' },

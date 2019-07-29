@@ -2,10 +2,10 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation } from 'react-apollo-hooks'
 import { Form, Button } from 'semantic-ui-react'
-import { useField } from '../hooks'
-import { LOGIN } from '../graphql/mutations'
-import { NotificationContext } from '../contexts/NotificationContext'
-import { AuthContext } from '../contexts/AuthContext'
+import { useField } from '../../hooks'
+import { LOGIN } from '../../graphql/mutations'
+import { NotificationContext } from '../../contexts/NotificationContext'
+import { AuthContext } from '../../contexts/AuthContext'
 
 const LoginForm = ({ history }) => {
   const { setNotification, handleException } = useContext(NotificationContext)

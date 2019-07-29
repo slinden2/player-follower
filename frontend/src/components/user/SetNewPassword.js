@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
-import { useField } from '../hooks'
-import { SET_NEW_PASSWORD } from '../graphql/mutations'
+import { useField } from '../../hooks'
+import { SET_NEW_PASSWORD } from '../../graphql/mutations'
 import { Form, Button } from 'semantic-ui-react'
-import { NotificationContext } from '../contexts/NotificationContext'
+import { NotificationContext } from '../../contexts/NotificationContext'
 
 const SetNewPassword = ({ history, token }) => {
   const { setNotification, handleException } = useContext(NotificationContext)

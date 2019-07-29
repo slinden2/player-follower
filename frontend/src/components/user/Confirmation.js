@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
-import { VERIFY_USER, CANCEL_USER } from '../graphql/mutations'
+import { VERIFY_USER, CANCEL_USER } from '../../graphql/mutations'
 import { Button, Segment, Header } from 'semantic-ui-react'
-import { NotificationContext } from '../contexts/NotificationContext'
+import { NotificationContext } from '../../contexts/NotificationContext'
 
 const Confirmation = ({ history, token }) => {
   const { setNotification, handleException } = useContext(NotificationContext)

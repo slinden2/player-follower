@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Loader, Image, Header, List, Divider } from 'semantic-ui-react'
-import { profileImgUrl } from '../utils'
-import { PLAYER_PROFILE } from '../graphql/queries'
-import StatsTable from './StatsTable'
+import { profileImgUrl } from '../../utils'
+import { PLAYER_PROFILE } from '../../graphql/queries'
+import StatsTable from '../StatsTable'
 import PlayerMilestones from './PlayerMilestones'
 
 const positions = {

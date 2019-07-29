@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Loader, Header, Divider, Button } from 'semantic-ui-react'
-import { PLAYER_MILESTONES } from '../graphql/queries'
+import { PLAYER_MILESTONES } from '../../graphql/queries'
 
 const getDate = (gamePk, boxscores) => {
   const score = boxscores.find(boxscore => boxscore.gamePk === gamePk)

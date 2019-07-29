@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { Loader, Button } from 'semantic-ui-react'
-import { CUMULATIVE_STATS } from '../graphql/queries'
-import StatsTable from './StatsTable'
+import { CUMULATIVE_STATS } from '../../graphql/queries'
+import StatsTable from '../StatsTable'
 
 const headers = [
   { headerText: 'Player', id: 'fullName', sortString: 'PLAYER' },
@@ -25,7 +25,7 @@ const headers = [
   { headerText: 'Shots', id: 'shots', sortString: 'SHOTS' },
 ]
 
-const CumulativeStats = () => {
+const PlayerStats = () => {
   const [variables, setVariables] = useState({
     offset: 0,
     sortBy: 'POINTS',
@@ -76,4 +76,4 @@ const CumulativeStats = () => {
   )
 }
 
-export default CumulativeStats
+export default PlayerStats

@@ -5,19 +5,19 @@ import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
 import TopNavBar from './components/TopNavBar'
-import CardContainer from './components/CardContainer'
+import CardContainer from './components/player/PlayerCardContainer'
 import Notification from './components/Notification'
-import LoginForm from './components/LoginForm'
-import SignupForm from './components/SignupForm'
-import Confirmation from './components/Confirmation'
+import LoginForm from './components/user/LoginForm'
+import SignupForm from './components/user/SignupForm'
+import Confirmation from './components/user/Confirmation'
 import Footer from './components/Footer'
-import ForgotPassword from './components/ForgotPassword'
-import SetNewPassword from './components/SetNewPassword'
-import Profile from './components/Profile'
-import FindPlayers from './components/FindPlayers'
-import CumulativeStats from './components/CumulativeStats'
-import Standings from './components/Standings'
-import PlayerProfile from './components/PlayerProfile'
+import ForgotPassword from './components/user/ForgotPassword'
+import SetNewPassword from './components/user/SetNewPassword'
+import UserProfile from './components/user/UserProfile'
+import FindPlayers from './components/player/FindPlayers'
+import PlayerStats from './components/player/PlayerStats'
+import Standings from './components/team/Standings'
+import PlayerProfile from './components/player/PlayerProfile'
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
@@ -35,7 +35,7 @@ const App = () => {
           path="/"
           render={() => <CardContainer query={bestPlayers} />}
         />
-        <Route path="/stats" render={() => <CumulativeStats />} />
+        <Route path="/stats" render={() => <PlayerStats />} />
         <Route path="/standings" render={() => <Standings />} />
         <Route path="/about" render={() => <div>About</div>} />
         <Route
@@ -57,7 +57,7 @@ const App = () => {
                 </>
               )}
             />
-            <Route path="/profile" render={() => <Profile />} />
+            <Route path="/profile" render={() => <UserProfile />} />
             <Route path="/find-players" render={() => <FindPlayers />} />
           </>
         )}

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Image, Icon } from 'semantic-ui-react'
-import { NotificationContext } from '../contexts/NotificationContext'
-import { AuthContext } from '../contexts/AuthContext'
-import { PlayerContext } from '../contexts/PlayerContext'
-import { cardImgUrl } from '../utils'
+import { NotificationContext } from '../../contexts/NotificationContext'
+import { AuthContext } from '../../contexts/AuthContext'
+import { PlayerContext } from '../../contexts/PlayerContext'
+import { cardImgUrl } from '../../utils'
 
 const PlayerCardFront = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)

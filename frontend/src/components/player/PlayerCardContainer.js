@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Container, Header, Divider, Loader } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import PlayerCardFront from './PlayerCardFront'
-import { NotificationContext } from '../contexts/NotificationContext'
+import { NotificationContext } from '../../contexts/NotificationContext'
 import PlayerCard from './PlayerCard'
 import PlayerCardBack from './PlayerCardBack'
 

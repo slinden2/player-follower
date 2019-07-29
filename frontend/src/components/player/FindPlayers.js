@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react'
 import { useApolloClient } from 'react-apollo-hooks'
 import { Header, Input, Loader, Table, Button } from 'semantic-ui-react'
 import _ from 'lodash'
-import { AuthContext } from '../contexts/AuthContext'
-import { FIND_BY_NAME } from '../graphql/queries'
-import { PlayerContext } from '../contexts/PlayerContext'
-import { NotificationContext } from '../contexts/NotificationContext'
+import { AuthContext } from '../../contexts/AuthContext'
+import { FIND_BY_NAME } from '../../graphql/queries'
+import { PlayerContext } from '../../contexts/PlayerContext'
+import { NotificationContext } from '../../contexts/NotificationContext'
 
 const FindPlayers = () => {
   const [isLoading, setIsLoading] = useState(false)
