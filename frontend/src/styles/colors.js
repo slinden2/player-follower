@@ -9,5 +9,6 @@ export default {
 
   red1: '#dd4545',
 
-  blue: '#6c81cb',
+  blue1: '#6c81cb',
+  blue2: '#7289da',
 }

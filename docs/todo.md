@@ -54,6 +54,9 @@
 - [ ] Component for stats tables
 - [ ] Check our mandril and mailgun
 - [ ] Problem with stat pagination. Duplicate players on load more.
+- [ ] Team needed in the player cards
+- [ ] Filtering by team and position in player cards
+- [ ] Blocked shots needed in cumulative stats
 
 ## Notes
 
