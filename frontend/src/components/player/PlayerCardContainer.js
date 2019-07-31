@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Header, Loader } from 'semantic-ui-react'
+import { Loader } from 'semantic-ui-react'
 import PlayerCardFront from './PlayerCardFront'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import PlayerCard from './PlayerCard'
@@ -19,8 +19,6 @@ const PlayerCardContainer = ({ query }) => {
   const createRow = playerResults => {
     if (!playerResults.length) return <div>No results</div>
 
-    console.log(playerResults[0])
-
     return playerResults.map(player => (
       <PlayerCard key={player.playerId}>
         <PlayerCardFront player={player} setNotification={setNotification} />
@@ -32,15 +30,20 @@ const PlayerCardContainer = ({ query }) => {
   return (
     <>
       <SCardContainer>
-        <Header>Last game</Header>
+        <h2>Last game</h2>
+        <div className="view-selector">
+          <span>Last game</span>
+          <span>5 games</span>
+          <span>10 games</span>
+        </div>
         {createRow(oneGame)}
       </SCardContainer>
       <SCardContainer>
-        <Header>Last 5 games</Header>
+        <h2>Last 5 games</h2>
         {createRow(fiveGames)}
       </SCardContainer>
       <SCardContainer>
-        <Header>Last 10 games</Header>
+        <h2>Last 10 games</h2>
         {createRow(tenGames)}
       </SCardContainer>
     </>

@@ -24,4 +24,104 @@ const cardImgUrl = playerId =>
 const profileImgUrl = playerId =>
   `https://nhl.bamcontent.com/images/actionshots/${playerId}.jpg`
 
-export { getCookie, removeCookie, setCookie, cardImgUrl, profileImgUrl }
+const convertSecsToMMSS = secs => {
+  const mins = Math.floor(secs / 60)
+  const remaining = secs - 60 * mins
+  return `${String(mins).padStart(2, '0')}:${String(remaining).padStart(
+    2,
+    '0'
+  )}`
+}
+
+const statHeaders = {
+  assists: {
+    headerText: 'A',
+    id: 'assists',
+    title: 'Assists',
+  },
+  blocks: {
+    headerText: 'Blocks',
+    id: 'blocks',
+    title: 'Blocks',
+  },
+  faceOffsTaken: {
+    headerText: 'FOT',
+    id: 'faceOffsTaken',
+    title: 'Faceoffs Taken',
+  },
+  giveaways: {
+    headerText: 'GA',
+    id: 'giveaways',
+    title: 'Giveaways',
+  },
+  goals: {
+    headerText: 'G',
+    id: 'goals',
+    title: 'Goals',
+  },
+  hits: {
+    headerText: 'Hits',
+    id: 'hits',
+    title: 'Hits',
+  },
+  penaltyMinutes: {
+    headerText: 'PM',
+    id: 'penaltyMinutes',
+    title: 'Penalty Minutes',
+  },
+  plusMinus: {
+    headerText: '+/-',
+    id: 'plusMinus',
+    title: 'Plus/Minus',
+  },
+  points: {
+    headerText: 'P',
+    id: 'points',
+    title: 'Points',
+  },
+  powerPlayGoals: {
+    headerText: 'PPG',
+    id: 'powerPlayGoals',
+    title: 'Powerplay Goals',
+  },
+  powerPlayPoints: {
+    headerText: 'PPP',
+    id: 'powerPlaypoints',
+    title: 'Powerplay Points',
+  },
+  shortHandedGoals: {
+    headerText: 'SHG',
+    id: 'shortHandedGoals',
+    title: 'Shorthanded Goals',
+  },
+  shortHandedPoints: {
+    headerText: 'SHP',
+    id: 'shortHandedPoints',
+    title: 'Shorthanded Points',
+  },
+  shots: {
+    headerText: 'Shots',
+    id: 'shots',
+    title: 'Shots',
+  },
+  takeaways: {
+    headerText: 'TA',
+    id: 'takeaways',
+    title: 'Takeaways',
+  },
+  timeOnIcePerGame: {
+    headerText: 'T/GP',
+    id: 'timeOnIcePerGame',
+    title: 'Time on Ice per Game',
+  },
+}
+
+export {
+  getCookie,
+  removeCookie,
+  setCookie,
+  cardImgUrl,
+  profileImgUrl,
+  convertSecsToMMSS,
+  statHeaders,
+}

@@ -62,4 +62,6 @@
 | 28.07.2019 | 4    | best players optimization, stats table refactoring                |
 | 29.07.2019 | 2    | stats table refactoring                                           |
 |            | 4    | starting to design the final layout with styled components        |
-|   total    | 202  |                                                                   |
+| 30.07.2019 | 6    | working on player cards                                           |
+| 31.07.2019 | 6    | working on player cards and card container                        |
+|   total    | 214  |                                                                   |

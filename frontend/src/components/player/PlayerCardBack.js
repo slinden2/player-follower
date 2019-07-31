@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, Grid } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { statHeaders, convertSecsToMMSS } from '../../utils'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
 
@@ -8,113 +9,124 @@ const NameBar = styled.div`
   position: absolute;
   width: 250px;
   text-align: center;
-  margin-left: -5px;
   padding: 8px;
   top: 0px;
   font-size: 1.375rem;
+  text-shadow: 1px 1px ${colors.grey2};
 `
 
 const StatRow = styled.div`
   margin-top: ${props => (props.first ? '40px' : '0px')};
+  border-bottom: ${props => (props.last ? '3px' : '0px')} solid ${colors.grey2};
+  text-shadow: 1px 1px ${colors.grey2};
 `
 
 const StatItem = styled.div`
   display: inline-block;
   width: 50%;
   padding: 5px 10px;
-  /* border: 1px solid red; */
+  border-right: ${props => (props.rightBorder ? '2px' : '0px')} solid
+    ${colors.grey2};
 
   & p {
     width: 50%;
     display: inline-block;
     font-size: 1.125rem;
-    margin-bottom: 0;
-    /* border: 1px solid red; */
+    margin: 0;
   }
 
   & p:first-child {
     padding-right: 5px;
-    /* text-align: right; */
+    text-align: ${props => (props.descRight ? 'center' : 'left')};
   }
 
   & p:last-child {
     padding-left: 5px;
+    text-align: ${props => (props.descRight ? 'right' : 'center')};
   }
 `
 
 const PlayerCardBack = ({ player }) => {
-  // {player.firstName} {player.lastName}
-  // PPG: {player.stats.powerPlayGoals}
-  // PPP: {player.stats.powerPlayPoints}
-  // SHG: {player.stats.shortHandedGoals}
-  // SHG: {player.stats.shortHandedGoals}
-  // FOT: {player.stats.faceOffsTaken}
-  // blocked: {player.stats.blocked}
-  // TA: {player.stats.takeaways}
-  // GA: {player.stats.giveaways}
-
   return (
     <div>
-      <NameBar>{player.firstName + ' ' + player.lastName}</NameBar>
+      <NameBar>
+        <Link to={`/players/${player.siteLink}`}>
+          {player.firstName + ' ' + player.lastName}
+        </Link>
+      </NameBar>
       <StatRow first>
-        <StatItem>
-          <p>PPG</p>
+        <StatItem rightBorder descRight>
           <p>{player.stats.powerPlayGoals}</p>
+          <p title={statHeaders.powerPlayGoals.title}>
+            {statHeaders.powerPlayGoals.headerText}
+          </p>
         </StatItem>
         <StatItem>
-          <p>PPP</p>
+          <p title={statHeaders.powerPlayPoints.title}>
+            {statHeaders.powerPlayPoints.headerText}
+          </p>
           <p>{player.stats.powerPlayPoints}</p>
         </StatItem>
       </StatRow>
       <StatRow>
-        <StatItem>
-          <p>SHG</p>
+        <StatItem rightBorder descRight>
           <p>{player.stats.shortHandedGoals}</p>
+          <p title={statHeaders.shortHandedGoals.title}>
+            {statHeaders.shortHandedGoals.headerText}
+          </p>
         </StatItem>
         <StatItem>
-          <p>SHP</p>
+          <p title={statHeaders.shortHandedPoints.title}>
+            {statHeaders.shortHandedPoints.headerText}
+          </p>
           <p>{player.stats.shortHandedPoints}</p>
         </StatItem>
       </StatRow>
       <StatRow>
-        <StatItem>
-          <p>T/GP</p>
-          <p>{player.stats.timeOnIcePerGame}</p>
+        <StatItem rightBorder descRight>
+          <p>{convertSecsToMMSS(player.stats.timeOnIcePerGame)}</p>
+          <p title={statHeaders.timeOnIcePerGame.title}>
+            {statHeaders.timeOnIcePerGame.headerText}
+          </p>
         </StatItem>
         <StatItem>
-          <p>FOT</p>
+          <p title={statHeaders.faceOffsTaken.title}>
+            {statHeaders.faceOffsTaken.headerText}
+          </p>
           <p>{player.stats.faceOffsTaken}</p>
         </StatItem>
       </StatRow>
       <StatRow>
-        <StatItem>
-          <p>Shots</p>
+        <StatItem rightBorder descRight>
           <p>{player.stats.shots}</p>
+          <p title={statHeaders.shots.title}>{statHeaders.shots.headerText}</p>
         </StatItem>
         <StatItem>
-          <p>Hits</p>
+          <p title={statHeaders.hits.title}>{statHeaders.hits.headerText}</p>
           <p>{player.stats.hits}</p>
         </StatItem>
       </StatRow>
       <StatRow>
-        <StatItem>
-          <p>TA</p>
+        <StatItem rightBorder descRight>
           <p>{player.stats.takeaways}</p>
+          <p title={statHeaders.takeaways.title}>
+            {statHeaders.takeaways.headerText}
+          </p>
         </StatItem>
         <StatItem>
-          <p>GA</p>
+          <p title={statHeaders.giveaways.title}>
+            {statHeaders.giveaways.headerText}
+          </p>
           <p>{player.stats.giveaways}</p>
         </StatItem>
       </StatRow>
-      <StatRow>
-        <StatItem>
-          <p>Blocks</p>
+      <StatRow last>
+        <StatItem rightBorder descRight>
           <p>{player.stats.blocked}</p>
+          <p title={statHeaders.blocks.title}>
+            {statHeaders.blocks.headerText}
+          </p>
         </StatItem>
-        {/* <StatItem>
-          <p>Shots</p>
-          <p>{player.stats.shots}</p>
-        </StatItem> */}
       </StatRow>
     </div>
   )
