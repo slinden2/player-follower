@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { Container, Header } from 'semantic-ui-react'
-import SContainer from './styles/elements/SContainer'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
@@ -19,7 +18,20 @@ import FindPlayers from './components/player/FindPlayers'
 import PlayerStats from './components/player/PlayerStats'
 import Standings from './components/team/Standings'
 import PlayerProfile from './components/player/PlayerProfile'
-import SContentWrapper from './styles/elements/SContentWrapper'
+import styled from 'styled-components'
+import colors from './styles/colors'
+
+const SContainer = styled.div`
+  margin: auto 0;
+  background-color: ${colors.grey1};
+`
+
+const SContentWrapper = styled.div`
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-right: 10px;
+  padding-left: 10px;
+`
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
