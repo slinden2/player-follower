@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { Container, Header } from 'semantic-ui-react'
+import Media from 'react-media'
+import { Container } from 'semantic-ui-react'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
-import TopNavBar from './components/TopNavBar'
+import TopNavBar from './components/navigation/TopNavBar'
 import PlayerCardContainer from './components/player/PlayerCardContainer'
 import Notification from './components/Notification'
 import LoginForm from './components/user/LoginForm'
@@ -41,8 +42,9 @@ const App = () => {
   return (
     <SContainer>
       <Router>
-        <Header size="huge">Player Follower</Header>
-        <TopNavBar />
+        <Media query={{ minWidth: 1000 }}>
+          {matches => (matches ? <TopNavBar /> : <p>Hamburger menu</p>)}
+        </Media>
         <SContentWrapper>
           <Notification notification={notification} />
           <Route

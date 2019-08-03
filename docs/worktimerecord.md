@@ -64,4 +64,6 @@
 |            | 4    | starting to design the final layout with styled components        |
 | 30.07.2019 | 6    | working on player cards                                           |
 | 31.07.2019 | 6    | working on player cards and card container                        |
-|   total    | 214  |                                                                   |
+| 02.07.2019 | 3    | working on layout                                                 |
+| 03.07.2019 | 4    | working on layout                                                 |
+|   total    | 221  |                                                                   |

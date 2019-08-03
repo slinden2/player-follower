@@ -11,6 +11,7 @@ const SCardContainer = styled.div`
   background: ${colors.grey2};
   padding: 1px 10px;
   border-radius: 10px;
+  margin-top: 10px;
 
   .view-selector {
     text-align: center;

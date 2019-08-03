@@ -13,7 +13,7 @@
     "react-apollo-hooks": "^0.4.5",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.0.1",
     "semantic-ui-react": "^0.87.2",
     "styled-components": "^4.3.2",
     "styled-normalize": "^8.0.6"

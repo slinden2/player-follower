@@ -3,7 +3,7 @@ import { normalize } from 'styled-normalize'
 import colors from './colors'
 
 const GlobalStyle = createGlobalStyle`
-  ${normalize}
+  /* ${normalize} */
 
   html {
     box-sizing: border-box;
@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Quicksand', Arial;
     color: ${colors.white1};
+    margin: 0;
   }
 
   a {
