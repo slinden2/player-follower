@@ -6,12 +6,13 @@ import PlayerCard from './PlayerCard'
 import PlayerCardBack from './PlayerCardBack'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
+import variables from '../../styles/variables'
 
 const SCardContainer = styled.div`
   background: ${colors.grey2};
   padding: 1px 10px;
   border-radius: 10px;
-  margin-top: 10px;
+  margin-top: ${variables.navHeight};
 
   .view-selector {
     text-align: center;

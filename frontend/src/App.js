@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Media from 'react-media'
-import { Container } from 'semantic-ui-react'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
@@ -22,16 +21,17 @@ import PlayerProfile from './components/player/PlayerProfile'
 import styled from 'styled-components'
 import colors from './styles/colors'
 
-const SContainer = styled.div`
-  margin: auto 0;
+const Container = styled.div`
+  margin: 0;
   background-color: ${colors.grey1};
 `
 
-const SContentWrapper = styled.div`
+const ContentWrapper = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   padding-right: 10px;
   padding-left: 10px;
+  /* margin-top: 50px; */
 `
 
 const App = () => {
@@ -40,12 +40,13 @@ const App = () => {
   const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
 
   return (
-    <SContainer>
+    <Container>
       <Router>
-        <Media query={{ minWidth: 1000 }}>
+        {/* <Media query={{ minWidth: 768 }}>
           {matches => (matches ? <TopNavBar /> : <p>Hamburger menu</p>)}
-        </Media>
-        <SContentWrapper>
+        </Media> */}
+        <TopNavBar />
+        <ContentWrapper>
           <Notification notification={notification} />
           <Route
             exact
@@ -111,9 +112,9 @@ const App = () => {
             </>
           )}
           <Footer />
-        </SContentWrapper>
+        </ContentWrapper>
       </Router>
-    </SContainer>
+    </Container>
   )
 }
 
