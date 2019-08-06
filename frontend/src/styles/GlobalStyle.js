@@ -1,9 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
-import { normalize } from 'styled-normalize'
 import colors from './colors'
 
 const GlobalStyle = createGlobalStyle`
-  /* ${normalize} */
 
   html {
     box-sizing: border-box;
@@ -16,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Quicksand', Arial;
     color: ${colors.white1};
+    background-color: ${colors.grey1};
     margin: 0;
   }
 

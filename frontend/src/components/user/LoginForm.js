@@ -11,7 +11,7 @@ import variables from '../../styles/variables'
 
 const Container = styled.div`
   margin: 0 auto;
-  margin-top: ${variables.navHeight};
+  margin-top: ${variables.topMarginWithNav}px;
 `
 
 const LoginForm = ({ history }) => {

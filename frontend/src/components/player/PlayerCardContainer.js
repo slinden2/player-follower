@@ -12,7 +12,7 @@ const SCardContainer = styled.div`
   background: ${colors.grey2};
   padding: 1px 10px;
   border-radius: 10px;
-  margin-top: ${variables.navHeight};
+  margin-top: ${variables.topMarginWithNav}px;
 
   .view-selector {
     text-align: center;
@@ -42,7 +42,7 @@ const SCardContainer = styled.div`
   }
 `
 
-const PlayerCardContainer = ({ query }) => {
+const PlayerCardContainer = ({ query, header }) => {
   const [currentView, setCurrentView] = useState('Last game')
   const { setNotification } = useContext(NotificationContext)
 
@@ -74,7 +74,7 @@ const PlayerCardContainer = ({ query }) => {
   return (
     <>
       <SCardContainer>
-        <h2>{currentView}</h2>
+        <h2>{header}</h2>
         <div className="view-selector">
           <span onClick={() => setCurrentView('Last game')}>Last game</span>
           <span onClick={() => setCurrentView('Five games')}>5 games</span>

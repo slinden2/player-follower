@@ -11,4 +11,6 @@ export default {
 
   blue1: '#6c81cb',
   blue2: '#7289da',
+
+  green1: '#43b581',
 }

@@ -14,7 +14,7 @@ const Container = styled.header`
   left: 0;
   z-index: 999;
   width: 100%;
-  height: ${variables.navHeight};
+  height: ${variables.navHeight}px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,7 +54,6 @@ const NavList = styled.ul`
   @media screen and (min-width: 800px) {
     flex: 1;
     display: flex;
-    /* border: 1px solid red; */
     align-items: center;
   }
 `
@@ -100,9 +99,31 @@ const StyledLink = styled(NavLink)`
     align-items: center;
     padding-left: 1em;
     padding-right: 1em;
+    position: relative;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 5px;
+      background-color: ${props => props.highlightColor};
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: scale(0, 1);
+    }
+
+    &:hover::before {
+      transform: scale(1, 1);
+      transition: transform ease-in-out 250ms;
+    }
 
     &.active {
       background-color: ${colors.grey2};
+
+      &::before {
+        transform: scale(1, 1);
+      }
     }
   }
 `
@@ -171,10 +192,11 @@ const ToggleLabel = styled.label`
 
 const NavItem = ({ name, exact, to, position }) => {
   const newName = name[0].toUpperCase() + name.slice(1)
+  const highlightColor = Math.random() < 0.5 ? colors.blue1 : colors.green1
 
   return (
     <NavListItem>
-      <StyledLink exact={exact} to={to}>
+      <StyledLink exact={exact} to={to} highlightColor={highlightColor}>
         {newName}
       </StyledLink>
     </NavListItem>

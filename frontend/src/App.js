@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Media from 'react-media'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
@@ -42,16 +41,15 @@ const App = () => {
   return (
     <Container>
       <Router>
-        {/* <Media query={{ minWidth: 768 }}>
-          {matches => (matches ? <TopNavBar /> : <p>Hamburger menu</p>)}
-        </Media> */}
         <TopNavBar />
         <ContentWrapper>
           <Notification notification={notification} />
           <Route
             exact
             path="/"
-            render={() => <PlayerCardContainer query={bestPlayers} />}
+            render={() => (
+              <PlayerCardContainer query={bestPlayers} header="Top players" />
+            )}
           />
           <Route path="/stats" render={() => <PlayerStats />} />
           <Route path="/standings" render={() => <Standings />} />
@@ -67,12 +65,10 @@ const App = () => {
               <Route
                 path="/favorites"
                 render={() => (
-                  <>
-                    <Container as={Link} to="/find-players">
-                      Find players
-                    </Container>
-                    <PlayerCardContainer query={favoritePlayers} />
-                  </>
+                  <PlayerCardContainer
+                    query={favoritePlayers}
+                    header="Favorite players"
+                  />
                 )}
               />
               <Route path="/profile" render={() => <UserProfile />} />
