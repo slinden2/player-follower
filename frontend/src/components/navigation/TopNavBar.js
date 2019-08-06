@@ -18,6 +18,13 @@ const Container = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (min-width: 800px) {
+    display: grid;
+    box-sizing: content-box;
+    grid-template-columns: auto 1fr;
+    border: 2px solid ${colors.grey2};
+  }
 `
 
 const NavContainer = styled.nav`
@@ -29,12 +36,27 @@ const NavContainer = styled.nav`
   transform: scale(1, 0);
   transform-origin: top;
   transition: transform 400ms ease-in-out;
+
+  @media screen and (min-width: 800px) {
+    all: unset;
+    grid-column: 2 / 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 `
 
 const NavList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  @media screen and (min-width: 800px) {
+    flex: 1;
+    display: flex;
+    /* border: 1px solid red; */
+    align-items: center;
+  }
 `
 
 const NavListItem = styled.li`
@@ -42,15 +64,57 @@ const NavListItem = styled.li`
   margin-left: 1em;
   text-transform: uppercase;
   font-size: 1.25rem;
+  cursor: pointer;
+
+  @media screen and (min-width: 800px) {
+    margin: 0;
+    height: 100%;
+    font-size: 1rem;
+    border-left: 1px solid ${colors.grey2};
+    border-right: 1px solid ${colors.grey2};
+
+    &:hover {
+      background-color: ${colors.grey2};
+    }
+  }
 `
 
 const Logo = styled.div`
   font-size: 1.5rem;
+  padding-left: 1em;
+
+  @media screen and (min-width: 800px) {
+    grid-column: 1 / 1;
+    padding: 0 1em;
+  }
 `
 
 const StyledLink = styled(NavLink)`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
+
+  @media screen and (min-width: 800px) {
+    opacity: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    &.active {
+      background-color: ${colors.grey2};
+    }
+  }
+`
+
+const NavButton = styled.div`
+  @media screen and (min-width: 800px) {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 `
 
 const ToggleCheckbox = styled.input`
@@ -99,9 +163,11 @@ const ToggleLabel = styled.label`
   & span::after {
     top: 7px;
   }
-`
 
-const NavButton = styled.div``
+  @media screen and (min-width: 800px) {
+    display: none;
+  }
+`
 
 const NavItem = ({ name, exact, to, position }) => {
   const newName = name[0].toUpperCase() + name.slice(1)
@@ -151,7 +217,7 @@ const TopNavBarNoRouter = ({ history }) => {
           )}
         </NavList>
       </NavContainer>
-      <ToggleLabel for="toggle-checkbox">
+      <ToggleLabel htmlFor="toggle-checkbox">
         <span />
       </ToggleLabel>
       {/* <SearchField /> */}

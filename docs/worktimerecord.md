@@ -66,4 +66,5 @@
 | 31.07.2019 | 6    | working on player cards and card container                        |
 | 02.07.2019 | 3    | working on layout                                                 |
 | 03.07.2019 | 4    | working on layout                                                 |
-|   total    | 221  |                                                                   |
+| 05.07.2019 | 4    | working on layout                                                 |
+|   total    | 225  |                                                                   |
