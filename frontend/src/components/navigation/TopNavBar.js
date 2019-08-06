@@ -50,6 +50,7 @@ const NavContainer = styled.nav`
     display: flex;
     flex-direction: column;
     height: 100%;
+    ${({ right }) => right && 'margin-left: auto'}
   }
 `
 
@@ -74,6 +75,7 @@ const NavListItem = styled.li`
 
   @media ${breakpoints.showDesktopNavi} {
     margin: 0;
+    ${props => props.right && 'margin-left: auto'}
     height: 100%;
     font-size: 1rem;
     border-left: 1px solid ${colors.grey2};
@@ -198,7 +200,7 @@ const ToggleLabel = styled.label`
   }
 `
 
-const NavItem = ({ name, exact, to, position }) => {
+const NavItem = ({ name, exact, to, right }) => {
   const newName = name[0].toUpperCase() + name.slice(1)
 
   const num = Math.random()
@@ -236,11 +238,15 @@ const TopNavBarNoRouter = ({ history }) => {
         <NavContainer>
           <NavList>
             <NavItem exact to="/" name="Players" />
-
             {token && <NavItem to="/favorites" name="favorites" />}
             <NavItem to="/stats" name="stats" />
             <NavItem to="/standings" name="standings" />
             <NavItem to="/about" name="about" />
+          </NavList>
+        </NavContainer>
+        <SearchField />
+        <NavContainer right>
+          <NavList>
             {!token ? (
               <>
                 <NavItem to="/login" name="log in" />
@@ -255,7 +261,6 @@ const TopNavBarNoRouter = ({ history }) => {
             )}
           </NavList>
         </NavContainer>
-        <SearchField />
       </NavSearchContainer>
       <ToggleLabel htmlFor="toggle-checkbox">
         <span />
