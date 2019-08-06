@@ -6,6 +6,7 @@ import SearchField from './SearchField'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
 import variables from '../../styles/variables'
+import breakpoints from '../../styles/breakpoints'
 
 const Container = styled.header`
   background-color: ${colors.grey1};
@@ -19,12 +20,19 @@ const Container = styled.header`
   justify-content: center;
   align-items: center;
 
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     display: grid;
     box-sizing: content-box;
-    grid-template-columns: auto 1fr;
-    border: 2px solid ${colors.grey2};
+    grid-template-columns: 270px 1fr;
+    border-bottom: 2px solid ${colors.grey2};
+    border-top: 2px solid ${colors.grey2};
   }
+`
+
+const NavSearchContainer = styled.div`
+  grid-column: 2 / 2;
+  height: 100%;
+  display: flex;
 `
 
 const NavContainer = styled.nav`
@@ -37,9 +45,8 @@ const NavContainer = styled.nav`
   transform-origin: top;
   transition: transform 400ms ease-in-out;
 
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     all: unset;
-    grid-column: 2 / 2;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -51,7 +58,7 @@ const NavList = styled.ul`
   padding: 0;
   list-style: none;
 
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     flex: 1;
     display: flex;
     align-items: center;
@@ -65,7 +72,7 @@ const NavListItem = styled.li`
   font-size: 1.25rem;
   cursor: pointer;
 
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     margin: 0;
     height: 100%;
     font-size: 1rem;
@@ -82,7 +89,7 @@ const Logo = styled.div`
   font-size: 1.5rem;
   padding-left: 1em;
 
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     grid-column: 1 / 1;
     padding: 0 1em;
   }
@@ -92,7 +99,7 @@ const StyledLink = styled(NavLink)`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
 
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     opacity: 1;
     height: 100%;
     display: flex;
@@ -100,12 +107,13 @@ const StyledLink = styled(NavLink)`
     padding-left: 1em;
     padding-right: 1em;
     position: relative;
+    white-space: nowrap;
 
     &::before {
       content: '';
       display: block;
       height: 5px;
-      background-color: ${props => props.highlightColor};
+      background-color: ${props => props.highlightcolor};
       width: 100%;
       position: absolute;
       top: 0;
@@ -129,7 +137,7 @@ const StyledLink = styled(NavLink)`
 `
 
 const NavButton = styled.div`
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     height: 100%;
     display: flex;
     align-items: center;
@@ -185,18 +193,25 @@ const ToggleLabel = styled.label`
     top: 7px;
   }
 
-  @media screen and (min-width: 800px) {
+  @media ${breakpoints.showDesktopNavi} {
     display: none;
   }
 `
 
 const NavItem = ({ name, exact, to, position }) => {
   const newName = name[0].toUpperCase() + name.slice(1)
-  const highlightColor = Math.random() < 0.5 ? colors.blue1 : colors.green1
+
+  const num = Math.random()
+  const highlightColor =
+    num < 0.33
+      ? colors.blue1
+      : num > 0.33 && num < 0.66
+      ? colors.green1
+      : colors.red1
 
   return (
     <NavListItem>
-      <StyledLink exact={exact} to={to} highlightColor={highlightColor}>
+      <StyledLink exact={exact} to={to} highlightcolor={highlightColor}>
         {newName}
       </StyledLink>
     </NavListItem>
@@ -217,32 +232,34 @@ const TopNavBarNoRouter = ({ history }) => {
     <Container>
       <Logo>PLAYER FOLLOWER</Logo>
       <ToggleCheckbox type="checkbox" id="toggle-checkbox" />
-      <NavContainer>
-        <NavList>
-          <NavItem exact to="/" name="Players" />
+      <NavSearchContainer>
+        <NavContainer>
+          <NavList>
+            <NavItem exact to="/" name="Players" />
 
-          {token && <NavItem to="/favorites" name="favorites" />}
-          <NavItem to="/stats" name="stats" />
-          <NavItem to="/standings" name="standings" />
-          <NavItem to="/about" name="about" />
-          {!token ? (
-            <>
-              <NavItem to="/login" name="log in" />
-              <NavItem to="/signup" name="sign up" />
-            </>
-          ) : (
-            <>
-              <NavListItem>
-                <NavButton onClick={handleLogout}>Log Out</NavButton>
-              </NavListItem>
-            </>
-          )}
-        </NavList>
-      </NavContainer>
+            {token && <NavItem to="/favorites" name="favorites" />}
+            <NavItem to="/stats" name="stats" />
+            <NavItem to="/standings" name="standings" />
+            <NavItem to="/about" name="about" />
+            {!token ? (
+              <>
+                <NavItem to="/login" name="log in" />
+                <NavItem to="/signup" name="sign up" />
+              </>
+            ) : (
+              <>
+                <NavListItem>
+                  <NavButton onClick={handleLogout}>Log Out</NavButton>
+                </NavListItem>
+              </>
+            )}
+          </NavList>
+        </NavContainer>
+        <SearchField />
+      </NavSearchContainer>
       <ToggleLabel htmlFor="toggle-checkbox">
         <span />
       </ToggleLabel>
-      {/* <SearchField /> */}
     </Container>
   )
 }
