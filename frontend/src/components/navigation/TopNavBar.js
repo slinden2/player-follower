@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import Media from 'react-media'
 import { NavLink, withRouter } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
@@ -50,7 +51,7 @@ const NavContainer = styled.nav`
     display: flex;
     flex-direction: column;
     height: 100%;
-    ${({ right }) => right && 'margin-left: auto'}
+    ${props => props.right && 'margin-left: auto'}
   }
 `
 
@@ -72,6 +73,18 @@ const NavListItem = styled.li`
   text-transform: uppercase;
   font-size: 1.25rem;
   cursor: pointer;
+  position: ${props => props.divider && 'relative'};
+
+  &::before {
+    content: '';
+    position: ${props => props.divider && 'absolute'};
+    bottom: 1.875rem;
+    left: 0;
+    height: 5px;
+    width: 95%;
+    border-radius: 2px;
+    background-color: ${colors.grey2};
+  }
 
   @media ${breakpoints.showDesktopNavi} {
     margin: 0;
@@ -83,6 +96,10 @@ const NavListItem = styled.li`
 
     &:hover {
       background-color: ${colors.grey2};
+    }
+
+    &::before {
+      display: none;
     }
   }
 `
@@ -97,11 +114,28 @@ const Logo = styled.div`
   }
 `
 
+const actionHighlightMobile = `
+  background-color: ${colors.blue1};
+  border: 1px solid ${colors.blue1};
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
+`
+
+const actionHighlightDesktop = `
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: 0 0 0 0;
+`
+
 const StyledLink = styled(NavLink)`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
+  ${props => props.highlight && `${actionHighlightMobile}`};
 
   @media ${breakpoints.showDesktopNavi} {
+    ${props => props.highlight && `${actionHighlightDesktop}`};
     opacity: 1;
     height: 100%;
     display: flex;
@@ -115,7 +149,8 @@ const StyledLink = styled(NavLink)`
       content: '';
       display: block;
       height: 5px;
-      background-color: ${props => props.highlightcolor};
+      background-color: ${props =>
+        props.highlight ? colors.grey1 : colors.blue1};
       width: 100%;
       position: absolute;
       top: 0;
@@ -129,7 +164,8 @@ const StyledLink = styled(NavLink)`
     }
 
     &.active {
-      background-color: ${colors.grey2};
+      background-color: ${props =>
+        props.highlight ? colors.blue1 : colors.grey2};
 
       &::before {
         transform: scale(1, 1);
@@ -139,6 +175,8 @@ const StyledLink = styled(NavLink)`
 `
 
 const NavButton = styled.div`
+  white-space: nowrap;
+
   @media ${breakpoints.showDesktopNavi} {
     height: 100%;
     display: flex;
@@ -200,20 +238,12 @@ const ToggleLabel = styled.label`
   }
 `
 
-const NavItem = ({ name, exact, to, right }) => {
+const NavItem = ({ name, exact, to, highlight, divider }) => {
   const newName = name[0].toUpperCase() + name.slice(1)
 
-  const num = Math.random()
-  const highlightColor =
-    num < 0.33
-      ? colors.blue1
-      : num > 0.33 && num < 0.66
-      ? colors.green1
-      : colors.red1
-
   return (
-    <NavListItem>
-      <StyledLink exact={exact} to={to} highlightcolor={highlightColor}>
+    <NavListItem highlight={highlight} divider={divider}>
+      <StyledLink exact={exact} to={to} highlight={highlight}>
         {newName}
       </StyledLink>
     </NavListItem>
@@ -230,11 +260,30 @@ const TopNavBarNoRouter = ({ history }) => {
     history.push('/')
   }
 
+  const renderUserActions = () =>
+    !token ? (
+      <>
+        <NavItem to="/login" name="log in" divider />
+        <NavItem to="/signup" name="sign up" highlight />
+      </>
+    ) : (
+      <>
+        <NavListItem divider>
+          <NavButton onClick={handleLogout}>
+            {user.data.me && user.data.me.username}
+          </NavButton>
+        </NavListItem>
+      </>
+    )
+
   return (
     <Container>
       <Logo>PLAYER FOLLOWER</Logo>
-      <ToggleCheckbox type="checkbox" id="toggle-checkbox" />
       <NavSearchContainer>
+        <ToggleLabel htmlFor="toggle-checkbox">
+          <span />
+        </ToggleLabel>
+        <ToggleCheckbox type="checkbox" id="toggle-checkbox" />
         <NavContainer>
           <NavList>
             <NavItem exact to="/" name="Players" />
@@ -242,29 +291,31 @@ const TopNavBarNoRouter = ({ history }) => {
             <NavItem to="/stats" name="stats" />
             <NavItem to="/standings" name="standings" />
             <NavItem to="/about" name="about" />
+            {/* If search field is not shown, render a link for search page */}
+            <Media query={`${breakpoints.showSearchField}`}>
+              {matches =>
+                !matches && <NavItem to="/find-players" name="search" />
+              }
+            </Media>
+            <Media query={breakpoints.showDesktopNavi}>
+              {matches => !matches && renderUserActions()}
+            </Media>
           </NavList>
         </NavContainer>
-        <SearchField />
-        <NavContainer right>
-          <NavList>
-            {!token ? (
-              <>
-                <NavItem to="/login" name="log in" />
-                <NavItem to="/signup" name="sign up" />
-              </>
-            ) : (
-              <>
-                <NavListItem>
-                  <NavButton onClick={handleLogout}>Log Out</NavButton>
-                </NavListItem>
-              </>
-            )}
-          </NavList>
-        </NavContainer>
+        <Media query={`${breakpoints.showSearchField}`}>
+          {matches => matches && <SearchField />}
+        </Media>
+        {/* Render user action to the right of the nav bar if desktop navi is shown */}
+        <Media query={breakpoints.showDesktopNavi}>
+          {matches =>
+            matches && (
+              <NavContainer right>
+                <NavList>{renderUserActions()}</NavList>
+              </NavContainer>
+            )
+          }
+        </Media>
       </NavSearchContainer>
-      <ToggleLabel htmlFor="toggle-checkbox">
-        <span />
-      </ToggleLabel>
     </Container>
   )
 }

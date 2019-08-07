@@ -59,7 +59,7 @@ const SearchField = () => {
     <SearchContainer>
       <Input />
       <SearchIcon type="image/svg+xml" data={icon}>
-        <img src={icon} alt="search icon" />
+        Test
       </SearchIcon>
       <RadioContainer>
         <RadioRow>
@@ -72,7 +72,6 @@ const SearchField = () => {
             type="radio"
             name="type"
             value="players"
-            checked
           />
         </RadioRow>
         <RadioRow>
