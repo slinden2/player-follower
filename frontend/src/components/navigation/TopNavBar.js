@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Media from 'react-media'
-import { NavLink, withRouter } from 'react-router-dom'
+import { Link, NavLink, withRouter } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import SearchField from './SearchField'
@@ -67,13 +67,67 @@ const NavList = styled.ul`
   }
 `
 
+const NavButton = styled.div`
+  white-space: nowrap;
+
+  @media ${breakpoints.showDesktopNavi} {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+`
+
+const UserDropDown = styled.div`
+  position: absolute;
+  top: 100%;
+  left: -100%;
+  right: 0;
+  z-index: 998;
+  padding: 10px;
+  background-color: ${colors.grey1};
+  border: 2px solid ${colors.grey3};
+  display: none;
+`
+
+const DropDownList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`
+
+const DropDownListItem = styled.li`
+  margin-bottom: 0.75rem;
+
+  & span {
+    font-size: 0.75rem;
+  }
+`
+
+const DropDownLink = styled(Link)`
+  &:hover {
+    font-weight: bolder;
+  }
+`
+
+const DropDownButton = styled.button`
+  background-color: ${colors.red1};
+  border: 0;
+  font-family: 'Quicksand', 'Arial';
+  color: ${colors.white1};
+  border-radius: 3px;
+  padding: 5px;
+`
+
 const NavListItem = styled.li`
   margin-bottom: 1em;
   margin-left: 1em;
   text-transform: uppercase;
   font-size: 1.25rem;
   cursor: pointer;
-  position: ${props => (props.divider === 'true' ? 'relative' : '')};
+  position: ${props =>
+    props.divider === 'true' || props.user === 'true' ? 'relative' : ''};
 
   &::before {
     content: '';
@@ -100,6 +154,14 @@ const NavListItem = styled.li`
 
     &::before {
       display: none;
+    }
+
+    & ${NavButton}:hover + ${UserDropDown} {
+      display: block;
+    }
+
+    & ${UserDropDown}:hover {
+      display: block;
     }
   }
 `
@@ -129,7 +191,7 @@ const actionHighlightDesktop = `
   box-shadow: 0 0 0 0;
 `
 
-const StyledLink = styled(NavLink)`
+const StyledNavLink = styled(NavLink)`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
   ${props => (props.highlight === 'true' ? `${actionHighlightMobile}` : '')};
@@ -171,18 +233,6 @@ const StyledLink = styled(NavLink)`
         transform: scale(1, 1);
       }
     }
-  }
-`
-
-const NavButton = styled.div`
-  white-space: nowrap;
-
-  @media ${breakpoints.showDesktopNavi} {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 1em;
-    padding-right: 1em;
   }
 `
 
@@ -249,9 +299,9 @@ const NavItem = ({ name, exact, to, highlight, divider }) => {
 
   return (
     <NavListItem {...listProps}>
-      <StyledLink exact={exact} to={to} {...linkProps}>
+      <StyledNavLink exact={exact} to={to} {...linkProps}>
         {newName}
-      </StyledLink>
+      </StyledNavLink>
     </NavListItem>
   )
 }
@@ -275,7 +325,30 @@ const TopNavBarNoRouter = ({ history }) => {
     ) : (
       <>
         <NavListItem divider="true" user="true">
-          <NavButton onClick={handleLogout}>USER</NavButton>
+          <NavButton>USER</NavButton>
+          <Media query={breakpoints.showDesktopNavi}>
+            {matches =>
+              matches && (
+                <UserDropDown className="dropdown">
+                  <DropDownList>
+                    <DropDownListItem>
+                      <span>{user.data.me && user.data.me.username}</span>
+                    </DropDownListItem>
+                    <DropDownListItem>
+                      <DropDownLink to="/profile" name="profile">
+                        Profile
+                      </DropDownLink>
+                    </DropDownListItem>
+                    <DropDownListItem>
+                      <DropDownButton onClick={handleLogout}>
+                        Log Out
+                      </DropDownButton>
+                    </DropDownListItem>
+                  </DropDownList>
+                </UserDropDown>
+              )
+            }
+          </Media>
         </NavListItem>
       </>
     )
