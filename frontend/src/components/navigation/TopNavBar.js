@@ -111,13 +111,14 @@ const DropDownLink = styled(Link)`
   }
 `
 
-const DropDownButton = styled.button`
+const LogOutButton = styled.div`
   background-color: ${colors.red1};
-  border: 0;
-  font-family: 'Quicksand', 'Arial';
-  color: ${colors.white1};
-  border-radius: 3px;
+  border: 1px solid ${colors.red1};
+  border-radius: 5px;
   padding: 5px;
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  display: inline-block;
 `
 
 const NavListItem = styled.li`
@@ -125,7 +126,7 @@ const NavListItem = styled.li`
   margin-left: 1em;
   text-transform: uppercase;
   font-size: 1.25rem;
-  cursor: pointer;
+  cursor: ${props => !props.nopointer && 'pointer'};
   position: ${props =>
     props.divider === 'true' || props.user === 'true' ? 'relative' : ''};
 
@@ -138,6 +139,10 @@ const NavListItem = styled.li`
     width: 95%;
     border-radius: 2px;
     background-color: ${colors.grey2};
+  }
+
+  & span {
+    font-size: 1rem;
   }
 
   @media ${breakpoints.showDesktopNavi} {
@@ -324,11 +329,12 @@ const TopNavBarNoRouter = ({ history }) => {
       </>
     ) : (
       <>
-        <NavListItem divider="true" user="true">
-          <NavButton>USER</NavButton>
-          <Media query={breakpoints.showDesktopNavi}>
-            {matches =>
-              matches && (
+        <Media query={breakpoints.showDesktopNavi}>
+          {matches =>
+            matches ? (
+              // Render desktop logged user navi
+              <NavListItem user="true" nopointer>
+                <NavButton>USER</NavButton>
                 <UserDropDown className="dropdown">
                   <DropDownList>
                     <DropDownListItem>
@@ -340,16 +346,27 @@ const TopNavBarNoRouter = ({ history }) => {
                       </DropDownLink>
                     </DropDownListItem>
                     <DropDownListItem>
-                      <DropDownButton onClick={handleLogout}>
+                      <LogOutButton onClick={handleLogout}>
                         Log Out
-                      </DropDownButton>
+                      </LogOutButton>
                     </DropDownListItem>
                   </DropDownList>
                 </UserDropDown>
-              )
-            }
-          </Media>
-        </NavListItem>
+              </NavListItem>
+            ) : (
+              // Render mobile logged user navi
+              <>
+                <NavListItem divider="true" nopointer>
+                  <span>{user.data.me && user.data.me.username}</span>
+                </NavListItem>
+                <NavItem to="/profile" name="profile" />
+                <NavListItem>
+                  <LogOutButton onClick={handleLogout}>Log Out</LogOutButton>
+                </NavListItem>
+              </>
+            )
+          }
+        </Media>
       </>
     )
 
