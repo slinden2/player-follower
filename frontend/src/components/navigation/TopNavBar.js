@@ -73,11 +73,11 @@ const NavListItem = styled.li`
   text-transform: uppercase;
   font-size: 1.25rem;
   cursor: pointer;
-  position: ${props => props.divider && 'relative'};
+  position: ${props => (props.divider === 'true' ? 'relative' : '')};
 
   &::before {
     content: '';
-    position: ${props => props.divider && 'absolute'};
+    position: ${props => (props.divider === 'true' ? 'absolute' : '')};
     bottom: 1.875rem;
     left: 0;
     height: 5px;
@@ -132,10 +132,10 @@ const actionHighlightDesktop = `
 const StyledLink = styled(NavLink)`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
-  ${props => props.highlight && `${actionHighlightMobile}`};
+  ${props => (props.highlight === 'true' ? `${actionHighlightMobile}` : '')};
 
   @media ${breakpoints.showDesktopNavi} {
-    ${props => props.highlight && `${actionHighlightDesktop}`};
+    ${props => (props.highlight === 'true' ? `${actionHighlightDesktop}` : '')};
     opacity: 1;
     height: 100%;
     display: flex;
@@ -150,7 +150,7 @@ const StyledLink = styled(NavLink)`
       display: block;
       height: 5px;
       background-color: ${props =>
-        props.highlight ? colors.grey1 : colors.blue1};
+        props.highlight === 'true' ? colors.grey1 : colors.blue1};
       width: 100%;
       position: absolute;
       top: 0;
@@ -165,7 +165,7 @@ const StyledLink = styled(NavLink)`
 
     &.active {
       background-color: ${props =>
-        props.highlight ? colors.blue1 : colors.grey2};
+        props.highlight === 'true' ? colors.blue1 : colors.grey2};
 
       &::before {
         transform: scale(1, 1);
@@ -241,9 +241,15 @@ const ToggleLabel = styled.label`
 const NavItem = ({ name, exact, to, highlight, divider }) => {
   const newName = name[0].toUpperCase() + name.slice(1)
 
+  const listProps = {
+    highlight: highlight ? 'true' : 'false',
+    divider: divider ? 'true' : 'false',
+  }
+  const linkProps = { highlight: highlight ? 'true' : 'false' }
+
   return (
-    <NavListItem highlight={highlight} divider={divider}>
-      <StyledLink exact={exact} to={to} highlight={highlight}>
+    <NavListItem {...listProps}>
+      <StyledLink exact={exact} to={to} {...linkProps}>
         {newName}
       </StyledLink>
     </NavListItem>
@@ -268,10 +274,8 @@ const TopNavBarNoRouter = ({ history }) => {
       </>
     ) : (
       <>
-        <NavListItem divider>
-          <NavButton onClick={handleLogout}>
-            {user.data.me && user.data.me.username}
-          </NavButton>
+        <NavListItem divider="true" user="true">
+          <NavButton onClick={handleLogout}>USER</NavButton>
         </NavListItem>
       </>
     )
