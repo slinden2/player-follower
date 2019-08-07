@@ -88,13 +88,17 @@ const UserDropDown = styled.div`
   padding: 10px;
   background-color: ${colors.grey1};
   border: 2px solid ${colors.grey3};
-  display: none;
+  transform: scale(1, 0);
+  transform-origin: top;
+  transition: transform 400ms ease-in-out;
 `
 
 const DropDownList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
 `
 
 const DropDownListItem = styled.li`
@@ -119,6 +123,15 @@ const LogOutButton = styled.div`
   box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.75);
   cursor: pointer;
   display: inline-block;
+`
+
+const dropDownAnimation = `
+  transform: scale(1, 1);
+
+  & ${DropDownList} {
+    opacity: 1;
+    transition: opacity 150ms ease-in-out 250ms;
+  }
 `
 
 const NavListItem = styled.li`
@@ -162,11 +175,11 @@ const NavListItem = styled.li`
     }
 
     & ${NavButton}:hover + ${UserDropDown} {
-      display: block;
+      ${dropDownAnimation}
     }
 
     & ${UserDropDown}:hover {
-      display: block;
+      ${dropDownAnimation};
     }
   }
 `

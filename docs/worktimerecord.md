@@ -68,4 +68,5 @@
 | 03.07.2019 | 4    | working on layout                                                 |
 | 05.07.2019 | 4    | working on layout                                                 |
 | 06.07.2019 | 5    | working on layout                                                 |
-|   total    | 230  |                                                                   |
+| 07.07.2019 | 6    | working on layout                                                 |
+|   total    | 236  |                                                                   |
