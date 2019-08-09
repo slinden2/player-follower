@@ -21,6 +21,8 @@ const StyledNavListItem = styled.li`
   font-size: 1.25rem;
   margin-bottom: 1rem;
   margin-left: 1rem;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
 
   &::before {
     content: '';
@@ -38,6 +40,7 @@ const StyledNavListItem = styled.li`
   }
 
   @media ${breakpoints.showDesktopNavi} {
+    opacity: 1;
     margin: 0;
     height: 100%;
     display: flex;

@@ -10,7 +10,7 @@ const ToggleCheckbox = styled.input`
     transform: scale(1, 1);
   }
 
-  &:checked ~ nav a {
+  &:checked ~ nav li {
     opacity: 1;
     transition: opacity 250ms ease-in-out 250ms;
   }
