@@ -4,6 +4,7 @@ import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
 import TopNavBar from './components/navigation/TopNavBar'
+import Navigation from './components/navigation/Navigation'
 import PlayerCardContainer from './components/player/PlayerCardContainer'
 import Notification from './components/Notification'
 import LoginForm from './components/user/LoginForm'
@@ -41,7 +42,8 @@ const App = () => {
   return (
     <Container>
       <Router>
-        <TopNavBar />
+        {/* <TopNavBar /> */}
+        <Navigation />
         <ContentWrapper>
           <Notification notification={notification} />
           <Route

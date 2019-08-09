@@ -33,6 +33,46 @@ const convertSecsToMMSS = secs => {
   )}`
 }
 
+const naviItems = {
+  players: {
+    exact: true,
+    to: '/',
+    name: 'players',
+  },
+  favorites: {
+    to: '/favorites',
+    name: 'favorites',
+    tokenRequired: true,
+  },
+  stats: {
+    to: '/stats',
+    name: 'stats',
+  },
+  standings: {
+    to: '/standings',
+    name: 'standings',
+  },
+  about: {
+    to: '/about',
+    name: 'about',
+  },
+  search: {
+    to: '/find-players',
+    name: 'search',
+    hideOnWide: true,
+  },
+  login: {
+    to: '/login',
+    name: 'login',
+    noToken: true,
+  },
+  signup: {
+    to: '/signup',
+    name: 'sign up',
+    noToken: true,
+  },
+}
+
 const statHeaders = {
   assists: {
     headerText: 'A',
@@ -123,5 +163,6 @@ export {
   cardImgUrl,
   profileImgUrl,
   convertSecsToMMSS,
+  naviItems,
   statHeaders,
 }

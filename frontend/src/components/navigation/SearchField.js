@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
-import breakpoints from '../../styles/breakpoints'
 import icon from '../../assets/magnifying-glass-icon.svg'
 
 const SearchContainer = styled.div`
+  margin: -1px 0 0 -1px; /* makes the borders collapse */
   position: relative;
   padding: 0 1rem;
+  height: 100%;
+  flex: none;
   display: flex;
   align-items: center;
   border-left: 1px solid ${colors.grey2};
@@ -21,9 +23,9 @@ const Input = styled.input`
   border: 3px solid ${colors.grey3};
   color: ${colors.white1};
   text-indent: 1rem;
-  padding-right: 50px;
+  padding-right: 40px;
   font-family: 'Quicksand', Arial;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   vertical-align: middle;
   outline-width: 0px;
   margin-right: 0.5rem;
@@ -36,9 +38,9 @@ const Input = styled.input`
 
 const SearchIcon = styled.object`
   position: absolute;
-  width: 32px;
-  top: 25%;
-  left: 67%;
+  width: 24px;
+  top: 30%;
+  left: 66%;
 `
 
 const RadioContainer = styled.div`
