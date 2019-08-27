@@ -108,19 +108,20 @@ const dropDownAnimation = `
   }
 `
 
+const mainNaviItems = [
+  'players',
+  'favorites',
+  'stats',
+  'standings',
+  'about',
+  'search',
+]
+
+const userActionItems = ['login', 'signup', 'logout']
+
 const createNaviItems = items => items.map(item => naviItems[item])
 
 const Navigation = () => {
-  const mainNaviItems = [
-    'players',
-    'favorites',
-    'stats',
-    'standings',
-    'about',
-    'search',
-  ]
-  const userActionItems = ['login', 'signup']
-
   return (
     <Container>
       <Logo>Player Follower</Logo>

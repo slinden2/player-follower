@@ -71,6 +71,12 @@ const naviItems = {
     name: 'sign up',
     noToken: true,
   },
+  logout: {
+    to: '',
+    name: 'log out',
+    bindTo: 'handleLogout',
+    tokenRequired: true,
+  },
 }
 
 const statHeaders = {

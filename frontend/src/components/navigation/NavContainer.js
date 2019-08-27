@@ -41,14 +41,24 @@ const StyledNavList = styled.ul`
 `
 
 const NavList = ({ items, right }) => {
-  const { token } = useContext(AuthContext)
+  const { token, logoutUser } = useContext(AuthContext)
+
+  const functionMap = {
+    handleLogout: {
+      onClick: logoutUser,
+    },
+  }
 
   const createItems = () => {
     const navItems = items.map(
       item =>
         ((!(item.noToken && token) && !item.tokenRequired) ||
           (item.tokenRequired && token)) && (
-          <NavListItem key={item.name} {...item} />
+          <NavListItem
+            key={item.name}
+            {...item}
+            {...functionMap[item.bindTo]}
+          />
         )
     )
 

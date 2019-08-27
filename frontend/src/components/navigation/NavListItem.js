@@ -94,11 +94,11 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 
-const NavListItem = ({ exact, to, name, hideOnWide }) => {
+const NavListItem = ({ exact, to, name, hideOnWide, onClick }) => {
   const linkProps = { exact, to }
 
   const showAlways = () => (
-    <StyledNavListItem>
+    <StyledNavListItem onClick={onClick}>
       <StyledNavLink {...linkProps}>{name}</StyledNavLink>
     </StyledNavListItem>
   )
