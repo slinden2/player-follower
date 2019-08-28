@@ -1,10 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Media from 'react-media'
 import NavContainer from './NavContainer'
 import HamburgerToggle from './HamburgerToggle'
-import SearchField from './SearchField'
 import colors from '../../styles/colors'
 import variables from '../../styles/variables'
 import breakpoints from '../../styles/breakpoints'
@@ -24,6 +22,7 @@ const Container = styled.header`
 
   @media ${breakpoints.showDesktopNavi} {
     justify-content: flex-start;
+    align-items: stretch;
     border-bottom: 2px solid ${colors.grey2};
     border-top: 2px solid ${colors.grey2};
   }
@@ -36,8 +35,11 @@ const Logo = styled.div`
   text-transform: uppercase;
 
   @media ${breakpoints.showDesktopNavi} {
-    grid-column: 1 / 1;
     padding: 0 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
   }
 `
 
@@ -108,29 +110,12 @@ const dropDownAnimation = `
   }
 `
 
-const mainNaviItems = [
-  'players',
-  'favorites',
-  'stats',
-  'standings',
-  'about',
-  'search',
-]
-
-const userActionItems = ['login', 'signup', 'logout']
-
-const createNaviItems = items => items.map(item => naviItems[item])
-
 const Navigation = () => {
   return (
     <Container>
       <Logo>Player Follower</Logo>
       <HamburgerToggle />
-      <NavContainer items={createNaviItems(mainNaviItems)} />
-      <Media query={breakpoints.showSearchField}>
-        {matches => matches && <SearchField />}
-      </Media>
-      <NavContainer items={createNaviItems(userActionItems)} right />
+      <NavContainer />
     </Container>
   )
 }

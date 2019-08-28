@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
-import { NavLink, Link } from 'react-router-dom'
-import styled from 'styled-components'
 import Media from 'react-media'
-import NavListItem from './NavListItem'
-import colors from '../../styles/colors'
-import variables from '../../styles/variables'
+import styled from 'styled-components'
+import HamburgerToggle from './HamburgerToggle'
+import NavList from './NavList'
+import SearchField from './SearchField'
 import breakpoints from '../../styles/breakpoints'
-import { AuthContext } from '../../contexts/AuthContext'
+import colors from '../../styles/colors'
+import { naviItems } from '../../utils/'
 
-const Container = styled.nav`
+const Container = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
@@ -21,55 +21,33 @@ const Container = styled.nav`
   @media ${breakpoints.showDesktopNavi} {
     all: unset;
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    box-sizing: border-box;
-    ${props => props.right && 'margin-left: auto'}
+    width: 100%;
   }
 `
 
-const StyledNavList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
+const mainNaviItems = [
+  'players',
+  'favorites',
+  'stats',
+  'standings',
+  'about',
+  'search',
+]
 
-  @media ${breakpoints.showDesktopNavi} {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-`
+const userActionItems = ['login', 'signup', 'logout']
 
-const NavList = ({ items, right }) => {
-  const { token, logoutUser } = useContext(AuthContext)
+const createNaviItems = items => items.map(item => naviItems[item])
 
-  const functionMap = {
-    handleLogout: {
-      onClick: logoutUser,
-    },
-  }
-
-  const createItems = () => {
-    const navItems = items.map(
-      item =>
-        ((!(item.noToken && token) && !item.tokenRequired) ||
-          (item.tokenRequired && token)) && (
-          <NavListItem
-            key={item.name}
-            {...item}
-            {...functionMap[item.bindTo]}
-          />
-        )
-    )
-
-    return navItems
-  }
-
+const NavContainer = () => {
   return (
-    <Container right={right}>
-      <StyledNavList>{createItems()}</StyledNavList>
+    <Container>
+      <NavList items={createNaviItems(mainNaviItems)} />
+      <Media query={breakpoints.showSearchField}>
+        {matches => matches && <SearchField />}
+      </Media>
+      <NavList items={createNaviItems(userActionItems)} right />
     </Container>
   )
 }
 
-export default NavList
+export default NavContainer

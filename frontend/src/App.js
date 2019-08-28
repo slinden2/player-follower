@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
-import TopNavBar from './components/navigation/TopNavBar'
 import Navigation from './components/navigation/Navigation'
 import PlayerCardContainer from './components/player/PlayerCardContainer'
 import Notification from './components/Notification'
@@ -31,7 +30,6 @@ const ContentWrapper = styled.div`
   margin: 0 auto;
   padding-right: 10px;
   padding-left: 10px;
-  /* margin-top: 50px; */
 `
 
 const App = () => {
@@ -42,7 +40,6 @@ const App = () => {
   return (
     <Container>
       <Router>
-        {/* <TopNavBar /> */}
         <Navigation />
         <ContentWrapper>
           <Notification notification={notification} />

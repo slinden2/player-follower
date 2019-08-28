@@ -6,11 +6,11 @@ import colors from '../../styles/colors'
 const ToggleCheckbox = styled.input`
   display: none;
 
-  &:checked ~ nav {
+  &:checked ~ div {
     transform: scale(1, 1);
   }
 
-  &:checked ~ nav li {
+  &:checked ~ div nav li {
     opacity: 1;
     transition: opacity 250ms ease-in-out 250ms;
   }

@@ -64,11 +64,12 @@
 |            | 4    | starting to design the final layout with styled components        |
 | 30.07.2019 | 6    | working on player cards                                           |
 | 31.07.2019 | 6    | working on player cards and card container                        |
-| 02.07.2019 | 3    | working on layout                                                 |
-| 03.07.2019 | 4    | working on layout                                                 |
-| 05.07.2019 | 4    | working on layout                                                 |
-| 06.07.2019 | 5    | working on layout                                                 |
-| 07.07.2019 | 6    | working on layout                                                 |
-| 08.07.2019 | 4    | working on layout                                                 |
-| 09.07.2019 | 2    | Refactoring the navigation bar                                    |
-|   total    | 241  |                                                                   |
+| 02.08.2019 | 3    | working on layout                                                 |
+| 03.08.2019 | 4    | working on layout                                                 |
+| 05.08.2019 | 4    | working on layout                                                 |
+| 06.08.2019 | 5    | working on layout                                                 |
+| 07.08.2019 | 6    | working on layout                                                 |
+| 08.08.2019 | 4    | working on layout                                                 |
+| 09.08.2019 | 2    | Refactoring the navigation bar                                    |
+| 27.08.2019 | 2    | Refactoring the navigation bar                                    |
+|   total    | 243  |                                                                   |
