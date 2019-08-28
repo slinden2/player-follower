@@ -8,11 +8,11 @@ import styled from 'styled-components'
 import colors from '../../styles/colors'
 import variables from '../../styles/variables'
 
-const SCardContainer = styled.div`
+const Container = styled.div`
   background: ${colors.grey2};
   padding: 1px 10px;
   border-radius: 10px;
-  margin-top: ${variables.topMarginWithNav}px;
+  /* margin-top: ${variables.topMarginWithNav}px; */
 
   .view-selector {
     text-align: center;
@@ -73,7 +73,7 @@ const PlayerCardContainer = ({ query, header }) => {
 
   return (
     <>
-      <SCardContainer>
+      <Container>
         <h2>{header}</h2>
         <div className="view-selector">
           <span onClick={() => setCurrentView('Last game')}>Last game</span>
@@ -81,7 +81,7 @@ const PlayerCardContainer = ({ query, header }) => {
           <span onClick={() => setCurrentView('Ten games')}>10 games</span>
         </div>
         <div className="card-container">{createRow(playersToShow)}</div>
-      </SCardContainer>
+      </Container>
     </>
   )
 }

@@ -7,11 +7,9 @@ import { LOGIN } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
 import styled from 'styled-components'
-import variables from '../../styles/variables'
 
 const Container = styled.div`
   margin: 0 auto;
-  margin-top: ${variables.topMarginWithNav}px;
 `
 
 const LoginForm = ({ history }) => {

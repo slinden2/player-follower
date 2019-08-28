@@ -19,6 +19,7 @@ import Standings from './components/team/Standings'
 import PlayerProfile from './components/player/PlayerProfile'
 import styled from 'styled-components'
 import colors from './styles/colors'
+import variables from './styles/variables'
 
 const Container = styled.div`
   margin: 0;
@@ -30,6 +31,7 @@ const ContentWrapper = styled.div`
   margin: 0 auto;
   padding-right: 10px;
   padding-left: 10px;
+  padding-top: ${variables.topMarginWithNav}px;
 `
 
 const App = () => {
