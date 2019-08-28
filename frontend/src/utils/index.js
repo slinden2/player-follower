@@ -33,6 +33,36 @@ const convertSecsToMMSS = secs => {
   )}`
 }
 
+const positions = {
+  R: 'Right Wing',
+  L: 'Left Wing',
+  C: 'Center',
+  D: 'Defenceman',
+}
+
+const playerBioData = [
+  {
+    id: 'birthDate',
+    title: 'Birthdate',
+  },
+  {
+    id: 'birthCity',
+    title: 'Birth City',
+  },
+  {
+    id: 'birthStateProvince',
+    title: 'Birth State',
+  },
+  {
+    id: 'nationality',
+    title: 'Nationality',
+  },
+  {
+    id: 'currentTeam.name',
+    title: 'Team',
+  },
+]
+
 const naviItems = {
   players: {
     exact: true,
@@ -176,4 +206,6 @@ export {
   convertSecsToMMSS,
   naviItems,
   statHeaders,
+  positions,
+  playerBioData,
 }

@@ -1,10 +1,30 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
 import { Loader, Image, Header, List, Divider } from 'semantic-ui-react'
 import { profileImgUrl } from '../../utils'
 import { PLAYER_PROFILE } from '../../graphql/queries'
+import PlayerBioTable from './PlayerBioTable'
 import StatsTable from '../StatsTable'
 import PlayerMilestones from './PlayerMilestones'
+import colors from '../../styles/colors'
+
+const Container = styled.div`
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const ActionImg = styled.img`
+  width: 100%;
+  max-width: 1000px;
+  border: 3px solid ${colors.grey3};
+  border-radius: 5px;
+  margin-bottom: 10px;
+`
+
+// const TableMainHeader = styled.
 
 const positions = {
   R: 'Right Wing',
@@ -68,32 +88,9 @@ const PlayerProfile = ({ siteLink }) => {
   }
 
   return (
-    <div>
-      <Image src={profileImgUrl(data.findPlayer.playerId)} fluid />
-      <Header size="huge">{player.fullName}</Header>
-      <List>
-        <List.Item>
-          <strong>Birthdate:</strong> {player.birthDate}
-        </List.Item>
-        <List.Item>
-          <strong>Birth City:</strong> {player.birthCity}
-        </List.Item>
-        {player.birthStateProvince && (
-          <List.Item>
-            <strong>Birth State:</strong> {player.birthStateProvince}
-          </List.Item>
-        )}
-        <List.Item>
-          <strong>Nationality:</strong> {player.nationality}
-        </List.Item>
-        <List.Item>
-          <strong>Team:</strong> {player.currentTeam.name}
-        </List.Item>
-        <List.Item>
-          <strong>Position:</strong> {positions[player.primaryPosition]}
-        </List.Item>
-      </List>
-      <Divider />
+    <Container>
+      <ActionImg src={profileImgUrl(data.findPlayer.playerId)} />
+      <PlayerBioTable player={player} />
       <StatsTable
         title="Performance Game-by-Game"
         headers={headers}
@@ -108,7 +105,7 @@ const PlayerProfile = ({ siteLink }) => {
         setSelectedGamePk={setSelectedGamePk}
         boxscores={player.boxscores}
       />
-    </div>
+    </Container>
   )
 }
 
