@@ -6,7 +6,6 @@ import HamburgerToggle from './HamburgerToggle'
 import colors from '../../styles/colors'
 import variables from '../../styles/variables'
 import breakpoints from '../../styles/breakpoints'
-import { naviItems } from '../../utils/'
 
 const Container = styled.header`
   background-color: ${colors.grey1};

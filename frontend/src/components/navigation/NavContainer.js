@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Media from 'react-media'
 import styled from 'styled-components'
-import HamburgerToggle from './HamburgerToggle'
 import NavList from './NavList'
 import SearchField from './SearchField'
 import breakpoints from '../../styles/breakpoints'
