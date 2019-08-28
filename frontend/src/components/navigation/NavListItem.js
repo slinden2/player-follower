@@ -94,18 +94,20 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 
-const NavListItem = ({ exact, to, name, hideOnWide, onClick }) => {
+const NavListItem = ({ exact, to, name, username, hideOnWide, onClick }) => {
   const linkProps = { exact, to }
+
+  const nameToShow = name !== 'profile' ? name : username
 
   const showAlways = () => (
     <StyledNavListItem onClick={onClick}>
-      <StyledNavLink {...linkProps}>{name}</StyledNavLink>
+      <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
     </StyledNavListItem>
   )
 
   const showNarrowScreen = () => (
     <NavListItemHideOnWide>
-      <StyledNavLink {...linkProps}>{name}</StyledNavLink>
+      <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
     </NavListItemHideOnWide>
   )
 

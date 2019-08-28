@@ -33,7 +33,7 @@ const mainNaviItems = [
   'search',
 ]
 
-const userActionItems = ['login', 'signup', 'logout']
+const userActionItems = ['login', 'signup', 'profile', 'logout']
 
 const createNaviItems = items => items.map(item => naviItems[item])
 

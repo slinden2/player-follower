@@ -28,13 +28,17 @@ const StyledNavList = styled.ul`
 `
 
 const NavList = ({ items, right }) => {
-  const { token, logoutUser } = useContext(AuthContext)
+  const { token, logoutUser, user } = useContext(AuthContext)
 
   const functionMap = {
     handleLogout: {
       onClick: logoutUser,
     },
   }
+
+  let username
+
+  if (user.data.me) username = user.data.me.username
 
   const showNavItem = item =>
     (!(item.noToken && token) && !item.tokenRequired) ||
@@ -48,6 +52,7 @@ const NavList = ({ items, right }) => {
             key={item.name}
             {...item}
             {...functionMap[item.bindTo]}
+            username={username}
           />
         )
     )

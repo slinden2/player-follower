@@ -1,4 +1,4 @@
 export default {
-  showDesktopNavi: `(min-width: 955px)`,
-  showSearchField: `(min-width: 1320px)`,
+  showDesktopNavi: `(min-width: 1010px)`,
+  showSearchField: `(min-width: 1350px)`,
 }

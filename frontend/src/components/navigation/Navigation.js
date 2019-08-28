@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import NavContainer from './NavContainer'
 import HamburgerToggle from './HamburgerToggle'
@@ -39,73 +38,6 @@ const Logo = styled.div`
     flex-direction: column;
     justify-content: center;
     align-content: center;
-  }
-`
-
-const NavButton = styled.div`
-  white-space: nowrap;
-
-  @media ${breakpoints.showDesktopNavi} {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-`
-
-const UserDropDown = styled.div`
-  position: absolute;
-  top: 100%;
-  left: -100%;
-  right: 0;
-  z-index: 998;
-  padding: 10px;
-  background-color: ${colors.grey1};
-  border: 2px solid ${colors.grey3};
-  transform: scale(1, 0);
-  transform-origin: top;
-  transition: transform 400ms ease-in-out;
-`
-
-const DropDownList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  opacity: 0;
-  transition: opacity 150ms ease-in-out;
-`
-
-const DropDownListItem = styled.li`
-  margin-bottom: 0.75rem;
-
-  & span {
-    font-size: 0.75rem;
-  }
-`
-
-const DropDownLink = styled(Link)`
-  &:hover {
-    font-weight: bolder;
-  }
-`
-
-const LogOutButton = styled.div`
-  background-color: ${colors.red1};
-  border: 1px solid ${colors.red1};
-  border-radius: 5px;
-  padding: 5px;
-  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.75);
-  cursor: pointer;
-  display: inline-block;
-`
-
-const dropDownAnimation = `
-  transform: scale(1, 1);
-
-  & ${DropDownList} {
-    opacity: 1;
-    transition: opacity 150ms ease-in-out 250ms;
   }
 `
 

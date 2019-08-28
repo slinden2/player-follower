@@ -71,6 +71,11 @@ const naviItems = {
     name: 'sign up',
     noToken: true,
   },
+  profile: {
+    to: '/profile',
+    name: 'profile',
+    tokenRequired: true,
+  },
   logout: {
     to: '',
     name: 'log out',
