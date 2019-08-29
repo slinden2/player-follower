@@ -18,6 +18,7 @@ const { getBestPlayers } = require('../utils/get-best-players')
 const roundToDecimal = require('../utils/round-to-decimal')
 const getSortField = require('../utils/get-sort-field')
 const convertSecsToMin = require('../utils/convert-secs-to-min')
+const positions = require('../utils/position-codes')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -469,6 +470,10 @@ const resolvers = {
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
     pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
+  },
+  Position: {
+    code: root => root,
+    description: root => positions[root],
   },
 }
 

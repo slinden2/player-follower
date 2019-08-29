@@ -100,7 +100,7 @@ const typeDefs = gql`
     shootsCatches: String!
     rosterStatus: String!
     currentTeam: Team!
-    primaryPosition: String!
+    primaryPosition: Position!
     """
     Internal id number from NHL API.
     """
@@ -198,6 +198,11 @@ const typeDefs = gql`
     timeOnIcePerGame: Int!
     wins: Int!
     # you can query only gamesPlayed
+  }
+
+  type Position {
+    code: String!
+    description: String!
   }
 
   type StatsNGames {
