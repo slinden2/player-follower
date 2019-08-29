@@ -22,6 +22,11 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: ${colors.white1};
   }
+
+  button {
+    font-family: 'Quicksand', Arial;
+    color: ${colors.white1};
+  }
 `
 
 export default GlobalStyle

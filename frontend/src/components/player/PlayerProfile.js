@@ -16,6 +16,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media ${breakpoints.showDesktopNavi} {
+    width: 1000px;
+    margin: 0 auto;
+  }
 `
 
 const ActionImg = styled.img`
@@ -103,13 +108,13 @@ const PlayerProfile = ({ siteLink }) => {
           )
         }
       </Media>
-      {/* <PlayerMilestones
+      <PlayerMilestones
         playerId={player.playerId}
         gamePks={gamePks.slice(0, 5)}
         selectedGamePk={selectedGamePk}
         setSelectedGamePk={setSelectedGamePk}
         boxscores={player.boxscores}
-      /> */}
+      />
     </Container>
   )
 }

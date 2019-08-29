@@ -4,6 +4,7 @@ import colors from '../styles/colors'
 
 const Container = styled.div`
   width: 100%;
+  margin-bottom: 10px;
 `
 
 const Table = styled.table`
