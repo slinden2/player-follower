@@ -8,6 +8,7 @@ import breakpoints from '../../styles/breakpoints'
 
 const BioTable = styled.table`
   border-collapse: collapse;
+  margin-bottom: 10px;
 `
 
 const TableBody = styled.tbody``
@@ -46,8 +47,6 @@ const bioDataKeysDesktop = [
 ]
 
 const PlayerBioTable = ({ player }) => {
-  console.log(player)
-
   const hasProperty = item => player[item.id] !== null
 
   const createBioTableMobile = () => (

@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import Media from 'react-media'
 import { useQuery } from 'react-apollo-hooks'
-import { Loader, Image, Header, List, Divider } from 'semantic-ui-react'
+import { Loader } from 'semantic-ui-react'
 import { profileImgUrl } from '../../utils'
 import { PLAYER_PROFILE } from '../../graphql/queries'
 import PlayerBioTable from './PlayerBioTable'
 import StatsTable from '../StatsTable'
 import PlayerMilestones from './PlayerMilestones'
 import colors from '../../styles/colors'
+import breakpoints from '../../styles/breakpoints'
 
 const Container = styled.div`
-  border: 1px solid red;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,15 +25,6 @@ const ActionImg = styled.img`
   border-radius: 5px;
   margin-bottom: 10px;
 `
-
-// const TableMainHeader = styled.
-
-const positions = {
-  R: 'Right Wing',
-  L: 'Left Wing',
-  C: 'Center',
-  D: 'Defenceman',
-}
 
 const headers = [
   { headerText: 'Date', id: 'gameDate' },
@@ -91,20 +84,32 @@ const PlayerProfile = ({ siteLink }) => {
     <Container>
       <ActionImg src={profileImgUrl(data.findPlayer.playerId)} />
       <PlayerBioTable player={player} />
-      <StatsTable
-        title="Performance Game-by-Game"
-        headers={headers}
-        data={player.boxscores}
-        handleRowClick={handleRowClick}
-      />
-      <Divider />
-      <PlayerMilestones
+      <Media query={breakpoints.showDesktopNavi}>
+        {matches =>
+          matches ? (
+            <StatsTable
+              title="Performance Game-by-Game"
+              headers={headers}
+              data={player.boxscores}
+              handleRowClick={handleRowClick}
+            />
+          ) : (
+            <StatsTable
+              title="Performance Game-by-Game"
+              headers={headers.slice(0, 6)}
+              data={player.boxscores}
+              handleRowClick={handleRowClick}
+            />
+          )
+        }
+      </Media>
+      {/* <PlayerMilestones
         playerId={player.playerId}
         gamePks={gamePks.slice(0, 5)}
         selectedGamePk={selectedGamePk}
         setSelectedGamePk={setSelectedGamePk}
         boxscores={player.boxscores}
-      />
+      /> */}
     </Container>
   )
 }

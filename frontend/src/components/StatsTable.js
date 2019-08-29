@@ -1,5 +1,46 @@
 import React from 'react'
-import { Table, Header } from 'semantic-ui-react'
+import styled, { css } from 'styled-components'
+import colors from '../styles/colors'
+
+const Container = styled.div`
+  width: 100%;
+`
+
+const Table = styled.table`
+  border-collapse: collapse;
+  width: 100%;
+`
+
+const TableTitle = styled.div`
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: bolder;
+`
+
+const TableHead = styled.thead``
+
+const TableBody = styled.tbody``
+
+const TableRow = styled.tr`
+  cursor: pointer;
+`
+
+const cellStyling = css`
+  border: 2px solid ${colors.grey3};
+  text-align: center;
+  padding: 5px;
+  font-size: 0.75rem;
+`
+
+const TableCell = styled.td`
+  ${cellStyling}
+`
+
+const HeaderCell = styled.th`
+  ${cellStyling}
+  background-color: ${colors.grey2};
+  font-size: 0.875rem;
+`
 
 const StatsTable = ({
   headers,
@@ -34,35 +75,35 @@ const StatsTable = ({
   }
 
   const createHeaders = () => (
-    <Table.Row>
+    <tr>
       {headers.map(header => (
-        <Table.HeaderCell
+        <HeaderCell
           key={header.headerText}
           onClick={() => handleNewVariables(header.sortString)}
         >
           {header.headerText}
-        </Table.HeaderCell>
+        </HeaderCell>
       ))}
-    </Table.Row>
+    </tr>
   )
 
   const createCells = () =>
     data.map(item => (
-      <Table.Row key={item.id} onClick={() => handleClick(item)}>
+      <TableRow key={item.id} onClick={() => handleClick(item)}>
         {headers.map(stat => {
-          return <Table.Cell key={stat.id}>{item[stat.id]}</Table.Cell>
+          return <TableCell key={stat.id}>{item[stat.id]}</TableCell>
         })}
-      </Table.Row>
+      </TableRow>
     ))
 
   return (
-    <div>
-      <Header>{title}</Header>
-      <Table celled>
-        <Table.Header>{createHeaders()}</Table.Header>
-        <Table.Body>{createCells()}</Table.Body>
+    <Container>
+      <TableTitle>{title}</TableTitle>
+      <Table>
+        <TableHead>{createHeaders()}</TableHead>
+        <TableBody>{createCells()}</TableBody>
       </Table>
-    </div>
+    </Container>
   )
 }
 
