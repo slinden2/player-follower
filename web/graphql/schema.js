@@ -42,6 +42,7 @@ const typeDefs = gql`
   }
 
   type Standings {
+    id: ID!
     teamName: String!
     teamAbbr: String!
     conference: Conference!
@@ -99,7 +100,7 @@ const typeDefs = gql`
     shootsCatches: String!
     rosterStatus: String!
     currentTeam: Team!
-    primaryPosition: String!
+    primaryPosition: Position!
     """
     Internal id number from NHL API.
     """
@@ -132,9 +133,11 @@ const typeDefs = gql`
     points: Int!
     powerPlayAssists: Int!
     powerPlayGoals: Int!
+    powerPlayPoints: Int! # custom resolver
     powerPlayTimeOnIce: String!
     shortHandedAssists: Int!
     shortHandedGoals: Int!
+    shortHandedPoints: Int! # custom resolver
     shortHandedTimeOnIce: String!
     shotPct: Float
     shots: Int!
@@ -144,6 +147,8 @@ const typeDefs = gql`
     faceOffsTaken: Int!
     faceOffWins: Int!
     gameDate: String!
+    awayTeam: Team!
+    homeTeam: Team!
     """
     Internal progressive game id from NHL API.
     """
@@ -195,6 +200,11 @@ const typeDefs = gql`
     # you can query only gamesPlayed
   }
 
+  type Position {
+    code: String!
+    description: String!
+  }
+
   type StatsNGames {
     oneGame: [PlayerCard!]!
     fiveGames: [PlayerCard!]!
@@ -213,7 +223,9 @@ const typeDefs = gql`
   }
 
   type CumulativeStats {
+    id: ID!
     fullName: String!
+    siteLink: String!
     team: String!
     position: String!
     gamesPlayed: Int!
@@ -233,6 +245,7 @@ const typeDefs = gql`
   }
 
   type PlayerMilestone {
+    gamePk: Int!
     title: String!
     description: String!
     blurb: String!

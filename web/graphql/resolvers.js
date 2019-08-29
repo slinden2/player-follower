@@ -14,9 +14,11 @@ const User = require('../models/user')
 const Token = require('../models/token')
 const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
+const { getBestPlayers } = require('../utils/get-best-players')
 const roundToDecimal = require('../utils/round-to-decimal')
 const getSortField = require('../utils/get-sort-field')
 const convertSecsToMin = require('../utils/convert-secs-to-min')
+const positions = require('../utils/position-codes')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -43,10 +45,16 @@ const resolvers = {
         {
           path: 'boxscores',
           model: 'SkaterBoxscore', // TODO how to work with goalies?
+          populate: {
+            path: 'homeTeam awayTeam',
+            model: 'Team',
+            select: 'abbreviation',
+          },
         },
         {
           path: 'currentTeam',
           model: 'Team',
+          select: 'name abbreviation locationName',
         },
       ])
 
@@ -73,6 +81,10 @@ const resolvers = {
       const goals = responseArray
         .map(response =>
           response.data.media.milestones.items
+            .map(item => ({
+              ...item,
+              gamePk: Number(response.data.link.split('/')[4]),
+            }))
             .filter(
               milestone =>
                 milestone.type === 'GOAL' &&
@@ -80,12 +92,13 @@ const resolvers = {
                 Object.keys(milestone.highlight).length
             )
             .map(milestone => ({
+              gamePk: milestone.gamePk,
               title: milestone.highlight.title,
               description: milestone.highlight.description,
               blurb: milestone.highlight.blurb,
               playback:
                 milestone.highlight.playbacks[
-                  milestone.highlight.playbacks.length - 1
+                  milestone.highlight.playbacks.length - 2
                 ],
             }))
         )
@@ -131,24 +144,18 @@ const resolvers = {
       if (!ctx.currentUser) {
         return { oneGame: [], fiveGames: [], tenGames: [] }
       }
-
-      const bestPlayers = await BestPlayers.find({})
-        .sort({ _id: -1 })
-        .limit(1)
-
-      const oneGame = JSON.parse(bestPlayers[0].oneGame).filter(player =>
-        ctx.currentUser.favoritePlayers.includes(player.id)
-      )
-
-      const fiveGames = JSON.parse(bestPlayers[0].fiveGames).filter(player =>
-        ctx.currentUser.favoritePlayers.includes(player.id)
-      )
-
-      const tenGames = JSON.parse(bestPlayers[0].tenGames).filter(player =>
-        ctx.currentUser.favoritePlayers.includes(player.id)
-      )
-
-      return { oneGame, fiveGames, tenGames }
+      const players = await Player.find({
+        _id: { $in: ctx.currentUser.favoritePlayers },
+      }).populate('boxscores')
+      const playersJSON = players.map(player => player.toJSON())
+      const bestPlayers1 = getBestPlayers(playersJSON, 1)
+      const bestPlayers5 = getBestPlayers(playersJSON, 5)
+      const bestPlayers10 = getBestPlayers(playersJSON, 10)
+      return {
+        oneGame: bestPlayers1,
+        fiveGames: bestPlayers5,
+        tenGames: bestPlayers10,
+      }
     },
     GetCumulativeStats: async (root, args) => {
       try {
@@ -176,7 +183,7 @@ const resolvers = {
         const allStats = await Player.populate(allStatsAggregate, {
           path: 'player',
           model: 'Player',
-          select: 'firstName lastName primaryPosition',
+          select: 'firstName lastName primaryPosition siteLink',
           populate: {
             path: 'currentTeam',
             model: 'Team',
@@ -186,8 +193,10 @@ const resolvers = {
 
         const cumulativeStats = allStats.map(entry => {
           return {
+            id: entry.player._id,
             firstName: entry.player.firstName,
             lastName: entry.player.lastName,
+            siteLink: entry.player.siteLink,
             team: entry.player.currentTeam.abbreviation,
             position: entry.player.primaryPosition,
             gamesPlayed: entry.gamesPlayed,
@@ -450,6 +459,8 @@ const resolvers = {
       return roundToDecimal(root.goals / root.saves, 1)
     },
     points: root => root.goals + root.assists,
+    powerPlayPoints: root => root.powerPlayGoals + root.powerPlayAssists,
+    shortHandedPoints: root => root.shortHandedGoals + root.shortHandedAssists,
     gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),
@@ -459,6 +470,10 @@ const resolvers = {
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
     pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
+  },
+  Position: {
+    code: root => root,
+    description: root => positions[root],
   },
 }
 

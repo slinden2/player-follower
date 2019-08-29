@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Player = require('../models/player')
 require('../models/skater-boxscore')
 const bestPlayers = require('../models/best-players')
-const { getBestPlayers } = require('./helpers/get-best-players')
+const { getBestPlayers } = require('../utils/get-best-players')
 
 const config = require('../utils/config')
 
@@ -19,13 +19,11 @@ const updateBestPlayers = async () => {
 
   const playersJSON = players.map(player => player.toJSON())
   const oneGame = JSON.stringify(getBestPlayers(playersJSON, 1))
-  const threeGames = JSON.stringify(getBestPlayers(playersJSON, 3))
   const fiveGames = JSON.stringify(getBestPlayers(playersJSON, 5))
   const tenGames = JSON.stringify(getBestPlayers(playersJSON, 10))
 
   const newBestPlayers = new bestPlayers({
     oneGame,
-    threeGames,
     fiveGames,
     tenGames,
   })

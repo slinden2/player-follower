@@ -1,4 +1,4 @@
-const roundToOneDecimal = require('../../utils/round-to-decimal')
+const roundToOneDecimal = require('./round-to-decimal')
 
 const EXCLUDED_FIELDS = ['gamePk', 'decision', 'id', 'gameDate']
 

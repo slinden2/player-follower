@@ -13,6 +13,16 @@ const skaterBoxscoreSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player',
   },
+  homeTeam: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
+    required: true,
+  },
+  awayTeam: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
+    required: true,
+  },
   assists: {
     type: Number,
     required: true,
