@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import Media from 'react-media'
 import _ from 'lodash'
-import { positions, playerBioData } from '../../utils'
+import { playerBioData } from '../../utils'
 import colors from '../../styles/colors'
+import breakpoints from '../../styles/breakpoints'
 
 const BioTable = styled.table`
   border-collapse: collapse;
@@ -29,6 +31,20 @@ const TableCellTitle = styled(TableCell)`
   border-radius: 10px 10px 0 0;
 `
 
+const bioDataKeysMobile = [
+  'primaryPosition',
+  'team',
+  'nationality',
+  'birthDate',
+  'birthCity',
+  'birthState',
+]
+
+const bioDataKeysDesktop = [
+  ['primaryPosition', 'team', 'nationality'],
+  ['birthDate', 'birthCity', 'birthState'],
+]
+
 const PlayerBioTable = ({ player }) => {
   console.log(player)
 
@@ -40,24 +56,51 @@ const PlayerBioTable = ({ player }) => {
         <TableRow>
           <TableCellTitle colSpan={2}>{player.fullName}</TableCellTitle>
         </TableRow>
-        {playerBioData.map(
-          item =>
-            hasProperty(item) && (
-              <TableRow key={item.id}>
-                <TableCellHeading>{item.title}</TableCellHeading>
-                <TableCell>{_.get(player, item.id)}</TableCell>
+        {bioDataKeysMobile.map(
+          key =>
+            hasProperty(playerBioData[key]) && (
+              <TableRow key={key}>
+                <TableCellHeading>{playerBioData[key].title}</TableCellHeading>
+                <TableCell>{_.get(player, playerBioData[key].id)}</TableCell>
               </TableRow>
             )
         )}
-        <TableRow>
-          <TableCellHeading>Position</TableCellHeading>
-          <TableCell>{positions[player.primaryPosition]}</TableCell>
-        </TableRow>
       </TableBody>
     </BioTable>
   )
 
-  return createBioTableMobile()
+  const createBioTableDesktop = () => (
+    <BioTable>
+      <TableBody>
+        <TableRow>
+          <TableCellTitle colSpan={6}>{player.fullName}</TableCellTitle>
+        </TableRow>
+        {bioDataKeysDesktop.map(row => (
+          <TableRow>
+            {row.map(
+              key =>
+                hasProperty(playerBioData[key]) && (
+                  <>
+                    <TableCellHeading>
+                      {playerBioData[key].title}
+                    </TableCellHeading>
+                    <TableCell>
+                      {_.get(player, playerBioData[key].id)}
+                    </TableCell>
+                  </>
+                )
+            )}
+          </TableRow>
+        ))}
+      </TableBody>
+    </BioTable>
+  )
+
+  return (
+    <Media query={breakpoints.showDesktopNavi}>
+      {matches => (matches ? createBioTableDesktop() : createBioTableMobile())}
+    </Media>
+  )
 }
 
 export default PlayerBioTable

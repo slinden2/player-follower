@@ -85,7 +85,10 @@ const PLAYER_PROFILE = gql`
         abbreviation
         locationName
       }
-      primaryPosition
+      primaryPosition {
+        code
+        description
+      }
       playerId
       boxscores {
         id
