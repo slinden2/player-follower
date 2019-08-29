@@ -22,6 +22,7 @@ const createTeamStats = (teamInDb, stats) => {
     pointPct: stats.pointPctg,
   }
   teamStats.date = new Date().toISOString().split('T')[0]
+  teamStats.createdAt = new Date().toISOString().split('T')[0]
   teamStats.team = teamInDb._id
   delete teamStats.abbrev
   delete teamStats.teamFullName

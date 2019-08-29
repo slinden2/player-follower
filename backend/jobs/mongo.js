@@ -182,7 +182,7 @@ const deleteAllStarGames = async () => {
 
 const addTeamsToBoxscores = async () => {
   const gamePks = await SkaterBoxscore.find().distinct('gamePk')
-  for (const gamePk of gamePks.slice(0, 1)) {
+  for (const gamePk of gamePks) {
     const response = await axios.get(
       `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
     )

@@ -2,6 +2,7 @@ const axios = require('axios')
 const mongoose = require('mongoose')
 const { isDuplicate, convertMMSStoSec } = require('./helpers/fetch-helpers')
 const Player = require('../models/player')
+const Team = require('../models/Team')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
 const config = require('../utils/config')
@@ -29,7 +30,15 @@ const removeScratches = (skaters, scratches) => {
   return skaters.filter(playerId => !scratches.includes(playerId))
 }
 
-const handlePlayer = async (playerInDb, stats, gamePk, gameDate, isGoalie) => {
+const handlePlayer = async (
+  playerInDb,
+  stats,
+  gamePk,
+  gameDate,
+  homeTeam,
+  awayTeam,
+  isGoalie
+) => {
   if (!isGoalie) {
     stats.evenTimeOnIce = convertMMSStoSec(stats.evenTimeOnIce)
     stats.powerPlayTimeOnIce = convertMMSStoSec(stats.powerPlayTimeOnIce)
@@ -45,7 +54,14 @@ const handlePlayer = async (playerInDb, stats, gamePk, gameDate, isGoalie) => {
   }
 
   stats.timeOnIce = convertMMSStoSec(stats.timeOnIce)
-  const boxscore = { gamePk, gameDate, player: playerInDb._id, ...stats }
+  const boxscore = {
+    gamePk,
+    gameDate,
+    homeTeam: homeTeam._id,
+    awayTeam: awayTeam._id,
+    player: playerInDb._id,
+    ...stats,
+  }
 
   try {
     if (isDuplicate(playerInDb, gamePk)) {
@@ -61,9 +77,7 @@ const handlePlayer = async (playerInDb, stats, gamePk, gameDate, isGoalie) => {
     await playerInDb.save()
   } catch ({ name, message }) {
     console.log(
-      `Error while saving a boxscore for ${playerInDb.firstName} ${
-        playerInDb.lastName
-      } ${playerInDb._id}. | gamePk: ${gamePk}`
+      `Error while saving a boxscore for ${playerInDb.firstName} ${playerInDb.lastName} ${playerInDb._id}. | gamePk: ${gamePk}`
     )
     console.log(`${name}: ${message}`)
   }
@@ -102,6 +116,9 @@ const fetchBoxscore = async (gamePk, gameDate) => {
 
   const fetchedPlayers = { ...teams.home.players, ...teams.away.players }
 
+  const homeTeam = await Team.findOne({ teamId: teams.home.team.id })
+  const awayTeam = await Team.findOne({ teamId: teams.away.team.id })
+
   for (const player of playersInDb) {
     const { stats } = fetchedPlayers[`ID${player.playerId}`]
 
@@ -115,7 +132,15 @@ const fetchBoxscore = async (gamePk, gameDate) => {
       isGoalie = true
     }
 
-    await handlePlayer(player, playerStats, gamePk, gameDate, isGoalie)
+    await handlePlayer(
+      player,
+      playerStats,
+      gamePk,
+      gameDate,
+      homeTeam,
+      awayTeam,
+      isGoalie
+    )
   }
 }
 
