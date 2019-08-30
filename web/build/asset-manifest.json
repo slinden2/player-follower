@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/static/js/main.1ce1d0cc.chunk.js",
-    "main.js.map": "/static/js/main.1ce1d0cc.chunk.js.map",
+    "main.js": "/static/js/main.448994a7.chunk.js",
+    "main.js.map": "/static/js/main.448994a7.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
     "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/js/2.63113fa4.chunk.js": "/static/js/2.63113fa4.chunk.js",
-    "static/js/2.63113fa4.chunk.js.map": "/static/js/2.63113fa4.chunk.js.map",
+    "static/js/2.2e8d3def.chunk.js": "/static/js/2.2e8d3def.chunk.js",
+    "static/js/2.2e8d3def.chunk.js.map": "/static/js/2.2e8d3def.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.2d80cb509ed5c689e65f0ae2dc831cfd.js": "/precache-manifest.2d80cb509ed5c689e65f0ae2dc831cfd.js",
+    "precache-manifest.c18907462b4428ba06f562892a825580.js": "/precache-manifest.c18907462b4428ba06f562892a825580.js",
     "service-worker.js": "/service-worker.js",
     "static/media/magnifying-glass-icon.svg": "/static/media/magnifying-glass-icon.b6a65f37.svg",
     "static/media/star-disable.svg": "/static/media/star-disable.f92a2786.svg",
