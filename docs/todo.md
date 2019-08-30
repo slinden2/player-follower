@@ -70,3 +70,5 @@
 - http://statsapi.web.nhl.com/api/v1/game/2018021000/content for highlight videos
 
 - Ranking for goal videos
+
+- Difference between blocked and blocks in the stats table???

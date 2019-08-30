@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import Media from 'react-media'
 import _ from 'lodash'
@@ -74,19 +74,19 @@ const PlayerBioTable = ({ player }) => {
         <TableRow>
           <TableCellTitle colSpan={6}>{player.fullName}</TableCellTitle>
         </TableRow>
-        {bioDataKeysDesktop.map(row => (
-          <TableRow>
+        {bioDataKeysDesktop.map((row, i) => (
+          <TableRow key={i}>
             {row.map(
               key =>
                 hasProperty(playerBioData[key]) && (
-                  <>
+                  <Fragment key={key}>
                     <TableCellHeading>
                       {playerBioData[key].title}
                     </TableCellHeading>
                     <TableCell>
                       {_.get(player, playerBioData[key].id)}
                     </TableCell>
-                  </>
+                  </Fragment>
                 )
             )}
           </TableRow>
