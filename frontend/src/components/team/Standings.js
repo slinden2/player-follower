@@ -74,7 +74,6 @@ const Standings = () => {
 
   return (
     <Container>
-      <Header>Standings</Header>
       <StandingsTypeDropdown setStandingsType={setStandingsType} />
       {Object.keys(standings).map(conference => (
         <StatsTable

@@ -74,4 +74,5 @@
 | 27.08.2019 | 2    | Refactoring the navigation bar                                    |
 | 28.08.2019 | 4    | Finished nav bar                                                  |
 | 29.08.2019 | 4    | Working on player profile                                         |
-|   total    | 251  |                                                                   |
+| 30.08.2019 | 4    | Working on stats and standings                                    |
+|   total    | 255  |                                                                   |
