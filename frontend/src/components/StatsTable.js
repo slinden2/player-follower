@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components'
 import { statHeaders, teamStatHeaders } from '../utils'
 import colors from '../styles/colors'
@@ -14,7 +14,8 @@ const Table = styled.table`
   width: 100%;
 `
 
-const TableTitle = styled.div`
+const TableTitle = styled.h3`
+  margin: 0;
   text-align: center;
   margin-bottom: 5px;
   font-weight: bolder;

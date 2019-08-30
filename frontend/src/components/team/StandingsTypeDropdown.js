@@ -1,7 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
+import colors from '../../styles/colors'
 
-const Dropdown = styled.select``
+const Dropdown = styled.select`
+  display: block;
+  font-size: 0.75rem;
+  color: ${colors.white1};
+  background-color: ${colors.blue1};
+  padding: 5px;
+  margin: 5px 0;
+  border: 0;
+  border-radius: 10px;
+  text-shadow: 1px 1px ${colors.grey1};
+
+  &:hover {
+    font-weight: bolder;
+  }
+`
 
 const DropdownItem = styled.option``
 

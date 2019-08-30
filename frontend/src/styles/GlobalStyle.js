@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
     color: ${colors.white1};
   }
 
-  button {
+  button, select {
     font-family: 'Quicksand', Arial;
   }
 `
