@@ -116,6 +116,7 @@ const statHeaders = {
     headerText: 'A',
     id: 'assists',
     title: 'Assists',
+    sortString: 'ASSISTS',
   },
   blocks: {
     headerText: 'Blocks',
@@ -132,10 +133,28 @@ const statHeaders = {
     id: 'faceOffsTaken',
     title: 'Faceoffs Taken',
   },
+  fullName: {
+    headerText: 'Player',
+    id: 'fullName',
+    title: 'Full Name',
+    sortString: 'PLAYER',
+  },
+  gamesPlayed: {
+    headerText: 'GP',
+    id: 'gamesPlayed',
+    title: 'Games Played',
+    sortString: 'GP',
+  },
   gameDate: {
     headerText: 'Date',
     id: 'gameDate',
     title: 'Date',
+  },
+  gameWinningGoals: {
+    headerText: 'GWG',
+    id: 'gameWinningGoals',
+    title: 'Game Winning Goals',
+    sortString: 'GWG',
   },
   giveaways: {
     headerText: 'GA',
@@ -146,26 +165,48 @@ const statHeaders = {
     headerText: 'G',
     id: 'goals',
     title: 'Goals',
+    sortString: 'GOALS',
   },
   hits: {
     headerText: 'Hits',
     id: 'hits',
     title: 'Hits',
   },
+  overTimeGoals: {
+    headerText: 'OTG',
+    id: 'overTimeGoals',
+    title: 'Overtime Goals',
+    sortString: 'OTG',
+  },
   penaltyMinutes: {
     headerText: 'PM',
     id: 'penaltyMinutes',
     title: 'Penalty Minutes',
+    sortString: 'PM',
   },
   plusMinus: {
     headerText: '+/-',
     id: 'plusMinus',
     title: 'Plus/Minus',
+    sortString: 'PLUSMINUS',
   },
   points: {
     headerText: 'P',
     id: 'points',
     title: 'Points',
+    sortString: 'POINTS',
+  },
+  pointsPerGame: {
+    headerText: 'P/GP',
+    id: 'pointsPerGame',
+    title: 'Points per Game',
+    sortString: 'PPG',
+  },
+  position: {
+    headerText: 'POS',
+    id: 'position',
+    title: 'Position',
+    sortString: 'POSITION',
   },
   powerPlayAssists: {
     headerText: 'PPA',
@@ -176,11 +217,13 @@ const statHeaders = {
     headerText: 'PPG',
     id: 'powerPlayGoals',
     title: 'Powerplay Goals',
+    sortString: 'PPG',
   },
   powerPlayPoints: {
     headerText: 'PPP',
-    id: 'powerPlaypoints',
+    id: 'powerPlayPoints',
     title: 'Powerplay Points',
+    sortString: 'PPP',
   },
   powerPlayTimeOnIce: {
     headerText: 'PPTON',
@@ -196,11 +239,13 @@ const statHeaders = {
     headerText: 'SHG',
     id: 'shortHandedGoals',
     title: 'Shorthanded Goals',
+    sortString: 'SHG',
   },
   shortHandedPoints: {
     headerText: 'SHP',
     id: 'shortHandedPoints',
     title: 'Shorthanded Points',
+    sortString: 'SHP',
   },
   shortHandedTimeOnIce: {
     headerText: 'SHTON',
@@ -216,11 +261,18 @@ const statHeaders = {
     headerText: 'Shots',
     id: 'shots',
     title: 'Shots',
+    sortString: 'SHOTS',
   },
   takeaways: {
     headerText: 'TA',
     id: 'takeaways',
     title: 'Takeaways',
+  },
+  team: {
+    headerText: 'Team',
+    id: 'team',
+    title: 'Team',
+    sortString: 'TEAM',
   },
   teams: {
     headerText: 'Teams',

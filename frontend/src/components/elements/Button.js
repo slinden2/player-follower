@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import colors from '../../styles/colors'
 
 const Btn = styled.button`
-  background-color: ${props => props.color};
+  background-color: ${props => props.color || colors.blue1};
   border: 0;
   border-radius: 10px;
   padding: 5px;
