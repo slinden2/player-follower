@@ -25,7 +25,6 @@ const GlobalStyle = createGlobalStyle`
 
   button {
     font-family: 'Quicksand', Arial;
-    color: ${colors.white1};
   }
 `
 
