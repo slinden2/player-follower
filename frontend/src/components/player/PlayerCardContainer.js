@@ -42,6 +42,7 @@ const Container = styled.div`
 
 const ViewSelectorItem = styled.span`
   cursor: pointer;
+  ${props => props.selected && 'font-weight: bold'};
 `
 
 const PlayerCardContainer = ({ query, header }) => {
@@ -78,13 +79,22 @@ const PlayerCardContainer = ({ query, header }) => {
       <Container>
         <h2>{header}</h2>
         <div className="view-selector">
-          <ViewSelectorItem onClick={() => setCurrentView('Last game')}>
+          <ViewSelectorItem
+            onClick={() => setCurrentView('Last game')}
+            selected={currentView === 'Last game'}
+          >
             Last game
           </ViewSelectorItem>
-          <ViewSelectorItem onClick={() => setCurrentView('Five games')}>
+          <ViewSelectorItem
+            onClick={() => setCurrentView('Five games')}
+            selected={currentView === 'Five games'}
+          >
             5 games
           </ViewSelectorItem>
-          <ViewSelectorItem onClick={() => setCurrentView('Ten games')}>
+          <ViewSelectorItem
+            onClick={() => setCurrentView('Ten games')}
+            selected={currentView === 'Ten games'}
+          >
             10 games
           </ViewSelectorItem>
         </div>
