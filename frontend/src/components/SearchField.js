@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import colors from '../../styles/colors'
-import icon from '../../assets/magnifying-glass-icon.svg'
+import colors from '../styles/colors'
+import icon from '../assets/magnifying-glass-icon.svg'
+import { SearchContext } from '../contexts/SearchContext'
+import { useField } from '../hooks'
 
 const SearchContainer = styled.div`
   margin: -1px 0 0 -1px; /* makes the borders collapse */
@@ -57,9 +59,14 @@ const RadioRow = styled.div`
 `
 
 const SearchField = () => {
+  const { setSearchValue } = useContext(SearchContext)
+  const [search, resetSearch] = useField('search', 'text')
+
+  setSearchValue(search.value)
+
   return (
     <SearchContainer>
-      <Input />
+      <Input {...search} />
       <SearchIcon type="image/svg+xml" data={icon}>
         Test
       </SearchIcon>

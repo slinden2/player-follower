@@ -11,6 +11,7 @@ import { getCookie } from './utils'
 import NotificationContextProvider from './contexts/NotificationContext'
 import AuthContextProvider from './contexts/AuthContext'
 import PlayerContextProvider from './contexts/PlayerContext'
+import SearchContextProvider from './contexts/SearchContext'
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -50,8 +51,10 @@ ReactDOM.render(
     <NotificationContextProvider>
       <PlayerContextProvider>
         <AuthContextProvider>
-          <GlobalStyle />
-          <App />
+          <SearchContextProvider>
+            <GlobalStyle />
+            <App />
+          </SearchContextProvider>
         </AuthContextProvider>
       </PlayerContextProvider>
     </NotificationContextProvider>
