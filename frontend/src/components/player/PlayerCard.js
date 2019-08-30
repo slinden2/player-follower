@@ -28,6 +28,7 @@ const FlipDiv = styled.div`
   transform: rotate(-45deg);
   left: 198px;
   bottom: -5px;
+  cursor: pointer;
 `
 
 const PlayerCard = props => {
