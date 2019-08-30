@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
-import { statHeaders } from '../utils'
+import { statHeaders, teamStatHeaders } from '../utils'
 import colors from '../styles/colors'
 import breakpoints from '../styles/breakpoints'
 
@@ -69,6 +69,7 @@ const StatsTable = ({
   sortVariables,
   setSortVariables,
   handleRowClick,
+  teamStats,
 }) => {
   // cant sort by these fields atm because of
   // how aggregation is done in the backend
@@ -90,20 +91,23 @@ const StatsTable = ({
     return handleRowClick ? handleRowClick(item) : false
   }
 
+  // Team related stats use different dataset for headers
+  const headersToUse = teamStats ? teamStatHeaders : statHeaders
+
   const createHeaders = () => (
     <TableRow>
       {headers.map(header => (
         <HeaderCell
-          key={statHeaders[header].headerText}
-          onClick={() => handleNewVariables(statHeaders[header].sortString)}
-          title={statHeaders[header].title}
-          showOnMobile={statHeaders[header].showOnMobile}
+          key={headersToUse[header].headerText}
+          onClick={() => handleNewVariables(headersToUse[header].sortString)}
+          title={headersToUse[header].title}
+          showOnMobile={headersToUse[header].showOnMobile}
           showPointer={
             sortVariables &&
-            !disableSortVariables.includes(statHeaders[header].sortString)
+            !disableSortVariables.includes(headersToUse[header].sortString)
           }
         >
-          {statHeaders[header].headerText}
+          {headersToUse[header].headerText}
         </HeaderCell>
       ))}
     </TableRow>
@@ -119,14 +123,14 @@ const StatsTable = ({
         {headers.map(header => {
           return (
             <TableCell
-              key={statHeaders[header].id}
-              showOnMobile={statHeaders[header].showOnMobile}
+              key={headersToUse[header].id}
+              showOnMobile={headersToUse[header].showOnMobile}
               highlight={
                 sortVariables &&
-                sortVariables.sortBy === statHeaders[header].sortString
+                sortVariables.sortBy === headersToUse[header].sortString
               }
             >
-              {item[statHeaders[header].id]}
+              {item[headersToUse[header].id]}
             </TableCell>
           )
         })}

@@ -1,31 +1,37 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { Loader, Header } from 'semantic-ui-react'
+import styled from 'styled-components'
 import { STANDINGS } from '../../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'
 import StatsTable from '../StatsTable'
 
+const Container = styled.div``
+
+const Header = styled.h3`
+  margin: 0;
+`
+
 const headers = [
-  { headerText: 'Team', id: 'teamName' },
-  { headerText: 'GP', id: 'gamesPlayed' },
-  { headerText: 'W', id: 'wins' },
-  { headerText: 'L', id: 'losses' },
-  { headerText: 'T', id: 'ties' },
-  { headerText: 'OT', id: 'otLosses' },
-  { headerText: 'P', id: 'points' },
-  { headerText: 'ROW', id: 'regPlusOtWins' },
-  { headerText: 'P%', id: 'pointPct' },
-  { headerText: 'GF', id: 'goalsFor' },
-  { headerText: 'GA', id: 'goalsAgainst' },
-  { headerText: 'S/O Wins', id: 'shootoutGamesWon' },
-  { headerText: 'GF/GP', id: 'goalsForPerGame' },
-  { headerText: 'GA/GP', id: 'goalsAgainstPerGame' },
-  { headerText: 'PP%', id: 'ppPct' },
-  { headerText: 'PK%', id: 'pkPct' },
-  { headerText: 'Shots/GP', id: 'shotsForPerGame' },
-  { headerText: 'SA/GP', id: 'shotsAgainstPerGame' },
-  { headerText: 'FOW%', id: 'faceOffWinPct' },
+  'teamName',
+  'gamesPlayed',
+  'wins',
+  'losses',
+  'ties',
+  'otLosses',
+  'points',
+  'regPlusOtWins',
+  'pointPct',
+  'goalsFor',
+  'goalsAgainst',
+  'shootoutGamesWon',
+  'goalsForPerGame',
+  'goalsAgainstPerGame',
+  'ppPct',
+  'pkPct',
+  'shotsForPerGame',
+  'shotsAgainstPerGame',
+  'faceOffWinPct',
 ]
 
 // group standings by conference or division
@@ -54,7 +60,7 @@ const Standings = () => {
   const { loading, data } = useQuery(STANDINGS)
 
   if (loading) {
-    return <Loader active inline="centered" />
+    return <div>Loading...</div>
   }
 
   const standings =
@@ -67,7 +73,7 @@ const Standings = () => {
   const cleanStandings = cleanUpStandings(standings)
 
   return (
-    <div>
+    <Container>
       <Header>Standings</Header>
       <StandingsTypeDropdown setStandingsType={setStandingsType} />
       {Object.keys(standings).map(conference => (
@@ -76,9 +82,10 @@ const Standings = () => {
           headers={headers}
           data={cleanStandings[conference]}
           title={conference}
+          teamStats={true}
         />
       ))}
-    </div>
+    </Container>
   )
 }
 

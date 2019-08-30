@@ -301,6 +301,111 @@ const statHeaders = {
   },
 }
 
+const teamStatHeaders = {
+  teamName: {
+    headerText: 'Team',
+    id: 'teamName',
+    title: 'Team',
+    showOnMobile: true,
+  },
+  gamesPlayed: {
+    headerText: 'GP',
+    id: 'gamesPlayed',
+    title: 'Games Played',
+    showOnMobile: true,
+  },
+  wins: {
+    headerText: 'W',
+    id: 'wins',
+    title: 'Wins',
+    showOnMobile: true,
+  },
+  losses: {
+    headerText: 'L',
+    id: 'losses',
+    title: 'Losses',
+    showOnMobile: true,
+  },
+  ties: {
+    headerText: 'T',
+    id: 'ties',
+    title: 'Ties',
+    showOnMobile: true,
+  },
+  otLosses: {
+    headerText: 'OT',
+    id: 'otLosses',
+    title: 'Overtime Losses',
+    showOnMobile: true,
+  },
+  points: {
+    headerText: 'P',
+    id: 'points',
+    title: 'Points',
+    showOnMobile: true,
+  },
+  regPlusOtWins: {
+    headerText: 'ROW',
+    id: 'regPlusOtWins',
+    title: 'Regular & Overtime Wins',
+  },
+  pointPct: {
+    headerText: 'P%',
+    id: 'pointPct',
+    title: 'Point Percentage',
+  },
+  goalsFor: {
+    headerText: 'GF',
+    id: 'goalsFor',
+    title: 'Goals For',
+  },
+  goalsAgainst: {
+    headerText: 'GA',
+    id: 'goalsAgainst',
+    title: 'Goals Against',
+  },
+  shootoutGamesWon: {
+    headerText: 'SOW',
+    id: 'shootoutGamesWon',
+    title: 'Shootout Wins',
+  },
+  goalsForPerGame: {
+    headerText: 'GF/GP',
+    id: 'goalsForPerGame',
+    title: 'Goals For per Game',
+  },
+  goalsAgainstPerGame: {
+    headerText: 'GA/GP',
+    id: 'goalsAgainstPerGame',
+    title: 'Goals Against per Game',
+  },
+  ppPct: {
+    headerText: 'PP%',
+    id: 'ppPct',
+    title: 'Powerplay Percentage',
+  },
+  pkPct: {
+    headerText: 'PK%',
+    id: 'pkPct',
+    title: 'Penalty Kill Percentage',
+  },
+  shotsForPerGame: {
+    headerText: 'S/GP',
+    id: 'shotsForPerGame',
+    title: 'Shots For per Game',
+  },
+  shotsAgainstPerGame: {
+    headerText: 'SA/GP',
+    id: 'shotsAgainstPerGame',
+    title: 'Shots Against per Game',
+  },
+  faceOffWinPct: {
+    headerText: 'FOW%',
+    id: 'faceOffWinPct',
+    title: 'Faceoff Win Percentage',
+  },
+}
+
 export {
   getCookie,
   removeCookie,
@@ -310,5 +415,6 @@ export {
   convertSecsToMMSS,
   naviItems,
   statHeaders,
+  teamStatHeaders,
   playerBioData,
 }
