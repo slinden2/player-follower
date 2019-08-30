@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { statHeaders } from '../utils'
 import colors from '../styles/colors'
+import breakpoints from '../styles/breakpoints'
 
 const Container = styled.div`
   width: 100%;
@@ -24,24 +25,41 @@ const TableHead = styled.thead``
 const TableBody = styled.tbody``
 
 const TableRow = styled.tr`
-  cursor: pointer;
+  ${props => props.showPointer && 'cursor: pointer;'}
 `
 
 const cellStyling = css`
   border: 2px solid ${colors.grey3};
   text-align: center;
   padding: 5px;
-  font-size: 0.75rem;
+  font-size: 2vw;
 `
 
 const TableCell = styled.td`
   ${cellStyling}
+  ${props => props.highlight && `background-color: ${colors.grey2};`}
+
+  @media ${breakpoints.hideOnMobile} {
+    ${props => !props.showOnMobile && 'display: none'};
+  }
+
+  @media ${breakpoints.showDesktopNavi} {
+    font-size: 0.75rem;
+  }
 `
 
 const HeaderCell = styled.th`
   ${cellStyling}
   background-color: ${colors.grey2};
-  font-size: 0.875rem;
+  ${props => props.showPointer && 'cursor: pointer;'}
+
+  @media ${breakpoints.hideOnMobile} {
+    ${props => !props.showOnMobile && 'display: none'};
+  }
+
+  @media ${breakpoints.showDesktopNavi} {
+    font-size: 0.875rem;
+  }
 `
 
 const StatsTable = ({
@@ -52,16 +70,12 @@ const StatsTable = ({
   setSortVariables,
   handleRowClick,
 }) => {
+  // cant sort by these fields atm because of
+  // how aggregation is done in the backend
+  const disableSortVariables = ['PLAYER', 'TEAM', 'POSITION']
+
   const handleNewVariables = sortBy => {
-    // cant sort by these fields atm because of
-    // how aggregation is done in the backend
-    if (
-      sortBy === 'PLAYER' ||
-      sortBy === 'TEAM' ||
-      sortBy === 'POSITION' ||
-      !sortBy
-    )
-      return
+    if (disableSortVariables.includes(sortBy) || !sortBy) return
 
     if (sortBy === sortVariables.sortBy) {
       sortVariables.sortDir === 'DESC'
@@ -77,25 +91,41 @@ const StatsTable = ({
   }
 
   const createHeaders = () => (
-    <tr>
+    <TableRow>
       {headers.map(header => (
         <HeaderCell
           key={statHeaders[header].headerText}
           onClick={() => handleNewVariables(statHeaders[header].sortString)}
           title={statHeaders[header].title}
+          showOnMobile={statHeaders[header].showOnMobile}
+          showPointer={
+            sortVariables &&
+            !disableSortVariables.includes(statHeaders[header].sortString)
+          }
         >
           {statHeaders[header].headerText}
         </HeaderCell>
       ))}
-    </tr>
+    </TableRow>
   )
 
   const createCells = () =>
     data.map(item => (
-      <TableRow key={item.id} onClick={() => handleClick(item)}>
+      <TableRow
+        key={item.id}
+        onClick={() => handleClick(item)}
+        showPointer={handleRowClick}
+      >
         {headers.map(header => {
           return (
-            <TableCell key={statHeaders[header].id}>
+            <TableCell
+              key={statHeaders[header].id}
+              showOnMobile={statHeaders[header].showOnMobile}
+              highlight={
+                sortVariables &&
+                sortVariables.sortBy === statHeaders[header].sortString
+              }
+            >
               {item[statHeaders[header].id]}
             </TableCell>
           )

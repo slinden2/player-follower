@@ -117,6 +117,7 @@ const statHeaders = {
     id: 'assists',
     title: 'Assists',
     sortString: 'ASSISTS',
+    showOnMobile: true,
   },
   blocks: {
     headerText: 'Blocks',
@@ -138,12 +139,14 @@ const statHeaders = {
     id: 'fullName',
     title: 'Full Name',
     sortString: 'PLAYER',
+    showOnMobile: true,
   },
   gamesPlayed: {
     headerText: 'GP',
     id: 'gamesPlayed',
     title: 'Games Played',
     sortString: 'GP',
+    showOnMobile: true,
   },
   gameDate: {
     headerText: 'Date',
@@ -166,6 +169,7 @@ const statHeaders = {
     id: 'goals',
     title: 'Goals',
     sortString: 'GOALS',
+    showOnMobile: true,
   },
   hits: {
     headerText: 'Hits',
@@ -183,30 +187,34 @@ const statHeaders = {
     id: 'penaltyMinutes',
     title: 'Penalty Minutes',
     sortString: 'PM',
+    showOnMobile: true,
   },
   plusMinus: {
     headerText: '+/-',
     id: 'plusMinus',
     title: 'Plus/Minus',
     sortString: 'PLUSMINUS',
+    showOnMobile: true,
   },
   points: {
     headerText: 'P',
     id: 'points',
     title: 'Points',
     sortString: 'POINTS',
+    showOnMobile: true,
   },
   pointsPerGame: {
     headerText: 'P/GP',
     id: 'pointsPerGame',
     title: 'Points per Game',
-    sortString: 'PPG',
+    sortString: 'POINTS_PER_GAME',
   },
   position: {
     headerText: 'POS',
     id: 'position',
     title: 'Position',
     sortString: 'POSITION',
+    showOnMobile: true,
   },
   powerPlayAssists: {
     headerText: 'PPA',
@@ -273,11 +281,13 @@ const statHeaders = {
     id: 'team',
     title: 'Team',
     sortString: 'TEAM',
+    showOnMobile: true,
   },
   teams: {
     headerText: 'Teams',
     id: 'teams',
     title: 'Teams',
+    showOnMobile: true,
   },
   timeOnIce: {
     headerText: 'TON',
