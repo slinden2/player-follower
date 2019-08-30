@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
+import { StatHeaders, statHeaders } from '../utils'
 import colors from '../styles/colors'
 
 const Container = styled.div`
@@ -79,10 +80,11 @@ const StatsTable = ({
     <tr>
       {headers.map(header => (
         <HeaderCell
-          key={header.headerText}
+          key={statHeaders[header].headerText}
           onClick={() => handleNewVariables(header.sortString)}
+          title={statHeaders[header].title}
         >
-          {header.headerText}
+          {statHeaders[header].headerText}
         </HeaderCell>
       ))}
     </tr>
@@ -91,8 +93,12 @@ const StatsTable = ({
   const createCells = () =>
     data.map(item => (
       <TableRow key={item.id} onClick={() => handleClick(item)}>
-        {headers.map(stat => {
-          return <TableCell key={stat.id}>{item[stat.id]}</TableCell>
+        {headers.map(header => {
+          return (
+            <TableCell key={statHeaders[header].id}>
+              {item[statHeaders[header].id]}
+            </TableCell>
+          )
         })}
       </TableRow>
     ))

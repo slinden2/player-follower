@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Media from 'react-media'
 import { useQuery } from 'react-apollo-hooks'
-import { Loader } from 'semantic-ui-react'
 import { profileImgUrl } from '../../utils'
 import { PLAYER_PROFILE } from '../../graphql/queries'
 import PlayerBioTable from './PlayerBioTable'
@@ -31,27 +30,50 @@ const ActionImg = styled.img`
   margin-bottom: 10px;
 `
 
+// const headers = [
+//   { headerText: 'Date', id: 'gameDate' },
+//   { headerText: 'Teams', id: 'teams' },
+//   { headerText: 'G', id: 'goals' },
+//   { headerText: 'A', id: 'assists' },
+//   { headerText: 'P', id: 'points' },
+//   { headerText: '+/-', id: 'plusMinus' },
+//   { headerText: 'PM', id: 'penaltyMinutes' },
+//   { headerText: 'PPG', id: 'powerPlayGoals' },
+//   { headerText: 'PPA', id: 'powerPlayAssists' },
+//   { headerText: 'SHG', id: 'shortHandedGoals' },
+//   { headerText: 'SHA', id: 'shortHandedAssists' },
+//   { headerText: 'TON', id: 'timeOnIce' },
+//   { headerText: 'PPTON', id: 'powerPlayTimeOnIce' },
+//   { headerText: 'SHTON', id: 'shortHandedTimeOnIce' },
+//   { headerText: 'Shots', id: 'shots' },
+//   { headerText: 'Shot%', id: 'shotPct' },
+//   { headerText: 'Blocked', id: 'blocked' },
+//   { headerText: 'Hits', id: 'hits' },
+//   { headerText: 'Giveaways', id: 'giveaways' },
+//   { headerText: 'Takeaways', id: 'takeaways' },
+// ]
+
 const headers = [
-  { headerText: 'Date', id: 'gameDate' },
-  { headerText: 'Teams', id: 'teams' },
-  { headerText: 'G', id: 'goals' },
-  { headerText: 'A', id: 'assists' },
-  { headerText: 'P', id: 'points' },
-  { headerText: '+/-', id: 'plusMinus' },
-  { headerText: 'PM', id: 'penaltyMinutes' },
-  { headerText: 'PPG', id: 'powerPlayGoals' },
-  { headerText: 'PPA', id: 'powerPlayAssists' },
-  { headerText: 'SHG', id: 'shortHandedGoals' },
-  { headerText: 'SHA', id: 'shortHandedAssists' },
-  { headerText: 'TON', id: 'timeOnIce' },
-  { headerText: 'PPTON', id: 'powerPlayTimeOnIce' },
-  { headerText: 'SHTON', id: 'shortHandedTimeOnIce' },
-  { headerText: 'Shots', id: 'shots' },
-  { headerText: 'Shot%', id: 'shotPct' },
-  { headerText: 'Blocked', id: 'blocked' },
-  { headerText: 'Hits', id: 'hits' },
-  { headerText: 'Giveaways', id: 'giveaways' },
-  { headerText: 'Takeaways', id: 'takeaways' },
+  'gameDate',
+  'teams',
+  'goals',
+  'assists',
+  'points',
+  'plusMinus',
+  'penaltyMinutes',
+  'powerPlayGoals',
+  'powerPlayAssists',
+  'shortHandedGoals',
+  'shortHandedAssists',
+  'timeOnIce',
+  'powerPlayTimeOnIce',
+  'shortHandedTimeOnIce',
+  'shots',
+  'shotPct',
+  'blocked',
+  'hits',
+  'giveaways',
+  'takeaways',
 ]
 
 const sortBoxscoresByDate = boxscores => {
@@ -69,7 +91,7 @@ const PlayerProfile = ({ siteLink }) => {
   })
 
   if (loading) {
-    return <Loader active inline="centered" />
+    return <div>Loading...</div>
   }
 
   const player = data.findPlayer

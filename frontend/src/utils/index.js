@@ -122,10 +122,20 @@ const statHeaders = {
     id: 'blocks',
     title: 'Blocks',
   },
+  blocked: {
+    headerText: 'Blocks',
+    id: 'blocked',
+    title: 'Blocks',
+  },
   faceOffsTaken: {
     headerText: 'FOT',
     id: 'faceOffsTaken',
     title: 'Faceoffs Taken',
+  },
+  gameDate: {
+    headerText: 'Date',
+    id: 'gameDate',
+    title: 'Date',
   },
   giveaways: {
     headerText: 'GA',
@@ -157,6 +167,11 @@ const statHeaders = {
     id: 'points',
     title: 'Points',
   },
+  powerPlayAssists: {
+    headerText: 'PPA',
+    id: 'powerPlayAssists',
+    title: 'Powerplay Assists',
+  },
   powerPlayGoals: {
     headerText: 'PPG',
     id: 'powerPlayGoals',
@@ -166,6 +181,16 @@ const statHeaders = {
     headerText: 'PPP',
     id: 'powerPlaypoints',
     title: 'Powerplay Points',
+  },
+  powerPlayTimeOnIce: {
+    headerText: 'PPTON',
+    id: 'powerPlayTimeOnIce',
+    title: 'Power Play Time on Ice',
+  },
+  shortHandedAssists: {
+    headerText: 'SHA',
+    id: 'shortHandedAssists',
+    title: 'Shorthanded Assists',
   },
   shortHandedGoals: {
     headerText: 'SHG',
@@ -177,6 +202,16 @@ const statHeaders = {
     id: 'shortHandedPoints',
     title: 'Shorthanded Points',
   },
+  shortHandedTimeOnIce: {
+    headerText: 'SHTON',
+    id: 'shortHandedTimeOnIce',
+    title: 'Shorthanded Time on Ice',
+  },
+  shotPct: {
+    headerText: 'S%',
+    id: 'shotPct',
+    title: 'Shot Percentage',
+  },
   shots: {
     headerText: 'Shots',
     id: 'shots',
@@ -186,6 +221,16 @@ const statHeaders = {
     headerText: 'TA',
     id: 'takeaways',
     title: 'Takeaways',
+  },
+  teams: {
+    headerText: 'Teams',
+    id: 'teams',
+    title: 'Teams',
+  },
+  timeOnIce: {
+    headerText: 'TON',
+    id: 'timeOnIce',
+    title: 'Time on Ice',
   },
   timeOnIcePerGame: {
     headerText: 'T/GP',
