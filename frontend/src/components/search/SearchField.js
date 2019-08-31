@@ -66,8 +66,6 @@ const RadioRow = styled.div`
 const SearchField = () => {
   const [search, results, isLoading] = useSearch()
 
-  console.log(results)
-
   const showResults = () => !isLoading && results.length > 0
 
   return (

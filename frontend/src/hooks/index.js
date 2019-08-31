@@ -40,7 +40,9 @@ const useSearch = () => {
   const [results, setResults] = useState([])
   const client = useApolloClient()
 
-  const throttled = useRef(_.debounce(handleSearchChange, 500))
+  const throttledHandleSearchChange = useRef(
+    _.debounce(handleSearchChange, 500)
+  )
 
   async function handleSearchChange(value) {
     setIsLoading(true)
@@ -55,7 +57,7 @@ const useSearch = () => {
   }
 
   useEffect(() => {
-    if (search.value) throttled.current(search.value)
+    if (search.value) throttledHandleSearchChange.current(search.value)
 
     return setResults([])
   }, [search.value])
