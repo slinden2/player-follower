@@ -13,13 +13,14 @@ import Footer from './components/Footer'
 import ForgotPassword from './components/user/ForgotPassword'
 import SetNewPassword from './components/user/SetNewPassword'
 import UserProfile from './components/user/UserProfile'
-import FindPlayers from './components/player/FindPlayers'
+import FindPlayers from './components/search/SearchPage'
 import PlayerStats from './components/player/PlayerStats'
 import Standings from './components/team/Standings'
 import PlayerProfile from './components/player/PlayerProfile'
 import styled from 'styled-components'
 import colors from './styles/colors'
 import variables from './styles/variables'
+import { SearchContext } from './contexts/SearchContext'
 
 const Container = styled.div`
   margin: 0;
@@ -38,6 +39,7 @@ const App = () => {
   const { notification } = useContext(NotificationContext)
   const { token } = useContext(AuthContext)
   const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
+  const { searchValue } = useContext(SearchContext)
 
   return (
     <Container>
@@ -45,6 +47,7 @@ const App = () => {
         <Navigation />
         <ContentWrapper>
           <Notification notification={notification} />
+          {searchValue && <div>Search value present</div>}
           <Route
             exact
             path="/"
@@ -55,6 +58,7 @@ const App = () => {
           <Route path="/stats" render={() => <PlayerStats />} />
           <Route path="/standings" render={() => <Standings />} />
           <Route path="/about" render={() => <div>About</div>} />
+          <Route path="/search" render={() => <FindPlayers />} />
           <Route
             path="/players/:siteLink"
             render={({ match }) => (
@@ -73,7 +77,6 @@ const App = () => {
                 )}
               />
               <Route path="/profile" render={() => <UserProfile />} />
-              <Route path="/find-players" render={() => <FindPlayers />} />
             </>
           )}
           {!token && (

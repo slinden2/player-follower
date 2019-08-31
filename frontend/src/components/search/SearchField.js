@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import colors from '../styles/colors'
-import icon from '../assets/magnifying-glass-icon.svg'
-import { SearchContext } from '../contexts/SearchContext'
-import { useField } from '../hooks'
+import colors from '../../styles/colors'
+import icon from '../../assets/magnifying-glass-icon.svg'
+import { SearchContext } from '../../contexts/SearchContext'
+import { useField } from '../../hooks'
 
 const SearchContainer = styled.div`
   margin: -1px 0 0 -1px; /* makes the borders collapse */
