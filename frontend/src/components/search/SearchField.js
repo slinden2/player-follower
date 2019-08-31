@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useApolloClient } from 'react-apollo-hooks'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
 import icon from '../../assets/magnifying-glass-icon.svg'
-import { SearchContext } from '../../contexts/SearchContext'
-import { useField } from '../../hooks'
+import { useSearch } from '../../hooks'
+import SearchDropdown from './SearchDropdown'
+import _ from 'lodash'
 
 const SearchContainer = styled.div`
   margin: -1px 0 0 -1px; /* makes the borders collapse */
@@ -15,11 +17,13 @@ const SearchContainer = styled.div`
   align-items: center;
   border-left: 1px solid ${colors.grey2};
   border-right: 1px solid ${colors.grey2};
+  /* border: 1px solid green; */
 `
 
 const Input = styled.input`
   height: 40px;
   width: 275px;
+  z-index: 10;
   border-radius: 50px;
   background-color: ${colors.grey4};
   border: 3px solid ${colors.grey3};
@@ -43,6 +47,7 @@ const SearchIcon = styled.object`
   width: 24px;
   top: 30%;
   left: 66%;
+  z-index: 11;
 `
 
 const RadioContainer = styled.div`
@@ -59,10 +64,11 @@ const RadioRow = styled.div`
 `
 
 const SearchField = () => {
-  const { setSearchValue } = useContext(SearchContext)
-  const [search, resetSearch] = useField('search', 'text')
+  const [search, results, isLoading] = useSearch()
 
-  setSearchValue(search.value)
+  console.log(results)
+
+  const showResults = () => !isLoading && results.length > 0
 
   return (
     <SearchContainer>
@@ -96,6 +102,7 @@ const SearchField = () => {
           />
         </RadioRow>
       </RadioContainer>
+      {showResults() && <SearchDropdown />}
     </SearchContainer>
   )
 }

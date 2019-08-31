@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useApolloClient } from 'react-apollo-hooks'
+import _ from 'lodash'
+import { FIND_BY_NAME } from '../graphql/queries'
 
 const useField = (name, type) => {
   const [value, setValue] = useState('')
@@ -31,4 +34,33 @@ const useNotification = () => {
   return [notification, notify]
 }
 
-export { useField, useNotification }
+const useSearch = () => {
+  const [search, resetSearch] = useField('search', 'text')
+  const [isLoading, setIsLoading] = useState(false)
+  const [results, setResults] = useState([])
+  const client = useApolloClient()
+
+  const throttled = useRef(_.debounce(handleSearchChange, 500))
+
+  async function handleSearchChange(value) {
+    setIsLoading(true)
+    const foundPlayers = await client.query({
+      query: FIND_BY_NAME,
+      variables: {
+        searchString: value,
+      },
+    })
+    setIsLoading(false)
+    setResults(foundPlayers.data.findByName)
+  }
+
+  useEffect(() => {
+    if (search.value) throttled.current(search.value)
+
+    return setResults([])
+  }, [search.value])
+
+  return [search, results, isLoading]
+}
+
+export { useField, useNotification, useSearch }
