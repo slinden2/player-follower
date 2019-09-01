@@ -1,5 +1,4 @@
 import React from 'react'
-import { useApolloClient } from 'react-apollo-hooks'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
 import icon from '../../assets/magnifying-glass-icon.svg'
@@ -100,7 +99,7 @@ const SearchField = () => {
           />
         </RadioRow>
       </RadioContainer>
-      {showResults() && <SearchDropdown />}
+      {showResults() && <SearchDropdown results={results} />}
     </SearchContainer>
   )
 }

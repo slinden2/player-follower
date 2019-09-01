@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
+import DropdownRow from './SearchDropdownRow'
 
 const Container = styled.div`
   display: block;
@@ -14,8 +15,22 @@ const Container = styled.div`
   padding: 30px 10px 10px 10px;
 `
 
-const SearchDropdown = () => {
-  return <Container>test</Container>
+const Table = styled.div`
+  display: table;
+  width: 100%;
+`
+
+const SearchDropdown = ({ results }) => {
+  return (
+    <Container>
+      <Table>
+        <DropdownRow header />
+        {results.map(player => (
+          <DropdownRow key={player.playerId} player={player} />
+        ))}
+      </Table>
+    </Container>
+  )
 }
 
 export default SearchDropdown
