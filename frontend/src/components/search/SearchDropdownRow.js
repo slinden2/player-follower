@@ -40,7 +40,7 @@ const DataItem = styled.div`
 
 const LinkItem = styled(Link)``
 
-const items = object => [
+const playerItems = object => [
   {
     data: _.get(object, 'fullName'),
     link: _.get(object, 'siteLink'),
@@ -51,12 +51,23 @@ const items = object => [
   { data: _.get(object, 'nationality'), header: 'Co.' },
 ]
 
+const teamItems = object => [
+  {
+    data: _.get(object, 'name'),
+    link: _.get(object, 'siteLink'),
+    header: 'Team',
+    first: true,
+  },
+]
+
 const hasLink = object => _.has(object, 'link')
 
-const SearchDropdownRow = ({ player, header, resetAll }) => {
+const SearchDropdownRow = ({ data, header, resetAll, isTeamData }) => {
+  const dataArray = isTeamData ? teamItems : playerItems
+
   return (
     <Container header={header}>
-      {items(player).map((item, i) => (
+      {dataArray(data).map((item, i) => (
         <DataItem key={i} first={item.first} header={header}>
           {header ? (
             item.header

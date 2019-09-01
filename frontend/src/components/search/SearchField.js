@@ -5,6 +5,8 @@ import icon from '../../assets/magnifying-glass-icon.svg'
 import { useSearch } from '../../hooks'
 import SearchDropdown from './SearchDropdown'
 import RadioContainer from './RadioContainer'
+import { FIND_BY_NAME } from '../../graphql/queries'
+// import { GET_TEAMS_BY_NAME } from '../../graphql/queries'
 
 const SearchContainer = styled.div`
   margin: -1px 0 0 -1px; /* makes the borders collapse */
@@ -16,7 +18,6 @@ const SearchContainer = styled.div`
   align-items: center;
   border-left: 1px solid ${colors.grey2};
   border-right: 1px solid ${colors.grey2};
-  /* border: 1px solid green; */
 `
 
 const Input = styled.input`
@@ -50,20 +51,18 @@ const SearchIcon = styled.object`
 `
 
 const SearchField = () => {
-  const [search, results, isLoading, resetAll] = useSearch()
+  const [search, results, isLoading, resetAll, setQuery] = useSearch(
+    FIND_BY_NAME
+  )
+
+  const showDropdown = results.length > 0
 
   return (
     <SearchContainer>
       <Input {...search} />
-      <SearchIcon type="image/svg+xml" data={icon}>
-        Test
-      </SearchIcon>
-      <RadioContainer />
-      <SearchDropdown
-        results={results}
-        isLoading={isLoading}
-        resetAll={resetAll}
-      />
+      <SearchIcon type="image/svg+xml" data={icon} />
+      <RadioContainer setQuery={setQuery} resetAll={resetAll} />
+      {showDropdown && <SearchDropdown results={results} resetAll={resetAll} />}
     </SearchContainer>
   )
 }
