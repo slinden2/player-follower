@@ -4,7 +4,7 @@ import colors from '../../styles/colors'
 import DropdownRow from './SearchDropdownRow'
 
 const Container = styled.div`
-  display: block;
+  display: ${props => (props.hide ? 'none' : 'block')};
   position: absolute;
   top: 50%;
   width: 295px;
@@ -26,15 +26,27 @@ const Table = styled.div`
   width: 100%;
 `
 
-const SearchDropdown = ({ results }) => {
+const DropdownLoader = styled.div``
+
+const SearchDropdown = ({ results, isLoading, resetAll }) => {
+  const showResults = results.length > 0 && !isLoading
+  const hide = !showResults && !isLoading
+
   return (
-    <Container>
-      <Table>
-        <DropdownRow header />
-        {results.map(player => (
-          <DropdownRow key={player.playerId} player={player} />
-        ))}
-      </Table>
+    <Container hide={hide}>
+      {isLoading && <DropdownLoader>Loading...</DropdownLoader>}
+      {showResults && (
+        <Table>
+          <DropdownRow header />
+          {results.map(player => (
+            <DropdownRow
+              key={player.playerId}
+              player={player}
+              resetAll={resetAll}
+            />
+          ))}
+        </Table>
+      )}
     </Container>
   )
 }

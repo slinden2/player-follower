@@ -53,7 +53,7 @@ const items = object => [
 
 const hasLink = object => _.has(object, 'link')
 
-const SearchDropdownRow = ({ player, header }) => {
+const SearchDropdownRow = ({ player, header, resetAll }) => {
   return (
     <Container header={header}>
       {items(player).map((item, i) => (
@@ -61,7 +61,9 @@ const SearchDropdownRow = ({ player, header }) => {
           {header ? (
             item.header
           ) : hasLink(item) ? (
-            <LinkItem to={`/players/${item.link}`}>{item.data}</LinkItem>
+            <LinkItem onClick={resetAll} to={`/players/${item.link}`}>
+              {item.data}
+            </LinkItem>
           ) : (
             item.data
           )}

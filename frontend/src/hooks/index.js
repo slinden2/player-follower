@@ -45,7 +45,7 @@ const useSearch = () => {
   )
 
   async function handleSearchChange(value) {
-    setIsLoading(true)
+    if (value) setIsLoading(true)
     const foundPlayers = await client.query({
       query: FIND_BY_NAME,
       variables: {
@@ -53,16 +53,21 @@ const useSearch = () => {
       },
     })
     setIsLoading(false)
-    setResults(foundPlayers.data.findByName)
+    value ? setResults(foundPlayers.data.findByName) : setResults([])
   }
 
   useEffect(() => {
-    if (search.value) throttledHandleSearchChange.current(search.value)
+    throttledHandleSearchChange.current(search.value)
 
     return setResults([])
   }, [search.value])
 
-  return [search, results, isLoading]
+  const resetAll = () => {
+    resetSearch()
+    setResults([])
+  }
+
+  return [search, results, isLoading, resetAll]
 }
 
 export { useField, useNotification, useSearch }

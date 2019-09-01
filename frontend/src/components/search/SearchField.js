@@ -53,8 +53,6 @@ const SearchIcon = styled.object`
 const SearchField = () => {
   const [search, results, isLoading, resetAll] = useSearch()
 
-  const showResults = () => !isLoading && results.length > 0
-
   return (
     <SearchContainer>
       <Input {...search} />
@@ -62,9 +60,11 @@ const SearchField = () => {
         Test
       </SearchIcon>
       <RadioContainer />
-      {showResults() && (
-        <SearchDropdown results={results} resetAll={resetAll} />
-      )}
+      <SearchDropdown
+        results={results}
+        isLoading={isLoading}
+        resetAll={resetAll}
+      />
     </SearchContainer>
   )
 }
