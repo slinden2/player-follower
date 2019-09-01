@@ -4,6 +4,7 @@ import colors from '../../styles/colors'
 import icon from '../../assets/magnifying-glass-icon.svg'
 import { useSearch } from '../../hooks'
 import SearchDropdown from './SearchDropdown'
+import RadioContainer from './RadioContainer'
 import _ from 'lodash'
 
 const SearchContainer = styled.div`
@@ -49,21 +50,8 @@ const SearchIcon = styled.object`
   z-index: 11;
 `
 
-const RadioContainer = styled.div`
-  display: table;
-`
-
-const RadioRow = styled.div`
-  display: table-row;
-
-  & .filter-cell {
-    display: table-cell;
-    vertical-align: middle;
-  }
-`
-
 const SearchField = () => {
-  const [search, results, isLoading] = useSearch()
+  const [search, results, isLoading, resetAll] = useSearch()
 
   const showResults = () => !isLoading && results.length > 0
 
@@ -73,33 +61,10 @@ const SearchField = () => {
       <SearchIcon type="image/svg+xml" data={icon}>
         Test
       </SearchIcon>
-      <RadioContainer>
-        <RadioRow>
-          <label className="filter-cell" htmlFor="player-radio">
-            Players
-          </label>
-          <input
-            className="filter-cell"
-            id="player-radio"
-            type="radio"
-            name="type"
-            value="players"
-          />
-        </RadioRow>
-        <RadioRow>
-          <label className="filter-cell" htmlFor="team-radio">
-            Teams
-          </label>
-          <input
-            className="filter-cell"
-            id="team-radio"
-            type="radio"
-            name="type"
-            value="teams"
-          />
-        </RadioRow>
-      </RadioContainer>
-      {showResults() && <SearchDropdown results={results} />}
+      <RadioContainer />
+      {showResults() && (
+        <SearchDropdown results={results} resetAll={resetAll} />
+      )}
     </SearchContainer>
   )
 }
