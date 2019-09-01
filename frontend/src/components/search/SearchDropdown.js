@@ -13,6 +13,12 @@ const Container = styled.div`
   background-color: ${colors.grey2};
   z-index: 9;
   padding: 30px 10px 10px 10px;
+  max-height: 90vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const Table = styled.div`
