@@ -57,6 +57,7 @@
 * [ ] Team needed in the player cards
 * [ ] Filtering by team and position in player cards
 * [ ] Blocked shots needed in cumulative stats
+* [ ] Team view with roster table and the most recent goals
 * [ ] About
 * [ ] Footer
 

@@ -229,6 +229,14 @@ const PLAYER_MILESTONES = gql`
   }
 `
 
+const GET_TEAMS_BY_NAME = gql`
+  query getTeamsByName($searchString: String!) {
+    GetTeams(searchString: $searchString) {
+      name
+    }
+  }
+`
+
 export {
   BEST_PLAYERS,
   FAVORITE_PLAYERS,
@@ -238,4 +246,5 @@ export {
   STANDINGS,
   PLAYER_PROFILE,
   PLAYER_MILESTONES,
+  GET_TEAMS_BY_NAME,
 }

@@ -264,6 +264,14 @@ const resolvers = {
 
       return sortedStandings
     },
+    GetTeams: async (root, args) => {
+      const searchString = new RegExp(args.searchString, 'ig')
+      const teams = await Team.find({
+        $or: [{ name: searchString }, { abbreviation: searchString }],
+      })
+
+      return teams.map(team => team.toJSON())
+    },
   },
   Mutation: {
     createUser: async (root, args) => {
