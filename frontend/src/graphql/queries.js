@@ -140,12 +140,12 @@ const FIND_BY_NAME = gql`
     findByName(searchString: $searchString) {
       fullName
       nationality
-      primaryNumber
       currentTeam {
         abbreviation
       }
       id
       playerId
+      siteLink
     }
   }
 `

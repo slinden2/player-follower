@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import _ from 'lodash'
 import colors from '../../styles/colors'
@@ -37,18 +38,33 @@ const DataItem = styled.div`
   ${props => (props.header ? headerStyle : rowStyle)}
 `
 
+const LinkItem = styled(Link)``
+
 const items = object => [
-  { data: _.get(object, 'fullName'), header: 'Player', first: true },
+  {
+    data: _.get(object, 'fullName'),
+    link: _.get(object, 'siteLink'),
+    header: 'Player',
+    first: true,
+  },
   { data: _.get(object, 'currentTeam.abbreviation'), header: 'Team' },
   { data: _.get(object, 'nationality'), header: 'Co.' },
 ]
+
+const hasLink = object => _.has(object, 'link')
 
 const SearchDropdownRow = ({ player, header }) => {
   return (
     <Container header={header}>
       {items(player).map((item, i) => (
         <DataItem key={i} first={item.first} header={header}>
-          {header ? item.header : item.data}
+          {header ? (
+            item.header
+          ) : hasLink(item) ? (
+            <LinkItem to={`/players/${item.link}`}>{item.data}</LinkItem>
+          ) : (
+            item.data
+          )}
         </DataItem>
       ))}
     </Container>
