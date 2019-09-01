@@ -8,10 +8,6 @@ import StatsTable from '../StatsTable'
 
 const Container = styled.div``
 
-const Header = styled.h3`
-  margin: 0;
-`
-
 const headers = [
   'teamName',
   'gamesPlayed',

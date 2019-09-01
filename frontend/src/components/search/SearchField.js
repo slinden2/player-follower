@@ -5,7 +5,6 @@ import icon from '../../assets/magnifying-glass-icon.svg'
 import { useSearch } from '../../hooks'
 import SearchDropdown from './SearchDropdown'
 import RadioContainer from './RadioContainer'
-import _ from 'lodash'
 
 const SearchContainer = styled.div`
   margin: -1px 0 0 -1px; /* makes the borders collapse */
