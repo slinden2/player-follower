@@ -141,6 +141,9 @@ const FIND_BY_NAME = gql`
       fullName
       nationality
       primaryNumber
+      currentTeam {
+        abbreviation
+      }
       id
       playerId
     }

@@ -117,14 +117,16 @@ const resolvers = {
         players = await Player.find(
           { $text: { $search: args.searchString } },
           { score: { $meta: 'textScore' } }
-        ).sort({ score: { $meta: 'textScore' } })
+        )
+          .populate('currentTeam', 'abbreviation')
+          .sort({ score: { $meta: 'textScore' } })
 
         // match firstname or lastname
       } else {
         const searchString = new RegExp(args.searchString, 'ig')
         players = await Player.find({
           $or: [{ firstName: searchString }, { lastName: searchString }],
-        })
+        }).populate('currentTeam', 'abbreviation')
       }
 
       return players.map(player => player.toJSON())
