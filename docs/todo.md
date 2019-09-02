@@ -58,6 +58,8 @@
 * [ ] Filtering by team and position in player cards
 * [ ] Blocked shots needed in cumulative stats
 * [ ] Team view with roster table and the most recent goals
+* [ ] Search needs valid links for teams
+* [ ] Loader animation for search
 * [ ] About
 * [ ] Footer
 

@@ -75,4 +75,6 @@
 | 28.08.2019 | 4    | Finished nav bar                                                  |
 | 29.08.2019 | 4    | Working on player profile                                         |
 | 30.08.2019 | 4    | Working on stats and standings                                    |
-|   total    | 255  |                                                                   |
+| 31.08.2019 | 4    | Working on search                                                 |
+| 01.00.2019 | 4    | Working on search                                                 |
+|   total    | 263  |                                                                   |

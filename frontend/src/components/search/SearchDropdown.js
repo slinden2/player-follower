@@ -7,7 +7,7 @@ const Container = styled.div`
   display: ${props => (props.hide ? 'none' : 'block')};
   position: absolute;
   top: 50%;
-  width: 295px;
+  width: ${props => (props.noNav ? '100%' : '276px')};
   border: 3px solid ${colors.grey3};
   border-radius: 10px;
   background-color: ${colors.grey2};
@@ -26,12 +26,12 @@ const Table = styled.div`
   width: 100%;
 `
 
-const SearchDropdown = ({ results, resetAll }) => {
+const SearchDropdown = ({ results, resetAll, noNav }) => {
   let isTeamData = false
   if (results[0].__typename === 'Team') isTeamData = true
 
   return (
-    <Container>
+    <Container noNav={noNav}>
       <Table>
         <SearchDropdownRow header isTeamData={isTeamData} />
         {results.map((item, i) => (
