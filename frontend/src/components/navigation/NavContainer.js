@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import Media from 'react-media'
 import styled from 'styled-components'
 import NavList from './NavList'
@@ -37,16 +38,18 @@ const userActionItems = ['login', 'signup', 'profile', 'logout']
 
 const createNaviItems = items => items.map(item => naviItems[item])
 
-const NavContainer = () => {
+const NavContainerNoRouter = ({ location }) => {
+  const isSearchPage = location.pathname === '/search'
+
   return (
     <Container>
       <NavList items={createNaviItems(mainNaviItems)} />
       <Media query={breakpoints.showSearchField}>
-        {matches => matches && <SearchField />}
+        {matches => matches && !isSearchPage && <SearchField />}
       </Media>
       <NavList items={createNaviItems(userActionItems)} right />
     </Container>
   )
 }
 
-export default NavContainer
+export default withRouter(NavContainerNoRouter)
