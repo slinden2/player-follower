@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { FIND_BY_NAME } from '../../graphql/queries'
 import { GET_TEAMS_BY_NAME } from '../../graphql/queries'
@@ -17,8 +17,11 @@ const RadioRow = styled.div`
 `
 
 const RadioContainer = ({ setQuery, resetAll }) => {
+  const [selectedOption, setSelectedOption] = useState('players')
+
   const handleRadioChange = ({ target: { value } }) => {
     resetAll()
+    setSelectedOption(value)
     if (value === 'players') setQuery(FIND_BY_NAME)
     else if (value === 'teams') setQuery(GET_TEAMS_BY_NAME)
     else setQuery(FIND_BY_NAME)
@@ -36,6 +39,7 @@ const RadioContainer = ({ setQuery, resetAll }) => {
           type="radio"
           name="type"
           value="players"
+          checked={selectedOption === 'players'}
           onChange={handleRadioChange}
         />
       </RadioRow>
@@ -49,6 +53,7 @@ const RadioContainer = ({ setQuery, resetAll }) => {
           type="radio"
           name="type"
           value="teams"
+          checked={selectedOption === 'teams'}
           onChange={handleRadioChange}
         />
       </RadioRow>
