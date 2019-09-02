@@ -13,7 +13,7 @@ import Footer from './components/Footer'
 import ForgotPassword from './components/user/ForgotPassword'
 import SetNewPassword from './components/user/SetNewPassword'
 import UserProfile from './components/user/UserProfile'
-import FindPlayers from './components/search/SearchPage'
+import SearchPage from './components/search/SearchPage'
 import PlayerStats from './components/player/PlayerStats'
 import Standings from './components/team/Standings'
 import PlayerProfile from './components/player/PlayerProfile'
@@ -58,7 +58,7 @@ const App = () => {
           <Route path="/stats" render={() => <PlayerStats />} />
           <Route path="/standings" render={() => <Standings />} />
           <Route path="/about" render={() => <div>About</div>} />
-          <Route path="/search" render={() => <FindPlayers />} />
+          <Route path="/search" render={() => <SearchPage />} />
           <Route
             path="/players/:siteLink"
             render={({ match }) => (

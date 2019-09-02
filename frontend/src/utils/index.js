@@ -84,7 +84,7 @@ const naviItems = {
     name: 'about',
   },
   search: {
-    to: '/find-players',
+    to: '/search',
     name: 'search',
     hideOnWide: true,
   },
