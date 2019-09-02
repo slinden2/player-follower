@@ -359,6 +359,10 @@ const typeDefs = gql`
     """
     GetMilestones(playerId: Int!, gamePks: [Int!]!): [[PlayerMilestone]!]!
     """
+    Fetches teams by name
+    """
+    GetTeams(searchString: String!): [Team!]!
+    """
     Returns the logged user
     """
     me: User
