@@ -12,6 +12,11 @@ const teamSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
+  siteLink: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,

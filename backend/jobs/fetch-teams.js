@@ -4,6 +4,7 @@ const Conference = require('../models/conference')
 const Division = require('../models/division')
 const Team = require('../models/team')
 const config = require('../utils/config')
+const { generateTeamSiteLink } = require('./helpers/fetch-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -32,6 +33,7 @@ const fetchTeams = async () => {
       const newTeam = new Team({
         teamId: team.id,
         link: team.link,
+        siteLink: generateTeamSiteLink(team.name),
         name: team.name,
         teamName: team.teamName,
         shortName: team.shortName,
