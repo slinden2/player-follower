@@ -21,6 +21,7 @@ import styled from 'styled-components'
 import colors from './styles/colors'
 import variables from './styles/variables'
 import { SearchContext } from './contexts/SearchContext'
+import TeamProfile from './components/team/TeamProfile'
 
 const Container = styled.div`
   margin: 0;
@@ -63,6 +64,12 @@ const App = () => {
             path="/players/:siteLink"
             render={({ match }) => (
               <PlayerProfile siteLink={match.params.siteLink} />
+            )}
+          />
+          <Route
+            path="/teams/:siteLink"
+            render={({ match }) => (
+              <TeamProfile siteLink={match.params.siteLink} />
             )}
           />
           {token && (
