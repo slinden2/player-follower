@@ -123,7 +123,7 @@ const PlayerProfile = ({ siteLink }) => {
           ) : (
             <StatsTable
               title="Performance Game-by-Game"
-              headers={headers.slice(0, 6)}
+              headers={headers.slice(0, 7)}
               data={player.boxscores}
               handleRowClick={handleRowClick}
             />
