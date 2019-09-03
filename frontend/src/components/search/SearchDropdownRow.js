@@ -43,7 +43,7 @@ const LinkItem = styled(Link)``
 const playerItems = object => [
   {
     data: _.get(object, 'fullName'),
-    link: _.get(object, 'siteLink'),
+    link: `/players/${_.get(object, 'siteLink')}`,
     header: 'Player',
     first: true,
   },
@@ -54,7 +54,7 @@ const playerItems = object => [
 const teamItems = object => [
   {
     data: _.get(object, 'name'),
-    link: _.get(object, 'siteLink'),
+    link: `/teams/${_.get(object, 'siteLink')}`,
     header: 'Team',
     first: true,
   },
@@ -72,7 +72,7 @@ const SearchDropdownRow = ({ data, header, resetAll, isTeamData }) => {
           {header ? (
             item.header
           ) : hasLink(item) ? (
-            <LinkItem onClick={resetAll} to={`/players/${item.link}`}>
+            <LinkItem onClick={resetAll} to={item.link}>
               {item.data}
             </LinkItem>
           ) : (

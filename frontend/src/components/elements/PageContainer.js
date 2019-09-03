@@ -9,13 +9,13 @@ const Container = styled.div`
 `
 
 const Title = styled.h2`
-  text-align: center;
+  text-align: ${props => (props.center ? 'center' : 'left')};
 `
 
-const PageContainer = ({ children, title }) => {
+const PageContainer = ({ children, title, center }) => {
   return (
     <Container>
-      <Title>{title}</Title>
+      <Title center={center}>{title}</Title>
       {children}
     </Container>
   )
