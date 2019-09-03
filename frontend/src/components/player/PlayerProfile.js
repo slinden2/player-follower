@@ -30,29 +30,6 @@ const ActionImg = styled.img`
   margin-bottom: 10px;
 `
 
-// const headers = [
-//   { headerText: 'Date', id: 'gameDate' },
-//   { headerText: 'Teams', id: 'teams' },
-//   { headerText: 'G', id: 'goals' },
-//   { headerText: 'A', id: 'assists' },
-//   { headerText: 'P', id: 'points' },
-//   { headerText: '+/-', id: 'plusMinus' },
-//   { headerText: 'PM', id: 'penaltyMinutes' },
-//   { headerText: 'PPG', id: 'powerPlayGoals' },
-//   { headerText: 'PPA', id: 'powerPlayAssists' },
-//   { headerText: 'SHG', id: 'shortHandedGoals' },
-//   { headerText: 'SHA', id: 'shortHandedAssists' },
-//   { headerText: 'TON', id: 'timeOnIce' },
-//   { headerText: 'PPTON', id: 'powerPlayTimeOnIce' },
-//   { headerText: 'SHTON', id: 'shortHandedTimeOnIce' },
-//   { headerText: 'Shots', id: 'shots' },
-//   { headerText: 'Shot%', id: 'shotPct' },
-//   { headerText: 'Blocked', id: 'blocked' },
-//   { headerText: 'Hits', id: 'hits' },
-//   { headerText: 'Giveaways', id: 'giveaways' },
-//   { headerText: 'Takeaways', id: 'takeaways' },
-// ]
-
 const headers = [
   'gameDate',
   'teams',
