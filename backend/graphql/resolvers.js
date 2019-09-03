@@ -272,6 +272,33 @@ const resolvers = {
 
       return teams.map(team => team.toJSON())
     },
+    GetTeam: async (root, args) => {
+      const { teamId, siteLink } = args
+      const team = await Team.findOne({ siteLink }).populate([
+        {
+          path: 'players',
+          model: 'Player',
+          select: 'firstName lastName siteLink primaryPosition stats',
+          populate: {
+            path: 'stats',
+            model: 'SkaterStats',
+          },
+        },
+      ])
+
+      // Correct functioning of reduce NOT TESTED!!!
+      team.players = team.players
+        .filter(player => player.primaryPosition !== 'G')
+        .map(player => {
+          player.stats = player.stats.reduce(
+            (acc, cur) => (acc.date > cur.date ? acc : cur),
+            []
+          )
+          return player
+        })
+
+      return team.toJSON()
+    },
   },
   Mutation: {
     createUser: async (root, args) => {

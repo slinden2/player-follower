@@ -79,3 +79,5 @@
 - Difference between blocked and blocks in the stats table???
 
 - Save also /players in the siteLinks?
+
+- Game view? All goals videos related to a game

@@ -39,6 +39,7 @@ const typeDefs = gql`
     firstYearOfPlay: Int!
     officialSiteUrl: String!
     active: Boolean!
+    players: [Player!]!
   }
 
   type Standings {
@@ -110,7 +111,7 @@ const typeDefs = gql`
     has played. Scratched games are not included.
     """
     boxscores: [Stats!]!
-    stats: Stats!
+    stats: [Stats!]!
     id: ID!
     numOfGamesId: Int!
   }
@@ -362,6 +363,10 @@ const typeDefs = gql`
     Fetches teams by name
     """
     GetTeams(searchString: String!): [Team!]!
+    """
+    Returns a team and its roster
+    """
+    GetTeam(teamId: Int, siteLink: String): Team!
     """
     Returns the logged user
     """
