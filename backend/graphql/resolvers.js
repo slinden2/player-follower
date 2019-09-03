@@ -273,7 +273,7 @@ const resolvers = {
       return teams.map(team => team.toJSON())
     },
     GetTeam: async (root, args) => {
-      const { teamId, siteLink } = args
+      const { siteLink } = args
       const team = await Team.findOne({ siteLink }).populate([
         {
           path: 'players',
