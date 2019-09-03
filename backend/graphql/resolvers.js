@@ -498,6 +498,8 @@ const resolvers = {
     points: root => root.goals + root.assists,
     powerPlayPoints: root => root.powerPlayGoals + root.powerPlayAssists,
     shortHandedPoints: root => root.shortHandedGoals + root.shortHandedAssists,
+    pointsPerGame: root =>
+      roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
     gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),

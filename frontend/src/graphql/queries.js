@@ -233,6 +233,36 @@ const GET_TEAMS_BY_NAME = gql`
   query getTeamsByName($searchString: String!) {
     GetTeams(searchString: $searchString) {
       name
+      siteLink
+    }
+  }
+`
+
+const TEAM_PROFILE = gql`
+  query getTeamByName($siteLink: String!) {
+    GetTeam(siteLink: $siteLink) {
+      name
+      abbreviation
+      players {
+        fullName
+        siteLink
+        stats {
+          gamesPlayed
+          goals
+          assists
+          points
+          plusMinus
+          penaltyMinutes
+          pointsPerGame
+          gameWinningGoals
+          overTimeGoals
+          powerPlayGoals
+          powerPlayPoints
+          shortHandedGoals
+          shortHandedPoints
+          shots
+        }
+      }
     }
   }
 `
@@ -247,4 +277,5 @@ export {
   PLAYER_PROFILE,
   PLAYER_MILESTONES,
   GET_TEAMS_BY_NAME,
+  TEAM_PROFILE,
 }

@@ -31,6 +31,7 @@ const typeDefs = gql`
     division: Division!
     teamId: Int!
     link: String!
+    siteLink: String!
     name: String!
     teamName: String!
     shortName: String!
@@ -161,6 +162,8 @@ const typeDefs = gql`
     faceOffPct: Float!
     gamesPlayed: Int!
     gameWinningGoals: Int!
+    pointsPerGame: Float!
+    overTimeGoals: Int!
     shifts: Int!
 
     # Group for all StatsNGames-only related stats
