@@ -266,7 +266,7 @@ const resolvers = {
         },
       ])
 
-      const newTeam = team.toObject()
+      const newTeam = team.toJSON()
 
       // Correct functioning of reduce NOT TESTED!!!
       newTeam.players = newTeam.players

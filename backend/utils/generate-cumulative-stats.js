@@ -5,7 +5,7 @@ const generateCumulativeStats = object => {
   if (_.has(object, 'player')) isAggregate = true
 
   const finalObject = (object, isAggregate) => ({
-    id: isAggregate ? object.player._id : object._id,
+    id: isAggregate ? object.player._id : object.id,
     firstName: isAggregate ? object.player.firstName : object.firstName,
     lastName: isAggregate ? object.player.lastName : object.lastName,
     siteLink: isAggregate ? object.player.siteLink : object.siteLink,
