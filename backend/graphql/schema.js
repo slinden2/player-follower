@@ -41,6 +41,7 @@ const typeDefs = gql`
     officialSiteUrl: String!
     active: Boolean!
     players: [Player!]!
+    rosterStats: [CumulativeStats]
   }
 
   type Standings {
@@ -119,7 +120,7 @@ const typeDefs = gql`
 
   """
   Shared type for all skater/goalie stats:
-  boxscores, cumulativeS stats, statsNgames
+  boxscores, cumulative stats, statsNgames
   """
   type Stats {
     # Group for all the base stats relative to
@@ -230,7 +231,7 @@ const typeDefs = gql`
     id: ID!
     fullName: String!
     siteLink: String!
-    team: String!
+    team: String
     position: String!
     gamesPlayed: Int!
     goals: Int!

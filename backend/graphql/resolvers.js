@@ -16,6 +16,7 @@ const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
 const { getBestPlayers } = require('../utils/get-best-players')
 const roundToDecimal = require('../utils/round-to-decimal')
+const generateCumulativeStats = require('../utils/generate-cumulative-stats')
 const getSortField = require('../utils/get-sort-field')
 const convertSecsToMin = require('../utils/convert-secs-to-min')
 const positions = require('../utils/position-codes')
@@ -193,30 +194,9 @@ const resolvers = {
           },
         })
 
-        const cumulativeStats = allStats.map(entry => {
-          return {
-            id: entry.player._id,
-            firstName: entry.player.firstName,
-            lastName: entry.player.lastName,
-            siteLink: entry.player.siteLink,
-            team: entry.player.currentTeam.abbreviation,
-            position: entry.player.primaryPosition,
-            gamesPlayed: entry.gamesPlayed,
-            goals: entry.goals,
-            assists: entry.assists,
-            points: entry.points,
-            plusMinus: entry.plusMinus,
-            penaltyMinutes: entry.penaltyMinutes,
-            pointsPerGame: entry.pointsPerGame,
-            gameWinningGoals: entry.gameWinningGoals,
-            overTimeGoals: entry.overTimeGoals,
-            powerPlayGoals: entry.powerPlayGoals,
-            powerPlayPoints: entry.powerPlayPoints,
-            shortHandedGoals: entry.shortHandedGoals,
-            shortHandedPoints: entry.shortHandedPoints,
-            shots: entry.shots,
-          }
-        })
+        const cumulativeStats = allStats.map(entry =>
+          generateCumulativeStats(entry)
+        )
 
         return cumulativeStats
       } catch ({ name, message }) {
@@ -286,8 +266,10 @@ const resolvers = {
         },
       ])
 
+      const newTeam = team.toObject()
+
       // Correct functioning of reduce NOT TESTED!!!
-      team.players = team.players
+      newTeam.players = newTeam.players
         .filter(player => player.primaryPosition !== 'G')
         .map(player => {
           player.stats = player.stats.reduce(
@@ -297,7 +279,11 @@ const resolvers = {
           return player
         })
 
-      return team.toJSON()
+      newTeam.rosterStats = newTeam.players.map(player =>
+        generateCumulativeStats(player)
+      )
+
+      return newTeam
     },
   },
   Mutation: {
@@ -508,6 +494,7 @@ const resolvers = {
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
+    points: root => root.goals + root.assists,
     pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
   },
   Position: {
