@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Loader } from 'semantic-ui-react'
-import PlayerCardFront from './PlayerCardFront'
-import { NotificationContext } from '../../contexts/NotificationContext'
+import { NotificationContext } from '../../../contexts/NotificationContext'
+import PageContainer from '../../elements/PageContainer'
 import PlayerCard from './PlayerCard'
+import PlayerCardFront from './PlayerCardFront'
 import PlayerCardBack from './PlayerCardBack'
-import PageContainer from '../elements/PageContainer'
 import styled from 'styled-components'
-import colors from '../../styles/colors'
+import colors from '../../../styles/colors'
 
 const Container = styled.div`
   .view-selector {

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { statHeaders, convertSecsToMMSS } from '../../utils'
+import { statHeaders, convertSecsToMMSS } from '../../../utils'
 import styled from 'styled-components'
-import colors from '../../styles/colors'
+import colors from '../../../styles/colors'
 
 const NameBar = styled.div`
   background-color: ${colors.blue1};
