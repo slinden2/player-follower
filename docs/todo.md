@@ -22,6 +22,9 @@
 - [x] Add teams to all boxscores
 - [x] Backside of the player cards
 - [x] A view for single games (highlights videos etc)
+
+* [x] Redesign site with styled components
+
 - [x] Component for stats tables
 - [x] Standings
   - [x] Set up models and schema
@@ -47,10 +50,9 @@
 - [ ] Tests for frontend
 
 * [ ] Email formatting for account confirmation & forgot password
-* [ ] Redesign site with styled components
 * [ ] A view to show top performes. For example, most goals / points this month, this season etc.
 * [ ] Lazy loading for images
-* [ ] Refactor search debounce to hooks
+* [ ] Placerholder imagse
 * [ ] Load more links on main page
 * [ ] Check our mandril and mailgun
 * [ ] Problem with stat pagination. Duplicate players on load more.

@@ -120,6 +120,10 @@ const SPlayerStatsContainer = styled.div`
 
 const idInArray = (array, id) => array.some(pid => pid === id)
 
+const handleImgNotFound = e => {
+  e.target.src = '/img/noimg-card.png'
+}
+
 const PlayerCardFront = ({ player }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
@@ -161,7 +165,12 @@ const PlayerCardFront = ({ player }) => {
 
   return (
     <SPlayerCardFrontContainer>
-      <PlayerImg img src={cardImgUrl(player.playerId)} alt="player profile" />
+      <PlayerImg
+        img
+        src={cardImgUrl(player.playerId)}
+        alt="player profile"
+        onError={handleImgNotFound}
+      />
       <ImgOverlay />
       <SPlayerName reduceFont={longName}>
         <p className="team-name">

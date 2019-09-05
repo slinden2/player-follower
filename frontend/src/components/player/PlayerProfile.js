@@ -61,6 +61,10 @@ const sortBoxscoresByDate = boxscores => {
   })
 }
 
+const handleImgNotFound = e => {
+  e.target.src = '/img/noimg.png'
+}
+
 const PlayerProfile = ({ siteLink }) => {
   const [selectedGamePk, setSelectedGamePk] = useState(null)
   const { data, loading } = useQuery(PLAYER_PROFILE, {
@@ -87,7 +91,10 @@ const PlayerProfile = ({ siteLink }) => {
   return (
     <PageContainer title="Player Profile">
       <Container>
-        <ActionImg src={profileImgUrl(data.findPlayer.playerId)} />
+        <ActionImg
+          src={profileImgUrl(data.findPlayer.playerId)}
+          onError={handleImgNotFound}
+        />
         <PlayerBioTable player={player} />
         <Media query={breakpoints.showDesktopNavi}>
           {matches =>
