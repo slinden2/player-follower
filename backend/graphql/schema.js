@@ -233,6 +233,7 @@ const typeDefs = gql`
     fullName: String!
     siteLink: String!
     team: String
+    teamSiteLink: String
     position: String!
     gamesPlayed: Int!
     goals: Int!

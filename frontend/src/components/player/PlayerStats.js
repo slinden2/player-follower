@@ -46,6 +46,8 @@ const PlayerStats = () => {
 
   const players = data.GetCumulativeStats
 
+  console.log(players)
+
   const loadMore = () => {
     fetchMore({
       variables: { offset: players.length },
@@ -65,6 +67,7 @@ const PlayerStats = () => {
   const playersWithLink = players.map(player => ({
     ...player,
     fullName: <Link to={`/players/${player.siteLink}`}>{player.fullName}</Link>,
+    team: <Link to={`/teams/${player.teamSiteLink}`}>{player.team}</Link>,
   }))
 
   return (

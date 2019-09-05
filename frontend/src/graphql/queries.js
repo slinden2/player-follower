@@ -165,6 +165,7 @@ const CUMULATIVE_STATS = gql`
       fullName
       siteLink
       team
+      teamSiteLink
       position
       gamesPlayed
       goals

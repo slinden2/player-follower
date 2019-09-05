@@ -190,7 +190,7 @@ const resolvers = {
           populate: {
             path: 'currentTeam',
             model: 'Team',
-            select: 'abbreviation',
+            select: 'abbreviation siteLink',
           },
         })
 

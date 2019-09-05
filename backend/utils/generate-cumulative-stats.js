@@ -10,6 +10,7 @@ const generateCumulativeStats = object => {
     lastName: isAggregate ? object.player.lastName : object.lastName,
     siteLink: isAggregate ? object.player.siteLink : object.siteLink,
     team: isAggregate ? object.player.currentTeam.abbreviation : null,
+    teamSiteLink: isAggregate ? object.player.currentTeam.siteLink : null,
     position: isAggregate
       ? object.player.primaryPosition
       : object.primaryPosition,
