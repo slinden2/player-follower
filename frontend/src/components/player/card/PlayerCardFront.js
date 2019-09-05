@@ -5,14 +5,19 @@ import colors from '../../../styles/colors'
 import { NotificationContext } from '../../../contexts/NotificationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { PlayerContext } from '../../../contexts/PlayerContext'
+import FlipDiv from './FlipDiv'
 import { statHeaders, cardImgUrl } from '../../../utils'
 import starDisabled from '../../../assets/star-disable.svg'
 import starEnabled from '../../../assets/star-enable.svg'
 import fallbackImage from '../../../assets/noimg-card.png'
 
 const SPlayerCardFrontContainer = styled.div`
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
-  position: relative;
+  position: absolute;
+  transform: rotateX(0deg);
+  backface-visibility: hidden;
 `
 
 const PlayerImg = styled.img`
@@ -125,7 +130,7 @@ const handleImgNotFound = e => {
   e.target.src = fallbackImage
 }
 
-const PlayerCardFront = ({ player }) => {
+const PlayerCardFront = ({ player, isFlipped, setIsFlipped }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
@@ -239,6 +244,7 @@ const PlayerCardFront = ({ player }) => {
           )}
         </>
       )}
+      <FlipDiv onClick={() => setIsFlipped(!isFlipped)} />
     </SPlayerCardFrontContainer>
   )
 }

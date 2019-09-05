@@ -2,17 +2,28 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { statHeaders, convertSecsToMMSS } from '../../../utils'
 import styled from 'styled-components'
+import FlipDiv from './FlipDiv'
 import colors from '../../../styles/colors'
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  transform: rotateY(180deg);
+  position: absolute;
+  backface-visibility: hidden;
+`
 
 const NameBar = styled.div`
   background-color: ${colors.blue1};
   position: absolute;
-  width: 250px;
+  width: 100%;
   text-align: center;
   padding: 8px;
-  top: 0px;
+  top: -5px;
+  left: 0;
   font-size: 1.375rem;
   text-shadow: 1px 1px ${colors.grey2};
+  border-radius: 10px 10px 0px 0px;
 `
 
 const StatRow = styled.div`
@@ -46,9 +57,9 @@ const StatItem = styled.div`
   }
 `
 
-const PlayerCardBack = ({ player }) => {
+const PlayerCardBack = ({ player, isFlipped, setIsFlipped }) => {
   return (
-    <div>
+    <Container>
       <NameBar>
         <Link to={`/players/${player.siteLink}`}>
           {player.firstName + ' ' + player.lastName}
@@ -128,7 +139,8 @@ const PlayerCardBack = ({ player }) => {
           </p>
         </StatItem>
       </StatRow>
-    </div>
+      <FlipDiv onClick={() => setIsFlipped(!isFlipped)} />
+    </Container>
   )
 }
 

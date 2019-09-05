@@ -1,11 +1,20 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import colors from '../../../styles/colors'
+import PlayerCardFront from './PlayerCardFront'
+import PlayerCardBack from './PlayerCardBack'
+
+const Scene = styled.div`
+  width: 250px;
+  height: 310px;
+  perspective: 600px;
+  justify-self: center;
+`
 
 const SPlayerCard = styled.div`
   position: relative;
-  width: 250px;
-  height: 310px;
+  width: 100%;
+  height: 100%;
   border: 1px solid ${colors.grey2};
   border-radius: 10px;
   background: ${colors.grey4};
@@ -13,32 +22,35 @@ const SPlayerCard = styled.div`
   padding: 5px 0px;
   margin: 0 auto;
   margin-bottom: 16px;
-  overflow: hidden;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  ${({ isFlipped }) => isFlipped && 'transform: rotateY(180deg);'}
 
   & a:hover {
     font-weight: bolder;
   }
 `
 
-const FlipDiv = styled.div`
-  position: absolute;
-  background-color: ${colors.red1};
-  padding: 4px 25px;
-  padding-bottom: 10px;
-  transform: rotate(-45deg);
-  left: 198px;
-  bottom: -5px;
-  cursor: pointer;
-`
-
-const PlayerCard = props => {
-  const [showFront, setShowFront] = useState(true)
+const PlayerCard = ({ player }) => {
+  const [isFlipped, setIsFlipped] = useState(false)
 
   return (
-    <SPlayerCard>
-      {showFront ? props.children[0] : props.children[1]}
-      <FlipDiv onClick={() => setShowFront(!showFront)}>Flip</FlipDiv>
-    </SPlayerCard>
+    <Scene>
+      <SPlayerCard isFlipped={isFlipped}>
+        <PlayerCardFront
+          player={player}
+          isFlipped={isFlipped}
+          setIsFlipped={setIsFlipped}
+        />
+        <PlayerCardBack
+          player={player}
+          isFlipped={isFlipped}
+          setIsFlipped={setIsFlipped}
+        />
+      </SPlayerCard>
+    </Scene>
   )
 }
 

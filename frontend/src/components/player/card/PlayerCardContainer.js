@@ -1,10 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Loader } from 'semantic-ui-react'
-import { NotificationContext } from '../../../contexts/NotificationContext'
 import PageContainer from '../../elements/PageContainer'
 import PlayerCard from './PlayerCard'
-import PlayerCardFront from './PlayerCardFront'
-import PlayerCardBack from './PlayerCardBack'
 import styled from 'styled-components'
 import colors from '../../../styles/colors'
 
@@ -33,7 +30,7 @@ const Container = styled.div`
   .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-gap: 20px;
+    grid-gap: 15px;
   }
 `
 
@@ -44,7 +41,6 @@ const ViewSelectorItem = styled.span`
 
 const PlayerCardContainer = ({ query, header }) => {
   const [currentView, setCurrentView] = useState('Last game')
-  const { setNotification } = useContext(NotificationContext)
 
   if (query.loading) {
     return <Loader active inline="centered" />
@@ -57,10 +53,7 @@ const PlayerCardContainer = ({ query, header }) => {
     if (!playerResults.length) return <div>No results</div>
 
     return playerResults.map(player => (
-      <PlayerCard key={player.playerId}>
-        <PlayerCardFront player={player} setNotification={setNotification} />
-        <PlayerCardBack key={player.playerId} player={player} />
-      </PlayerCard>
+      <PlayerCard key={player.playerId} player={player} />
     ))
   }
 
