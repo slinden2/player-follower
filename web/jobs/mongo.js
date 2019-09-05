@@ -174,6 +174,20 @@ const generatePlayerLinks = async () => {
   }
 }
 
+const generateTeamLinks = async () => {
+  const teams = await Team.find({})
+
+  for (const team of teams) {
+    await team.updateOne({
+      siteLink: team.name
+        .replace(/[^a-zA-Z0-9\s]/g, '')
+        .replace(/\s/, '-')
+        .replace(/\s/, '-')
+        .toLowerCase(),
+    })
+  }
+}
+
 const deleteAllStarGames = async () => {
   const boxscores = await GoalieBoxscore.deleteMany({
     gamePk: { $gte: 2018029999 },
@@ -218,5 +232,6 @@ const addTeamsToBoxscores = async () => {
 // populatePlayerStats().then(() => mongoose.connection.close())
 // populatePlayer().then(() => mongoose.connection.close())
 // generatePlayerLinks().then(() => mongoose.connection.close())
+// generateTeamLinks().then(() => mongoose.connection.close())
 // deleteAllStarGames().then(() => mongoose.connection.close())
 // addTeamsToBoxscores().then(() => mongoose.connection.close())

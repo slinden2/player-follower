@@ -70,9 +70,7 @@ const fetchStats = async () => {
   const playersNoStats = []
   for (const player of players) {
     console.log(
-      `Fetching stats for ${player.firstName} ${player.lastName} | _id: ${
-        player._id
-      } | playerId: ${player.playerId}`
+      `Fetching stats for ${player.firstName} ${player.lastName} | _id: ${player._id} | playerId: ${player.playerId}`
     )
     const response = await axios.get(baseUrl + player.link + hydrateQuery)
     if (!response.data.people[0].stats[0].splits.length) {
@@ -94,17 +92,15 @@ const fetchStats = async () => {
       if (isGoalie) {
         const newStats = createGoalieStats(player, stats, seasonId)
         savedStats = await new GoalieStats(newStats).save()
-        player.stats = player.stats.concat(savedStats._id)
-        await player.save()
       } else {
         const newStats = createSkaterStats(player, stats, seasonId)
         savedStats = await new SkaterStats(newStats).save()
       }
+      player.stats = player.stats.concat(savedStats._id)
+      await player.save()
     } catch ({ name, message }) {
       console.log(
-        `An error occured while fetching stats for ${player.firstName} ${
-          player.lastName
-        } | _id: ${player._id} | playerId: ${player.playerId}.`
+        `An error occured while fetching stats for ${player.firstName} ${player.lastName} | _id: ${player._id} | playerId: ${player.playerId}.`
       )
       console.log(`${name}: ${message}`)
     }

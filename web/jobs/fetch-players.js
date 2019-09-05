@@ -66,9 +66,7 @@ const updatePlayer = async (playerInDb, currentTeam, fetchedPlayer) => {
   if (playerInDb.currentTeam._id.toString() !== currentTeam._id.toString()) {
     console.log(`updating the team of ${playerInDb.playerId}`)
     console.log(
-      `previous team: ${playerInDb.currentTeam._id} | new team: ${
-        currentTeam._id
-      }`
+      `previous team: ${playerInDb.currentTeam._id} | new team: ${currentTeam._id}`
     )
     updateTeam(playerInDb.currentTeam._id, currentTeam._id, playerInDb._id)
   }

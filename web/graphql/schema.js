@@ -31,6 +31,7 @@ const typeDefs = gql`
     division: Division!
     teamId: Int!
     link: String!
+    siteLink: String!
     name: String!
     teamName: String!
     shortName: String!
@@ -39,12 +40,15 @@ const typeDefs = gql`
     firstYearOfPlay: Int!
     officialSiteUrl: String!
     active: Boolean!
+    players: [Player!]!
+    rosterStats: [CumulativeStats]
   }
 
   type Standings {
     id: ID!
     teamName: String!
     teamAbbr: String!
+    teamSiteLink: String!
     conference: Conference!
     division: Division!
     gamesPlayed: Int!
@@ -110,14 +114,14 @@ const typeDefs = gql`
     has played. Scratched games are not included.
     """
     boxscores: [Stats!]!
-    stats: Stats!
+    stats: [Stats!]!
     id: ID!
     numOfGamesId: Int!
   }
 
   """
   Shared type for all skater/goalie stats:
-  boxscores, cumulativeS stats, statsNgames
+  boxscores, cumulative stats, statsNgames
   """
   type Stats {
     # Group for all the base stats relative to
@@ -160,6 +164,8 @@ const typeDefs = gql`
     faceOffPct: Float!
     gamesPlayed: Int!
     gameWinningGoals: Int!
+    pointsPerGame: Float!
+    overTimeGoals: Int!
     shifts: Int!
 
     # Group for all StatsNGames-only related stats
@@ -220,13 +226,15 @@ const typeDefs = gql`
     numOfGamesId: Int!
     siteLink: String!
     stats: Stats!
+    currentTeam: Team!
   }
 
   type CumulativeStats {
     id: ID!
     fullName: String!
     siteLink: String!
-    team: String!
+    team: String
+    teamSiteLink: String
     position: String!
     gamesPlayed: Int!
     goals: Int!
@@ -362,6 +370,10 @@ const typeDefs = gql`
     Fetches teams by name
     """
     GetTeams(searchString: String!): [Team!]!
+    """
+    Returns a team and its roster
+    """
+    GetTeam(teamId: Int, siteLink: String): Team!
     """
     Returns the logged user
     """

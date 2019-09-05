@@ -16,6 +16,7 @@ const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
 const { getBestPlayers } = require('../utils/get-best-players')
 const roundToDecimal = require('../utils/round-to-decimal')
+const generateCumulativeStats = require('../utils/generate-cumulative-stats')
 const getSortField = require('../utils/get-sort-field')
 const convertSecsToMin = require('../utils/convert-secs-to-min')
 const positions = require('../utils/position-codes')
@@ -148,11 +149,21 @@ const resolvers = {
       }
       const players = await Player.find({
         _id: { $in: ctx.currentUser.favoritePlayers },
-      }).populate('boxscores')
+      }).populate([
+        {
+          path: 'boxscores',
+          model: 'SkaterBoxscore',
+        },
+        {
+          path: 'currentTeam',
+          model: 'Team',
+        },
+      ])
       const playersJSON = players.map(player => player.toJSON())
       const bestPlayers1 = getBestPlayers(playersJSON, 1)
       const bestPlayers5 = getBestPlayers(playersJSON, 5)
       const bestPlayers10 = getBestPlayers(playersJSON, 10)
+
       return {
         oneGame: bestPlayers1,
         fiveGames: bestPlayers5,
@@ -189,34 +200,13 @@ const resolvers = {
           populate: {
             path: 'currentTeam',
             model: 'Team',
-            select: 'abbreviation',
+            select: 'abbreviation siteLink',
           },
         })
 
-        const cumulativeStats = allStats.map(entry => {
-          return {
-            id: entry.player._id,
-            firstName: entry.player.firstName,
-            lastName: entry.player.lastName,
-            siteLink: entry.player.siteLink,
-            team: entry.player.currentTeam.abbreviation,
-            position: entry.player.primaryPosition,
-            gamesPlayed: entry.gamesPlayed,
-            goals: entry.goals,
-            assists: entry.assists,
-            points: entry.points,
-            plusMinus: entry.plusMinus,
-            penaltyMinutes: entry.penaltyMinutes,
-            pointsPerGame: entry.pointsPerGame,
-            gameWinningGoals: entry.gameWinningGoals,
-            overTimeGoals: entry.overTimeGoals,
-            powerPlayGoals: entry.powerPlayGoals,
-            powerPlayPoints: entry.powerPlayPoints,
-            shortHandedGoals: entry.shortHandedGoals,
-            shortHandedPoints: entry.shortHandedPoints,
-            shots: entry.shots,
-          }
-        })
+        const cumulativeStats = allStats.map(entry =>
+          generateCumulativeStats(entry)
+        )
 
         return cumulativeStats
       } catch ({ name, message }) {
@@ -227,6 +217,7 @@ const resolvers = {
       const standingsAggregate = await Team.aggregate().project({
         name: 1,
         abbreviation: 1,
+        siteLink: 1,
         conference: 1,
         division: 1,
         latestStats: { $slice: ['$stats', -1] },
@@ -255,6 +246,7 @@ const resolvers = {
           return {
             teamName: team.name,
             teamAbbr: team.abbreviation,
+            teamSiteLink: team.siteLink,
             conference: team.conference,
             division: team.division,
             ...team.latestStats[0].toJSON(),
@@ -271,6 +263,41 @@ const resolvers = {
       })
 
       return teams.map(team => team.toJSON())
+    },
+    GetTeam: async (root, args) => {
+      const { siteLink } = args
+      const team = await Team.findOne({ siteLink }).populate([
+        {
+          path: 'players',
+          model: 'Player',
+          select: 'firstName lastName siteLink primaryPosition stats',
+          populate: {
+            path: 'stats',
+            model: 'SkaterStats',
+          },
+        },
+      ])
+
+      const newTeam = team.toJSON()
+
+      // Correct functioning of reduce NOT TESTED!!!
+      newTeam.players = newTeam.players
+        .filter(
+          player => player.primaryPosition !== 'G' && player.stats.length > 0
+        )
+        .map(player => {
+          player.stats = player.stats.reduce(
+            (acc, cur) => (acc.date > cur.date ? acc : cur),
+            []
+          )
+          return player
+        })
+
+      newTeam.rosterStats = newTeam.players.map(player =>
+        generateCumulativeStats(player)
+      )
+
+      return newTeam
     },
   },
   Mutation: {
@@ -471,6 +498,8 @@ const resolvers = {
     points: root => root.goals + root.assists,
     powerPlayPoints: root => root.powerPlayGoals + root.powerPlayAssists,
     shortHandedPoints: root => root.shortHandedGoals + root.shortHandedAssists,
+    pointsPerGame: root =>
+      roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
     gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),
@@ -479,11 +508,22 @@ const resolvers = {
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
+    points: root => root.goals + root.assists,
     pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
   },
   Position: {
     code: root => root,
     description: root => positions[root],
+  },
+  Standings: {
+    pointPct: root => roundToDecimal(root.pointPct, 2),
+    goalsForPerGame: root => roundToDecimal(root.goalsForPerGame, 2),
+    goalsAgainstPerGame: root => roundToDecimal(root.goalsAgainstPerGame, 2),
+    ppPct: root => roundToDecimal(root.ppPct, 2),
+    pkPct: root => roundToDecimal(root.pkPct, 2),
+    shotsForPerGame: root => roundToDecimal(root.shotsForPerGame, 2),
+    shotsAgainstPerGame: root => roundToDecimal(root.shotsAgainstPerGame, 2),
+    faceOffWinPct: root => roundToDecimal(root.faceOffWinPct, 2),
   },
 }
 
