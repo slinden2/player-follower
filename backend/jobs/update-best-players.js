@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Player = require('../models/player')
 require('../models/skater-boxscore')
+require('../models/team')
 const bestPlayers = require('../models/best-players')
 const { getBestPlayers } = require('../utils/get-best-players')
 
@@ -15,7 +16,17 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 const updateBestPlayers = async () => {
   const players = await Player.find({
     boxscoreType: 'SkaterBoxscore',
-  }).populate('boxscores')
+  }).populate([
+    {
+      path: 'boxscores',
+      model: 'SkaterBoxscore', // TODO how to work with goalies?
+    },
+    {
+      path: 'currentTeam',
+      model: 'Team',
+      select: 'abbreviation siteLink',
+    },
+  ])
 
   const playersJSON = players.map(player => player.toJSON())
   const oneGame = JSON.stringify(getBestPlayers(playersJSON, 1))

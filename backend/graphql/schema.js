@@ -225,6 +225,7 @@ const typeDefs = gql`
     numOfGamesId: Int!
     siteLink: String!
     stats: Stats!
+    currentTeam: Team!
   }
 
   type CumulativeStats {

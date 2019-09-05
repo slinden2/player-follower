@@ -52,7 +52,7 @@ const SPlayerName = styled.div`
     vertical-align: middle;
     margin: 0;
     padding-right: 10px;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 
     & > span {
       color: ${colors.grey1};
@@ -164,9 +164,10 @@ const PlayerCardFront = ({ player }) => {
       <PlayerImg img src={cardImgUrl(player.playerId)} alt="player profile" />
       <ImgOverlay />
       <SPlayerName reduceFont={longName}>
-        <p>
-          <span>#</span>
-          {player.primaryNumber}
+        <p className="team-name">
+          <Link to={`/teams/${player.currentTeam.siteLink}`}>
+            {player.currentTeam.abbreviation}
+          </Link>
         </p>
         <div>
           <p>

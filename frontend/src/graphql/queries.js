@@ -27,6 +27,10 @@ const PLAYER_DETAILS = gql`
       giveaways
       takeaways
     }
+    currentTeam {
+      abbreviation
+      siteLink
+    }
   }
 `
 
