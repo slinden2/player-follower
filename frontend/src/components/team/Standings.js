@@ -77,7 +77,7 @@ const Standings = () => {
           headers={headers}
           data={cleanStandings[conference]}
           title={conference}
-          teamStats={true}
+          isTeamStats={true}
         />
       ))}
     </Container>
