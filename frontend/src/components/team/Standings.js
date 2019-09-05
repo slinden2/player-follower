@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { STANDINGS } from '../../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'

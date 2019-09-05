@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { TEAM_PROFILE } from '../../graphql/queries'
 import PageContainer from '../elements/PageContainer'
 import StatsTable from '../StatsTable'
-import { playerStatsHeaders, statHeaders } from '../../utils'
+import { playerStatsHeaders } from '../../utils'
 
 const TeamProfile = ({ siteLink }) => {
   const [sortVariables, setSortVariables] = useState({
