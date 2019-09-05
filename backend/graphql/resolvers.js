@@ -149,11 +149,21 @@ const resolvers = {
       }
       const players = await Player.find({
         _id: { $in: ctx.currentUser.favoritePlayers },
-      }).populate('boxscores')
+      }).populate([
+        {
+          path: 'boxscores',
+          model: 'SkaterBoxscore',
+        },
+        {
+          path: 'currentTeam',
+          model: 'Team',
+        },
+      ])
       const playersJSON = players.map(player => player.toJSON())
       const bestPlayers1 = getBestPlayers(playersJSON, 1)
       const bestPlayers5 = getBestPlayers(playersJSON, 5)
       const bestPlayers10 = getBestPlayers(playersJSON, 10)
+
       return {
         oneGame: bestPlayers1,
         fiveGames: bestPlayers5,
