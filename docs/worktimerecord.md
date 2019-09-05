@@ -76,5 +76,8 @@
 | 29.08.2019 | 4    | Working on player profile                                         |
 | 30.08.2019 | 4    | Working on stats and standings                                    |
 | 31.08.2019 | 4    | Working on search                                                 |
-| 01.00.2019 | 4    | Working on search                                                 |
-|   total    | 263  |                                                                   |
+| 01.09.2019 | 4    | Working on search                                                 |
+| 02.09.2019 | 4    | Working on search page                                            |
+| 03.09.2019 | 4    | Working on team profile                                           |
+| 04.09.2019 | 4    | Working on team profile                                           |
+|   total    | 279  |                                                                   |

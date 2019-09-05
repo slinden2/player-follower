@@ -64,7 +64,7 @@ const PlayerStats = () => {
 
   const playersWithLink = players.map(player => ({
     ...player,
-    fullName: <Link to={`players/${player.siteLink}`}>{player.fullName}</Link>,
+    fullName: <Link to={`/players/${player.siteLink}`}>{player.fullName}</Link>,
   }))
 
   return (
