@@ -4,14 +4,11 @@ import PlayerCardFront from './PlayerCardFront'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import PlayerCard from './PlayerCard'
 import PlayerCardBack from './PlayerCardBack'
+import PageContainer from '../elements/PageContainer'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
 
 const Container = styled.div`
-  background: ${colors.grey2};
-  padding: 1px 10px;
-  border-radius: 10px;
-
   .view-selector {
     text-align: center;
     margin: 5px auto;
@@ -75,7 +72,7 @@ const PlayerCardContainer = ({ query, header }) => {
       : tenGames
 
   return (
-    <>
+    <PageContainer>
       <Container>
         <h2>{header}</h2>
         <div className="view-selector">
@@ -100,7 +97,7 @@ const PlayerCardContainer = ({ query, header }) => {
         </div>
         <div className="card-container">{createRow(playersToShow)}</div>
       </Container>
-    </>
+    </PageContainer>
   )
 }
 

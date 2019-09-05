@@ -7,11 +7,11 @@ import { PLAYER_PROFILE } from '../../graphql/queries'
 import PlayerBioTable from './PlayerBioTable'
 import StatsTable from '../StatsTable'
 import PlayerMilestones from './PlayerMilestones'
+import PageContainer from '../elements/PageContainer'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
 
 const Container = styled.div`
-  padding: 0 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,36 +85,38 @@ const PlayerProfile = ({ siteLink }) => {
   }
 
   return (
-    <Container>
-      <ActionImg src={profileImgUrl(data.findPlayer.playerId)} />
-      <PlayerBioTable player={player} />
-      <Media query={breakpoints.showDesktopNavi}>
-        {matches =>
-          matches ? (
-            <StatsTable
-              title="Performance Game-by-Game"
-              headers={headers}
-              data={player.boxscores}
-              handleRowClick={handleRowClick}
-            />
-          ) : (
-            <StatsTable
-              title="Performance Game-by-Game"
-              headers={headers.slice(0, 7)}
-              data={player.boxscores}
-              handleRowClick={handleRowClick}
-            />
-          )
-        }
-      </Media>
-      <PlayerMilestones
-        playerId={player.playerId}
-        gamePks={gamePks.slice(0, 5)}
-        selectedGamePk={selectedGamePk}
-        setSelectedGamePk={setSelectedGamePk}
-        boxscores={player.boxscores}
-      />
-    </Container>
+    <PageContainer title="Player Profile">
+      <Container>
+        <ActionImg src={profileImgUrl(data.findPlayer.playerId)} />
+        <PlayerBioTable player={player} />
+        <Media query={breakpoints.showDesktopNavi}>
+          {matches =>
+            matches ? (
+              <StatsTable
+                title="Performance Game-by-Game"
+                headers={headers}
+                data={player.boxscores}
+                handleRowClick={handleRowClick}
+              />
+            ) : (
+              <StatsTable
+                title="Performance Game-by-Game"
+                headers={headers.slice(0, 7)}
+                data={player.boxscores}
+                handleRowClick={handleRowClick}
+              />
+            )
+          }
+        </Media>
+        <PlayerMilestones
+          playerId={player.playerId}
+          gamePks={gamePks.slice(0, 5)}
+          selectedGamePk={selectedGamePk}
+          setSelectedGamePk={setSelectedGamePk}
+          boxscores={player.boxscores}
+        />
+      </Container>
+    </PageContainer>
   )
 }
 

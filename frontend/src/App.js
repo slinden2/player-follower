@@ -53,7 +53,7 @@ const App = () => {
             exact
             path="/"
             render={() => (
-              <PlayerCardContainer query={bestPlayers} header="Top players" />
+              <PlayerCardContainer query={bestPlayers} header="Top Players" />
             )}
           />
           <Route path="/stats" render={() => <PlayerStats />} />
@@ -79,7 +79,7 @@ const App = () => {
                 render={() => (
                   <PlayerCardContainer
                     query={favoritePlayers}
-                    header="Favorite players"
+                    header="Favorite Players"
                   />
                 )}
               />

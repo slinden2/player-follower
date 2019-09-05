@@ -6,8 +6,7 @@ import { STANDINGS } from '../../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'
 import StatsTable from '../StatsTable'
-
-const Container = styled.div``
+import PageContainer from '../elements/PageContainer'
 
 const headers = [
   'teamName',
@@ -91,7 +90,7 @@ const Standings = () => {
   const cleanStandings = cleanUpStandings(standings)
 
   return (
-    <Container>
+    <PageContainer title="Standings">
       <StandingsTypeDropdown setStandingsType={setStandingsType} />
       {Object.keys(standings).map(conference => (
         <StatsTable
@@ -105,7 +104,7 @@ const Standings = () => {
           sortOnClient={true}
         />
       ))}
-    </Container>
+    </PageContainer>
   )
 }
 

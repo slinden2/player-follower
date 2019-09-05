@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
 import StatsTable from '../StatsTable'
 import Button from '../elements/Button'
-
-const Container = styled.div`
-  width: 100%;
-`
+import PageContainer from '../elements/PageContainer'
 
 const headers = [
   'fullName',
@@ -69,7 +65,7 @@ const PlayerStats = () => {
   }))
 
   return (
-    <Container>
+    <PageContainer title="Player Stats">
       <StatsTable
         headers={headers}
         stats="Stats"
@@ -78,7 +74,7 @@ const PlayerStats = () => {
         setSortVariables={setVariables}
       />
       <Button onClick={loadMore} content="Load more" />
-    </Container>
+    </PageContainer>
   )
 }
 
