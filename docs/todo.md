@@ -64,6 +64,7 @@
 * [ ] Loader animation for search
 * [ ] About
 * [ ] Footer
+* [ ] More data to player bio table
 
 ## Notes
 

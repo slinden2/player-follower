@@ -10,6 +10,7 @@ import PlayerMilestones from './PlayerMilestones'
 import PageContainer from '../elements/PageContainer'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
+import fallbackImg from '../../assets/noimg.png'
 
 const Container = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ const sortBoxscoresByDate = boxscores => {
 }
 
 const handleImgNotFound = e => {
-  e.target.src = '/img/noimg.png'
+  e.target.src = fallbackImg
 }
 
 const PlayerProfile = ({ siteLink }) => {
