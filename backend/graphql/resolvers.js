@@ -207,6 +207,7 @@ const resolvers = {
       const standingsAggregate = await Team.aggregate().project({
         name: 1,
         abbreviation: 1,
+        siteLink: 1,
         conference: 1,
         division: 1,
         latestStats: { $slice: ['$stats', -1] },
@@ -235,6 +236,7 @@ const resolvers = {
           return {
             teamName: team.name,
             teamAbbr: team.abbreviation,
+            teamSiteLink: team.siteLink,
             conference: team.conference,
             division: team.division,
             ...team.latestStats[0].toJSON(),

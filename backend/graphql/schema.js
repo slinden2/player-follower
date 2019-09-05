@@ -48,6 +48,7 @@ const typeDefs = gql`
     id: ID!
     teamName: String!
     teamAbbr: String!
+    teamSiteLink: String!
     conference: Conference!
     division: Division!
     gamesPlayed: Int!

@@ -46,8 +46,6 @@ const PlayerStats = () => {
 
   const players = data.GetCumulativeStats
 
-  console.log(players)
-
   const loadMore = () => {
     fetchMore({
       variables: { offset: players.length },

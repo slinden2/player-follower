@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { STANDINGS } from '../../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
@@ -59,12 +60,17 @@ const Standings = () => {
     return <div>Loading...</div>
   }
 
+  const dataWithLinks = data.Standings.map(team => ({
+    ...team,
+    teamName: <Link to={`/teams/${team.teamSiteLink}`}>{team.teamName}</Link>,
+  }))
+
   const standings =
     standingsType === 'CONFERENCE'
-      ? groupBy(data.Standings, 'conference')
+      ? groupBy(dataWithLinks, 'conference')
       : standingsType === 'DIVISION'
-      ? groupBy(data.Standings, 'division')
-      : groupBy(data.Standings, 'league')
+      ? groupBy(dataWithLinks, 'division')
+      : groupBy(dataWithLinks, 'league')
 
   const cleanStandings = cleanUpStandings(standings)
 

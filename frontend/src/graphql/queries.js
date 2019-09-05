@@ -190,6 +190,7 @@ const STANDINGS = gql`
     Standings {
       id
       teamName
+      teamSiteLink
       gamesPlayed
       wins
       losses
