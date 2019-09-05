@@ -39,6 +39,7 @@ const cellStyling = css`
 const TableCell = styled.td`
   ${cellStyling}
   ${props => props.highlight && `background-color: ${colors.grey2};`}
+  ${props => props.leftAlign && `text-align: left; width: 150px;`}
 
   @media ${breakpoints.hideOnMobile} {
     ${props => !props.showOnMobile && 'display: none'};
@@ -70,15 +71,18 @@ const StatsTable = ({
   sortVariables,
   setSortVariables,
   handleRowClick,
-  teamStats,
+  isTeamStats,
+  sortOnClient,
 }) => {
+  const sortDisabled = !sortVariables
+  const sortProp = sortOnClient ? 'id' : 'sortString'
+
   // cant sort by these fields atm because of
   // how aggregation is done in the backend
   const disableSortVariables = ['PLAYER', 'TEAM', 'POSITION']
 
   const handleNewVariables = sortBy => {
-    if (disableSortVariables.includes(sortBy) || !sortBy) return
-
+    if (disableSortVariables.includes(sortBy) || sortDisabled) return
     if (sortBy === sortVariables.sortBy) {
       sortVariables.sortDir === 'DESC'
         ? setSortVariables({ offset: 0, sortBy, sortDir: 'ASC' })
@@ -93,19 +97,19 @@ const StatsTable = ({
   }
 
   // Team related stats use different dataset for headers
-  const headersToUse = teamStats ? teamStatHeaders : statHeaders
+  const headersToUse = isTeamStats ? teamStatHeaders : statHeaders
 
   const createHeaders = () => (
     <TableRow>
       {headers.map(header => (
         <HeaderCell
           key={headersToUse[header].headerText}
-          onClick={() => handleNewVariables(headersToUse[header].sortString)}
+          onClick={() => handleNewVariables(headersToUse[header][sortProp])}
           title={headersToUse[header].title}
           showOnMobile={headersToUse[header].showOnMobile}
           showPointer={
             sortVariables &&
-            !disableSortVariables.includes(headersToUse[header].sortString)
+            !disableSortVariables.includes(headersToUse[header][sortProp])
           }
         >
           {headersToUse[header].headerText}
@@ -128,8 +132,9 @@ const StatsTable = ({
               showOnMobile={headersToUse[header].showOnMobile}
               highlight={
                 sortVariables &&
-                sortVariables.sortBy === headersToUse[header].sortString
+                sortVariables.sortBy === headersToUse[header][sortProp]
               }
+              leftAlign={headersToUse[header].leftAlign}
             >
               {item[headersToUse[header].id]}
             </TableCell>

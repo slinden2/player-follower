@@ -140,6 +140,7 @@ const statHeaders = {
     title: 'Full Name',
     sortString: 'PLAYER',
     showOnMobile: true,
+    leftAlign: true,
   },
   gamesPlayed: {
     headerText: 'GP',
@@ -152,6 +153,7 @@ const statHeaders = {
     headerText: 'Date',
     id: 'gameDate',
     title: 'Date',
+    showOnMobile: true,
   },
   gameWinningGoals: {
     headerText: 'GWG',
@@ -406,6 +408,26 @@ const teamStatHeaders = {
   },
 }
 
+const playerStatsHeaders = [
+  'fullName',
+  'team',
+  'position',
+  'gamesPlayed',
+  'goals',
+  'assists',
+  'points',
+  'plusMinus',
+  'penaltyMinutes',
+  'pointsPerGame',
+  'gameWinningGoals',
+  'overTimeGoals',
+  'powerPlayGoals',
+  'powerPlayPoints',
+  'shortHandedGoals',
+  'shortHandedPoints',
+  'shots',
+]
+
 export {
   getCookie,
   removeCookie,
@@ -417,4 +439,5 @@ export {
   statHeaders,
   teamStatHeaders,
   playerBioData,
+  playerStatsHeaders,
 }
