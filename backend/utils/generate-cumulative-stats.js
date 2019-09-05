@@ -35,13 +35,13 @@ const generateCumulativeStats = object => {
       : object.stats.powerPlayGoals,
     powerPlayPoints: isAggregate
       ? object.powerPlayPoints
-      : object.stats.powerPlayAssists,
+      : object.stats.powerPlayAssists + object.stats.powerPlayGoals,
     shortHandedGoals: isAggregate
       ? object.shortHandedGoals
       : object.stats.shortHandedGoals,
     shortHandedPoints: isAggregate
       ? object.shortHandedPoints
-      : object.stats.shortHandedAssists,
+      : object.stats.shortHandedAssists + object.stats.shortHandedGoals,
     shots: isAggregate ? object.shots : object.stats.shots,
   })
 

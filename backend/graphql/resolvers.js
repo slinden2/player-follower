@@ -270,7 +270,9 @@ const resolvers = {
 
       // Correct functioning of reduce NOT TESTED!!!
       newTeam.players = newTeam.players
-        .filter(player => player.primaryPosition !== 'G')
+        .filter(
+          player => player.primaryPosition !== 'G' && player.stats.length > 0
+        )
         .map(player => {
           player.stats = player.stats.reduce(
             (acc, cur) => (acc.date > cur.date ? acc : cur),

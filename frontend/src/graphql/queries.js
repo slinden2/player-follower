@@ -241,27 +241,28 @@ const GET_TEAMS_BY_NAME = gql`
 const TEAM_PROFILE = gql`
   query getTeamByName($siteLink: String!) {
     GetTeam(siteLink: $siteLink) {
+      id
       name
       abbreviation
-      players {
+      rosterStats {
+        id
         fullName
         siteLink
-        stats {
-          gamesPlayed
-          goals
-          assists
-          points
-          plusMinus
-          penaltyMinutes
-          pointsPerGame
-          gameWinningGoals
-          overTimeGoals
-          powerPlayGoals
-          powerPlayPoints
-          shortHandedGoals
-          shortHandedPoints
-          shots
-        }
+        position
+        gamesPlayed
+        goals
+        assists
+        points
+        plusMinus
+        penaltyMinutes
+        pointsPerGame
+        gameWinningGoals
+        overTimeGoals
+        powerPlayGoals
+        powerPlayPoints
+        shortHandedGoals
+        shortHandedPoints
+        shots
       }
     }
   }
