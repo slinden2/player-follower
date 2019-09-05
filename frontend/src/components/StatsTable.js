@@ -34,6 +34,7 @@ const cellStyling = css`
   text-align: center;
   padding: 5px;
   font-size: 2vw;
+  background-color: ${colors.grey4};
 `
 
 const TableCell = styled.td`
@@ -79,7 +80,14 @@ const StatsTable = ({
 
   // cant sort by these fields atm because of
   // how aggregation is done in the backend
-  const disableSortVariables = ['PLAYER', 'TEAM', 'POSITION']
+  const disableSortVariables = [
+    'PLAYER',
+    'TEAM',
+    'POSITION',
+    'fullName',
+    'team',
+    'position',
+  ]
 
   const handleNewVariables = sortBy => {
     if (disableSortVariables.includes(sortBy) || sortDisabled) return
