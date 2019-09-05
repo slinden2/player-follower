@@ -54,10 +54,26 @@ const cleanUpStandings = standings => {
 
 const Standings = () => {
   const [standingsType, setStandingsType] = useState('LEAGUE')
+  const [sortVariables, setSortVariables] = useState({
+    offset: 0,
+    sortBy: 'points',
+    sortDir: 'DESC',
+  })
   const { loading, data } = useQuery(STANDINGS)
 
   if (loading) {
     return <div>Loading...</div>
+  }
+
+  const sortTeams = teams => {
+    const sortedTeams = teams.sort((a, b) => {
+      let sort
+      sortVariables.sortDir === 'DESC'
+        ? (sort = b[sortVariables.sortBy] - a[sortVariables.sortBy])
+        : (sort = a[sortVariables.sortBy] - b[sortVariables.sortBy])
+      return sort
+    })
+    return sortedTeams
   }
 
   const dataWithLinks = data.Standings.map(team => ({
@@ -81,9 +97,12 @@ const Standings = () => {
         <StatsTable
           key={conference}
           headers={headers}
-          data={cleanStandings[conference]}
+          data={sortTeams(cleanStandings[conference])}
           title={conference}
+          sortVariables={sortVariables}
+          setSortVariables={setSortVariables}
           isTeamStats={true}
+          sortOnClient={true}
         />
       ))}
     </Container>

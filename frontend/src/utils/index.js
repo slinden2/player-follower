@@ -309,6 +309,7 @@ const teamStatHeaders = {
     id: 'teamName',
     title: 'Team',
     showOnMobile: true,
+    leftAlign: true,
   },
   gamesPlayed: {
     headerText: 'GP',

@@ -515,6 +515,16 @@ const resolvers = {
     code: root => root,
     description: root => positions[root],
   },
+  Standings: {
+    pointPct: root => roundToDecimal(root.pointPct, 2),
+    goalsForPerGame: root => roundToDecimal(root.goalsForPerGame, 2),
+    goalsAgainstPerGame: root => roundToDecimal(root.goalsAgainstPerGame, 2),
+    ppPct: root => roundToDecimal(root.ppPct, 2),
+    pkPct: root => roundToDecimal(root.pkPct, 2),
+    shotsForPerGame: root => roundToDecimal(root.shotsForPerGame, 2),
+    shotsAgainstPerGame: root => roundToDecimal(root.shotsAgainstPerGame, 2),
+    faceOffWinPct: root => roundToDecimal(root.faceOffWinPct, 2),
+  },
 }
 
 module.exports = resolvers

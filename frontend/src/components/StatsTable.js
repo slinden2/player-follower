@@ -87,6 +87,7 @@ const StatsTable = ({
     'fullName',
     'team',
     'position',
+    'teamName',
   ]
 
   const handleNewVariables = sortBy => {
