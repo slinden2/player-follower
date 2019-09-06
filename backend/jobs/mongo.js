@@ -10,6 +10,7 @@ const SkaterStats = require('../models/skater-stats')
 const GoalieStats = require('../models/goalie-stats')
 const TeamStats = require('../models/team-stats')
 const BestPlayers = require('../models/best-players')
+const User = require('../models/user')
 const config = require('../utils/config')
 
 /* eslint-disable no-unused-vars */
@@ -27,6 +28,12 @@ const deleteLeague = async () => {
   await GoalieStats.deleteMany({})
   await TeamStats.deleteMany({})
   await BestPlayers.deleteMany({})
+
+  const users = await User.find({})
+  for (const user of users) {
+    user.favoritePlayers = []
+    await user.save()
+  }
 }
 
 const deletePlayers = async () => {
