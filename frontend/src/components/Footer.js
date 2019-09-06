@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../styles/colors'
 import breakpoints from '../styles/breakpoints'
@@ -38,9 +39,15 @@ const Footer = () => {
   return (
     <Container>
       <List>
-        <ListItem>About</ListItem>
-        <ListItem>Terms and Conditions</ListItem>
-        <ListItem>Privacy</ListItem>
+        <ListItem>
+          <Link to="/about">About</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="/terms-and-conditions">Terms and Conditions</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="/privacy-policy">Privacy</Link>
+        </ListItem>
       </List>
       <Copyright>
         Copyright &copy; 2019 Player Fan - All Rights Reserved
