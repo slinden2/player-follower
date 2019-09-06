@@ -23,7 +23,6 @@ const TableRow = ({ children, data, showPointer, handleRowClick }) => {
   }
 
   const handleClick = () => {
-    console.log(highlightRowHover)
     return handleRowClick ? handleRowClick(data) : changeState()
   }
 

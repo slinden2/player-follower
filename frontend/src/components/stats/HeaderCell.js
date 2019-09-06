@@ -6,7 +6,7 @@ import breakpoints from '../../styles/breakpoints'
 
 const Header = styled.th`
   ${CellStyling}
-  background-color: ${colors.grey2};
+  background-color: ${colors.grey1};
   ${props => props.showPointer && 'cursor: pointer;'}
 
   @media ${breakpoints.hideOnMobile} {
