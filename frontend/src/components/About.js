@@ -1,20 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
 import PageContainer from './elements/PageContainer'
-
-const Wrapper = styled.div`
-  margin: 0 auto;
-  max-width: 750px;
-`
-
-const Title = styled.h3``
-
-const Paragraph = styled.p``
+import ContentWrapper from './elements/ContentWrapper'
+import Title from './elements/Title'
+import Paragraph from './elements/Paragraph'
 
 const About = () => {
   return (
     <PageContainer title="About">
-      <Wrapper>
+      <ContentWrapper>
         <Title>Aim of this site</Title>
         <Paragraph>
           The aim of this site is to provide an easy and convenient way to
@@ -29,7 +22,7 @@ const About = () => {
           your personal selection of favorite players and have them available
           for inspection at will.
         </Paragraph>
-      </Wrapper>
+      </ContentWrapper>
     </PageContainer>
   )
 }

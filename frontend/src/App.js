@@ -23,6 +23,7 @@ import colors from './styles/colors'
 import variables from './styles/variables'
 import { SearchContext } from './contexts/SearchContext'
 import TeamProfile from './components/team/TeamProfile'
+import PrivacyPolicy from './components/PrivacyPolicy'
 
 const Container = styled.div`
   margin: 0;
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/standings" render={() => <Standings />} />
           <Route path="/about" render={() => <About />} />
           <Route path="/search" render={() => <SearchPage />} />
+          <Route path="/privacy-policy" render={() => <PrivacyPolicy />} />
           <Route
             path="/players/:siteLink"
             render={({ match }) => (
