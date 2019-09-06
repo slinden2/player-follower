@@ -22,49 +22,53 @@
 - [x] Add teams to all boxscores
 - [x] Backside of the player cards
 - [x] A view for single games (highlights videos etc)
+- [x] About
+- [x] Footer
+- [x] Team needed in the player cards
+- [x] Redesign site with styled components
+- [x] Team view with roster table
+- [x] Placerholder images
+- [x] Search needs valid links for teams
 
-* [x] Redesign site with styled components
-
-- [x] Component for stats tables
-- [x] Standings
+* [x] Component for stats tables
+* [x] Standings
   - [x] Set up models and schema
   - [x] Resolver
   - [x] Possibility to visualize standings by league/conference/division
-  - [ ] Sorting for standings
+  - [x] Sorting for standings
+
 - [x] A view for single players
   - [x] Bio
   - [x] Performance Game-by-Game
   - [x] Links to goals videos
 - [x] Do recent stats calculations as a scheduled task and save results in db daily as string
   - [ ] Find a more efficient way to do this...
-- [ ] Stats
+- [x] Stats
+
   - [x] First version done via external API.
   - [x] Create a schema and a fetch script.
   - [x] Implement pagination
   - [x] Implement table sorting
-  - [ ] Filter stats by team (no pagination needed)
+
+- [ ] A view to show top performes. For example, most goals / points this month, this season etc.
+- [ ] Problem with stat pagination. Duplicate players on load more.
+- [ ] Blocked shots needed in cumulative stats
+- [ ] Loader animation for search
+- [ ] More data to player bio table
+- [ ] Most recent goals on the team page
+
+- [ ] Load more links on main page. 50 results minimum.
+- [ ] Filtering by team and position in player cards.
+
+- [ ] Finish all the forms
+- [ ] Email formatting for account confirmation & forgot password
+- [ ] Check out mandril and mailgun
+
 - [ ] Tests for backend
   - [x] Unit tests for get best players etc
   - [x] Unit tests for GraphQL schema
   - [ ] Integration tests
 - [ ] Tests for frontend
-
-* [ ] Email formatting for account confirmation & forgot password
-* [ ] A view to show top performes. For example, most goals / points this month, this season etc.
-* [ ] Lazy loading for images
-* [ ] Placerholder imagse
-* [ ] Load more links on main page
-* [ ] Check our mandril and mailgun
-* [ ] Problem with stat pagination. Duplicate players on load more.
-* [ ] Team needed in the player cards
-* [ ] Filtering by team and position in player cards
-* [ ] Blocked shots needed in cumulative stats
-* [ ] Team view with roster table and the most recent goals
-* [ ] Search needs valid links for teams
-* [ ] Loader animation for search
-* [ ] About
-* [ ] Footer
-* [ ] More data to player bio table
 
 ## Notes
 
