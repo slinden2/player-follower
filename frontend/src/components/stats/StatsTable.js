@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { statHeaders, teamStatHeaders } from '../../utils'
+import TableRow from './TableRow'
 import HeaderCell from './HeaderCell'
 import TableCell from './TableCell'
 
@@ -25,9 +26,9 @@ const TableHead = styled.thead``
 
 const TableBody = styled.tbody``
 
-const TableRow = styled.tr`
-  ${props => props.showPointer && 'cursor: pointer;'}
-`
+// const TableRow = styled.tr`
+//   ${props => props.showPointer && 'cursor: pointer;'}
+// `
 
 const StatsTable = ({
   headers,
@@ -79,8 +80,9 @@ const StatsTable = ({
     data.map(item => (
       <TableRow
         key={item.id}
-        onClick={() => handleClick(item)}
+        data={item}
         showPointer={handleRowClick}
+        handleRowClick={handleRowClick}
       >
         {headers.map(header => {
           return (
