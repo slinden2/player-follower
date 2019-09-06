@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { statHeaders, teamStatHeaders } from '../../utils'
-import CellStyling from './CellStyling'
 import HeaderCell from './HeaderCell'
-import colors from '../../styles/colors'
-import breakpoints from '../../styles/breakpoints'
+import TableCell from './TableCell'
 
 const Container = styled.div`
   width: 100%;
@@ -31,20 +29,6 @@ const TableRow = styled.tr`
   ${props => props.showPointer && 'cursor: pointer;'}
 `
 
-const TableCell = styled.td`
-  ${CellStyling}
-  ${props => props.highlight && `background-color: ${colors.grey2};`}
-  ${props => props.leftAlign && `text-align: left; width: 150px;`}
-
-  @media ${breakpoints.hideOnMobile} {
-    ${props => !props.showOnMobile && 'display: none'};
-  }
-
-  @media ${breakpoints.showDesktopNavi} {
-    font-size: 0.75rem;
-  }
-`
-
 const StatsTable = ({
   headers,
   title,
@@ -64,6 +48,17 @@ const StatsTable = ({
   // Team related stats use different dataset for headers
   const headersToUse = isTeamStats ? teamStatHeaders : statHeaders
 
+  const highlightColumn = header =>
+    sortVariables && sortVariables.sortBy === headersToUse[header][sortProp]
+
+  const showOnMobile = header => headersToUse[header].showOnMobile
+
+  const leftAlign = header => headersToUse[header].leftAlign
+
+  const getData = (item, header) => {
+    return item[headersToUse[header].id]
+  }
+
   const createHeaders = () => (
     <TableRow>
       {headers.map(header => (
@@ -74,6 +69,7 @@ const StatsTable = ({
           sortOnClient={sortOnClient}
           sortVariables={sortVariables}
           setSortVariables={setSortVariables}
+          showOnMobile={showOnMobile(header)}
         />
       ))}
     </TableRow>
@@ -89,16 +85,12 @@ const StatsTable = ({
         {headers.map(header => {
           return (
             <TableCell
-              key={headersToUse[header].id}
-              showOnMobile={headersToUse[header].showOnMobile}
-              highlight={
-                sortVariables &&
-                sortVariables.sortBy === headersToUse[header][sortProp]
-              }
-              leftAlign={headersToUse[header].leftAlign}
-            >
-              {item[headersToUse[header].id]}
-            </TableCell>
+              key={header}
+              data={getData(item, header)}
+              highlight={highlightColumn(header)}
+              showOnMobile={showOnMobile(header)}
+              leftAlign={leftAlign(header)}
+            />
           )
         })}
       </TableRow>

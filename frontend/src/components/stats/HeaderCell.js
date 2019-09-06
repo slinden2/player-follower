@@ -36,6 +36,7 @@ const HeaderCell = ({
   sortOnClient,
   sortVariables,
   setSortVariables,
+  showOnMobile,
 }) => {
   const sortDisabled = !sortVariables
   const sortProp = sortOnClient ? 'id' : 'sortString'
@@ -55,7 +56,7 @@ const HeaderCell = ({
     <Header
       onClick={() => handleNewVariables(columnData[header][sortProp])}
       title={columnData[header].title}
-      showOnMobile={columnData[header].showOnMobile}
+      showOnMobile={showOnMobile}
       showPointer={
         sortVariables &&
         !disableSortVariables.includes(columnData[header][sortProp])
