@@ -1,6 +1,8 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { statHeaders, teamStatHeaders } from '../../utils'
+import CellStyling from './CellStyling'
+import HeaderCell from './HeaderCell'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
 
@@ -29,16 +31,8 @@ const TableRow = styled.tr`
   ${props => props.showPointer && 'cursor: pointer;'}
 `
 
-const cellStyling = css`
-  border: 2px solid ${colors.grey3};
-  text-align: center;
-  padding: 5px;
-  font-size: 2vw;
-  background-color: ${colors.grey4};
-`
-
 const TableCell = styled.td`
-  ${cellStyling}
+  ${CellStyling}
   ${props => props.highlight && `background-color: ${colors.grey2};`}
   ${props => props.leftAlign && `text-align: left; width: 150px;`}
 
@@ -48,20 +42,6 @@ const TableCell = styled.td`
 
   @media ${breakpoints.showDesktopNavi} {
     font-size: 0.75rem;
-  }
-`
-
-const HeaderCell = styled.th`
-  ${cellStyling}
-  background-color: ${colors.grey2};
-  ${props => props.showPointer && 'cursor: pointer;'}
-
-  @media ${breakpoints.hideOnMobile} {
-    ${props => !props.showOnMobile && 'display: none'};
-  }
-
-  @media ${breakpoints.showDesktopNavi} {
-    font-size: 0.875rem;
   }
 `
 
@@ -75,31 +55,7 @@ const StatsTable = ({
   isTeamStats,
   sortOnClient,
 }) => {
-  const sortDisabled = !sortVariables
   const sortProp = sortOnClient ? 'id' : 'sortString'
-
-  // cant sort by these fields atm because of
-  // how aggregation is done in the backend
-  const disableSortVariables = [
-    'PLAYER',
-    'TEAM',
-    'POSITION',
-    'fullName',
-    'team',
-    'position',
-    'teamName',
-  ]
-
-  const handleNewVariables = sortBy => {
-    if (disableSortVariables.includes(sortBy) || sortDisabled) return
-    if (sortBy === sortVariables.sortBy) {
-      sortVariables.sortDir === 'DESC'
-        ? setSortVariables({ offset: 0, sortBy, sortDir: 'ASC' })
-        : setSortVariables({ offset: 0, sortBy, sortDir: 'DESC' })
-    } else {
-      setSortVariables({ offset: 0, sortBy, sortDir: 'DESC' })
-    }
-  }
 
   const handleClick = item => {
     return handleRowClick ? handleRowClick(item) : false
@@ -112,17 +68,13 @@ const StatsTable = ({
     <TableRow>
       {headers.map(header => (
         <HeaderCell
-          key={headersToUse[header].headerText}
-          onClick={() => handleNewVariables(headersToUse[header][sortProp])}
-          title={headersToUse[header].title}
-          showOnMobile={headersToUse[header].showOnMobile}
-          showPointer={
-            sortVariables &&
-            !disableSortVariables.includes(headersToUse[header][sortProp])
-          }
-        >
-          {headersToUse[header].headerText}
-        </HeaderCell>
+          key={header}
+          header={header}
+          columnData={headersToUse}
+          sortOnClient={sortOnClient}
+          sortVariables={sortVariables}
+          setSortVariables={setSortVariables}
+        />
       ))}
     </TableRow>
   )
