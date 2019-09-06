@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { STANDINGS } from '../../graphql/queries'
 import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'
-import StatsTable from '../StatsTable'
+import StatsTable from '../stats/StatsTable'
 import PageContainer from '../elements/PageContainer'
 
 const headers = [

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { statHeaders, teamStatHeaders } from '../utils'
-import colors from '../styles/colors'
-import breakpoints from '../styles/breakpoints'
+import { statHeaders, teamStatHeaders } from '../../utils'
+import colors from '../../styles/colors'
+import breakpoints from '../../styles/breakpoints'
 
 const Container = styled.div`
   width: 100%;

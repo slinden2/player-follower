@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
-import StatsTable from '../StatsTable'
+import StatsTable from '../stats/StatsTable'
 import Button from '../elements/Button'
 import PageContainer from '../elements/PageContainer'
 

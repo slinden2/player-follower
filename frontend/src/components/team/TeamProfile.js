@@ -3,7 +3,7 @@ import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { TEAM_PROFILE } from '../../graphql/queries'
 import PageContainer from '../elements/PageContainer'
-import StatsTable from '../StatsTable'
+import StatsTable from '../stats/StatsTable'
 import { playerStatsHeaders } from '../../utils'
 
 const TeamProfile = ({ siteLink }) => {
