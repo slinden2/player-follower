@@ -83,6 +83,10 @@ const naviItems = {
     to: '/about',
     name: 'about',
   },
+  contact: {
+    to: '/contact',
+    name: 'contact',
+  },
   search: {
     to: '/search',
     name: 'search',

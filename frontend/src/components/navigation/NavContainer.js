@@ -30,7 +30,7 @@ const mainNaviItems = [
   'favorites',
   'stats',
   'standings',
-  'about',
+  'contact',
   'search',
 ]
 

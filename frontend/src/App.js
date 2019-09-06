@@ -17,6 +17,7 @@ import SearchPage from './components/search/SearchPage'
 import PlayerStats from './components/player/PlayerStats'
 import Standings from './components/team/Standings'
 import PlayerProfile from './components/player/PlayerProfile'
+import About from './components/About'
 import styled from 'styled-components'
 import colors from './styles/colors'
 import variables from './styles/variables'
@@ -58,7 +59,7 @@ const App = () => {
           />
           <Route path="/stats" render={() => <PlayerStats />} />
           <Route path="/standings" render={() => <Standings />} />
-          <Route path="/about" render={() => <div>About</div>} />
+          <Route path="/about" render={() => <About />} />
           <Route path="/search" render={() => <SearchPage />} />
           <Route
             path="/players/:siteLink"

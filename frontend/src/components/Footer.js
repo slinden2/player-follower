@@ -9,6 +9,9 @@ const Container = styled.div`
   border-top: 3px solid ${colors.grey2};
   font-size: 0.75rem;
   margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   @media ${breakpoints.narrowScreen} {
     font-size: 0.625rem;
@@ -35,7 +38,7 @@ const Footer = () => {
   return (
     <Container>
       <List>
-        <ListItem>{'Contact & Feedback'}</ListItem>
+        <ListItem>About</ListItem>
         <ListItem>Terms and Conditions</ListItem>
         <ListItem>Privacy</ListItem>
       </List>
