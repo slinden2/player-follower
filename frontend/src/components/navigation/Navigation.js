@@ -44,7 +44,7 @@ const Logo = styled.div`
 const Navigation = () => {
   return (
     <Container>
-      <Logo>Player Follower</Logo>
+      <Logo>Player.fan</Logo>
       <HamburgerToggle />
       <NavContainer />
     </Container>

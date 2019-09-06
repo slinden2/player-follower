@@ -118,8 +118,8 @@ const App = () => {
               />
             </>
           )}
-          <Footer />
         </ContentWrapper>
+        <Footer />
       </Router>
     </Container>
   )
