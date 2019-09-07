@@ -6,11 +6,8 @@ import { useField } from '../../hooks'
 import { LOGIN } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
+import PageContainer from '../elements/PageContainer'
 import styled from 'styled-components'
-
-const Container = styled.div`
-  margin: 0 auto;
-`
 
 const LoginForm = ({ history }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
@@ -40,7 +37,7 @@ const LoginForm = ({ history }) => {
   }
 
   return (
-    <Container>
+    <PageContainer title="Log In">
       <Form onSubmit={handleLogin}>
         <Form.Field>
           <label>Username</label>
@@ -57,7 +54,7 @@ const LoginForm = ({ history }) => {
       <Link to="/forgot-password" name="I forgot my password">
         I forgot my password
       </Link>
-    </Container>
+    </PageContainer>
   )
 }
 

@@ -90,17 +90,31 @@ const naviItems = {
   search: {
     to: '/search',
     name: 'search',
-    hideOnWide: true,
+    hideWithSearch: true,
   },
   login: {
     to: '/login',
-    name: 'login',
+    name: 'log in',
     noToken: true,
+    hideOnDesktop: true,
+  },
+  loginNav: {
+    name: 'log in',
+    noToken: true,
+    bindTo: 'handleOpenModal',
+    hideOnMobile: true,
   },
   signup: {
     to: '/signup',
     name: 'sign up',
     noToken: true,
+    hideOnDesktop: true,
+  },
+  signupNav: {
+    name: 'sign up',
+    noToken: true,
+    bindTo: 'handleOpenModal',
+    hideOnMobile: true,
   },
   profile: {
     to: '/profile',

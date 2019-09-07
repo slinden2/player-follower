@@ -23,6 +23,8 @@ const StyledNavListItem = styled.li`
   margin-left: 1rem;
   opacity: 0;
   transition: opacity 150ms ease-in-out;
+  display: ${props => (!props.hideOnMobile ? 'block' : 'none')};
+  cursor: pointer;
 
   &::before {
     content: '';
@@ -35,15 +37,12 @@ const StyledNavListItem = styled.li`
     background-color: ${colors.grey2};
   }
 
-  & span {
-    font-size: 1rem;
-  }
-
   @media ${breakpoints.showDesktopNavi} {
     opacity: 1;
     margin: 0;
     height: 100%;
-    display: flex;
+    display: none;
+    display: ${props => (!props.hideOnDesktop ? 'flex' : 'none')};
     align-items: center;
     font-size: 1rem;
     border-left: 1px solid ${colors.grey2};
@@ -65,20 +64,23 @@ const StyledNavListItem = styled.li`
       transition: transform ease-in-out 250ms;
     }
   }
+
+  @media ${breakpoints.showSearchField} {
+    display: ${props =>
+      props.hideWithSearch || props.hideOnDesktop ? 'none' : 'flex'};
+  }
 `
 
-const NavListItemHideOnWide = styled(StyledNavListItem)`
-  @media ${breakpoints.showSearchField} {
-    display: none;
-  }
+const linkStyling = css`
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
 `
 
 const StyledNavLink = styled(NavLink)`
   @media ${breakpoints.showDesktopNavi} {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0.75rem;
+    ${linkStyling}
 
     &::before {
       ${activeNavHighlight}
@@ -94,24 +96,39 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 
-const NavListItem = ({ exact, to, name, username, hideOnWide, onClick }) => {
+const NavItemNoLink = styled.span`
+  ${linkStyling}
+  padding: 0;
+`
+
+const NavListItem = ({
+  exact,
+  to,
+  name,
+  username,
+  hideWithSearch,
+  hideOnMobile,
+  hideOnDesktop,
+  onClick,
+}) => {
   const linkProps = { exact, to }
 
   const nameToShow = name !== 'profile' ? name : username
 
-  const showAlways = () => (
-    <StyledNavListItem onClick={onClick}>
-      <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
+  return (
+    <StyledNavListItem
+      onClick={onClick}
+      hideWithSearch={hideWithSearch}
+      hideOnMobile={hideOnMobile}
+      hideOnDesktop={hideOnDesktop}
+    >
+      {to ? (
+        <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
+      ) : (
+        <NavItemNoLink>{nameToShow}</NavItemNoLink>
+      )}
     </StyledNavListItem>
   )
-
-  const showNarrowScreen = () => (
-    <NavListItemHideOnWide>
-      <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
-    </NavListItemHideOnWide>
-  )
-
-  return hideOnWide ? showNarrowScreen() : showAlways()
 }
 
 export default NavListItem

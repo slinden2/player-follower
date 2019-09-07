@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import NavListItem from './NavListItem'
 import breakpoints from '../../styles/breakpoints'
 import { AuthContext } from '../../contexts/AuthContext'
+import { ModalContext } from '../../contexts/ModalContext'
 
 const Container = styled.nav`
   @media ${breakpoints.showDesktopNavi} {
@@ -29,10 +30,14 @@ const StyledNavList = styled.ul`
 
 const NavList = ({ items, right }) => {
   const { token, logoutUser, user } = useContext(AuthContext)
+  const { openModal } = useContext(ModalContext)
 
   const functionMap = {
     handleLogout: {
       onClick: logoutUser,
+    },
+    handleOpenModal: {
+      onClick: openModal,
     },
   }
 
@@ -46,10 +51,10 @@ const NavList = ({ items, right }) => {
 
   const createItems = () => {
     const navItems = items.map(
-      item =>
+      (item, i) =>
         showNavItem(item) && (
           <NavListItem
-            key={item.name}
+            key={i}
             {...item}
             {...functionMap[item.bindTo]}
             username={username}

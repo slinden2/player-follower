@@ -80,4 +80,7 @@
 | 02.09.2019 | 4    | Working on search page                                            |
 | 03.09.2019 | 4    | Working on team profile                                           |
 | 04.09.2019 | 4    | Working on team profile                                           |
-|   total    | 279  |                                                                   |
+| 05.09.2019 | 6    | Team profile and team links. Added fallback images.               |
+| 06.09.2019 | 6    | Refactored StatsTable and added highlighting                      |
+| 07.09.2019 | 6    | Created loader and started working on sign up modal               |
+|   total    | 297  |                                                                   |
