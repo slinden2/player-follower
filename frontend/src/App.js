@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Router, Route } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
@@ -24,19 +25,35 @@ import variables from './styles/variables'
 import { SearchContext } from './contexts/SearchContext'
 import TeamProfile from './components/team/TeamProfile'
 import PrivacyPolicy from './components/PrivacyPolicy'
+import Loader from './components/elements/Loader'
 
 const Container = styled.div`
   margin: 0;
   background-color: ${colors.grey1};
 `
 
-const ContentWrapper = styled.div`
+const PageWrapper = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   padding-right: 10px;
   padding-left: 10px;
   padding-top: ${variables.topMarginWithNav}px;
 `
+
+const ContentBox = styled.div`
+  background: ${colors.grey2};
+  padding: 1px 10px 10px 10px;
+  border-radius: 10px;
+  min-height: 90vh;
+`
+
+const browserHistory = createBrowserHistory()
+browserHistory.listen((location, action) => {
+  console.log(action)
+  if (action === 'PUSH') {
+    window.scrollTo(0, 0)
+  }
+})
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
@@ -46,82 +63,88 @@ const App = () => {
 
   return (
     <Container>
-      <Router>
+      <Router history={browserHistory}>
         <Navigation />
-        <ContentWrapper>
-          <Notification notification={notification} />
-          {searchValue && <div>Search value present</div>}
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <PlayerCardContainer query={bestPlayers} header="Top Players" />
+        <PageWrapper>
+          <ContentBox>
+            <Notification notification={notification} />
+            {searchValue && <div>Search value present</div>}
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <PlayerCardContainer query={bestPlayers} header="Top Players" />
+              )}
+            />
+            <Route path="/stats" render={() => <PlayerStats />} />
+            <Route path="/standings" render={() => <Standings />} />
+            <Route path="/about" render={() => <About />} />
+            <Route path="/search" render={() => <SearchPage />} />
+            <Route path="/privacy-policy" render={() => <PrivacyPolicy />} />
+            <Route path="/loader" render={() => <Loader />} />
+            <Route
+              path="/players/:siteLink"
+              render={({ match }) => (
+                <PlayerProfile siteLink={match.params.siteLink} />
+              )}
+            />
+            <Route
+              path="/teams/:siteLink"
+              render={({ match }) => (
+                <TeamProfile siteLink={match.params.siteLink} />
+              )}
+            />
+            {token && (
+              <>
+                <Route
+                  path="/favorites"
+                  render={() => (
+                    <PlayerCardContainer
+                      query={favoritePlayers}
+                      header="Favorite Players"
+                    />
+                  )}
+                />
+                <Route path="/profile" render={() => <UserProfile />} />
+              </>
             )}
-          />
-          <Route path="/stats" render={() => <PlayerStats />} />
-          <Route path="/standings" render={() => <Standings />} />
-          <Route path="/about" render={() => <About />} />
-          <Route path="/search" render={() => <SearchPage />} />
-          <Route path="/privacy-policy" render={() => <PrivacyPolicy />} />
-          <Route
-            path="/players/:siteLink"
-            render={({ match }) => (
-              <PlayerProfile siteLink={match.params.siteLink} />
+            {!token && (
+              <>
+                <Route
+                  path="/signup"
+                  render={({ history }) => <SignupForm history={history} />}
+                />
+                <Route
+                  path="/login"
+                  render={({ history }) => <LoginForm history={history} />}
+                />
+                <Route
+                  exact
+                  path="/forgot-password"
+                  render={({ history }) => <ForgotPassword history={history} />}
+                />
+                <Route
+                  path="/forgot-password/:token"
+                  render={({ history, match }) => (
+                    <SetNewPassword
+                      history={history}
+                      token={match.params.token}
+                    />
+                  )}
+                />
+                <Route
+                  path="/confirmation/:token"
+                  render={({ history, match }) => (
+                    <Confirmation
+                      history={history}
+                      token={match.params.token}
+                    />
+                  )}
+                />
+              </>
             )}
-          />
-          <Route
-            path="/teams/:siteLink"
-            render={({ match }) => (
-              <TeamProfile siteLink={match.params.siteLink} />
-            )}
-          />
-          {token && (
-            <>
-              <Route
-                path="/favorites"
-                render={() => (
-                  <PlayerCardContainer
-                    query={favoritePlayers}
-                    header="Favorite Players"
-                  />
-                )}
-              />
-              <Route path="/profile" render={() => <UserProfile />} />
-            </>
-          )}
-          {!token && (
-            <>
-              <Route
-                path="/signup"
-                render={({ history }) => <SignupForm history={history} />}
-              />
-              <Route
-                path="/login"
-                render={({ history }) => <LoginForm history={history} />}
-              />
-              <Route
-                exact
-                path="/forgot-password"
-                render={({ history }) => <ForgotPassword history={history} />}
-              />
-              <Route
-                path="/forgot-password/:token"
-                render={({ history, match }) => (
-                  <SetNewPassword
-                    history={history}
-                    token={match.params.token}
-                  />
-                )}
-              />
-              <Route
-                path="/confirmation/:token"
-                render={({ history, match }) => (
-                  <Confirmation history={history} token={match.params.token} />
-                )}
-              />
-            </>
-          )}
-        </ContentWrapper>
+          </ContentBox>
+        </PageWrapper>
         <Footer />
       </Router>
     </Container>
