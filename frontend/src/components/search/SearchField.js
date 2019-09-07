@@ -6,6 +6,7 @@ import { useSearch } from '../../hooks'
 import SearchDropdown from './SearchDropdown'
 import RadioContainer from './RadioContainer'
 import { FIND_BY_NAME } from '../../graphql/queries'
+import Loader from '../elements/Loader'
 
 const containerStylingOnNav = css`
   margin: -1px 0 0 -1px; /* makes the borders collapse */
@@ -59,11 +60,22 @@ const Input = styled.input`
 `
 
 const SearchIcon = styled.object`
+  /* position: absolute; */
+  width: 24px;
+  /* top: 25%; */
+  /* right: 15px; */
+  /* z-index: 11; */
+`
+
+const IconContainer = styled.div`
   position: absolute;
   width: 24px;
-  top: 25%;
+  top: ${props => (props.isLoading ? 50 : 25)}%;
   right: 15px;
   z-index: 11;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const SearchField = ({ noNav }) => {
@@ -77,7 +89,13 @@ const SearchField = ({ noNav }) => {
     <SearchContainer noNav={noNav}>
       <FieldIconContainer>
         <Input {...search} noNav={noNav} />
-        <SearchIcon type="image/svg+xml" data={icon} />
+        <IconContainer isLoading={isLoading}>
+          {isLoading ? (
+            <Loader small noHeight />
+          ) : (
+            <SearchIcon type="image/svg+xml" data={icon} />
+          )}
+        </IconContainer>
         {showDropdown && (
           <SearchDropdown results={results} resetAll={resetAll} noNav={noNav} />
         )}

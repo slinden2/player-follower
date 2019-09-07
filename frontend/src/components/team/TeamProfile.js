@@ -5,6 +5,7 @@ import { TEAM_PROFILE } from '../../graphql/queries'
 import PageContainer from '../elements/PageContainer'
 import StatsTable from '../stats/StatsTable'
 import { playerStatsHeaders } from '../../utils'
+import Loader from '../elements/Loader'
 
 const TeamProfile = ({ siteLink }) => {
   const [sortVariables, setSortVariables] = useState({
@@ -17,7 +18,7 @@ const TeamProfile = ({ siteLink }) => {
   })
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loader offset />
   }
 
   const sortPlayers = players => {

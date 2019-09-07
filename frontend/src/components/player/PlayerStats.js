@@ -5,6 +5,7 @@ import { CUMULATIVE_STATS } from '../../graphql/queries'
 import StatsTable from '../stats/StatsTable'
 import Button from '../elements/Button'
 import PageContainer from '../elements/PageContainer'
+import Loader from '../elements/Loader'
 
 const headers = [
   'fullName',
@@ -37,7 +38,7 @@ const PlayerStats = () => {
   })
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loader offset />
   }
 
   const players = data.GetCumulativeStats

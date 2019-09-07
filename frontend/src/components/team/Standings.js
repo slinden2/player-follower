@@ -6,6 +6,7 @@ import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'
 import StatsTable from '../stats/StatsTable'
 import PageContainer from '../elements/PageContainer'
+import Loader from '../elements/Loader'
 
 const headers = [
   'teamName',
@@ -60,7 +61,7 @@ const Standings = () => {
   const { loading, data } = useQuery(STANDINGS)
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loader offset />
   }
 
   const sortTeams = teams => {

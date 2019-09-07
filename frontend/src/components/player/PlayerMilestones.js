@@ -5,6 +5,7 @@ import { PLAYER_MILESTONES } from '../../graphql/queries'
 import Button from '../elements/Button'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
+import Loader from '../elements/Loader'
 
 const textPropOnDesktop = css`
   @media ${breakpoints.showDesktopNavi} {
@@ -63,19 +64,6 @@ const MilestoneDescription = styled.div`
   margin: 0 auto;
 `
 
-// const Button = styled.button`
-//   background-color: ${colors.blue1};
-//   border: 0;
-//   border-radius: 10px;
-//   padding: 5px;
-//   text-shadow: 1px 1px ${colors.grey3};
-
-//   &:hover {
-//     font-weight: bolder;
-//     cursor: pointer;
-//   }
-// `
-
 const getDate = (gamePk, boxscores) => {
   const score = boxscores.find(boxscore => boxscore.gamePk === gamePk)
   return score.gameDate
@@ -93,7 +81,7 @@ const PlayerMilestones = ({
   })
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   const milestones = data.GetMilestones.filter(milestone => milestone.length)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Loader } from 'semantic-ui-react'
 import PageContainer from '../../elements/PageContainer'
 import PlayerCard from './PlayerCard'
+import Loader from '../../elements/Loader'
 import styled from 'styled-components'
 import colors from '../../../styles/colors'
 
@@ -43,7 +43,7 @@ const PlayerCardContainer = ({ query, header }) => {
   const [currentView, setCurrentView] = useState('Last game')
 
   if (query.loading) {
-    return <Loader active inline="centered" />
+    return <Loader offset />
   }
 
   const { oneGame, fiveGames, tenGames } =

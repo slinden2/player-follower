@@ -11,6 +11,7 @@ import PageContainer from '../elements/PageContainer'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
 import fallbackImg from '../../assets/noimg.png'
+import Loader from '../elements/Loader'
 
 const Container = styled.div`
   display: flex;
@@ -73,7 +74,7 @@ const PlayerProfile = ({ siteLink }) => {
   })
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loader offset />
   }
 
   const player = data.findPlayer
