@@ -63,6 +63,7 @@
 - [ ] Finish all the forms
 - [ ] Email formatting for account confirmation & forgot password
 - [ ] Check out mandril and mailgun
+- [ ] 404 page
 
 - [ ] Tests for backend
   - [x] Unit tests for get best players etc
