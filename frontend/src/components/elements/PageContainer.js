@@ -1,12 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import colors from '../../styles/colors'
 
-const Container = styled.div`
-  background: ${colors.grey2};
-  padding: 1px 10px 10px 10px;
-  border-radius: 10px;
-`
+const Container = styled.div``
 
 const Title = styled.h2`
   text-align: ${props => (props.center ? 'center' : 'left')};
