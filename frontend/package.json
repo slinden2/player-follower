@@ -13,6 +13,7 @@
     "react-apollo-hooks": "^0.4.5",
     "react-dom": "^16.8.6",
     "react-media": "^1.9.2",
+    "react-remove-scroll": "^2.0.4",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
     "semantic-ui-react": "^0.87.2",

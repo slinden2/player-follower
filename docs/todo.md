@@ -56,6 +56,7 @@
 - [ ] Loader animation for search
 - [ ] More data to player bio table
 - [ ] Most recent goals on the team page
+- [ ] Redirect after logout
 
 - [ ] Load more links on main page. 50 results minimum.
 - [ ] Filtering by team and position in player cards.

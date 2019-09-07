@@ -26,10 +26,12 @@ import { SearchContext } from './contexts/SearchContext'
 import TeamProfile from './components/team/TeamProfile'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Loader from './components/elements/Loader'
+import Modal from './components/elements/Modal'
 
 const Container = styled.div`
   margin: 0;
   background-color: ${colors.grey1};
+  position: relative;
 `
 
 const PageWrapper = styled.div`
@@ -49,7 +51,6 @@ const ContentBox = styled.div`
 
 const browserHistory = createBrowserHistory()
 browserHistory.listen((location, action) => {
-  console.log(action)
   if (action === 'PUSH') {
     window.scrollTo(0, 0)
   }
@@ -64,6 +65,7 @@ const App = () => {
   return (
     <Container>
       <Router history={browserHistory}>
+        <Modal />
         <Navigation />
         <PageWrapper>
           <ContentBox>
