@@ -7,8 +7,8 @@ import { PlayerContext } from './contexts/PlayerContext'
 import Navigation from './components/navigation/Navigation'
 import PlayerCardContainer from './components/player/card/PlayerCardContainer'
 import Notification from './components/Notification'
-import LoginForm from './components/user/LoginForm'
-import SignupForm from './components/user/SignupForm'
+import LoginPage from './components/user/LoginPage'
+import SignupPage from './components/user/SignupPage'
 import Confirmation from './components/user/Confirmation'
 import Footer from './components/Footer'
 import ForgotPassword from './components/user/ForgotPassword'
@@ -112,11 +112,11 @@ const App = () => {
               <>
                 <Route
                   path="/signup"
-                  render={({ history }) => <SignupForm history={history} />}
+                  render={({ history }) => <SignupPage history={history} />}
                 />
                 <Route
                   path="/login"
-                  render={({ history }) => <LoginForm history={history} />}
+                  render={({ history }) => <LoginPage history={history} />}
                 />
                 <Route
                   exact
