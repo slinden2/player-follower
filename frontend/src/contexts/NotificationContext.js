@@ -6,8 +6,8 @@ export const NotificationContext = createContext()
 const NotificationContextProvider = props => {
   const [notification, setNotification] = useNotification()
 
-  const handleException = exception => {
-    setNotification('negative', `${exception.message}`)
+  const handleException = (exception, position) => {
+    setNotification('negative', `${exception.message}`, position)
   }
 
   return (

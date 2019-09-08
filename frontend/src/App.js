@@ -68,7 +68,7 @@ const App = () => {
         <Navigation />
         <PageWrapper>
           <ContentBox>
-            <Notification notification={notification} />
+            <Notification notification={notification} position="site" />
             {searchValue && <div>Search value present</div>}
             <Route
               exact

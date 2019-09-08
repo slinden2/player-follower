@@ -20,9 +20,9 @@ const useNotification = () => {
   const [notification, setNotification] = useState(null)
   const [timeoutId, setTimeoutId] = useState(null)
 
-  const notify = (type, message) => {
+  const notify = (type, message, position) => {
     clearTimeout(timeoutId)
-    setNotification({ type, message })
+    setNotification({ type, message, position })
     const id = setTimeout(() => {
       setNotification(null)
       setTimeoutId(null)

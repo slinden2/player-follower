@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import { LOGIN } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
+import Notification from '../Notification'
 import Link from '../elements/StyledLink'
 import {
   Container,
@@ -23,7 +24,9 @@ const loginSchema = yup.object().shape({
 })
 
 const LoginForm = ({ history, closeModal }) => {
-  const { setNotification, handleException } = useContext(NotificationContext)
+  const { notification, setNotification, handleException } = useContext(
+    NotificationContext
+  )
   const { loginUser } = useContext(AuthContext)
 
   const login = useMutation(LOGIN)
@@ -39,12 +42,12 @@ const LoginForm = ({ history, closeModal }) => {
           password,
         },
       })
-      setNotification('positive', `${username} successfully logged in.`)
+      setNotification('positive', `${username} successfully logged in.`, 'site')
       loginUser(token.data.login.value)
       if (closeModal) closeModal()
       history.push('/')
     } catch (exception) {
-      handleException(exception)
+      handleException(exception, 'form')
       resetForm()
       setSubmitting(false)
     }
@@ -103,6 +106,8 @@ const LoginForm = ({ history, closeModal }) => {
                   Forgot your password?
                 </Link>
               </TextRow>
+              <br />
+              <Notification position="form" notification={notification} />
               <br />
               <FormButton
                 type="submit"
