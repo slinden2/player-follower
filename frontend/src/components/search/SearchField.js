@@ -7,6 +7,7 @@ import SearchDropdown from './SearchDropdown'
 import RadioContainer from './RadioContainer'
 import { FIND_BY_NAME } from '../../graphql/queries'
 import Loader from '../elements/Loader'
+import { fieldStyling } from '../../styles/forms'
 
 const containerStylingOnNav = css`
   margin: -1px 0 0 -1px; /* makes the borders collapse */
@@ -39,32 +40,13 @@ const FieldIconContainer = styled.div`
 
 const Input = styled.input`
   width: ${props => (props.noNav ? '100%' : '300px')};
-  height: 45px;
   z-index: 10;
-  border-radius: 50px;
-  background-color: ${colors.grey4};
-  border: 3px solid ${colors.grey3};
-  color: ${colors.white1};
-  text-indent: 0.75rem;
   padding-right: 40px;
-  font-family: 'Quicksand', Arial;
-  font-size: 1.25rem;
-  vertical-align: middle;
-  outline-width: 0px;
-  box-sizing: border-box;
-
-  &:focus {
-    border-color: ${colors.white1};
-    box-shadow: 0 0 5px ${colors.white1};
-  }
+  ${fieldStyling}
 `
 
 const SearchIcon = styled.object`
-  /* position: absolute; */
   width: 24px;
-  /* top: 25%; */
-  /* right: 15px; */
-  /* z-index: 11; */
 `
 
 const IconContainer = styled.div`

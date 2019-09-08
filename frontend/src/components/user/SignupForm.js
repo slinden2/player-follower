@@ -1,9 +1,29 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
-import { Form, Button } from 'semantic-ui-react'
+import { Formik, Field, Form } from 'formik'
+import * as yup from 'yup'
+import { Button } from 'semantic-ui-react'
 import { useField } from '../../hooks'
 import { CREATE_USER } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
+
+const signupSchema = yup.object().shape({
+  username: yup
+    .string()
+    .min(2, 'Username must be at least 2 characters long.')
+    .max(12, "Username can't be longer than 12 characters long.")
+    .required('Username is required.'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters long.')
+    .max(50, "Password can't be longer than 50 character long.")
+    .required('Password is required.')
+    .matches(
+      /(?=.*[a-z])/,
+      'Password must contain at least one lowercase letter.'
+    )
+    .matches(/(?=.*[0-9])/, 'Password must contian at least one number.'),
+})
 
 const SignupForm = ({ history }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
@@ -44,11 +64,7 @@ const SignupForm = ({ history }) => {
 
     setNotification(
       'positive',
-      `An account for ${
-        username.value
-      } has been created. Before logging in, you must activate your account by clicking the activation link sent to ${
-        email.value
-      }.`
+      `An account for ${username.value} has been created. Before logging in, you must activate your account by clicking the activation link sent to ${email.value}.`
     )
     resetUsername()
     resetEmail()

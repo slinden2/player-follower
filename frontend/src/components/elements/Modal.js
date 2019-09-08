@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import colors from '../../styles/colors'
 import { RemoveScroll } from 'react-remove-scroll'
 import { ModalContext } from '../../contexts/ModalContext'
+import LoginForm from '../user/LoginForm'
+import SignupForm from '../user/SignupForm'
 
 const ScreenOverlay = styled.div`
   width: 100vw;
@@ -18,10 +20,11 @@ const ScreenOverlay = styled.div`
 const Container = styled.div`
   width: 530px;
   height: 530px;
-  background-color: ${colors.grey5};
+  background-color: ${colors.grey2};
   z-index: 1101;
   border-radius: 10px;
   position: relative;
+  padding: 10px 16px 10px 16px;
 `
 
 const CloseButton = styled.div`
@@ -45,13 +48,15 @@ const CloseButton = styled.div`
 `
 
 const Modal = () => {
-  const { open, closeModal } = useContext(ModalContext)
+  const { open, type, closeModal } = useContext(ModalContext)
 
   return (
     <RemoveScroll enabled={open} removeScrollBar={false}>
       <ScreenOverlay open={open}>
         <Container>
           <CloseButton onClick={closeModal}>+</CloseButton>
+          {type === 'log in' && <LoginForm />}
+          {type === 'sign up' && <SignupForm />}
         </Container>
       </ScreenOverlay>
     </RemoveScroll>

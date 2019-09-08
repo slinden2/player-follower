@@ -37,7 +37,7 @@ const NavList = ({ items, right }) => {
       onClick: logoutUser,
     },
     handleOpenModal: {
-      onClick: openModal,
+      onClick: type => openModal(type),
     },
   }
 

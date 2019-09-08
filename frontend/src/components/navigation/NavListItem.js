@@ -117,9 +117,12 @@ const NavListItem = ({
 
   const nameToShow = name !== 'profile' ? name : username
 
+  // Closure for onClick so that we can pass name for modal type to it
+  const newOnClick = onClick ? () => onClick(name) : null
+
   return (
     <StyledNavListItem
-      onClick={onClick}
+      onClick={newOnClick}
       hideWithSearch={hideWithSearch}
       hideOnMobile={hideOnMobile}
       hideOnDesktop={hideOnDesktop}

@@ -1,60 +1,120 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { useMutation } from 'react-apollo-hooks'
-import { Form, Button } from 'semantic-ui-react'
-import { useField } from '../../hooks'
+import { Formik } from 'formik'
+import * as yup from 'yup'
 import { LOGIN } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
-import PageContainer from '../elements/PageContainer'
-import styled from 'styled-components'
+import Link from '../elements/StyledLink'
+import {
+  Container,
+  SForm,
+  SField,
+  Label,
+  TextRow,
+  Input,
+  FormButton,
+} from '../../styles/forms'
+import FormError from './FormError'
+
+const loginSchema = yup.object().shape({
+  username: yup.string().required('Username is required.'),
+  password: yup.string().required('Password is required.'),
+})
 
 const LoginForm = ({ history }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { loginUser } = useContext(AuthContext)
-  const [username, resetUsername] = useField('username', 'text')
-  const [password, resetPassword] = useField('password', 'password')
 
   const login = useMutation(LOGIN)
 
-  const handleLogin = async () => {
+  const handleLogin = async (
+    { username, password },
+    { resetForm, setSubmitting }
+  ) => {
     try {
       const token = await login({
         variables: {
-          username: username.value,
-          password: password.value,
+          username,
+          password,
         },
       })
-      setNotification('positive', `${username.value} successfully logged in.`)
-      resetUsername()
-      resetPassword()
+      setNotification('positive', `${username} successfully logged in.`)
       loginUser(token.data.login.value)
       history.push('/')
     } catch (exception) {
       handleException(exception)
-      resetPassword()
+      resetForm()
+      setSubmitting(false)
     }
   }
 
   return (
-    <PageContainer title="Log In">
-      <Form onSubmit={handleLogin}>
-        <Form.Field>
-          <label>Username</label>
-          <input placeholder="username or email" {...username} />
-        </Form.Field>
-        <Form.Field>
-          <label>Password</label>
-          <input placeholder="password" {...password} />
-        </Form.Field>
-        <Button type="submit" primary={true}>
-          Log in
-        </Button>
-      </Form>
-      <Link to="/forgot-password" name="I forgot my password">
-        I forgot my password
-      </Link>
-    </PageContainer>
+    <Container>
+      <Formik
+        initialValues={{ username: '', password: '' }}
+        validationSchema={loginSchema}
+        onSubmit={handleLogin}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+        }) => {
+          return (
+            <SForm>
+              <SField>
+                <Label htmlFor="username">Username or Email</Label>
+                <Input name="username" />
+                <FormError
+                  message={errors.username}
+                  show={errors.username && touched.username}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.username}
+                />
+              </SField>
+              <SField>
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                />
+                <FormError
+                  message={errors.password}
+                  show={errors.password && touched.password}
+                />
+              </SField>
+              <TextRow>
+                Don't have an account?{' '}
+                <Link to="/signup" name="Register">
+                  Register
+                </Link>
+              </TextRow>
+              <TextRow>
+                <Link to="/forgot-password" name="Forgot your password?">
+                  Forgot your password?
+                </Link>
+              </TextRow>
+              <br />
+              <FormButton
+                type="submit"
+                size="big"
+                fontCase="uppercase"
+                content="Log In"
+                disabled={isSubmitting}
+              />
+            </SForm>
+          )
+        }}
+      </Formik>
+    </Container>
   )
 }
 
