@@ -6,7 +6,7 @@ const Container = styled.div`
   font-size: 0.875rem;
   text-align: center;
   color: ${colors.red1};
-  opacity: ${({ show }) => (show ? 1 : 0)};
+  display: ${({ show }) => (show ? 'block' : 'none')};
   margin-top: 5px;
 
   &::before {

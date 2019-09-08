@@ -6,6 +6,7 @@ import { RemoveScroll } from 'react-remove-scroll'
 import { ModalContext } from '../../contexts/ModalContext'
 import LoginForm from '../user/LoginForm'
 import SignupForm from '../user/SignupForm'
+import ForgotPassword from '../user/ForgotPassword'
 
 const ScreenOverlay = styled.div`
   width: 100vw;
@@ -20,12 +21,11 @@ const ScreenOverlay = styled.div`
 
 const Container = styled.div`
   width: 530px;
-  height: 530px;
   background-color: ${colors.grey2};
   z-index: 1101;
   border-radius: 10px;
   position: relative;
-  padding: 10px 16px 10px 16px;
+  padding: 10px 16px 20px 16px;
 `
 
 const CloseButton = styled.div`
@@ -48,6 +48,13 @@ const CloseButton = styled.div`
   transform: rotate(45deg);
 `
 
+const Title = styled.h2`
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 2rem;
+`
+
 const ModalNoRouter = ({ history }) => {
   const { open, type, closeModal } = useContext(ModalContext)
 
@@ -55,11 +62,13 @@ const ModalNoRouter = ({ history }) => {
     <RemoveScroll enabled={open} removeScrollBar={false}>
       <ScreenOverlay open={open}>
         <Container>
+          <Title>{type}</Title>
           <CloseButton onClick={closeModal}>+</CloseButton>
-          {type === 'log in' && (
-            <LoginForm history={history} closeModal={closeModal} />
+          {type === 'log in' && <LoginForm history={history} onModal />}
+          {type === 'sign up' && <SignupForm history={history} onModal />}
+          {type === 'forgot password' && (
+            <ForgotPassword history={history} onModal />
           )}
-          {type === 'sign up' && <SignupForm history={history} />}
         </Container>
       </ScreenOverlay>
     </RemoveScroll>

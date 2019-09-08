@@ -16,8 +16,14 @@ const ModalContextProvider = props => {
     setType(null)
   }
 
+  const navigateTo = name => {
+    setType(name)
+  }
+
   return (
-    <ModalContext.Provider value={{ open, type, openModal, closeModal }}>
+    <ModalContext.Provider
+      value={{ open, type, openModal, closeModal, navigateTo }}
+    >
       {props.children}
     </ModalContext.Provider>
   )

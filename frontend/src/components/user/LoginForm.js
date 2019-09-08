@@ -17,13 +17,15 @@ import {
   FormButton,
 } from '../../styles/forms'
 import FormError from './FormError'
+import { ModalContext } from '../../contexts/ModalContext'
 
 const loginSchema = yup.object().shape({
   username: yup.string().required('Username is required.'),
   password: yup.string().required('Password is required.'),
 })
 
-const LoginForm = ({ history, closeModal }) => {
+const LoginForm = ({ history, onModal }) => {
+  const { closeModal, navigateTo } = useContext(ModalContext)
   const { notification, setNotification, handleException } = useContext(
     NotificationContext
   )
@@ -44,7 +46,7 @@ const LoginForm = ({ history, closeModal }) => {
       })
       setNotification('positive', `${username} successfully logged in.`, 'site')
       loginUser(token.data.login.value)
-      if (closeModal) closeModal()
+      if (onModal) closeModal()
       history.push('/')
     } catch (exception) {
       handleException(exception, 'form')
@@ -72,13 +74,15 @@ const LoginForm = ({ history, closeModal }) => {
             <SForm>
               <SField>
                 <Label htmlFor="username">Username or Email</Label>
-                <Input name="username" />
-                <FormError
-                  message={errors.username}
-                  show={errors.username && touched.username}
+                <Input
+                  name="username"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
+                />
+                <FormError
+                  message={errors.username}
+                  show={errors.username && touched.username}
                 />
               </SField>
               <SField>
@@ -97,14 +101,29 @@ const LoginForm = ({ history, closeModal }) => {
               </SField>
               <TextRow>
                 Don't have an account?{' '}
-                <Link to="/signup" name="Register">
-                  Register
-                </Link>
+                {onModal ? (
+                  <Link name="Register" onClick={() => navigateTo('sign up')}>
+                    Register
+                  </Link>
+                ) : (
+                  <Link to="/signup" name="Register">
+                    Register
+                  </Link>
+                )}
               </TextRow>
               <TextRow>
-                <Link to="/forgot-password" name="Forgot your password?">
-                  Forgot your password?
-                </Link>
+                {onModal ? (
+                  <Link
+                    name="Forgot your password?"
+                    onClick={() => navigateTo('forgot password')}
+                  >
+                    Forgot your password?
+                  </Link>
+                ) : (
+                  <Link to="/forgot-password" name="Forgot your password?">
+                    Forgot your password?
+                  </Link>
+                )}
               </TextRow>
               <br />
               <Notification position="form" notification={notification} />
