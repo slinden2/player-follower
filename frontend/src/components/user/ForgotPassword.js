@@ -1,47 +1,119 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
-import { Form, Button } from 'semantic-ui-react'
-import { useField } from '../../hooks'
+import { Formik } from 'formik'
+import * as yup from 'yup'
 import { FORGOT_PASSWORD } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
+import Notification from '../Notification'
+import Link from '../elements/StyledLink'
+import {
+  Container,
+  SForm,
+  SField,
+  Label,
+  TextRow,
+  Input,
+  FormButton,
+} from '../../styles/forms'
+import FormError from './FormError'
+import { ModalContext } from '../../contexts/ModalContext'
 
-const ForgotPassword = ({ history }) => {
-  const { setNotification, handleException } = useContext(NotificationContext)
-  const [email, resetEmail] = useField('email', 'text')
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Invalid email address.')
+    .required('Email is required.'),
+})
+
+const ForgotPassword = ({ history, onModal }) => {
+  const { closeModal, navigateTo } = useContext(ModalContext)
+  const { notification, setNotification, handleException } = useContext(
+    NotificationContext
+  )
   const forgotPassword = useMutation(FORGOT_PASSWORD)
 
-  const handleForgotPassword = async () => {
+  const handleForgotPassword = async (
+    { email },
+    { resetForm, setSubmitting }
+  ) => {
     try {
-      await forgotPassword({
+      const newEmail = await forgotPassword({
         variables: {
-          email: email.value,
+          email,
         },
       })
+      console.log(newEmail)
       setNotification(
         'positive',
-        `The password reset link has been set to ${
-          email.value
-        }. Please click the link to change your password.`
+        `The password reset link has been set to ${email}. Please click the link to change your password.`,
+        'site'
       )
+      history.push('/')
+      if (onModal) closeModal()
     } catch (exception) {
-      handleException(exception)
+      handleException(exception, 'form')
+      resetForm()
+      setSubmitting(false)
     }
-    resetEmail()
-    history.push('/')
   }
 
   return (
-    <div>
-      <Form onSubmit={handleForgotPassword}>
-        <Form.Field>
-          <label>Email</label>
-          <input placeholder="email" {...email} />
-        </Form.Field>
-        <Button type="submit" primary={true}>
-          Submit
-        </Button>
-      </Form>
-    </div>
+    <Container>
+      <Formik
+        initialValues={{ email: '' }}
+        validationSchema={validationSchema}
+        onSubmit={handleForgotPassword}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+        }) => {
+          return (
+            <SForm>
+              <SField>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  name="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                />
+                <FormError
+                  message={errors.email}
+                  show={errors.email && touched.email}
+                />
+              </SField>
+              <TextRow>
+                Already have an account?{' '}
+                {onModal ? (
+                  <Link name="Log In" onClick={() => navigateTo('log in')}>
+                    Register
+                  </Link>
+                ) : (
+                  <Link to="/login" name="Log In">
+                    Register
+                  </Link>
+                )}
+              </TextRow>
+              <br />
+              <Notification position="form" notification={notification} />
+              <br />
+              <FormButton
+                type="submit"
+                size="big"
+                fontCase="uppercase"
+                content="Reset Password"
+                disabled={isSubmitting}
+              />
+            </SForm>
+          )
+        }}
+      </Formik>
+    </Container>
   )
 }
 

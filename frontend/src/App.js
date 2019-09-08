@@ -11,7 +11,7 @@ import LoginPage from './components/user/LoginPage'
 import SignupPage from './components/user/SignupPage'
 import Confirmation from './components/user/Confirmation'
 import Footer from './components/Footer'
-import ForgotPassword from './components/user/ForgotPassword'
+import ForgotPasswordPage from './components/user/ForgotPasswordPage'
 import SetNewPassword from './components/user/SetNewPassword'
 import UserProfile from './components/user/UserProfile'
 import SearchPage from './components/search/SearchPage'
@@ -60,6 +60,8 @@ const App = () => {
   const { token } = useContext(AuthContext)
   const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
   const { searchValue } = useContext(SearchContext)
+
+  console.log(notification)
 
   return (
     <Container>
@@ -121,7 +123,9 @@ const App = () => {
                 <Route
                   exact
                   path="/forgot-password"
-                  render={({ history }) => <ForgotPassword history={history} />}
+                  render={({ history }) => (
+                    <ForgotPasswordPage history={history} />
+                  )}
                 />
                 <Route
                   path="/forgot-password/:token"

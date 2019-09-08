@@ -42,10 +42,6 @@ const StatsTable = ({
 }) => {
   const sortProp = sortOnClient ? 'id' : 'sortString'
 
-  const handleClick = item => {
-    return handleRowClick ? handleRowClick(item) : false
-  }
-
   // Team related stats use different dataset for headers
   const headersToUse = isTeamStats ? teamStatHeaders : statHeaders
 

@@ -57,25 +57,26 @@ const SignupForm = ({ history, onModal }) => {
     { resetForm, setSubmitting }
   ) => {
     try {
-      await createUser({
+      const createdUser = await createUser({
         variables: {
           username,
           email,
           password,
         },
       })
+      setNotification(
+        'positive',
+        `An account for ${createdUser.data.createUser.username} has been created. Before logging in, you must activate your account by clicking the activation link sent to ${email}.`,
+        'site'
+      )
+      history.push('/')
+      if (onModal) closeModal()
     } catch (exception) {
       handleException(exception, 'form')
       resetForm()
       setSubmitting(false)
-      if (onModal) closeModal()
       return
     }
-    setNotification(
-      'positive',
-      `An account for ${username} has been created. Before logging in, you must activate your account by clicking the activation link sent to ${email.value}.`
-    )
-    history.push('/')
   }
 
   return (

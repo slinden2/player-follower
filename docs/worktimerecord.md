@@ -83,4 +83,5 @@
 | 05.09.2019 | 6    | Team profile and team links. Added fallback images.               |
 | 06.09.2019 | 6    | Refactored StatsTable and added highlighting                      |
 | 07.09.2019 | 6    | Created loader and started working on sign up modal               |
-|   total    | 297  |                                                                   |
+| 08.09.2019 | 5    | Started working on forms                                          |
+|   total    | 302  |                                                                   |
