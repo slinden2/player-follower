@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
 import { RemoveScroll } from 'react-remove-scroll'
@@ -47,7 +48,7 @@ const CloseButton = styled.div`
   transform: rotate(45deg);
 `
 
-const Modal = () => {
+const ModalNoRouter = ({ history }) => {
   const { open, type, closeModal } = useContext(ModalContext)
 
   return (
@@ -55,12 +56,14 @@ const Modal = () => {
       <ScreenOverlay open={open}>
         <Container>
           <CloseButton onClick={closeModal}>+</CloseButton>
-          {type === 'log in' && <LoginForm />}
-          {type === 'sign up' && <SignupForm />}
+          {type === 'log in' && (
+            <LoginForm history={history} closeModal={closeModal} />
+          )}
+          {type === 'sign up' && <SignupForm history={history} />}
         </Container>
       </ScreenOverlay>
     </RemoveScroll>
   )
 }
 
-export default Modal
+export default withRouter(ModalNoRouter)

@@ -22,7 +22,7 @@ const loginSchema = yup.object().shape({
   password: yup.string().required('Password is required.'),
 })
 
-const LoginForm = ({ history }) => {
+const LoginForm = ({ history, closeModal }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { loginUser } = useContext(AuthContext)
 
@@ -41,6 +41,7 @@ const LoginForm = ({ history }) => {
       })
       setNotification('positive', `${username} successfully logged in.`)
       loginUser(token.data.login.value)
+      if (closeModal) closeModal()
       history.push('/')
     } catch (exception) {
       handleException(exception)

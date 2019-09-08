@@ -25,7 +25,6 @@ import variables from './styles/variables'
 import { SearchContext } from './contexts/SearchContext'
 import TeamProfile from './components/team/TeamProfile'
 import PrivacyPolicy from './components/PrivacyPolicy'
-import Loader from './components/elements/Loader'
 import Modal from './components/elements/Modal'
 
 const Container = styled.div`
@@ -83,7 +82,6 @@ const App = () => {
             <Route path="/about" render={() => <About />} />
             <Route path="/search" render={() => <SearchPage />} />
             <Route path="/privacy-policy" render={() => <PrivacyPolicy />} />
-            <Route path="/loader" render={() => <Loader />} />
             <Route
               path="/players/:siteLink"
               render={({ match }) => (
