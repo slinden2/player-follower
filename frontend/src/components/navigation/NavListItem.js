@@ -72,7 +72,6 @@ const StyledNavListItem = styled.li`
 `
 
 const linkStyling = css`
-  padding: 0.75rem;
   display: flex;
   align-items: center;
   height: 100%;
@@ -81,6 +80,7 @@ const linkStyling = css`
 const StyledNavLink = styled(NavLink)`
   @media ${breakpoints.showDesktopNavi} {
     ${linkStyling}
+    padding: 0.75rem;
 
     &::before {
       ${activeNavHighlight}
@@ -98,7 +98,9 @@ const StyledNavLink = styled(NavLink)`
 
 const NavItemNoLink = styled.span`
   ${linkStyling}
-  padding: 0;
+  @media ${breakpoints.showDesktopNavi} {
+    padding: 0.75rem;
+  }
 `
 
 const NavListItem = ({
