@@ -27,6 +27,7 @@
     "fetch_team_stats": "cross-env NODE_ENV=development node jobs/fetch-team-stats.js",
     "update_best_players": "cross-env NODE_ENV=development node jobs/update-best-players.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
+    "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json"
   },
   "author": "Samu Linden",
@@ -52,6 +53,7 @@
     "install": "^0.12.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
+    "mailgun-js": "^0.22.0",
     "mongoose": "^5.5.14",
     "mongoose-unique-validator": "^2.0.3",
     "nodemailer": "^6.2.1"

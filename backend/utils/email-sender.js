@@ -41,7 +41,7 @@ const sendForgotPasswordEmail = async (email, token) => {
   const info = await transporter.sendMail({
     from: '"Player Follower " <no-reply@test.com>',
     to: email,
-    subject: 'Player Follower - Did you forgot your password?',
+    subject: 'Player Follower - Did you forget your password?',
     text: `Please visit the following link to change your password: http://localhost:3000/forgot-password/${token}`,
     html: `Please visit the following link to change your password: <a href="http://localhost:3000/forgot-password/${token}">Link</a>`,
   })
