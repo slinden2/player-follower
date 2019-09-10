@@ -58,10 +58,14 @@ const Title = styled.h2`
 const ModalNoRouter = ({ history }) => {
   const { open, type, closeModal } = useContext(ModalContext)
 
+  const handleModalClick = e => {
+    e.stopPropagation()
+  }
+
   return (
     <RemoveScroll enabled={open} removeScrollBar={false}>
-      <ScreenOverlay open={open}>
-        <Container>
+      <ScreenOverlay open={open} onClick={closeModal}>
+        <Container onClick={handleModalClick}>
           <Title>{type}</Title>
           <CloseButton onClick={closeModal}>+</CloseButton>
           {type === 'log in' && <LoginForm history={history} onModal />}
