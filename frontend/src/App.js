@@ -61,8 +61,6 @@ const App = () => {
   const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
   const { searchValue } = useContext(SearchContext)
 
-  console.log(notification)
-
   return (
     <Container>
       <Router history={browserHistory}>
@@ -77,6 +75,12 @@ const App = () => {
               path="/"
               render={() => (
                 <PlayerCardContainer query={bestPlayers} header="Top Players" />
+              )}
+            />
+            <Route
+              path="/test/:token"
+              render={({ history, match }) => (
+                <Confirmation history={history} token={match.params.token} />
               )}
             />
             <Route path="/stats" render={() => <PlayerStats />} />

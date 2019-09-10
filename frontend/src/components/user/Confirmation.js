@@ -1,48 +1,56 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from 'react-apollo-hooks'
-import { VERIFY_USER, CANCEL_USER } from '../../graphql/mutations'
-import { Button, Segment, Header } from 'semantic-ui-react'
-import { NotificationContext } from '../../contexts/NotificationContext'
+import { VERIFY_USER } from '../../graphql/mutations'
+import PageContainer from '../elements/PageContainer'
+import ContentWrapper from '../elements/ContentWrapper'
+import Loader from '../elements/Loader'
+import { TextRow } from '../../styles/forms'
+import colors from '../../styles/colors'
 
 const Confirmation = ({ history, token }) => {
-  const { setNotification, handleException } = useContext(NotificationContext)
+  const [user, setUser] = useState(null)
+  const [error, setError] = useState(null)
   const verifyUser = useMutation(VERIFY_USER, { variables: { token } })
-  const cancelUser = useMutation(CANCEL_USER, { variables: { token } })
 
-  const handleVerify = async () => {
-    try {
-      await verifyUser()
-      setNotification(
-        'positive',
-        'Your account has been activated. You may now log in.'
-      )
-    } catch ({ message }) {
-      setNotification('negative', `${message}`)
-    }
-    history.push('/')
-  }
+  const canFetch = !user && !error
 
-  const handleCancel = async () => {
-    try {
-      await cancelUser()
-      setNotification(
-        'warning',
-        'Your account has been cancelled and all the information has been deleted from the database.'
-      )
-    } catch (exception) {
-      handleException(exception)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newUser = await verifyUser()
+        setUser(newUser.data.verifyUser)
+      } catch ({ message }) {
+        setError(message)
+      }
     }
-    history.push('/')
+
+    if (canFetch) fetchData()
+  }, [verifyUser, canFetch])
+
+  if (canFetch) {
+    return <Loader offset />
   }
 
   return (
-    <Segment>
-      <Header>Activate your user account</Header>
-      <Button primary={true} onClick={handleVerify}>
-        OK
-      </Button>
-      <Button onClick={handleCancel}>Cancel</Button>
-    </Segment>
+    <PageContainer title="Account Confirmation">
+      <ContentWrapper>
+        {error && (
+          <TextRow color={colors.red1}>
+            The token is either invalid or already expired. Please check that
+            the address in the address bar corresponds to the link sent to you
+            via email. If not, please try again with a correct token.
+          </TextRow>
+        )}
+
+        {user && (
+          <TextRow>
+            The account for {user.username} ({user.email}) has been successfully
+            created. You may now log in and start using the site at its full
+            potential.
+          </TextRow>
+        )}
+      </ContentWrapper>
+    </PageContainer>
   )
 }
 

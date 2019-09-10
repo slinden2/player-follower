@@ -23,7 +23,7 @@ const positions = require('../utils/position-codes')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
-} = require('../utils/email-sender')
+} = require('../utils/mailgun-email-sender')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -395,6 +395,8 @@ const resolvers = {
       const { email } = args
       const user = await User.findOne({ email })
 
+      console.log(user)
+
       if (!user) {
         throw new UserInputError('invalid email address')
       }
@@ -404,8 +406,11 @@ const resolvers = {
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
 
+      console.log(verificationToken)
+
       const savedToken = await verificationToken.save()
       await sendForgotPasswordEmail(user.email, savedToken.token)
+      return user.toJSON()
     },
     setNewPassword: async (root, args) => {
       const decodedUser = jwt.verify(args.token, JWT_SECRET)

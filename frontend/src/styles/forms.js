@@ -42,7 +42,9 @@ export const Label = styled.label`
   margin: 10px 0 10px 0;
 `
 
-export const TextRow = styled.p``
+export const TextRow = styled.p`
+  ${({ color }) => color && `color: ${color}`}
+`
 
 export const Input = styled(Field)`
   display: block;

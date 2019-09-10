@@ -4,6 +4,7 @@ const USER_DETAILS = gql`
   fragment UserDetails on User {
     id
     username
+    email
   }
 `
 
@@ -22,6 +23,7 @@ const VERIFY_USER = gql`
       ...UserDetails
     }
   }
+  ${USER_DETAILS}
 `
 
 const CANCEL_USER = gql`
