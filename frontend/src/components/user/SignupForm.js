@@ -11,10 +11,10 @@ import {
   Label,
   TextRow,
   Input,
-  FormButton,
 } from '../../styles/forms'
 import FormError from './FormError'
 import Link from '../elements/StyledLink'
+import Button from '../elements/Button'
 import Notification from '../Notification'
 import { ModalContext } from '../../contexts/ModalContext'
 
@@ -145,7 +145,7 @@ const SignupForm = ({ history, onModal }) => {
             <br />
             <Notification position="form" notification={notification} />
             <br />
-            <FormButton
+            <Button
               type="submit"
               size="big"
               fontCase="uppercase"

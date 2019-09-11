@@ -3,6 +3,10 @@ import { Form, Field } from 'formik'
 import Button from '../components/elements/Button'
 import colors from './colors'
 
+export const GreenButton = styled(Button)`
+  background-color: 'green';
+`
+
 export const fieldStyling = css`
   height: 45px;
   border-radius: 50px;
@@ -51,9 +55,4 @@ export const Input = styled(Field)`
   width: 100%;
   padding-right: 20px;
   ${fieldStyling}
-`
-
-export const FormButton = styled(Button)`
-  display: block;
-  justify-self: center;
 `

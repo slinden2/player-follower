@@ -30,8 +30,10 @@ const Button = ({
   size,
   fontCase,
   disabled,
+  style,
+  form,
 }) => {
-  const padding = size === 'big' ? '1em' : '5px'
+  const padding = size === 'big' ? '1em' : size === 'medium' ? '0.875em' : '5px'
   const textTransform = fontCase ? fontCase : 'none'
 
   return (
@@ -42,6 +44,8 @@ const Button = ({
       padding={padding}
       textTransform={textTransform}
       disabled={disabled}
+      style={style}
+      form={form}
     >
       {content}
     </Btn>

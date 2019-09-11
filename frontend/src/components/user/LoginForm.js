@@ -8,6 +8,7 @@ import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
 import Notification from '../Notification'
 import Link from '../elements/StyledLink'
+import Button from '../elements/Button'
 import {
   Container,
   SForm,
@@ -15,7 +16,6 @@ import {
   Label,
   TextRow,
   Input,
-  FormButton,
 } from '../../styles/forms'
 import FormError from './FormError'
 import { ModalContext } from '../../contexts/ModalContext'
@@ -124,7 +124,7 @@ const LoginForm = ({ history, onModal }) => {
               <br />
               <Notification position="form" notification={notification} />
               <br />
-              <FormButton
+              <Button
                 type="submit"
                 size="big"
                 fontCase="uppercase"
