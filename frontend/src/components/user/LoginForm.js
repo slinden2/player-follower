@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
+import styled from 'styled-components'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
-import * as yup from 'yup'
+import { loginSchema } from './validationSchemas'
 import { LOGIN } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -18,11 +19,6 @@ import {
 } from '../../styles/forms'
 import FormError from './FormError'
 import { ModalContext } from '../../contexts/ModalContext'
-
-const loginSchema = yup.object().shape({
-  username: yup.string().required('Username is required.'),
-  password: yup.string().required('Password is required.'),
-})
 
 const LoginForm = ({ history, onModal }) => {
   const { closeModal, navigateTo } = useContext(ModalContext)

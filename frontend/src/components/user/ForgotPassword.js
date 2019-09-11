@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
-import * as yup from 'yup'
+import { forgotPasswordSchema } from './validationSchemas'
 import { FORGOT_PASSWORD } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import Notification from '../Notification'
@@ -17,13 +17,6 @@ import {
 } from '../../styles/forms'
 import FormError from './FormError'
 import { ModalContext } from '../../contexts/ModalContext'
-
-const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Invalid email address.')
-    .required('Email is required.'),
-})
 
 const ForgotPassword = ({ history, onModal }) => {
   const { closeModal, navigateTo } = useContext(ModalContext)
@@ -60,7 +53,7 @@ const ForgotPassword = ({ history, onModal }) => {
     <Container>
       <Formik
         initialValues={{ email: '' }}
-        validationSchema={validationSchema}
+        validationSchema={forgotPasswordSchema}
         onSubmit={handleForgotPassword}
       >
         {({

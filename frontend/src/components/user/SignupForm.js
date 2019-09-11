@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
-import * as yup from 'yup'
+import { signupSchema } from './validationSchemas'
 import { CREATE_USER } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import {
@@ -17,32 +17,6 @@ import FormError from './FormError'
 import Link from '../elements/StyledLink'
 import Notification from '../Notification'
 import { ModalContext } from '../../contexts/ModalContext'
-
-const signupSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(2, 'Username must be at least 2 characters long.')
-    .max(12, "Username can't be longer than 12 characters long.")
-    .required('Username is required.'),
-  email: yup
-    .string()
-    .email('Invalid email address.')
-    .required('Email is required.'),
-  password: yup
-    .string()
-    .min(8, 'Password must be at least 8 characters long.')
-    .max(50, "Password can't be longer than 50 character long.")
-    .required('Password is required.')
-    .matches(
-      /(?=.*[a-z])/,
-      'Password must contain at least one lowercase letter.'
-    )
-    .matches(/(?=.*[0-9])/, 'Password must contian at least one number.'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match.')
-    .required('Confirm password is required.'),
-})
 
 const SignupForm = ({ history, onModal }) => {
   const { closeModal, navigateTo } = useContext(ModalContext)
