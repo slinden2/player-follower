@@ -42,10 +42,9 @@ const ForgotPassword = ({ history, onModal }) => {
           email,
         },
       })
-      console.log(newEmail)
       setNotification(
         'positive',
-        `The password reset link has been set to ${email}. Please click the link to change your password.`,
+        `The password reset link has been set to ${newEmail.data.forgotPassword.email}. Please click the link to change your password.`,
         'site'
       )
       history.push('/')
