@@ -66,7 +66,7 @@ const UserProfile = () => {
           style={{ margin: '0 auto', display: 'block' }}
           color={showForm && colors.red1}
         />
-        {showForm && <ChangePasswordForm />}
+        {showForm && <ChangePasswordForm setShowForm={setShowForm} />}
       </ContentWrapper>
     </PageContainer>
   )

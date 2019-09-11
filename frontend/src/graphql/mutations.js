@@ -62,8 +62,8 @@ const SET_NEW_PASSWORD = gql`
 `
 
 const CHANGE_PASSWORD = gql`
-  mutation changePassword($password: String!) {
-    changePassword(password: $password) {
+  mutation changePassword($oldPassword: String!, $newPassword: String!) {
+    ChangePassword(oldPassword: $oldPassword, newPassword: $newPassword) {
       ...UserDetails
     }
   }

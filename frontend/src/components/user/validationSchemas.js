@@ -16,16 +16,21 @@ const confirmPassword = yup
   .oneOf([yup.ref('password'), null], 'Passwords must match.')
   .required('Confirm password is required.')
 
+const confirmNewPassword = yup
+  .string()
+  .oneOf([yup.ref('newPassword'), null], 'Passwords must match.')
+  .required('Confirm password is required.')
+
 const password = yup
   .string()
   .min(8, 'Password must be at least 8 characters long.')
-  .max(50, "Password can't be longer than 50 character long.")
+  .max(50, "Password can't be longer than 50 characters.")
   .required('Password is required.')
   .matches(
     /(?=.*[a-z])/,
     'Password must contain at least one lowercase letter.'
   )
-  .matches(/(?=.*[0-9])/, 'Password must contian at least one number.')
+  .matches(/(?=.*[0-9])/, 'Password must contain at least one number.')
 
 export const signupSchema = yup.object().shape({
   username,
@@ -46,5 +51,5 @@ export const forgotPasswordSchema = yup.object().shape({
 export const changePasswordSchema = yup.object().shape({
   oldPassword: yup.string().required('Password is required.'),
   newPassword: password,
-  confirmNewPassword: confirmPassword,
+  confirmNewPassword,
 })

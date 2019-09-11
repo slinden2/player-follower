@@ -432,19 +432,42 @@ const resolvers = {
 
       return newUser
     },
-    changePassword: async (root, args, ctx) => {
-      if (args.password && ctx.currentUser) {
-        if (!args.password || args.password.length < 6) {
-          throw new UserInputError('invalid password')
-        }
-        const saltRounds = 10
-        const passwordHash = await bcrypt.hash(args.password, saltRounds)
-        const newUser = await User.findOneAndUpdate(
-          { _id: ctx.currentUser._id },
-          { passwordHash }
-        )
-        return newUser
+    ChangePassword: async (root, args, ctx) => {
+      const passwordCorrect = await bcrypt.compare(
+        args.oldPassword,
+        ctx.currentUser.passwordHash
+      )
+      if (!passwordCorrect) {
+        throw new UserInputError('Invalid old password.')
       }
+
+      if (args.newPassword.length < 8) {
+        throw new UserInputError(
+          'Invalid password. The minimum length is 8 characters.'
+        )
+      }
+
+      const oneLowerCase = /(?=.*[a-z])/.test(args.newPassword)
+      if (!oneLowerCase) {
+        throw new UserInputError(
+          'Invalid password. It must contain at least 1 lowercase character.'
+        )
+      }
+
+      const oneNumber = /(?=.*[0-9])/.test(args.newPassword)
+      if (!oneNumber) {
+        throw new UserInputError(
+          'Invalid password. It must contain at least 1 number.'
+        )
+      }
+
+      const saltRounds = 10
+      const passwordHash = await bcrypt.hash(args.newPassword, saltRounds)
+      const newUser = await User.findOneAndUpdate(
+        { _id: ctx.currentUser._id },
+        { passwordHash }
+      )
+      return newUser.toJSON()
     },
     followPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx
