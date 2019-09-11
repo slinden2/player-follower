@@ -447,6 +447,19 @@ const playerStatsHeaders = [
   'shots',
 ]
 
+const userProfileHeaders = {
+  username: {
+    headerText: 'Username',
+    id: 'username',
+  },
+  email: {
+    headerText: 'Email',
+    id: 'email',
+  },
+}
+
+const userProfileHeadersToShow = ['username', 'email']
+
 export {
   getCookie,
   removeCookie,
@@ -459,4 +472,6 @@ export {
   teamStatHeaders,
   playerBioData,
   playerStatsHeaders,
+  userProfileHeaders,
+  userProfileHeadersToShow,
 }

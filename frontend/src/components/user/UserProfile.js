@@ -1,92 +1,74 @@
 import React, { useState, useContext } from 'react'
-import { useField } from '../../hooks'
-import { useMutation } from 'react-apollo-hooks'
-import { Table, Button, Form } from 'semantic-ui-react'
-import { CHANGE_PASSWORD } from '../../graphql/mutations'
-import { NotificationContext } from '../../contexts/NotificationContext'
+import styled, { css } from 'styled-components'
 import { AuthContext } from '../../contexts/AuthContext'
+import PageContainer from '../elements/PageContainer'
+import ContentWrapper from '../elements/ContentWrapper'
+import ChangePasswordForm from './ChangePasswordForm'
+import Button from '../elements/Button'
+import Loader from '../elements/Loader'
+import { userProfileHeaders, userProfileHeadersToShow } from '../../utils'
+import colors from '../../styles/colors'
+
+const Table = styled.table`
+  margin: 0 auto;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+`
+
+const cellStyling = css`
+  border: 1px solid red;
+  padding: 10px;
+  border: 2px solid ${colors.grey3};
+`
+
+const TableBody = styled.tbody``
+
+const TableRow = styled.tr``
+
+const HeaderCell = styled.th`
+  ${cellStyling}
+  background-color: ${colors.grey1};
+`
+
+const TableCell = styled.td`
+  ${cellStyling}
+  background-color: ${colors.grey4};
+`
 
 const UserProfile = () => {
-  const { setNotification, handleException } = useContext(NotificationContext)
   const { user } = useContext(AuthContext)
-  const [show, setShow] = useState(false)
-  const [password, resetPassword] = useField('password', 'password')
-  const [confirmPassword, resetConfirmPassword] = useField(
-    'confirmpassword',
-    'password'
-  )
+  const [showForm, setShowForm] = useState(false)
 
-  const changePassword = useMutation(CHANGE_PASSWORD)
-
-  const passwordsMatch = !confirmPassword.value
-    ? true
-    : password.value === confirmPassword.value
-
-  const closeForm = () => {
-    resetPassword()
-    resetConfirmPassword()
-    setShow(false)
+  if (user.loading) {
+    return <Loader offset />
   }
 
-  const handlePasswordChange = async () => {
-    if (!passwordsMatch) {
-      setNotification('negative', 'The passwords do not match!')
-      resetPassword()
-      resetConfirmPassword()
-      return
-    }
-
-    try {
-      await changePassword({ variables: { password: password.value } })
-      setNotification('positive', 'Your password has been changed.')
-      setShow(false)
-    } catch (exception) {
-      handleException(exception)
-    }
-    resetPassword()
-    resetConfirmPassword()
-  }
+  const userData = user.data.me
 
   return (
-    <div>
-      <Table definition>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>Username</Table.Cell>
-            <Table.Cell>{user.data.me && user.data.me.username}</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Email</Table.Cell>
-            <Table.Cell>{user.data.me && user.data.me.email}</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Password</Table.Cell>
-            <Table.Cell>
-              <Button onClick={() => setShow(true)}>Change password</Button>
-            </Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
-      {show && (
-        <Form onSubmit={handlePasswordChange}>
-          <Form.Field>
-            <label>New password</label>
-            <input {...password} />
-          </Form.Field>
-          <Form.Field>
-            <label>Confirm new password</label>
-            <input {...confirmPassword} />
-            {!passwordsMatch && (
-              <span style={{ color: 'red' }}>Passwords do not match!</span>
-            )}
-          </Form.Field>
-          <Button primary type="submit">
-            Submit
-          </Button>
-          <Button onClick={closeForm}>Cancel</Button>
-        </Form>
-      )}
-    </div>
+    <PageContainer title="User Profile" center>
+      <ContentWrapper>
+        <Table>
+          <TableBody>
+            {userProfileHeadersToShow.map(header => (
+              <TableRow key={header}>
+                <HeaderCell>{userProfileHeaders[header].headerText}</HeaderCell>
+                <TableCell>{userData[userProfileHeaders[header].id]}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Button
+          size="medium"
+          content={showForm ? 'Cancel' : 'Change Password'}
+          onClick={() => setShowForm(!showForm)}
+          style={{ margin: '0 auto', display: 'block' }}
+          color={showForm && colors.red1}
+        />
+        {showForm && <ChangePasswordForm />}
+      </ContentWrapper>
+    </PageContainer>
   )
 }
 
