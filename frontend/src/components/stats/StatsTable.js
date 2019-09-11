@@ -26,10 +26,6 @@ const TableHead = styled.thead``
 
 const TableBody = styled.tbody``
 
-// const TableRow = styled.tr`
-//   ${props => props.showPointer && 'cursor: pointer;'}
-// `
-
 const StatsTable = ({
   headers,
   title,
