@@ -27,6 +27,7 @@ import { SearchContext } from './contexts/SearchContext'
 import TeamProfile from './components/team/TeamProfile'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Modal from './components/elements/Modal'
+import TermsAndConditions from './components/TermsAndConditions'
 
 const Container = styled.div`
   margin: 0;
@@ -86,6 +87,10 @@ const App = () => {
               render={({ history }) => <ContactForm history={history} />}
             />
             <Route path="/search" render={() => <SearchPage />} />
+            <Route
+              path="/terms-and-conditions"
+              render={() => <TermsAndConditions />}
+            />
             <Route path="/privacy-policy" render={() => <PrivacyPolicy />} />
             <Route
               path="/players/:siteLink"
