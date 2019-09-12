@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import NavContainer from './NavContainer'
 import HamburgerToggle from './HamburgerToggle'
+import Img from '../../assets/logo.png'
 import colors from '../../styles/colors'
 import variables from '../../styles/variables'
 import breakpoints from '../../styles/breakpoints'
@@ -26,7 +27,9 @@ const Container = styled.header`
   }
 `
 
-const Logo = styled.div`
+const Logo2 = styled.img``
+
+const LogoContainer = styled.div`
   flex: none;
   font-size: 1.5rem;
   padding-left: 1em;
@@ -44,7 +47,9 @@ const Logo = styled.div`
 const Navigation = () => {
   return (
     <Container>
-      <Logo>Player.fan</Logo>
+      <LogoContainer>
+        <Logo2 src={Img} />
+      </LogoContainer>
       <HamburgerToggle />
       <NavContainer />
     </Container>
