@@ -77,12 +77,6 @@ const App = () => {
                 <PlayerCardContainer query={bestPlayers} header="Top Players" />
               )}
             />
-            <Route
-              path="/test/:token"
-              render={({ history, match }) => (
-                <Confirmation history={history} token={match.params.token} />
-              )}
-            />
             <Route path="/stats" render={() => <PlayerStats />} />
             <Route path="/standings" render={() => <Standings />} />
             <Route path="/about" render={() => <About />} />

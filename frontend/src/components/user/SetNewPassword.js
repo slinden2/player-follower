@@ -1,64 +1,126 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
+import { Formik } from 'formik'
 import { useField } from '../../hooks'
 import { SET_NEW_PASSWORD } from '../../graphql/mutations'
-import { Form, Button } from 'semantic-ui-react'
 import { NotificationContext } from '../../contexts/NotificationContext'
+import PageContainer from '../elements/PageContainer'
+import ContentWrapper from '../elements/ContentWrapper'
+import { Container, SForm, SField, Label, Input } from '../../styles/forms'
+import FormError from './FormError'
+import { setNewPasswordSchema } from './validationSchemas'
+import Notification from '../Notification'
+import Button from '../elements/Button'
+import colors from '../../styles/colors'
 
 const SetNewPassword = ({ history, token }) => {
-  const { setNotification, handleException } = useContext(NotificationContext)
-  const [password, resetPassword] = useField('password', 'password')
-  const [confirmPassword, resetConfirmPassword] = useField(
-    'confirmpassword',
-    'password'
+  const { notification, setNotification, handleException } = useContext(
+    NotificationContext
   )
   const setNewPassword = useMutation(SET_NEW_PASSWORD)
 
-  const passwordsMatch = !confirmPassword.value
-    ? true
-    : password.value === confirmPassword.value
-
-  const handleSetNewPassword = async () => {
-    if (!passwordsMatch) {
-      setNotification('negative', 'The passwords do not match!')
-      resetPassword()
-      resetConfirmPassword()
-      return
-    }
-
+  const handleSetNewPassword = async (
+    { newPassword },
+    { resetForm, setSubmitting }
+  ) => {
     try {
-      await setNewPassword({ variables: { token, password: password.value } })
+      await setNewPassword({ variables: { token, password: newPassword } })
       setNotification(
         'positive',
-        'Your password has been changed. You may now log in with the new password.'
+        'Your password has been changed. You may now log in with the new password.',
+        'site'
       )
       history.push('/')
     } catch (exception) {
-      handleException(exception)
+      handleException(exception, 'form')
+      resetForm()
+      setSubmitting(false)
     }
-    resetPassword()
-    resetConfirmPassword()
+  }
+
+  const handleCancel = () => {
+    history.push('/')
   }
 
   return (
-    <div>
-      <Form onSubmit={handleSetNewPassword}>
-        <Form.Field>
-          <label>Password</label>
-          <input placeholder="password" {...password} />
-        </Form.Field>
-        <Form.Field>
-          <label>Confirm password</label>
-          <input placeholder="password" {...confirmPassword} />
-          {!passwordsMatch && (
-            <span style={{ color: 'red' }}>Passwords do not match!</span>
-          )}
-        </Form.Field>
-        <Button type="submit" primary={true}>
-          Submit
-        </Button>
-      </Form>
-    </div>
+    <PageContainer title="Set New Password">
+      <ContentWrapper>
+        <Container>
+          <Formik
+            initialValues={{ newPassword: '', confirmNewPassword: '' }}
+            validationSchema={setNewPasswordSchema}
+            onSubmit={handleSetNewPassword}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              isSubmitting,
+              handleChange,
+              handleBlur,
+            }) => {
+              return (
+                <SForm>
+                  <SField>
+                    <Label htmlFor="newPassword">New Password</Label>
+                    <Input
+                      name="newPassword"
+                      type="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.newPassword}
+                    />
+                    <FormError
+                      message={errors.newPassword}
+                      show={errors.newPassword && touched.newPassword}
+                    />
+                  </SField>
+                  <SField>
+                    <Label htmlFor="confirmNewPassword">
+                      Confirm New Password
+                    </Label>
+                    <Input
+                      name="confirmNewPassword"
+                      type="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.confirmNewPassword}
+                    />
+                    <FormError
+                      message={errors.confirmNewPassword}
+                      show={
+                        errors.confirmNewPassword && touched.confirmNewPassword
+                      }
+                    />
+                  </SField>
+                  <br />
+                  <Notification position="form" notification={notification} />
+                  <br />
+
+                  <Button
+                    type="submit"
+                    size="big"
+                    fontCase="uppercase"
+                    content="Save Password"
+                    disabled={isSubmitting}
+                    style={{ marginRight: '10px' }}
+                  />
+                  <Button
+                    type="button"
+                    size="big"
+                    fontCase="uppercase"
+                    content="Cancel"
+                    color={colors.red1}
+                    onClick={handleCancel}
+                    style={{ marginLeft: '10px' }}
+                  />
+                </SForm>
+              )
+            }}
+          </Formik>
+        </Container>
+      </ContentWrapper>
+    </PageContainer>
   )
 }
 

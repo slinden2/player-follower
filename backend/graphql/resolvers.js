@@ -407,11 +407,11 @@ const resolvers = {
       await sendForgotPasswordEmail(user.email, savedToken.token)
       return user.toJSON()
     },
-    setNewPassword: async (root, args) => {
+    SetNewPassword: async (root, args) => {
       const decodedUser = jwt.verify(args.token, JWT_SECRET)
       const token = await Token.findOne({ userId: decodedUser.userId })
       if (!token) {
-        throw new AuthenticationError('invalid or expired token')
+        throw new AuthenticationError('The token is either invalid or expired.')
       }
 
       validatePassword(args.password)

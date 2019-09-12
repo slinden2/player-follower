@@ -54,7 +54,7 @@ const FORGOT_PASSWORD = gql`
 
 const SET_NEW_PASSWORD = gql`
   mutation setNewPassword($token: String!, $password: String!) {
-    setNewPassword(token: $token, password: $password) {
+    SetNewPassword(token: $token, password: $password) {
       ...UserDetails
     }
   }

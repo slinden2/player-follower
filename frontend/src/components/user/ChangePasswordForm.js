@@ -26,7 +26,7 @@ const ChangePasswordForm = ({ setShowForm }) => {
       setShowForm(false)
       setNotification('positive', 'Your password has been changed.', 'site')
     } catch (exception) {
-      handleException(exception, 'site')
+      handleException(exception, 'form')
       resetForm()
       setSubmitting(false)
     }
@@ -99,7 +99,6 @@ const ChangePasswordForm = ({ setShowForm }) => {
               <Notification position="form" notification={notification} />
               <br />
               <Button
-                as={Button}
                 type="submit"
                 size="big"
                 fontCase="uppercase"

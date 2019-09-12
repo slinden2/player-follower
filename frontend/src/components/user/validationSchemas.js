@@ -53,3 +53,8 @@ export const changePasswordSchema = yup.object().shape({
   newPassword: password,
   confirmNewPassword,
 })
+
+export const setNewPasswordSchema = yup.object().shape({
+  newPassword: password,
+  confirmNewPassword,
+})
