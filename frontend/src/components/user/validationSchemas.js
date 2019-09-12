@@ -23,14 +23,14 @@ const confirmNewPassword = yup
 
 const password = yup
   .string()
-  // .min(8, 'Password must be at least 8 characters long.')
-  // .max(50, "Password can't be longer than 50 characters.")
-  // .required('Password is required.')
-  // .matches(
-  //   /(?=.*[a-z])/,
-  //   'Password must contain at least one lowercase letter.'
-  // )
-  // .matches(/(?=.*[0-9])/, 'Password must contain at least one number.')
+  .min(8, 'Password must be at least 8 characters long.')
+  .max(50, "Password can't be longer than 50 characters.")
+  .required('Password is required.')
+  .matches(
+    /(?=.*[a-z])/,
+    'Password must contain at least one lowercase letter.'
+  )
+  .matches(/(?=.*[0-9])/, 'Password must contain at least one number.')
 
 export const signupSchema = yup.object().shape({
   username,
