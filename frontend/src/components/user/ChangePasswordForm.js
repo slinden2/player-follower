@@ -20,7 +20,7 @@ const ChangePasswordForm = ({ setShowForm }) => {
     { resetForm, setSubmitting }
   ) => {
     try {
-      const res = await changePassword({
+      await changePassword({
         variables: { oldPassword, newPassword },
       })
       setShowForm(false)

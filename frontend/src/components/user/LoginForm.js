@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import styled from 'styled-components'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
 import { loginSchema } from './validationSchemas'
