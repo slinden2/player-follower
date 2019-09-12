@@ -17,7 +17,7 @@ const MG_CONN = mailgun({
 const sendVerificationEmail = (email, token) => {
   const data = {
     from: 'Player Fan <norepy@player.fan>',
-    to: 'playerfansite@gmail.com',
+    to: email,
     subject: 'Account confirmation',
     text: `Please visit the following to to activate your account: ${domain}/confirmation/${token}`,
     html: generateAccountConfirmationEmail(domain, token),
@@ -31,7 +31,7 @@ const sendVerificationEmail = (email, token) => {
 const sendForgotPasswordEmail = async (email, token) => {
   const data = {
     from: 'Player Fan <norepy@player.fan>',
-    to: 'playerfansite@gmail.com',
+    to: email,
     subject: 'Change your password with this mail',
     text: `Please visit the following link to change your password: ${domain}/forgot-password/${token}`,
     html: generateForgotPasswordEmail(domain, token),

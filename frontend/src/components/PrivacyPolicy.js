@@ -3,6 +3,7 @@ import PageContainer from './elements/PageContainer'
 import ContentWrapper from './elements/ContentWrapper'
 import Title from './elements/Title'
 import Paragraph from './elements/Paragraph'
+import EmailSpan from './elements/EmailSpan'
 
 const PrivacyPolicy = () => {
   return (
@@ -18,8 +19,8 @@ const PrivacyPolicy = () => {
 
         <Paragraph>
           If you have additional questions or require more information about our
-          Privacy Policy, do not hesitate to contact us through email at
-          !!!INSERT EMAIL HERE!!!
+          Privacy Policy, do not hesitate to contact us through email at{' '}
+          <EmailSpan />.
         </Paragraph>
 
         <Title>General Data Protection Regulation (GDPR)</Title>
