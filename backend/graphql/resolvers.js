@@ -20,6 +20,7 @@ const generateCumulativeStats = require('../utils/generate-cumulative-stats')
 const getSortField = require('../utils/get-sort-field')
 const convertSecsToMin = require('../utils/convert-secs-to-min')
 const positions = require('../utils/position-codes')
+const { validatePassword } = require('../utils/password-requirements')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
@@ -310,9 +311,7 @@ const resolvers = {
         throw new UserInputError('username or email is taken')
       }
 
-      if (!password || password.length < 6) {
-        throw new UserInputError('invalid password')
-      }
+      validatePassword(password)
 
       if (!username || !email) {
         throw new UserInputError(
@@ -395,8 +394,6 @@ const resolvers = {
       const { email } = args
       const user = await User.findOne({ email })
 
-      console.log(user)
-
       if (!user) {
         throw new UserInputError('invalid email address')
       }
@@ -405,8 +402,6 @@ const resolvers = {
         userId: user._id,
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
-
-      console.log(verificationToken)
 
       const savedToken = await verificationToken.save()
       await sendForgotPasswordEmail(user.email, savedToken.token)
@@ -419,9 +414,7 @@ const resolvers = {
         throw new AuthenticationError('invalid or expired token')
       }
 
-      if (!args.password || args.password.length < 6) {
-        throw new UserInputError('invalid password')
-      }
+      validatePassword(args.password)
 
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(args.password, saltRounds)
@@ -441,25 +434,7 @@ const resolvers = {
         throw new UserInputError('Invalid old password.')
       }
 
-      if (args.newPassword.length < 8) {
-        throw new UserInputError(
-          'Invalid password. The minimum length is 8 characters.'
-        )
-      }
-
-      const oneLowerCase = /(?=.*[a-z])/.test(args.newPassword)
-      if (!oneLowerCase) {
-        throw new UserInputError(
-          'Invalid password. It must contain at least 1 lowercase character.'
-        )
-      }
-
-      const oneNumber = /(?=.*[0-9])/.test(args.newPassword)
-      if (!oneNumber) {
-        throw new UserInputError(
-          'Invalid password. It must contain at least 1 number.'
-        )
-      }
+      validatePassword(args.newPassword)
 
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(args.newPassword, saltRounds)
