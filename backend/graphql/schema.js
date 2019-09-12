@@ -389,6 +389,12 @@ const typeDefs = gql`
     SetNewPassword(token: String!, password: String!): User!
     ChangePassword(oldPassword: String!, newPassword: String!): User!
     followPlayer(id: String!, followType: FollowType!): Player!
+    SendContactForm(
+      name: String!
+      email: String!
+      subject: String!
+      message: String!
+    ): Boolean!
   }
 `
 

@@ -24,6 +24,7 @@ const { validatePassword } = require('../utils/password-requirements')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
+  sendContactFormEmail,
 } = require('../utils/mailgun-email-sender')
 
 if (process.env.NODE_ENV !== 'production') {
@@ -443,6 +444,15 @@ const resolvers = {
         { passwordHash }
       )
       return newUser.toJSON()
+    },
+    SendContactForm: async (root, args, ctx) => {
+      const { currentUser } = ctx
+      const { name, email, subject, message } = args
+      const username = currentUser && currentUser.username
+
+      await sendContactFormEmail(name, email, subject, message, username)
+
+      return true
     },
     followPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx

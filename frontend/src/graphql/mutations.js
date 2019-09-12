@@ -88,6 +88,22 @@ const UNFOLLOW_PLAYER = gql`
   }
 `
 
+const SEND_CONTACT_FORM = gql`
+  mutation sendContactForm(
+    $name: String!
+    $email: String!
+    $subject: String!
+    $message: String!
+  ) {
+    SendContactForm(
+      name: $name
+      email: $email
+      subject: $subject
+      message: $message
+    )
+  }
+`
+
 export {
   CREATE_USER,
   VERIFY_USER,
@@ -98,4 +114,5 @@ export {
   CHANGE_PASSWORD,
   FOLLOW_PLAYER,
   UNFOLLOW_PLAYER,
+  SEND_CONTACT_FORM,
 }

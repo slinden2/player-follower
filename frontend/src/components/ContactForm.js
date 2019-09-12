@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
 import { NotificationContext } from '../contexts/NotificationContext'
+import { SEND_CONTACT_FORM } from '../graphql/mutations'
 import PageContainer from './elements/PageContainer'
 import ContentWrapper from './elements/ContentWrapper'
 import {
@@ -22,14 +23,16 @@ const ContactForm = ({ history }) => {
   const { notification, setNotification, handleException } = useContext(
     NotificationContext
   )
-  // const setNewPassword = useMutation(SET_NEW_PASSWORD)
+  const sendContactForm = useMutation(SEND_CONTACT_FORM)
 
   const handleSubmitForm = async (
-    { newPassword },
+    { name, email, subject, message },
     { resetForm, setSubmitting }
   ) => {
     try {
-      // await setNewPassword({ variables: { token, password: newPassword } })
+      await sendContactForm({
+        variables: { name, email, subject, message },
+      })
       setNotification(
         'positive',
         'Thanks for the feedback. I will get back to you as soon as possible.',

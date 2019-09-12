@@ -19,7 +19,7 @@ import PlayerStats from './components/player/PlayerStats'
 import Standings from './components/team/Standings'
 import PlayerProfile from './components/player/PlayerProfile'
 import About from './components/About'
-import Contact from './components/ContactForm'
+import ContactForm from './components/ContactForm'
 import styled from 'styled-components'
 import colors from './styles/colors'
 import variables from './styles/variables'
@@ -81,7 +81,10 @@ const App = () => {
             <Route path="/stats" render={() => <PlayerStats />} />
             <Route path="/standings" render={() => <Standings />} />
             <Route path="/about" render={() => <About />} />
-            <Route path="/contact" render={() => <Contact />} />
+            <Route
+              path="/contact"
+              render={({ history }) => <ContactForm history={history} />}
+            />
             <Route path="/search" render={() => <SearchPage />} />
             <Route path="/privacy-policy" render={() => <PrivacyPolicy />} />
             <Route
