@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
-import { useField } from '../../hooks'
 import { SET_NEW_PASSWORD } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import PageContainer from '../elements/PageContainer'
