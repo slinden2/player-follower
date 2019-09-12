@@ -1,9 +1,26 @@
 import * as yup from 'yup'
 
+const name = yup
+  .string()
+  .max(50, "Name can't be longer than 50 characters.")
+  .required('Name is required.')
+
+const subject = yup
+  .string()
+  .min(3, 'Subject must be at least 3 characters long.')
+  .max(50, "Subject can't be longer than 50 characters.")
+  .required('Subject is required.')
+
+const message = yup
+  .string()
+  .min(10, 'Message must be at least 10 characters long.')
+  .max(5000, "Message can't be longer than 5000 characters.")
+  .required('Message is required.')
+
 const username = yup
   .string()
   .min(2, 'Username must be at least 2 characters long.')
-  .max(12, "Username can't be longer than 12 characters long.")
+  .max(12, "Username can't be longer than 12 characters.")
   .required('Username is required.')
 
 const email = yup
@@ -57,4 +74,11 @@ export const changePasswordSchema = yup.object().shape({
 export const setNewPasswordSchema = yup.object().shape({
   newPassword: password,
   confirmNewPassword,
+})
+
+export const contactSchema = yup.object().shape({
+  name,
+  email,
+  subject,
+  message,
 })
