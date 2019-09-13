@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import { event } from '../../utils/tracking'
 import { loginSchema } from './validationSchemas'
 import { LOGIN } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
@@ -41,6 +42,7 @@ const LoginForm = ({ history, onModal }) => {
       })
       setNotification('positive', `${username} successfully logged in.`, 'site')
       loginUser(token.data.login.value)
+      event('FORM', 'Login Form Submit')
       if (onModal) closeModal()
       history.push('/')
     } catch (exception) {

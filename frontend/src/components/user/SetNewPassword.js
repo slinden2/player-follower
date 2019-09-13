@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import { event } from '../../utils/tracking'
 import { SET_NEW_PASSWORD } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import PageContainer from '../elements/PageContainer'
@@ -29,6 +30,7 @@ const SetNewPassword = ({ history, token }) => {
         'Your password has been changed. You may now log in with the new password.',
         'site'
       )
+      event('FORM', 'Set New Password Form Submit')
       history.push('/')
     } catch (exception) {
       handleException(exception, 'form')

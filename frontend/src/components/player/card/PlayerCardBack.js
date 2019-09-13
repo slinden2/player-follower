@@ -57,7 +57,7 @@ const StatItem = styled.div`
   }
 `
 
-const PlayerCardBack = ({ player, isFlipped, handleCardFlip }) => {
+const PlayerCardBack = ({ player, handleCardFlip }) => {
   return (
     <Container>
       <NameBar>

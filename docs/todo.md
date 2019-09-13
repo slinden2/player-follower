@@ -71,6 +71,7 @@
   - [x] Unit tests for GraphQL schema
   - [ ] Integration tests
 - [ ] Tests for frontend
+- [ ] OAuth
 
 ## Notes
 

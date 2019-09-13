@@ -7,6 +7,7 @@ export const initGA = () => {
 }
 
 export const pageView = history => {
+  ReactGA.set({ page: history.pathname })
   ReactGA.pageview(history.pathname + history.search)
 }
 

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import { event } from '../../utils/tracking'
 import { signupSchema } from './validationSchemas'
 import { CREATE_USER } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
@@ -43,6 +44,7 @@ const SignupForm = ({ history, onModal }) => {
         `An account for ${createdUser.data.createUser.username} has been created. Before logging in, you must activate your account by clicking the activation link sent to ${email}.`,
         'site'
       )
+      event('FORM', 'Signup Form Submit')
       history.push('/')
       if (onModal) closeModal()
     } catch (exception) {

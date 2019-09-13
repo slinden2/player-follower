@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import { event } from '../../utils/tracking'
 import { CHANGE_PASSWORD } from '../../graphql/mutations'
 import { changePasswordSchema } from './validationSchemas'
 import { Container, SForm, SField, Label, Input } from '../../styles/forms'
@@ -8,6 +9,7 @@ import FormError from './FormError'
 import Notification from '../Notification'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import Button from '../elements/Button'
+import { fromPromise } from 'apollo-link'
 
 const ChangePasswordForm = ({ setShowForm }) => {
   const { notification, setNotification, handleException } = useContext(
@@ -23,6 +25,7 @@ const ChangePasswordForm = ({ setShowForm }) => {
       await changePassword({
         variables: { oldPassword, newPassword },
       })
+      event('FORM', 'Change Password Form Submit')
       setShowForm(false)
       setNotification('positive', 'Your password has been changed.', 'site')
     } catch (exception) {

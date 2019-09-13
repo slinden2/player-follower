@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { event } from '../../../utils/tracking'
 import colors from '../../../styles/colors'
 import { NotificationContext } from '../../../contexts/NotificationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -130,12 +131,17 @@ const handleImgNotFound = e => {
   e.target.src = fallbackImage
 }
 
-const PlayerCardFront = ({ player, isFlipped, handleCardFlip }) => {
+const PlayerCardFront = ({ player, handleCardFlip }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
 
   const handleFollow = async () => {
+    event(
+      'PLAYER_CARD',
+      'Follow Player',
+      `${player.firstName} ${player.lastName}`
+    )
     try {
       const followedPlayer = await followPlayer({
         variables: { id: player.id, followType: 'FOLLOW' },
@@ -152,6 +158,11 @@ const PlayerCardFront = ({ player, isFlipped, handleCardFlip }) => {
   }
 
   const handleUnfollow = async () => {
+    event(
+      'PLAYER_CARD',
+      'Unfollow Player',
+      `${player.firstName} ${player.lastName}`
+    )
     try {
       const id = await unfollowPlayer({
         variables: { id: player.id, followType: 'UNFOLLOW' },

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import { event } from '../utils/tracking'
 import { NotificationContext } from '../contexts/NotificationContext'
 import { SEND_CONTACT_FORM } from '../graphql/mutations'
 import PageContainer from './elements/PageContainer'
@@ -18,6 +19,7 @@ import { contactSchema } from './user/validationSchemas'
 import Notification from './Notification'
 import Button from './elements/Button'
 import colors from '../styles/colors'
+import { fromPromise } from 'apollo-link'
 
 const ContactForm = ({ history }) => {
   const { notification, setNotification, handleException } = useContext(
@@ -38,6 +40,7 @@ const ContactForm = ({ history }) => {
         'Thanks for the feedback. I will get back to you as soon as possible.',
         'site'
       )
+      event('FORM', 'Contact Form Submit')
       history.push('/')
     } catch (exception) {
       handleException(exception, 'form')

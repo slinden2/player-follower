@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import { event } from '../../utils/tracking'
 import { forgotPasswordSchema } from './validationSchemas'
 import { FORGOT_PASSWORD } from '../../graphql/mutations'
 import { NotificationContext } from '../../contexts/NotificationContext'
@@ -17,6 +18,7 @@ import {
 } from '../../styles/forms'
 import FormError from './FormError'
 import { ModalContext } from '../../contexts/ModalContext'
+import { fromPromise } from 'apollo-link'
 
 const ForgotPassword = ({ history, onModal }) => {
   const { closeModal, navigateTo } = useContext(ModalContext)
@@ -40,6 +42,7 @@ const ForgotPassword = ({ history, onModal }) => {
         `The password reset link has been set to ${newEmail.data.forgotPassword.email}. Please click the link to change your password.`,
         'site'
       )
+      event('FORM', 'Forgot Password Form Submit')
       history.push('/')
       if (onModal) closeModal()
     } catch (exception) {
