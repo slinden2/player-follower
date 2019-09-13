@@ -20,10 +20,12 @@ const generateCumulativeStats = require('../utils/generate-cumulative-stats')
 const getSortField = require('../utils/get-sort-field')
 const convertSecsToMin = require('../utils/convert-secs-to-min')
 const positions = require('../utils/position-codes')
+const { validatePassword } = require('../utils/password-requirements')
 const {
   sendVerificationEmail,
   sendForgotPasswordEmail,
-} = require('../utils/email-sender')
+  sendContactFormEmail,
+} = require('../utils/mailgun-email-sender')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -310,9 +312,7 @@ const resolvers = {
         throw new UserInputError('username or email is taken')
       }
 
-      if (!password || password.length < 6) {
-        throw new UserInputError('invalid password')
-      }
+      validatePassword(password)
 
       if (!username || !email) {
         throw new UserInputError(
@@ -406,17 +406,16 @@ const resolvers = {
 
       const savedToken = await verificationToken.save()
       await sendForgotPasswordEmail(user.email, savedToken.token)
+      return user.toJSON()
     },
-    setNewPassword: async (root, args) => {
+    SetNewPassword: async (root, args) => {
       const decodedUser = jwt.verify(args.token, JWT_SECRET)
       const token = await Token.findOne({ userId: decodedUser.userId })
       if (!token) {
-        throw new AuthenticationError('invalid or expired token')
+        throw new AuthenticationError('The token is either invalid or expired.')
       }
 
-      if (!args.password || args.password.length < 6) {
-        throw new UserInputError('invalid password')
-      }
+      validatePassword(args.password)
 
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(args.password, saltRounds)
@@ -427,19 +426,33 @@ const resolvers = {
 
       return newUser
     },
-    changePassword: async (root, args, ctx) => {
-      if (args.password && ctx.currentUser) {
-        if (!args.password || args.password.length < 6) {
-          throw new UserInputError('invalid password')
-        }
-        const saltRounds = 10
-        const passwordHash = await bcrypt.hash(args.password, saltRounds)
-        const newUser = await User.findOneAndUpdate(
-          { _id: ctx.currentUser._id },
-          { passwordHash }
-        )
-        return newUser
+    ChangePassword: async (root, args, ctx) => {
+      const passwordCorrect = await bcrypt.compare(
+        args.oldPassword,
+        ctx.currentUser.passwordHash
+      )
+      if (!passwordCorrect) {
+        throw new UserInputError('Invalid old password.')
       }
+
+      validatePassword(args.newPassword)
+
+      const saltRounds = 10
+      const passwordHash = await bcrypt.hash(args.newPassword, saltRounds)
+      const newUser = await User.findOneAndUpdate(
+        { _id: ctx.currentUser._id },
+        { passwordHash }
+      )
+      return newUser.toJSON()
+    },
+    SendContactForm: async (root, args, ctx) => {
+      const { currentUser } = ctx
+      const { name, email, subject, message } = args
+      const username = currentUser && currentUser.username
+
+      await sendContactFormEmail(name, email, subject, message, username)
+
+      return true
     },
     followPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx

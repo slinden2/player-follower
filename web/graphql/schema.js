@@ -386,9 +386,15 @@ const typeDefs = gql`
     cancelUser(token: String!): User!
     login(username: String!, password: String!): Token!
     forgotPassword(email: String!): User!
-    setNewPassword(token: String!, password: String!): User!
-    changePassword(password: String!): User!
+    SetNewPassword(token: String!, password: String!): User!
+    ChangePassword(oldPassword: String!, newPassword: String!): User!
     followPlayer(id: String!, followType: FollowType!): Player!
+    SendContactForm(
+      name: String!
+      email: String!
+      subject: String!
+      message: String!
+    ): Boolean!
   }
 `
 

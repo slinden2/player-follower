@@ -224,6 +224,16 @@ const addTeamsToBoxscores = async () => {
   }
 }
 
+const addNationalities = async () => {
+  const players = await Player.find({})
+  for (const player of players) {
+    if (!player.nationality) {
+      player.nationality = player.birthCountry
+      await player.save()
+    }
+  }
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -242,3 +252,4 @@ const addTeamsToBoxscores = async () => {
 // generateTeamLinks().then(() => mongoose.connection.close())
 // deleteAllStarGames().then(() => mongoose.connection.close())
 // addTeamsToBoxscores().then(() => mongoose.connection.close())
+// addNationalities().then(() => mongoose.connection.close())
