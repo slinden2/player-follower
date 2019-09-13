@@ -19,7 +19,6 @@ import { contactSchema } from './user/validationSchemas'
 import Notification from './Notification'
 import Button from './elements/Button'
 import colors from '../styles/colors'
-import { fromPromise } from 'apollo-link'
 
 const ContactForm = ({ history }) => {
   const { notification, setNotification, handleException } = useContext(

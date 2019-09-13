@@ -18,7 +18,6 @@ import {
 } from '../../styles/forms'
 import FormError from './FormError'
 import { ModalContext } from '../../contexts/ModalContext'
-import { fromPromise } from 'apollo-link'
 
 const ForgotPassword = ({ history, onModal }) => {
   const { closeModal, navigateTo } = useContext(ModalContext)

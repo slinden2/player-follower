@@ -9,7 +9,6 @@ import FormError from './FormError'
 import Notification from '../Notification'
 import { NotificationContext } from '../../contexts/NotificationContext'
 import Button from '../elements/Button'
-import { fromPromise } from 'apollo-link'
 
 const ChangePasswordForm = ({ setShowForm }) => {
   const { notification, setNotification, handleException } = useContext(
