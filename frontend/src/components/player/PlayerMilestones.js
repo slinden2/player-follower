@@ -6,6 +6,7 @@ import Button from '../elements/Button'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
 import Loader from '../elements/Loader'
+import PlayerVideo from './PlayerVideo'
 
 const textPropOnDesktop = css`
   @media ${breakpoints.showDesktopNavi} {
@@ -49,15 +50,6 @@ const MilestoneDate = styled.div`
   ${textPropOnDesktop}
 `
 
-const VideoContainer = styled.div``
-
-const Video = styled.video`
-  height: 100%;
-  max-width: 100%;
-  display: block;
-  margin: 5px auto;
-`
-
 const MilestoneDescription = styled.div`
   font-size: 0.875rem;
   max-width: 640px;
@@ -71,6 +63,7 @@ const getDate = (gamePk, boxscores) => {
 
 const PlayerMilestones = ({
   playerId,
+  fullName,
   gamePks,
   selectedGamePk,
   setSelectedGamePk,
@@ -95,15 +88,13 @@ const PlayerMilestones = ({
             {getDate(milestone.gamePk, boxscores)}{' '}
             {milestone.blurb.split(':')[0]}
           </MilestoneDate>
-          <VideoContainer>
-            <Video
-              width={milestone.playback.width}
-              height={milestone.playback.height}
-              controls
-            >
-              <source src={milestone.playback.url} />
-            </Video>
-          </VideoContainer>
+          <PlayerVideo
+            fullName={fullName} // tracking purposes
+            date={getDate(milestone.gamePk, boxscores)} // tracking purposes
+            width={milestone.playback.width}
+            height={milestone.playback.height}
+            url={milestone.playback.url}
+          />
           <MilestoneDescription>{milestone.description}</MilestoneDescription>
         </MilestoneContainer>
       ))

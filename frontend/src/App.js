@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Router, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
+import { initGA, pageView } from './utils/tracking'
 import { NotificationContext } from './contexts/NotificationContext'
 import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
@@ -50,8 +51,10 @@ const ContentBox = styled.div`
   min-height: 90vh;
 `
 
+initGA()
 const browserHistory = createBrowserHistory()
 browserHistory.listen((location, action) => {
+  pageView(location)
   if (action === 'PUSH') {
     window.scrollTo(0, 0)
   }
@@ -62,6 +65,12 @@ const App = () => {
   const { token } = useContext(AuthContext)
   const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
   const { searchValue } = useContext(SearchContext)
+
+  useEffect(() => {
+    // I do this like this, because this way after reload the page
+    // is not always homepage.
+    pageView(window.location)
+  }, [])
 
   return (
     <Container>

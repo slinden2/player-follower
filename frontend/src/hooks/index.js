@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useApolloClient } from 'react-apollo-hooks'
 import _ from 'lodash'
+import { event } from '../utils/tracking'
 
 const useField = (name, type) => {
   const [value, setValue] = useState('')
@@ -46,9 +47,9 @@ const useSearch = defaultQuery => {
 
   async function handleSearchChange(value, query) {
     const queryName = query.definitions[0].selectionSet.selections[0].name.value
-
     if (value) {
       setIsLoading(true)
+      event('SEARCH', `Search ${queryName}`, value)
       const response = await client.query({
         query,
         variables: {

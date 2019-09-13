@@ -13,6 +13,7 @@
     "react-apollo": "^3.0.0-beta.2",
     "react-apollo-hooks": "^0.4.5",
     "react-dom": "^16.8.6",
+    "react-ga": "^2.6.0",
     "react-media": "^1.9.2",
     "react-remove-scroll": "^2.0.4",
     "react-router-dom": "^5.0.1",

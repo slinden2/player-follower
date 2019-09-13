@@ -57,7 +57,7 @@ const StatItem = styled.div`
   }
 `
 
-const PlayerCardBack = ({ player, isFlipped, setIsFlipped }) => {
+const PlayerCardBack = ({ player, isFlipped, handleCardFlip }) => {
   return (
     <Container>
       <NameBar>
@@ -139,7 +139,7 @@ const PlayerCardBack = ({ player, isFlipped, setIsFlipped }) => {
           </p>
         </StatItem>
       </StatRow>
-      <FlipDiv onClick={() => setIsFlipped(!isFlipped)} />
+      <FlipDiv onClick={handleCardFlip} />
     </Container>
   )
 }

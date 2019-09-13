@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { event } from '../../../utils/tracking'
 import colors from '../../../styles/colors'
 import PlayerCardFront from './PlayerCardFront'
 import PlayerCardBack from './PlayerCardBack'
@@ -36,18 +37,27 @@ const SPlayerCard = styled.div`
 const PlayerCard = ({ player }) => {
   const [isFlipped, setIsFlipped] = useState(false)
 
+  const handleCardFlip = () => {
+    setIsFlipped(!isFlipped)
+    event(
+      'PLAYER_CARD',
+      'Card Flipped',
+      `${player.firstName} ${player.lastName}`
+    )
+  }
+
   return (
     <Scene>
       <SPlayerCard isFlipped={isFlipped}>
         <PlayerCardFront
           player={player}
           isFlipped={isFlipped}
-          setIsFlipped={setIsFlipped}
+          handleCardFlip={handleCardFlip}
         />
         <PlayerCardBack
           player={player}
           isFlipped={isFlipped}
-          setIsFlipped={setIsFlipped}
+          handleCardFlip={handleCardFlip}
         />
       </SPlayerCard>
     </Scene>

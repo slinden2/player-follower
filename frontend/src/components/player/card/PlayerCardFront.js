@@ -130,7 +130,7 @@ const handleImgNotFound = e => {
   e.target.src = fallbackImage
 }
 
-const PlayerCardFront = ({ player, isFlipped, setIsFlipped }) => {
+const PlayerCardFront = ({ player, isFlipped, handleCardFlip }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
@@ -244,7 +244,7 @@ const PlayerCardFront = ({ player, isFlipped, setIsFlipped }) => {
           )}
         </>
       )}
-      <FlipDiv onClick={() => setIsFlipped(!isFlipped)} />
+      <FlipDiv onClick={handleCardFlip} />
     </SPlayerCardFrontContainer>
   )
 }

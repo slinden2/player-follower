@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { event } from '../../utils/tracking'
 import NavContainer from './NavContainer'
 import HamburgerToggle from './HamburgerToggle'
 import Img from '../../assets/logo.png'
@@ -45,10 +46,14 @@ const LogoContainer = styled.div`
 `
 
 const Navigation = () => {
+  const handleLogoClick = () => {
+    event('NAVIGATION', 'Logo clicked', 'No link')
+  }
+
   return (
     <Container>
       <LogoContainer>
-        <Logo src={Img} />
+        <Logo onClick={handleLogoClick} src={Img} />
       </LogoContainer>
       <HamburgerToggle />
       <NavContainer />

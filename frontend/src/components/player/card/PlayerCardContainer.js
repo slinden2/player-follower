@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { event } from '../../../utils/tracking'
 import PageContainer from '../../elements/PageContainer'
 import PlayerCard from './PlayerCard'
 import Loader from '../../elements/Loader'
@@ -46,6 +47,11 @@ const PlayerCardContainer = ({ query, header }) => {
     return <Loader offset />
   }
 
+  const handleViewChange = view => {
+    setCurrentView(view)
+    event('PLAYER_CARD', 'Card view changed', view)
+  }
+
   const { oneGame, fiveGames, tenGames } =
     query.data.bestPlayers || query.data.favoritePlayers
 
@@ -70,19 +76,19 @@ const PlayerCardContainer = ({ query, header }) => {
         <h2>{header}</h2>
         <div className="view-selector">
           <ViewSelectorItem
-            onClick={() => setCurrentView('Last game')}
+            onClick={() => handleViewChange('Last game')}
             selected={currentView === 'Last game'}
           >
             Last game
           </ViewSelectorItem>
           <ViewSelectorItem
-            onClick={() => setCurrentView('Five games')}
+            onClick={() => handleViewChange('Five games')}
             selected={currentView === 'Five games'}
           >
             5 games
           </ViewSelectorItem>
           <ViewSelectorItem
-            onClick={() => setCurrentView('Ten games')}
+            onClick={() => handleViewChange('Ten games')}
             selected={currentView === 'Ten games'}
           >
             10 games

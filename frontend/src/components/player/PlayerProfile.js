@@ -119,6 +119,7 @@ const PlayerProfile = ({ siteLink }) => {
         </Media>
         <PlayerMilestones
           playerId={player.playerId}
+          fullName={player.fullName}
           gamePks={gamePks.slice(0, 5)}
           selectedGamePk={selectedGamePk}
           setSelectedGamePk={setSelectedGamePk}
