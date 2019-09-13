@@ -29,6 +29,7 @@ import TeamProfile from './components/team/TeamProfile'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Modal from './components/elements/Modal'
 import TermsAndConditions from './components/TermsAndConditions'
+import CookiePolicy from './components/CookiePolicy'
 
 const Container = styled.div`
   margin: 0;
@@ -167,6 +168,7 @@ const App = () => {
           </ContentBox>
         </PageWrapper>
         <Footer />
+        <CookiePolicy />
       </Router>
     </Container>
   )

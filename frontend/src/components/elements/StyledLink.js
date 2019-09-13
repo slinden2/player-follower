@@ -22,13 +22,15 @@ const Span = styled.span`
   cursor: pointer;
 `
 
-const StyledLink = ({ to, name, onClick }) => {
+const StyledLink = ({ to, name, onClick, style }) => {
   return to ? (
-    <SLink to={to} name={name}>
+    <SLink to={to} name={name} style={style}>
       {name}
     </SLink>
   ) : (
-    <Span onClick={onClick}>{name}</Span>
+    <Span onClick={onClick} style={style}>
+      {name}
+    </Span>
   )
 }
 
