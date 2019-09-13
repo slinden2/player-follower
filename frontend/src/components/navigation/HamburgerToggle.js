@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { HamburgerContext } from '../../contexts/HamburgerContext'
 import breakpoints from '../../styles/breakpoints'
 import colors from '../../styles/colors'
 
@@ -56,12 +57,20 @@ const ToggleLabel = styled.label`
 `
 
 const HamburgerToggle = () => {
+  const { checked, handleToggle } = useContext(HamburgerContext)
+
   return (
     <>
       <ToggleLabel htmlFor="toggle-checkbox">
         <span />
       </ToggleLabel>
-      <ToggleCheckbox type="checkbox" id="toggle-checkbox" />
+      <ToggleCheckbox
+        type="checkbox"
+        name="toggle-checkbox"
+        id="toggle-checkbox"
+        onChange={handleToggle}
+        checked={checked}
+      />
     </>
   )
 }

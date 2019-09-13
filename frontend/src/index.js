@@ -13,6 +13,7 @@ import AuthContextProvider from './contexts/AuthContext'
 import PlayerContextProvider from './contexts/PlayerContext'
 import SearchContextProvider from './contexts/SearchContext'
 import ModalContextProvider from './contexts/ModalContext'
+import HamburgerContextProvider from './contexts/HamburgerContext'
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -51,14 +52,16 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <NotificationContextProvider>
       <ModalContextProvider>
-        <PlayerContextProvider>
-          <AuthContextProvider>
-            <SearchContextProvider>
-              <GlobalStyle />
-              <App />
-            </SearchContextProvider>
-          </AuthContextProvider>
-        </PlayerContextProvider>
+        <HamburgerContextProvider>
+          <PlayerContextProvider>
+            <AuthContextProvider>
+              <SearchContextProvider>
+                <GlobalStyle />
+                <App />
+              </SearchContextProvider>
+            </AuthContextProvider>
+          </PlayerContextProvider>
+        </HamburgerContextProvider>
       </ModalContextProvider>
     </NotificationContextProvider>
   </ApolloProvider>,

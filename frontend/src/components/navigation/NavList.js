@@ -1,11 +1,33 @@
 import React, { useContext } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import NavListItem from './NavListItem'
 import breakpoints from '../../styles/breakpoints'
 import { AuthContext } from '../../contexts/AuthContext'
 import { ModalContext } from '../../contexts/ModalContext'
+import colors from '../../styles/colors'
+import { HamburgerContext } from '../../contexts/HamburgerContext'
 
 const Container = styled.nav`
+
+  ${({ right }) =>
+    right &&
+    css`
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 1.875rem;
+        left: 0;
+        top: -10px;
+        height: 5px;
+        width: 95%;
+        border-radius: 2px;
+        background-color: ${colors.grey2};
+      }
+    `}
+  
+
   @media ${breakpoints.showDesktopNavi} {
     all: unset;
     display: flex;
@@ -13,6 +35,10 @@ const Container = styled.nav`
     height: 100%;
     box-sizing: border-box;
     ${props => props.right && 'margin-left: auto'}
+
+    &::before {
+      all: unset;
+    }
   }
 `
 
@@ -31,10 +57,14 @@ const StyledNavList = styled.ul`
 const NavList = ({ items, right }) => {
   const { token, logoutUser, user } = useContext(AuthContext)
   const { openModal } = useContext(ModalContext)
+  const { closeNavi } = useContext(HamburgerContext)
 
   const functionMap = {
     handleLogout: {
-      onClick: logoutUser,
+      onClick: () => {
+        logoutUser()
+        closeNavi()
+      },
     },
     handleOpenModal: {
       onClick: type => openModal(type),
@@ -56,6 +86,8 @@ const NavList = ({ items, right }) => {
           <NavListItem
             key={i}
             {...item}
+            // This must be before function map otherwise it overrides that.
+            onClick={closeNavi}
             {...functionMap[item.bindTo]}
             username={username}
           />

@@ -26,17 +26,6 @@ const StyledNavListItem = styled.li`
   display: ${props => (!props.hideOnMobile ? 'block' : 'none')};
   cursor: pointer;
 
-  &::before {
-    content: '';
-    position: ${props => (props.divider === 'true' ? 'absolute' : '')};
-    bottom: 1.875rem;
-    left: 0;
-    height: 5px;
-    width: 95%;
-    border-radius: 2px;
-    background-color: ${colors.grey2};
-  }
-
   @media ${breakpoints.showDesktopNavi} {
     opacity: 1;
     margin: 0;

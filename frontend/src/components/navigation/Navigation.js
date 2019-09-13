@@ -27,7 +27,7 @@ const Container = styled.header`
   }
 `
 
-const Logo2 = styled.img``
+const Logo = styled.img``
 
 const LogoContainer = styled.div`
   flex: none;
@@ -48,7 +48,7 @@ const Navigation = () => {
   return (
     <Container>
       <LogoContainer>
-        <Logo2 src={Img} />
+        <Logo src={Img} />
       </LogoContainer>
       <HamburgerToggle />
       <NavContainer />
