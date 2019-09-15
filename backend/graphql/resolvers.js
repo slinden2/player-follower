@@ -140,9 +140,9 @@ const resolvers = {
         .limit(1)
 
       return {
-        oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 15),
-        fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 15),
-        tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 15),
+        oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 50),
+        fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 50),
+        tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 50),
       }
     },
     favoritePlayers: async (root, args, ctx) => {

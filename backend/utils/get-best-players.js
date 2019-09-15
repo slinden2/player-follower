@@ -42,12 +42,10 @@ const getBestPlayers = (players, numOfGames) => {
 
   const sortedPlayers = sortByPerformance(newPlayers)
 
-  return sortedPlayers
-    .map(player => ({
-      ...player,
-      numOfGamesId: numOfGames,
-    }))
-    .slice(0, 15)
+  return sortedPlayers.map(player => ({
+    ...player,
+    numOfGamesId: numOfGames,
+  }))
 }
 
 module.exports =
