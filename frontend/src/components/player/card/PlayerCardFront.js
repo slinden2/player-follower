@@ -125,13 +125,20 @@ const SPlayerStatsContainer = styled.div`
   }
 `
 
+const OrderNumber = styled.div`
+  position: absolute;
+  font-size: 0.75rem;
+  top: 0;
+  right: 10px;
+`
+
 const idInArray = (array, id) => array.some(pid => pid === id)
 
 const handleImgNotFound = e => {
   e.target.src = fallbackImage
 }
 
-const PlayerCardFront = ({ player, handleCardFlip }) => {
+const PlayerCardFront = ({ player, handleCardFlip, i }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
@@ -189,6 +196,7 @@ const PlayerCardFront = ({ player, handleCardFlip }) => {
         onError={handleImgNotFound}
       />
       <ImgOverlay />
+      <OrderNumber>{i}</OrderNumber>
       <SPlayerName reduceFont={longName}>
         <p className="team-name">
           <Link to={`/teams/${player.currentTeam.siteLink}`}>

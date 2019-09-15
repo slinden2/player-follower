@@ -34,7 +34,7 @@ const SPlayerCard = styled.div`
   }
 `
 
-const PlayerCard = ({ player }) => {
+const PlayerCard = ({ player, i }) => {
   const [isFlipped, setIsFlipped] = useState(false)
 
   const handleCardFlip = () => {
@@ -53,6 +53,7 @@ const PlayerCard = ({ player }) => {
           player={player}
           isFlipped={isFlipped}
           handleCardFlip={handleCardFlip}
+          i={i}
         />
         <PlayerCardBack
           player={player}

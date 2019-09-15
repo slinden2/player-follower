@@ -59,7 +59,7 @@
 - [ ] A view to show top performes. For example, most goals / points this month, this season etc.
 - [ ] Problem with stat pagination. Duplicate players on load more.
 - [ ] Blocked shots needed in cumulative stats
-- [ ] More data to player bio table
+- [x] More data to player bio table
 - [ ] Most recent goals on the team page
 
 - [ ] Load more links on main page. 50 results minimum.

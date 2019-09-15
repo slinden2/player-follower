@@ -3,7 +3,6 @@ import { Router, Route, Switch } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { initGA, pageView } from './utils/tracking'
 import { NotificationContext } from './contexts/NotificationContext'
-import { AuthContext } from './contexts/AuthContext'
 import { PlayerContext } from './contexts/PlayerContext'
 import ProtectedRoute from './components/route/ProtectedRoute'
 import NoTokenRoute from './components/route/NoTokenRoute'
@@ -66,7 +65,6 @@ browserHistory.listen((location, action) => {
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
-  const { token } = useContext(AuthContext)
   const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
   const { searchValue } = useContext(SearchContext)
   const [cookieConsent, setCookieConsent] = useState(getCookie('funcConsent'))

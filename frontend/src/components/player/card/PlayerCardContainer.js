@@ -58,8 +58,8 @@ const PlayerCardContainer = ({ query, header }) => {
   const createRow = playerResults => {
     if (!playerResults.length) return <div>No results</div>
 
-    return playerResults.map(player => (
-      <PlayerCard key={player.playerId} player={player} />
+    return playerResults.map((player, i) => (
+      <PlayerCard key={player.playerId} player={player} i={i + 1} />
     ))
   }
 
