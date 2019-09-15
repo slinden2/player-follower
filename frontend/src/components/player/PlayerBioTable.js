@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Media from 'react-media'
 import _ from 'lodash'
@@ -31,6 +32,12 @@ const TableCellTitle = styled(TableCell)`
   background-color: ${colors.blue1};
   border-width: 0px;
   border-radius: 10px 10px 0 0;
+`
+
+const SLink = styled(Link)`
+  &:hover {
+    font-weight: bolder;
+  }
 `
 
 const bioDataKeysNarrow = [
@@ -81,9 +88,22 @@ const playerWithUnits = player => {
 
 const PlayerBioTable = ({ player }) => {
   const newPlayer = playerWithUnits(player)
-  console.log(newPlayer)
 
   const hasProperty = item => newPlayer[item.id] !== null
+
+  const renderValue = key => {
+    // render normal value to the table if not link and link if link
+    // team name is a link
+    if (_.has(playerBioData[key], 'link')) {
+      return (
+        <SLink to={`/teams/${_.get(newPlayer, playerBioData[key].link)}`}>
+          {_.get(newPlayer, playerBioData[key].id)}
+        </SLink>
+      )
+    } else {
+      return _.get(newPlayer, playerBioData[key].id)
+    }
+  }
 
   const createBioTable = data => (
     <BioTable>
@@ -100,9 +120,7 @@ const PlayerBioTable = ({ player }) => {
                     <TableCellHeading>
                       {playerBioData[key].title}
                     </TableCellHeading>
-                    <TableCell>
-                      {_.get(newPlayer, playerBioData[key].id)}
-                    </TableCell>
+                    <TableCell>{renderValue(key)}</TableCell>
                   </Fragment>
                 )
             )}

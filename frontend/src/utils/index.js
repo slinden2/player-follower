@@ -63,6 +63,7 @@ const playerBioData = {
   },
   team: {
     id: 'currentTeam.name',
+    link: 'currentTeam.siteLink',
     title: 'Team',
   },
   captain: {

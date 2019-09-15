@@ -88,6 +88,7 @@ const PLAYER_PROFILE = gql`
         name
         abbreviation
         locationName
+        siteLink
       }
       primaryPosition {
         code

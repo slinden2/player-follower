@@ -57,7 +57,7 @@ const resolvers = {
         {
           path: 'currentTeam',
           model: 'Team',
-          select: 'name abbreviation locationName',
+          select: 'name abbreviation locationName siteLink',
         },
       ])
 
