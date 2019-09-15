@@ -29,6 +29,10 @@
 - [x] Team view with roster table
 - [x] Placerholder images
 - [x] Search needs valid links for teams
+- [x] Finish all the forms
+- [x] Email formatting for account confirmation & forgot password
+- [x] Check out mandril and mailgun
+- [x] 404 page
 
 * [x] Component for stats tables
 * [x] Standings
@@ -61,17 +65,12 @@
 - [ ] Load more links on main page. 50 results minimum.
 - [ ] Filtering by team and position in player cards.
 
-- [ ] Finish all the forms
-- [ ] Email formatting for account confirmation & forgot password
-- [ ] Check out mandril and mailgun
-- [ ] 404 page
-
-- [ ] Tests for backend
+* [ ] Tests for backend
   - [x] Unit tests for get best players etc
   - [x] Unit tests for GraphQL schema
   - [ ] Integration tests
-- [ ] Tests for frontend
-- [ ] OAuth
+* [ ] Tests for frontend
+* [ ] OAuth
 
 ## Notes
 

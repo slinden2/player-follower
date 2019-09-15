@@ -62,8 +62,6 @@ const ModalNoRouter = ({ history }) => {
     e.stopPropagation()
   }
 
-  console.log(type)
-
   return (
     <RemoveScroll enabled={open} removeScrollBar={false}>
       <ScreenOverlay open={open} onClick={closeModal}>

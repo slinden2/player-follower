@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
+import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { TEAM_PROFILE } from '../../graphql/queries'
 import PageContainer from '../elements/PageContainer'
@@ -19,6 +20,10 @@ const TeamProfile = ({ siteLink }) => {
 
   if (loading) {
     return <Loader offset />
+  }
+
+  if (!data.GetTeam) {
+    return <Redirect to="/404" />
   }
 
   const sortPlayers = players => {

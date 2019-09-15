@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import Media from 'react-media'
 import { useQuery } from 'react-apollo-hooks'
@@ -78,6 +79,11 @@ const PlayerProfile = ({ siteLink }) => {
   }
 
   const player = data.findPlayer
+
+  if (!player) {
+    return <Redirect to="/404" />
+  }
+
   player.boxscores = sortBoxscoresByDate(player.boxscores)
   player.boxscores = player.boxscores.map(boxscore => ({
     ...boxscore,
