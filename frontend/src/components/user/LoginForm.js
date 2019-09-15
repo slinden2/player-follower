@@ -20,6 +20,7 @@ import {
 } from '../../styles/forms'
 import FormError from './FormError'
 import { ModalContext } from '../../contexts/ModalContext'
+import { getCookie } from '../../utils'
 
 const LoginForm = ({ history, onModal }) => {
   const { closeModal, navigateTo } = useContext(ModalContext)
@@ -35,17 +36,21 @@ const LoginForm = ({ history, onModal }) => {
     { resetForm, setSubmitting }
   ) => {
     try {
+      if (!getCookie('funcConsent')) {
+        throw new Error('You must accept cookies prior to login.')
+      }
+
       const token = await login({
         variables: {
           username,
           password,
         },
       })
-      setNotification('positive', `${username} successfully logged in.`, 'site')
+      event('FORM', 'Login Form Submit')
       // If user has set rememberMe the cookie expires in one year.
       // If not, it will be a normal session cookie.
       loginUser(token.data.login.value, rememberMe ? 365 : 0)
-      event('FORM', 'Login Form Submit')
+      setNotification('positive', `${username} successfully logged in.`, 'site')
       if (onModal) closeModal()
       history.push('/')
     } catch (exception) {
