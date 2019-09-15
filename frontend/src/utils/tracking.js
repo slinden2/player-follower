@@ -14,6 +14,15 @@ export const pageView = history => {
   ReactGA.pageview(history.pathname + history.search)
 }
 
+export const modalView = name => {
+  let newName
+  if (name === 'log in') newName = '/login'
+  if (name === 'sign up') newName = '/signup'
+  if (name === 'forgot password') newName = '/forgot-password'
+  ReactGA.set({ page: newName })
+  ReactGA.modalview(newName)
+}
+
 export const event = (category, action, label) => {
   ReactGA.event({
     category,

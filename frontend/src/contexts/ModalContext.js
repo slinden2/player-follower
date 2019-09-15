@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { event } from '../utils/tracking'
+import { modalView, event } from '../utils/tracking'
 
 export const ModalContext = createContext()
 
@@ -11,6 +11,7 @@ const ModalContextProvider = props => {
     setOpen(true)
     setType(type)
     event('USER_ACTION', 'Open modal', type)
+    modalView(type)
   }
 
   const closeModal = () => {
@@ -21,6 +22,7 @@ const ModalContextProvider = props => {
   const navigateTo = name => {
     setType(name)
     event('USER_ACTION', 'Navigate between modals', `${type} => ${name}`)
+    modalView(name)
   }
 
   return (
