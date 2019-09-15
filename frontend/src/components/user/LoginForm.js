@@ -16,6 +16,7 @@ import {
   Label,
   TextRow,
   Input,
+  Checkbox,
 } from '../../styles/forms'
 import FormError from './FormError'
 import { ModalContext } from '../../contexts/ModalContext'
@@ -30,7 +31,7 @@ const LoginForm = ({ history, onModal }) => {
   const login = useMutation(LOGIN)
 
   const handleLogin = async (
-    { username, password },
+    { username, password, rememberMe },
     { resetForm, setSubmitting }
   ) => {
     try {
@@ -41,7 +42,9 @@ const LoginForm = ({ history, onModal }) => {
         },
       })
       setNotification('positive', `${username} successfully logged in.`, 'site')
-      loginUser(token.data.login.value)
+      // If user has set rememberMe the cookie expires in one year.
+      // If not, it will be a normal session cookie.
+      loginUser(token.data.login.value, rememberMe ? 365 : 0)
       event('FORM', 'Login Form Submit')
       if (onModal) closeModal()
       history.push('/')
@@ -55,7 +58,7 @@ const LoginForm = ({ history, onModal }) => {
   return (
     <Container>
       <Formik
-        initialValues={{ username: '', password: '' }}
+        initialValues={{ username: '', password: '', rememberMe: true }}
         validationSchema={loginSchema}
         onSubmit={handleLogin}
       >
@@ -122,6 +125,17 @@ const LoginForm = ({ history, onModal }) => {
                   </Link>
                 )}
               </TextRow>
+
+              <Label htmlFor="rememberMe">
+                Keep me logged in
+                <Checkbox
+                  type="checkbox"
+                  name="rememberMe"
+                  checked={values.rememberMe}
+                  style={{ marginLeft: '10px' }}
+                />
+              </Label>
+
               <br />
               <Notification position="form" notification={notification} />
               <br />

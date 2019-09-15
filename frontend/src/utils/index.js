@@ -13,8 +13,15 @@ const removeCookie = name => {
   document.cookie = `${name}= ; expires = Thu, 01 Jan 1970 00:00:00 GMT`
 }
 
-const setCookie = (name, value) => {
-  document.cookie = `${name}=${value}`
+const setCookie = (name, value, expires) => {
+  if (!expires) {
+    document.cookie = `${name}=${value}`
+  } else {
+    const now = new Date()
+    now.setDate(now.getDate() + expires)
+    const newTime = now.toUTCString()
+    document.cookie = `${name}=${value}; expires=${newTime}`
+  }
 }
 
 // const imgUrl = playerId => `http://3.cdn.nhle.com/photos/mugs/${playerId}.jpg`

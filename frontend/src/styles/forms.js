@@ -71,3 +71,7 @@ export const TextArea = styled(Field)`
     box-shadow: 0 0 5px ${colors.white1};
   }
 `
+
+export const Checkbox = styled(Field)`
+  vertical-align: middle;
+`

@@ -20,11 +20,13 @@ const AuthContextProvider = props => {
   }, [])
 
   // login user and query favorite players
-  const loginUser = async token => {
-    setToken(token)
-    setCookie('user', token)
-    user.refetch()
-    favoritePlayers.refetch()
+  const loginUser = async (token, rememberMe) => {
+    if (getCookie('funcConsent')) {
+      setCookie('user', token, rememberMe)
+      setToken(token)
+      user.refetch()
+      favoritePlayers.refetch()
+    }
   }
 
   const logoutUser = () => {
