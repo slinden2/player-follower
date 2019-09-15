@@ -31,6 +31,7 @@ const Button = ({
   fontCase,
   disabled,
   style,
+  className
 }) => {
   const padding = size === 'big' ? '1em' : size === 'medium' ? '0.875em' : '5px'
   const textTransform = fontCase ? fontCase : 'none'
@@ -46,6 +47,7 @@ const Button = ({
       textTransform={textTransform}
       disabled={disabled}
       style={style}
+      className={className}
     >
       {content}
     </Btn>

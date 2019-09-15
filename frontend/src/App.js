@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Router, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { initGA, pageView } from './utils/tracking'
@@ -30,6 +30,7 @@ import PrivacyPolicy from './components/PrivacyPolicy'
 import Modal from './components/elements/Modal'
 import TermsAndConditions from './components/TermsAndConditions'
 import CookiePolicy from './components/CookiePolicy'
+import { getCookie } from './utils'
 
 const Container = styled.div`
   margin: 0;
@@ -52,7 +53,6 @@ const ContentBox = styled.div`
   min-height: 90vh;
 `
 
-initGA()
 const browserHistory = createBrowserHistory()
 browserHistory.listen((location, action) => {
   pageView(location)
@@ -66,12 +66,15 @@ const App = () => {
   const { token } = useContext(AuthContext)
   const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
   const { searchValue } = useContext(SearchContext)
+  const [cookieConsent, setCookieConsent] = useState(getCookie('funcConsent'))
 
   useEffect(() => {
     // I do this like this, because this way after reload the page
     // is not always homepage.
     pageView(window.location)
   }, [])
+
+  if (cookieConsent) initGA()
 
   return (
     <Container>
@@ -168,7 +171,7 @@ const App = () => {
           </ContentBox>
         </PageWrapper>
         <Footer />
-        <CookiePolicy />
+        <CookiePolicy setCookieConsent={setCookieConsent} />
       </Router>
     </Container>
   )

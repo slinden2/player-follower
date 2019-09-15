@@ -1,8 +1,11 @@
 import ReactGA from 'react-ga'
+import { getCookie } from '../utils/index'
 
 export const initGA = () => {
   // if (process.env.NODE_ENV === 'production') {
-  ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_NO)
+  if (getCookie('gaConsent')) {
+    ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_NO)
+  }
   // }
 }
 

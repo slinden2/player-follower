@@ -4,15 +4,15 @@ import Link from './elements/StyledLink'
 import Button from './elements/Button'
 import colors from '../styles/colors'
 import breakpoints from '../styles/breakpoints'
+import { setCookie, getCookie } from '../utils/index'
 
 const Container = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  /* width: calc(100vw - (100vw - 100%)); */
   width: 100%;
   background-color: ${colors.grey1};
-  padding: 10px;
+  padding: 10px 20px 10px 20px;
   border-top: 3px solid ${colors.grey2};
   display: flex;
   flex-flow: row wrap;
@@ -35,7 +35,19 @@ const Text = styled.p`
   }
 `
 
-const CookiePolicy = () => {
+const ConsentButton = styled(Button)`
+  margin-left: auto;
+`
+
+const CookiePolicy = ({ setCookieConsent }) => {
+  if (getCookie('funcConsent')) return null
+
+  const setCookies = () => {
+    setCookie('funcConsent', true, 365)
+    setCookie('gaConsent', true, 365)
+    setCookieConsent(true)
+  }
+
   return (
     <Container>
       <Text>
@@ -43,13 +55,9 @@ const CookiePolicy = () => {
         website.{' '}
       </Text>
       <LinkContainer>
-        <Link
-          to="/privacy-policy"
-          name="Learn more"
-          onClick={() => console.log('click')}
-        />
+        <Link to="/privacy-policy" name="Learn more" />
       </LinkContainer>
-      <Button content="Got it!" size="medium" style={{ marginLeft: 'auto' }} />
+      <ConsentButton content="Got it!" size="medium" onClick={setCookies} />
     </Container>
   )
 }
