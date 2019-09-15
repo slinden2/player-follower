@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { STANDINGS } from '../../graphql/queries'
-import StandingsTypeDropdown from './StandingsTypeDropdown'
 import _ from 'lodash'
 import StatsTable from '../stats/StatsTable'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
+import DropdownMenu from '../elements/DropdownMenu'
 
 const headers = [
   'teamName',
@@ -28,6 +28,24 @@ const headers = [
   'shotsForPerGame',
   'shotsAgainstPerGame',
   'faceOffWinPct',
+]
+
+const standingsTypes = [
+  {
+    key: 'LEAGUE',
+    text: 'League',
+    value: 'LEAGUE',
+  },
+  {
+    key: 'CONFERENCE',
+    text: 'Conference',
+    value: 'CONFERENCE',
+  },
+  {
+    key: 'DIVISION',
+    text: 'Division',
+    value: 'DIVISION',
+  },
 ]
 
 // group standings by conference or division
@@ -91,7 +109,7 @@ const Standings = () => {
 
   return (
     <PageContainer title="Standings">
-      <StandingsTypeDropdown setStandingsType={setStandingsType} />
+      <DropdownMenu items={standingsTypes} setState={setStandingsType} />
       {Object.keys(standings).map(conference => (
         <StatsTable
           key={conference}

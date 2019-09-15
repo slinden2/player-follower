@@ -75,3 +75,20 @@ export const TextArea = styled(Field)`
 export const Checkbox = styled(Field)`
   vertical-align: middle;
 `
+
+export const Dropdown = styled.select`
+  font-size: 0.75rem;
+  color: ${colors.white1};
+  background-color: ${colors.blue1};
+  padding: 5px;
+  margin: 5px 0;
+  border: 0;
+  border-radius: 10px;
+  text-shadow: 1px 1px ${colors.grey1};
+
+  &:hover {
+    font-weight: bolder;
+  }
+`
+
+export const DropdownItem = styled.option``
