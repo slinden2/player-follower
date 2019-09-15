@@ -65,6 +65,22 @@ const playerBioData = {
     id: 'currentTeam.name',
     title: 'Team',
   },
+  captain: {
+    id: 'captain',
+    title: 'Captain',
+  },
+  height: {
+    id: 'height',
+    title: 'Height',
+  },
+  weight: {
+    id: 'weight',
+    title: 'Weight',
+  },
+  primaryNumber: {
+    id: 'primaryNumber',
+    title: 'Jersey#',
+  },
 }
 
 const naviItems = {

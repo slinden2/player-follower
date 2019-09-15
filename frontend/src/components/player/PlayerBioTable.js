@@ -21,7 +21,8 @@ const TableCell = styled.td`
 `
 
 const TableCellHeading = styled(TableCell)`
-  background-color: ${colors.grey2};
+  background-color: ${colors.grey1};
+  font-weight: bolder;
 `
 
 const TableCellTitle = styled(TableCell)`
@@ -32,49 +33,65 @@ const TableCellTitle = styled(TableCell)`
   border-radius: 10px 10px 0 0;
 `
 
-const bioDataKeysMobile = [
-  'primaryPosition',
-  'team',
-  'nationality',
-  'birthDate',
-  'birthCity',
-  'birthState',
+const bioDataKeysNarrow = [
+  ['primaryPosition'],
+  ['team'],
+  ['primaryNumber'],
+  ['birthDate'],
+  ['birthCity'],
+  ['birthState'],
+  ['nationality'],
+  ['height'],
+  ['weight'],
 ]
 
-const bioDataKeysDesktop = [
-  ['primaryPosition', 'team', 'nationality'],
-  ['birthDate', 'birthCity', 'birthState'],
+const bioDataKeysMedium = [
+  ['primaryPosition', 'team'],
+  ['primaryNumber', 'birthDate'],
+  ['birthCity', 'birthState'],
+  ['nationality'],
+  ['height', 'weight'],
 ]
+
+const bioDataKeysWide = [
+  ['primaryPosition', 'team', 'primaryNumber'],
+  ['birthDate', 'birthCity', 'birthState'],
+  ['nationality', 'height', 'weight'],
+]
+
+const createHeight = heightCm => {
+  const floatFeet = (heightCm * 0.3937) / 12
+  const feet = Math.floor(floatFeet)
+  const inch = Math.round((floatFeet - feet) * 12)
+  return `${feet}'${inch}" / ${heightCm}cm`
+}
+
+const createWeight = weightKg => {
+  const weightLbs = Math.round(weightKg * 2.20462262)
+  return `${weightLbs}lbs / ${weightKg}kg`
+}
+const playerWithUnits = player => {
+  const newPlayer = {
+    ...player,
+    weight: createWeight(player.weight),
+    height: createHeight(player.height),
+  }
+  return newPlayer
+}
 
 const PlayerBioTable = ({ player }) => {
-  const hasProperty = item => player[item.id] !== null
+  const newPlayer = playerWithUnits(player)
+  console.log(newPlayer)
 
-  const createBioTableMobile = () => (
+  const hasProperty = item => newPlayer[item.id] !== null
+
+  const createBioTable = data => (
     <BioTable>
       <TableBody>
         <TableRow>
-          <TableCellTitle colSpan={2}>{player.fullName}</TableCellTitle>
+          <TableCellTitle colSpan={6}>{newPlayer.fullName}</TableCellTitle>
         </TableRow>
-        {bioDataKeysMobile.map(
-          key =>
-            hasProperty(playerBioData[key]) && (
-              <TableRow key={key}>
-                <TableCellHeading>{playerBioData[key].title}</TableCellHeading>
-                <TableCell>{_.get(player, playerBioData[key].id)}</TableCell>
-              </TableRow>
-            )
-        )}
-      </TableBody>
-    </BioTable>
-  )
-
-  const createBioTableDesktop = () => (
-    <BioTable>
-      <TableBody>
-        <TableRow>
-          <TableCellTitle colSpan={6}>{player.fullName}</TableCellTitle>
-        </TableRow>
-        {bioDataKeysDesktop.map((row, i) => (
+        {data.map((row, i) => (
           <TableRow key={i}>
             {row.map(
               key =>
@@ -84,7 +101,7 @@ const PlayerBioTable = ({ player }) => {
                       {playerBioData[key].title}
                     </TableCellHeading>
                     <TableCell>
-                      {_.get(player, playerBioData[key].id)}
+                      {_.get(newPlayer, playerBioData[key].id)}
                     </TableCell>
                   </Fragment>
                 )
@@ -97,7 +114,19 @@ const PlayerBioTable = ({ player }) => {
 
   return (
     <Media query={breakpoints.showDesktopNavi}>
-      {matches => (matches ? createBioTableDesktop() : createBioTableMobile())}
+      {matches =>
+        matches ? (
+          createBioTable(bioDataKeysWide)
+        ) : (
+          <Media query={breakpoints.narrowBioTable}>
+            {matches =>
+              matches
+                ? createBioTable(bioDataKeysNarrow)
+                : createBioTable(bioDataKeysMedium)
+            }
+          </Media>
+        )
+      }
     </Media>
   )
 }

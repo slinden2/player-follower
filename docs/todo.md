@@ -33,6 +33,8 @@
 - [x] Email formatting for account confirmation & forgot password
 - [x] Check out mandril and mailgun
 - [x] 404 page
+- [x] Loader animation for search
+- [x] Redirect after logout
 
 * [x] Component for stats tables
 * [x] Standings
@@ -57,10 +59,8 @@
 - [ ] A view to show top performes. For example, most goals / points this month, this season etc.
 - [ ] Problem with stat pagination. Duplicate players on load more.
 - [ ] Blocked shots needed in cumulative stats
-- [ ] Loader animation for search
 - [ ] More data to player bio table
 - [ ] Most recent goals on the team page
-- [ ] Redirect after logout
 
 - [ ] Load more links on main page. 50 results minimum.
 - [ ] Filtering by team and position in player cards.
