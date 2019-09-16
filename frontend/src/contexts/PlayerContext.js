@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useState } from 'react'
 import { useQuery, useMutation } from 'react-apollo-hooks'
 import { USER, BEST_PLAYERS, FAVORITE_PLAYERS } from '../graphql/queries'
 import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
@@ -6,8 +6,11 @@ import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 export const PlayerContext = createContext()
 
 const PlayerContextProvider = props => {
-  const bestPlayers = useQuery(BEST_PLAYERS)
-  const favoritePlayers = useQuery(FAVORITE_PLAYERS)
+  const [filter, setFilter] = useState(null)
+  const bestPlayers = useQuery(BEST_PLAYERS, { variables: { filter } })
+  const favoritePlayers = useQuery(FAVORITE_PLAYERS, {
+    variables: { filter },
+  })
 
   const followPlayer = useMutation(FOLLOW_PLAYER, {
     refetchQueries: [{ query: FAVORITE_PLAYERS }],
@@ -33,7 +36,13 @@ const PlayerContextProvider = props => {
 
   return (
     <PlayerContext.Provider
-      value={{ bestPlayers, favoritePlayers, followPlayer, unfollowPlayer }}
+      value={{
+        bestPlayers,
+        favoritePlayers,
+        setFilter,
+        followPlayer,
+        unfollowPlayer,
+      }}
     >
       {props.children}
     </PlayerContext.Provider>

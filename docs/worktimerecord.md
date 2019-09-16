@@ -84,4 +84,10 @@
 | 06.09.2019 | 6    | Refactored StatsTable and added highlighting                      |
 | 07.09.2019 | 6    | Created loader and started working on sign up modal               |
 | 08.09.2019 | 5    | Started working on forms                                          |
-|   total    | 302  |                                                                   |
+| 10.09.2019 | 4    | Added mailgun and relative functions                              |
+| 11.09.2019 | 6    | Working on forms                                                  |
+| 12.09.2019 | 5    | Working on forms, setup logo and favicons                         |
+| 13.09.2019 | 5    | Improved mobile navi, added google analytics                      |
+| 14.09.2019 | 4    | Cookie policy                                                     |
+| 15.09.2019 | 4    | Added cookien consent banner and remember be on login             |
+|   total    | 330  |                                                                   |

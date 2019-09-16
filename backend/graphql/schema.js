@@ -308,6 +308,12 @@ const typeDefs = gql`
     DESC
   }
 
+  enum PlayerFilter {
+    ALL
+    FORWARD
+    DEFENCE
+  }
+
   type Query {
     playerCount: Int!
     """
@@ -317,11 +323,11 @@ const typeDefs = gql`
     """
     Returns best players for the last 3, 5 and 10 games.
     """
-    bestPlayers: StatsNGames!
+    bestPlayers(filter: PlayerFilter): StatsNGames!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """
-    favoritePlayers: StatsNGames!
+    favoritePlayers(filter: PlayerFilter): StatsNGames!
     """
     Single player by playerId
     """

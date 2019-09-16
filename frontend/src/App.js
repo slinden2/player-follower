@@ -65,7 +65,7 @@ browserHistory.listen((location, action) => {
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
-  const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
+  const { bestPlayers, favoritePlayers, setFilter } = useContext(PlayerContext)
   const { searchValue } = useContext(SearchContext)
   const [cookieConsent, setCookieConsent] = useState(getCookie('funcConsent'))
 
@@ -93,6 +93,7 @@ const App = () => {
                 render={() => (
                   <PlayerCardContainer
                     query={bestPlayers}
+                    setFilter={setFilter}
                     header="Top Players"
                   />
                 )}
@@ -127,6 +128,7 @@ const App = () => {
                 render={() => (
                   <PlayerCardContainer
                     query={favoritePlayers}
+                    setFilter={setFilter}
                     header="Favorite Players"
                   />
                 )}

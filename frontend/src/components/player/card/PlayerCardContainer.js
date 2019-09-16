@@ -36,9 +36,8 @@ const filterTypes = [
   },
 ]
 
-const PlayerCardContainer = ({ query, header }) => {
+const PlayerCardContainer = ({ query, setFilter, header }) => {
   const [currentView, setCurrentView] = useState('Last game')
-  const [filterType, setFilterType] = useState('ALL')
 
   if (query.loading) {
     return <Loader offset />
@@ -70,7 +69,7 @@ const PlayerCardContainer = ({ query, header }) => {
           setCurrentView={setCurrentView}
         />
         <FilterContainer>
-          <DropdownMenu items={filterTypes} setState={setFilterType} />
+          <DropdownMenu items={filterTypes} setState={setFilter} />
         </FilterContainer>
         <CardContainer>{createRow(playersToShow)}</CardContainer>
       </Container>
