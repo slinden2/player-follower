@@ -7,7 +7,10 @@ export const PlayerContext = createContext()
 
 const PlayerContextProvider = props => {
   const [filter, setFilter] = useState(null)
-  const bestPlayers = useQuery(BEST_PLAYERS, { variables: { filter } })
+  const [numOfGames, setNumOfGames] = useState(1)
+  const bestPlayers = useQuery(BEST_PLAYERS, {
+    variables: { numOfGames, filter },
+  })
   const favoritePlayers = useQuery(FAVORITE_PLAYERS, {
     variables: { filter },
   })
@@ -39,6 +42,8 @@ const PlayerContextProvider = props => {
       value={{
         bestPlayers,
         favoritePlayers,
+        setNumOfGames,
+        numOfGames,
         setFilter,
         followPlayer,
         unfollowPlayer,

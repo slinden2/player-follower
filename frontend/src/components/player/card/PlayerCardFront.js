@@ -147,11 +147,11 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
     event(
       'PLAYER_CARD',
       'Follow Player',
-      `${player.firstName} ${player.lastName}`
+      `${player.player.firstName} ${player.player.lastName}`
     )
     try {
       const followedPlayer = await followPlayer({
-        variables: { id: player.id, followType: 'FOLLOW' },
+        variables: { id: player._id, followType: 'FOLLOW' },
       })
       if (followedPlayer.data.followPlayer) {
         setNotification(
@@ -168,11 +168,11 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
     event(
       'PLAYER_CARD',
       'Unfollow Player',
-      `${player.firstName} ${player.lastName}`
+      `${player.player.firstName} ${player.player.lastName}`
     )
     try {
       const id = await unfollowPlayer({
-        variables: { id: player.id, followType: 'UNFOLLOW' },
+        variables: { id: player._id, followType: 'UNFOLLOW' },
       })
       if (id.data.unfollowPlayer) {
         setNotification(
@@ -185,13 +185,14 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
     }
   }
 
-  const longName = player.lastName.length > 9 || player.lastName.length > 9
+  const longName =
+    player.player.lastName.length > 9 || player.player.lastName.length > 9
 
   return (
     <SPlayerCardFrontContainer>
       <PlayerImg
         img
-        src={cardImgUrl(player.playerId)}
+        src={cardImgUrl(player.player.playerId)}
         alt="player profile"
         onError={handleImgNotFound}
       />
@@ -199,22 +200,22 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
       <OrderNumber>{i}</OrderNumber>
       <SPlayerName reduceFont={longName}>
         <p className="team-name">
-          <Link to={`/teams/${player.currentTeam.siteLink}`}>
-            {player.currentTeam.abbreviation}
+          <Link to={`/teams/${player.team.siteLink}`}>
+            {player.team.abbreviation}
           </Link>
         </p>
         <div>
           <p>
-            <Link to={`/players/${player.siteLink}`}>
-              {player.firstName}
+            <Link to={`/players/${player.player.siteLink}`}>
+              {player.player.firstName}
               <br />
-              {player.lastName}
+              {player.player.lastName}
             </Link>
           </p>
         </div>
         <p>
           <span>#</span>
-          {player.primaryNumber}
+          {player.player.primaryNumber}
         </p>
       </SPlayerName>
       <div>

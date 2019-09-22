@@ -29,27 +29,29 @@ const SelectorItem = styled.span`
 
 const PlayerViewSelector = ({ currentView, setCurrentView }) => {
   const handleViewChange = view => {
+    const viewText =
+      view === 1 ? 'Last game' : view === 5 ? 'Five games' : 'Ten games'
     setCurrentView(view)
-    event('PLAYER_CARD', 'Card view changed', view)
+    event('PLAYER_CARD', 'Card view changed', viewText)
   }
 
   return (
     <Container>
       <SelectorItem
-        onClick={() => handleViewChange('Last game')}
-        selected={currentView === 'Last game'}
+        onClick={() => handleViewChange(1)}
+        selected={currentView === 1}
       >
         Last game
       </SelectorItem>
       <SelectorItem
-        onClick={() => handleViewChange('Five games')}
-        selected={currentView === 'Five games'}
+        onClick={() => handleViewChange(5)}
+        selected={currentView === 5}
       >
         5 games
       </SelectorItem>
       <SelectorItem
-        onClick={() => handleViewChange('Ten games')}
-        selected={currentView === 'Ten games'}
+        onClick={() => handleViewChange(10)}
+        selected={currentView === 10}
       >
         10 games
       </SelectorItem>

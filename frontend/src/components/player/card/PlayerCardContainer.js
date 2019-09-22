@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PageContainer from '../../elements/PageContainer'
 import PlayerViewSelector from './PlayerViewSelector'
 import PlayerCard from './PlayerCard'
@@ -36,42 +36,36 @@ const filterTypes = [
   },
 ]
 
-const PlayerCardContainer = ({ query, setFilter, header }) => {
-  const [currentView, setCurrentView] = useState('Last game')
-
+const PlayerCardContainer = ({
+  query,
+  numOfGames,
+  setNumOfGames,
+  setFilter,
+  header,
+}) => {
   if (query.loading) {
     return <Loader offset />
   }
-
-  const { oneGame, fiveGames, tenGames } =
-    query.data.bestPlayers || query.data.favoritePlayers
 
   const createRow = playerResults => {
     if (!playerResults.length) return <div>No results</div>
 
     return playerResults.map((player, i) => (
-      <PlayerCard key={player.playerId} player={player} i={i + 1} />
+      <PlayerCard key={player._id} player={player} i={i + 1} />
     ))
   }
-
-  const playersToShow =
-    currentView === 'Last game'
-      ? oneGame
-      : currentView === 'Five games'
-      ? fiveGames
-      : tenGames
 
   return (
     <PageContainer title={header}>
       <Container>
         <PlayerViewSelector
-          currentView={currentView}
-          setCurrentView={setCurrentView}
+          currentView={numOfGames}
+          setCurrentView={setNumOfGames}
         />
         <FilterContainer>
           <DropdownMenu items={filterTypes} setState={setFilter} />
         </FilterContainer>
-        <CardContainer>{createRow(playersToShow)}</CardContainer>
+        <CardContainer>{createRow(query.data.BestPlayers)}</CardContainer>
       </Container>
     </PageContainer>
   )

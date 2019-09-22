@@ -134,8 +134,10 @@ const resolvers = {
 
       return players.map(player => player.toJSON())
     },
-    bestPlayers: async () => {
-      const players = await Player.aggregate(bestPlayersPipeline(1))
+    BestPlayers: async (root, args) => {
+      const players = await Player.aggregate(
+        bestPlayersPipeline(args.numOfGames)
+      )
       return players
     },
     favoritePlayers: async (root, args, ctx) => {
@@ -501,16 +503,19 @@ const resolvers = {
       if (root.saves === 0) return 0
       return roundToDecimal(root.goals / root.saves, 1)
     },
-    points: root => root.goals + root.assists,
-    powerPlayPoints: root => root.powerPlayGoals + root.powerPlayAssists,
-    shortHandedPoints: root => root.shortHandedGoals + root.shortHandedAssists,
     pointsPerGame: root =>
       roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
     gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
+    timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),
+    evenTimeOnIcePerGame: root => convertSecsToMin(root.evenTimeOnIcePerGame),
     powerPlayTimeOnIce: root => convertSecsToMin(root.powerPlayTimeOnIce),
+    powerPlayTimeOnIcePerGame: root =>
+      convertSecsToMin(root.powerPlayTimeOnIcePerGame),
     shortHandedTimeOnIce: root => convertSecsToMin(root.shortHandedTimeOnIce),
+    shortHandedTimeOnIcePerGame: root =>
+      convertSecsToMin(root.shortHandedTimeOnIcePerGame),
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,

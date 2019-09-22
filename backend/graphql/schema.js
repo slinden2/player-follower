@@ -130,6 +130,7 @@ const typeDefs = gql`
     assists: Int!
     blocked: Int!
     evenTimeOnIce: String!
+
     goals: Int!
     hits: Int!
     penaltyMinutes: Int!
@@ -139,10 +140,12 @@ const typeDefs = gql`
     powerPlayGoals: Int!
     powerPlayPoints: Int! # custom resolver
     powerPlayTimeOnIce: String!
+
     shortHandedAssists: Int!
     shortHandedGoals: Int!
     shortHandedPoints: Int! # custom resolver
     shortHandedTimeOnIce: String!
+
     shotPct: Float
     shots: Int!
     timeOnIce: String!
@@ -167,6 +170,10 @@ const typeDefs = gql`
     pointsPerGame: Float!
     overTimeGoals: Int!
     shifts: Int!
+    evenTimeOnIcePerGame: String!
+    powerPlayTimeOnIcePerGame: String!
+    shortHandedTimeOnIcePerGame: String!
+    timeOnIcePerGame: String!
 
     # Group for all StatsNGames-only related stats
     """
@@ -201,7 +208,6 @@ const typeDefs = gql`
     ot: Int!
     powerPlaySavePct: Float!
     shutouts: Int!
-    timeOnIcePerGame: Int!
     wins: Int!
     # you can query only gamesPlayed
   }
@@ -218,7 +224,7 @@ const typeDefs = gql`
   }
 
   type PlayerCard {
-    id: ID!
+    _id: ID!
     player: Player!
     stats: Stats!
     team: Team!
@@ -318,7 +324,7 @@ const typeDefs = gql`
     """
     Returns best players for the last 3, 5 and 10 games.
     """
-    bestPlayers(filter: PlayerFilter): [PlayerCard!]!
+    BestPlayers(numOfGames: Int!, filter: PlayerFilter): [PlayerCard!]!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """

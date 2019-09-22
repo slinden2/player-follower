@@ -62,7 +62,7 @@ const PlayerCardBack = ({ player, handleCardFlip }) => {
     <Container>
       <NameBar>
         <Link to={`/players/${player.siteLink}`}>
-          {player.firstName + ' ' + player.lastName}
+          {player.player.firstName + ' ' + player.player.lastName}
         </Link>
       </NameBar>
       <StatRow first>
@@ -95,7 +95,7 @@ const PlayerCardBack = ({ player, handleCardFlip }) => {
       </StatRow>
       <StatRow>
         <StatItem rightBorder descRight>
-          <p>{convertSecsToMMSS(player.stats.timeOnIcePerGame)}</p>
+          <p>{player.stats.timeOnIcePerGame}</p>
           <p title={statHeaders.timeOnIcePerGame.title}>
             {statHeaders.timeOnIcePerGame.headerText}
           </p>

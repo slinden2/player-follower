@@ -2,13 +2,14 @@ import { gql } from 'apollo-boost'
 
 const PLAYER_DETAILS = gql`
   fragment PlayerDetails on PlayerCard {
-    firstName
-    lastName
-    primaryNumber
-    playerId
-    id
-    numOfGamesId
-    siteLink
+    _id
+    player {
+      firstName
+      lastName
+      primaryNumber
+      playerId
+      siteLink
+    }
     stats {
       goals
       assists
@@ -27,7 +28,7 @@ const PLAYER_DETAILS = gql`
       giveaways
       takeaways
     }
-    currentTeam {
+    team {
       abbreviation
       siteLink
     }
@@ -35,17 +36,9 @@ const PLAYER_DETAILS = gql`
 `
 
 const BEST_PLAYERS = gql`
-  query getBestPlayers {
-    bestPlayers {
-      oneGame {
-        ...PlayerDetails
-      }
-      fiveGames {
-        ...PlayerDetails
-      }
-      tenGames {
-        ...PlayerDetails
-      }
+  query getBestPlayers($numOfGames: Int!) {
+    BestPlayers(numOfGames: $numOfGames) {
+      ...PlayerDetails
     }
   }
   ${PLAYER_DETAILS}
