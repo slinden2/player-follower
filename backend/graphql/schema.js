@@ -218,15 +218,10 @@ const typeDefs = gql`
   }
 
   type PlayerCard {
-    firstName: String!
-    lastName: String!
-    primaryNumber: Int
-    playerId: Int!
     id: ID!
-    numOfGamesId: Int!
-    siteLink: String!
+    player: Player!
     stats: Stats!
-    currentTeam: Team!
+    team: Team!
   }
 
   type CumulativeStats {
@@ -323,7 +318,7 @@ const typeDefs = gql`
     """
     Returns best players for the last 3, 5 and 10 games.
     """
-    bestPlayers(filter: PlayerFilter): StatsNGames!
+    bestPlayers(filter: PlayerFilter): [PlayerCard!]!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """

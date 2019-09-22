@@ -12,8 +12,8 @@ require('../models/division') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
-const BestPlayers = require('../models/best-players')
 const SkaterStats = require('../models/skater-stats')
+const { bestPlayersPipeline } = require('./pipelines')
 const { getBestPlayers } = require('../utils/get-best-players')
 const roundToDecimal = require('../utils/round-to-decimal')
 const generateCumulativeStats = require('../utils/generate-cumulative-stats')
@@ -135,15 +135,8 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     bestPlayers: async () => {
-      const bestPlayers = await BestPlayers.find({})
-        .sort({ _id: -1 })
-        .limit(1)
-
-      return {
-        oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 50),
-        fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 50),
-        tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 50),
-      }
+      const players = await Player.aggregate(bestPlayersPipeline(1))
+      return players
     },
     favoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) {
