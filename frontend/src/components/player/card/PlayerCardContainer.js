@@ -6,6 +6,7 @@ import Loader from '../../elements/Loader'
 import styled from 'styled-components'
 import DropdownMenu from '../../elements/DropdownMenu'
 import { PlayerContext } from '../../../contexts/PlayerContext'
+import { playerPosFilterItems, playerTeamFilterItems } from '../../../utils'
 
 const Container = styled.div``
 
@@ -19,28 +20,15 @@ const CardContainer = styled.div`
   grid-gap: 15px;
 `
 
-const filterTypes = [
-  {
-    key: 'ALL',
-    text: 'All players',
-    value: 'ALL',
-  },
-  {
-    key: 'FORWARD',
-    text: 'Forwards',
-    value: 'FORWARD',
-  },
-  {
-    key: 'DEFENCE',
-    text: 'Defencemen',
-    value: 'DEFENCE',
-  },
-]
-
 const PlayerCardContainer = ({ query, header }) => {
-  const { numOfGames, setNumOfGames, filter, setFilter } = useContext(
-    PlayerContext
-  )
+  const {
+    numOfGames,
+    setNumOfGames,
+    positionFilter,
+    setPositionFilter,
+    teamFilter,
+    setTeamFilter,
+  } = useContext(PlayerContext)
 
   if (query.loading) {
     return <Loader offset />
@@ -60,13 +48,17 @@ const PlayerCardContainer = ({ query, header }) => {
         <PlayerViewSelector
           currentView={numOfGames}
           setCurrentView={setNumOfGames}
-          setFilter={setFilter}
         />
         <FilterContainer>
           <DropdownMenu
-            items={filterTypes}
-            state={filter}
-            setState={setFilter}
+            items={playerPosFilterItems}
+            state={positionFilter}
+            setState={setPositionFilter}
+          />
+          <DropdownMenu
+            items={playerTeamFilterItems}
+            state={teamFilter}
+            setState={setTeamFilter}
           />
         </FilterContainer>
         <CardContainer>{createRow(query.data.BestPlayers)}</CardContainer>

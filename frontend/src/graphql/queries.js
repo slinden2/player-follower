@@ -3,6 +3,7 @@ import { gql } from 'apollo-boost'
 const PLAYER_DETAILS = gql`
   fragment PlayerDetails on PlayerCard {
     _id
+    numOfGamesId
     player {
       firstName
       lastName
@@ -36,8 +37,16 @@ const PLAYER_DETAILS = gql`
 `
 
 const BEST_PLAYERS = gql`
-  query getBestPlayers($numOfGames: Int!, $filter: PlayerFilter!) {
-    BestPlayers(numOfGames: $numOfGames, filter: $filter) {
+  query getBestPlayers(
+    $numOfGames: Int!
+    $positionFilter: PositionFilter!
+    $teamFilter: TeamFilter!
+  ) {
+    BestPlayers(
+      numOfGames: $numOfGames
+      positionFilter: $positionFilter
+      teamFilter: $teamFilter
+    ) {
       ...PlayerDetails
     }
   }

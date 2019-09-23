@@ -85,6 +85,7 @@ export const Dropdown = styled.select`
   border: 0;
   border-radius: 10px;
   text-shadow: 1px 1px ${colors.grey1};
+  margin: 10px 5px;
 
   &:hover {
     font-weight: bolder;

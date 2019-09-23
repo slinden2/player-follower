@@ -136,7 +136,11 @@ const resolvers = {
     },
     BestPlayers: async (root, args) => {
       const players = await Player.aggregate(
-        bestPlayersPipeline(args.numOfGames, args.filter)
+        bestPlayersPipeline(
+          args.numOfGames,
+          args.positionFilter,
+          args.teamFilter
+        )
       )
       return players
     },

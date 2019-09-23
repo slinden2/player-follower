@@ -484,6 +484,187 @@ const userProfileHeaders = {
 
 const userProfileHeadersToShow = ['username', 'email']
 
+const playerPosFilterItems = [
+  {
+    key: 'ALL',
+    text: 'All positions',
+    value: 'ALL',
+  },
+  {
+    key: 'FORWARD',
+    text: 'Forwards',
+    value: 'FORWARD',
+  },
+  {
+    key: 'DEFENCE',
+    text: 'Defencemen',
+    value: 'DEFENCE',
+  },
+]
+
+const playerTeamFilterItems = [
+  {
+    key: 'ALL',
+    text: 'All teams',
+    value: 'ALL',
+  },
+  {
+    key: 'ANA',
+    text: 'Anaheim Ducks',
+    value: 'ANA',
+  },
+  {
+    key: 'ARI',
+    text: 'Arizona Coyotes',
+    value: 'ARI',
+  },
+  {
+    key: 'BOS',
+    text: 'Boston Bruins',
+    value: 'BOS',
+  },
+  {
+    key: 'BUF',
+    text: 'Buffalo Sabres',
+    value: 'BUF',
+  },
+  {
+    key: 'CAR',
+    text: 'Carolina Hurricanes',
+    value: 'CAR',
+  },
+  {
+    key: 'CGY',
+    text: 'Calgary Flames',
+    value: 'CGY',
+  },
+  {
+    key: 'CHI',
+    text: 'Chicago Blackhawks',
+    value: 'CHI',
+  },
+  {
+    key: 'CBJ',
+    text: 'Columbus Blue Jackets',
+    value: 'CBJ',
+  },
+  {
+    key: 'COL',
+    text: 'Colorado Avalanche',
+    value: 'COL',
+  },
+  {
+    key: 'DAL',
+    text: 'Dallas Stars',
+    value: 'DAL',
+  },
+  {
+    key: 'DET',
+    text: 'Detroit Red Wings',
+    value: 'DET',
+  },
+  {
+    key: 'EDM',
+    text: 'Edmonton Oilers',
+    value: 'EDM',
+  },
+  {
+    key: 'FLA',
+    text: 'Florida Panthers',
+    value: 'FLA',
+  },
+  {
+    key: 'LAK',
+    text: 'Los Angeles Kings',
+    value: 'LAK',
+  },
+  {
+    key: 'MIN',
+    text: 'Minnesota Wild',
+    value: 'MIN',
+  },
+  {
+    key: 'MTL',
+    text: 'Montreal Canadiens',
+    value: 'MTL',
+  },
+  {
+    key: 'NSH',
+    text: 'Nashville Predators',
+    value: 'NSH',
+  },
+  {
+    key: 'NJD',
+    text: 'New Jersey Devils',
+    value: 'NJD',
+  },
+  {
+    key: 'NYI',
+    text: 'New York Islanders',
+    value: 'NYI',
+  },
+  {
+    key: 'NYR',
+    text: 'New York Rangers',
+    value: 'NYR',
+  },
+  {
+    key: 'OTT',
+    text: 'Ottawa Senators',
+    value: 'OTT',
+  },
+  {
+    key: 'PHI',
+    text: 'Philadelphia Flyers',
+    value: 'PHI',
+  },
+  {
+    key: 'PIT',
+    text: 'Pittsburgh Penguins',
+    value: 'PIT',
+  },
+  {
+    key: 'SJS',
+    text: 'San Jose Sharks',
+    value: 'SJS',
+  },
+  {
+    key: 'STL',
+    text: 'St. Louis Blues',
+    value: 'STL',
+  },
+  {
+    key: 'TBL',
+    text: 'Tampa Bay Lightning',
+    value: 'TBL',
+  },
+  {
+    key: 'TOR',
+    text: 'Toronto Maple Leafs',
+    value: 'TOR',
+  },
+  {
+    key: 'VAN',
+    text: 'Vancouver Canucks',
+    value: 'VAN',
+  },
+  {
+    key: 'VGK',
+    text: 'Vegas Golden Knights',
+    value: 'VGK',
+  },
+  {
+    key: 'WPG',
+    text: 'Winnipeg Jets',
+    value: 'WPG',
+  },
+  {
+    key: 'WSH',
+    text: 'Washington Capitals',
+    value: 'WSH',
+  },
+]
+
 export {
   getCookie,
   removeCookie,
@@ -498,4 +679,6 @@ export {
   playerStatsHeaders,
   userProfileHeaders,
   userProfileHeadersToShow,
+  playerPosFilterItems,
+  playerTeamFilterItems,
 }

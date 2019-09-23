@@ -1,13 +1,35 @@
-const bestPlayersPipeline = (numOfGames, filter) => {
+const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => {
   const playerPos =
-    filter === 'DEFENCE'
+    positionFilter === 'DEFENCE'
       ? ['D']
-      : filter === 'FORWARD'
+      : positionFilter === 'FORWARD'
         ? ['L', 'R', 'C']
         : ['L', 'R', 'C', 'D']
 
+  const matchObject = () =>
+    teamFilter !== 'ALL'
+      ? {
+        $match: {
+          'team.abbreviation': teamFilter,
+          primaryPosition: { $in: playerPos },
+        },
+      }
+      : {
+        $match: {
+          primaryPosition: { $in: playerPos },
+        },
+      }
+
   const pipeline = [
-    { $match: { primaryPosition: { $in: playerPos } } },
+    {
+      $lookup: {
+        from: 'teams',
+        localField: 'currentTeam',
+        foreignField: '_id',
+        as: 'team',
+      },
+    },
+    matchObject(),
     {
       $lookup: {
         from: 'skaterboxscores',
@@ -112,6 +134,7 @@ const bestPlayersPipeline = (numOfGames, filter) => {
         team: { $arrayElemAt: ['$team', 0] },
       },
     },
+    { $addFields: { numOfGamesId: numOfGames } },
     {
       $project: {
         'stats._id': 0,
@@ -122,7 +145,14 @@ const bestPlayersPipeline = (numOfGames, filter) => {
         'team.stats': 0,
       },
     },
-    { $sort: { 'stats.points': -1, 'stats.goals': -1, 'stats.plusMinus': -1 } },
+    {
+      $sort: {
+        'stats.points': -1,
+        'stats.goals': -1,
+        'stats.plusMinus': -1,
+        'player.lastName': 1,
+      },
+    },
     { $limit: 50 },
   ]
 

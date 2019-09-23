@@ -225,6 +225,7 @@ const typeDefs = gql`
 
   type PlayerCard {
     _id: ID!
+    numOfGamesId: Int!
     player: Player!
     stats: Stats!
     team: Team!
@@ -309,10 +310,45 @@ const typeDefs = gql`
     DESC
   }
 
-  enum PlayerFilter {
+  enum PositionFilter {
     ALL
     FORWARD
     DEFENCE
+  }
+
+  enum TeamFilter {
+    ALL
+    ANA
+    ARI
+    BOS
+    BUF
+    CAR
+    CGY
+    CHI
+    CBJ
+    COL
+    DAL
+    DET
+    EDM
+    FLA
+    LAK
+    MIN
+    MTL
+    NSH
+    NJD
+    NYI
+    NYR
+    OTT
+    PHI
+    PIT
+    SJS
+    STL
+    TBL
+    TOR
+    VAN
+    VGK
+    WPG
+    WSH
   }
 
   type Query {
@@ -324,11 +360,15 @@ const typeDefs = gql`
     """
     Returns best players for the last 3, 5 and 10 games.
     """
-    BestPlayers(numOfGames: Int!, filter: PlayerFilter): [PlayerCard!]!
+    BestPlayers(
+      numOfGames: Int!
+      positionFilter: PositionFilter!
+      teamFilter: TeamFilter!
+    ): [PlayerCard!]!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """
-    favoritePlayers(filter: PlayerFilter): StatsNGames!
+    favoritePlayers(positionFilter: PositionFilter!): StatsNGames!
     """
     Single player by playerId
     """

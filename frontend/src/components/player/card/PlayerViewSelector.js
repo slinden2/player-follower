@@ -27,12 +27,11 @@ const SelectorItem = styled.span`
   }
 `
 
-const PlayerViewSelector = ({ currentView, setCurrentView, setFilter }) => {
+const PlayerViewSelector = ({ currentView, setCurrentView }) => {
   const handleViewChange = view => {
     const viewText =
       view === 1 ? 'Last game' : view === 5 ? 'Five games' : 'Ten games'
     setCurrentView(view)
-    setFilter('ALL')
     event('PLAYER_CARD', 'Card view changed', viewText)
   }
 
