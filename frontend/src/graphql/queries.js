@@ -36,8 +36,8 @@ const PLAYER_DETAILS = gql`
 `
 
 const BEST_PLAYERS = gql`
-  query getBestPlayers($numOfGames: Int!) {
-    BestPlayers(numOfGames: $numOfGames) {
+  query getBestPlayers($numOfGames: Int!, $filter: PlayerFilter!) {
+    BestPlayers(numOfGames: $numOfGames, filter: $filter) {
       ...PlayerDetails
     }
   }

@@ -1,5 +1,13 @@
-const bestPlayersPipeline = numOfGames => {
+const bestPlayersPipeline = (numOfGames, filter) => {
+  const playerPos =
+    filter === 'DEFENCE'
+      ? ['D']
+      : filter === 'FORWARD'
+        ? ['L', 'R', 'C']
+        : ['L', 'R', 'C', 'D']
+
   const pipeline = [
+    { $match: { primaryPosition: { $in: playerPos } } },
     {
       $lookup: {
         from: 'skaterboxscores',

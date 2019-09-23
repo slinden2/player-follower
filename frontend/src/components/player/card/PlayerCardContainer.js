@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PageContainer from '../../elements/PageContainer'
 import PlayerViewSelector from './PlayerViewSelector'
 import PlayerCard from './PlayerCard'
 import Loader from '../../elements/Loader'
 import styled from 'styled-components'
 import DropdownMenu from '../../elements/DropdownMenu'
+import { PlayerContext } from '../../../contexts/PlayerContext'
 
 const Container = styled.div``
 
@@ -36,13 +37,11 @@ const filterTypes = [
   },
 ]
 
-const PlayerCardContainer = ({
-  query,
-  numOfGames,
-  setNumOfGames,
-  setFilter,
-  header,
-}) => {
+const PlayerCardContainer = ({ query, header }) => {
+  const { numOfGames, setNumOfGames, filter, setFilter } = useContext(
+    PlayerContext
+  )
+
   if (query.loading) {
     return <Loader offset />
   }
@@ -61,9 +60,14 @@ const PlayerCardContainer = ({
         <PlayerViewSelector
           currentView={numOfGames}
           setCurrentView={setNumOfGames}
+          setFilter={setFilter}
         />
         <FilterContainer>
-          <DropdownMenu items={filterTypes} setState={setFilter} />
+          <DropdownMenu
+            items={filterTypes}
+            state={filter}
+            setState={setFilter}
+          />
         </FilterContainer>
         <CardContainer>{createRow(query.data.BestPlayers)}</CardContainer>
       </Container>
