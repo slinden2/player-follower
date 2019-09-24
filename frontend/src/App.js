@@ -96,8 +96,8 @@ const App = () => {
                   />
                 )}
               />
-              <Route path="/stats" render={() => <PlayerStats />} />
-              <Route path="/standings" render={() => <Standings />} />
+              <Route path="/players/stats" render={() => <PlayerStats />} />
+              <Route path="/teams/standings" render={() => <Standings />} />
               <Route path="/about" render={() => <About />} />
               <Route
                 path="/contact"

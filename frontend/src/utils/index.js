@@ -96,11 +96,11 @@ const naviItems = {
     tokenRequired: true,
   },
   stats: {
-    to: '/stats',
+    to: '/players/stats',
     name: 'stats',
   },
   standings: {
-    to: '/standings',
+    to: '/teams/standings',
     name: 'standings',
   },
   about: {
