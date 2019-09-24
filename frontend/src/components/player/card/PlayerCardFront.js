@@ -256,10 +256,10 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
       </div>
       {token && user.data.me && (
         <>
-          {!idInArray(user.data.me.favoritePlayers, player.id) && (
+          {!idInArray(user.data.me.favoritePlayers, player._id) && (
             <FavImg src={starDisabled} onClick={handleFollow} />
           )}
-          {idInArray(user.data.me.favoritePlayers, player.id) && (
+          {idInArray(user.data.me.favoritePlayers, player._id) && (
             <FavImg src={starEnabled} onClick={handleUnfollow} />
           )}
         </>

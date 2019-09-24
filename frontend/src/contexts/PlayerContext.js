@@ -9,15 +9,23 @@ const PlayerContextProvider = props => {
   const [positionFilter, setPositionFilter] = useState('ALL')
   const [teamFilter, setTeamFilter] = useState('ALL')
   const [numOfGames, setNumOfGames] = useState(1)
+
+  const variables = { numOfGames, positionFilter, teamFilter }
+
   const bestPlayers = useQuery(BEST_PLAYERS, {
-    variables: { numOfGames, positionFilter, teamFilter },
+    variables,
   })
   const favoritePlayers = useQuery(FAVORITE_PLAYERS, {
-    variables: { positionFilter },
+    variables,
+    // must set fetchPolicy because Apollo doesnt support partially resetting
+    // cache yet. When players get followed/unfollower this query must be
+    // fetched again. The query caches results with different filters, so after
+    // every follow/unfollow the cache should be reset.
+    fetchPolicy: 'network-only',
   })
 
   const followPlayer = useMutation(FOLLOW_PLAYER, {
-    refetchQueries: [{ query: FAVORITE_PLAYERS }],
+    refetchQueries: [{ query: FAVORITE_PLAYERS, variables }],
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: USER })
       dataInStore.me.favoritePlayers = dataInStore.me.favoritePlayers.concat(
@@ -28,7 +36,7 @@ const PlayerContextProvider = props => {
   })
 
   const unfollowPlayer = useMutation(UNFOLLOW_PLAYER, {
-    refetchQueries: [{ query: FAVORITE_PLAYERS }],
+    refetchQueries: [{ query: FAVORITE_PLAYERS, variables }],
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: USER })
       dataInStore.me.favoritePlayers = dataInStore.me.favoritePlayers.filter(

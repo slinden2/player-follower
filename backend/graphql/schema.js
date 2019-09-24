@@ -368,7 +368,11 @@ const typeDefs = gql`
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """
-    favoritePlayers(positionFilter: PositionFilter!): StatsNGames!
+    FavoritePlayers(
+      numOfGames: Int!
+      positionFilter: PositionFilter!
+      teamFilter: TeamFilter!
+    ): [PlayerCard]!
     """
     Single player by playerId
     """

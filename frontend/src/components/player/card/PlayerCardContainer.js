@@ -20,7 +20,7 @@ const CardContainer = styled.div`
   grid-gap: 15px;
 `
 
-const PlayerCardContainer = ({ query, header }) => {
+const PlayerCardContainer = ({ query, queryName, header }) => {
   const {
     numOfGames,
     setNumOfGames,
@@ -61,7 +61,7 @@ const PlayerCardContainer = ({ query, header }) => {
             setState={setTeamFilter}
           />
         </FilterContainer>
-        <CardContainer>{createRow(query.data.BestPlayers)}</CardContainer>
+        <CardContainer>{createRow(query.data[queryName])}</CardContainer>
       </Container>
     </PageContainer>
   )

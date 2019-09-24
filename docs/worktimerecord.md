@@ -89,5 +89,7 @@
 | 12.09.2019 | 5    | Working on forms, setup logo and favicons                         |
 | 13.09.2019 | 5    | Improved mobile navi, added google analytics                      |
 | 14.09.2019 | 4    | Cookie policy                                                     |
-| 15.09.2019 | 4    | Added cookien consent banner and remember be on login             |
-|   total    | 330  |                                                                   |
+| 15.09.2019 | 4    | Added cookie consent banner and remember be on login              |
+| 22.09.2019 | 5    | Created a new aggregation pipeline for best players               |
+| 23.09.2019 | 5    | Added support for the new aggregation in frontend                 |
+|   total    | 340  |                                                                   |

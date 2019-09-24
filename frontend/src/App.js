@@ -93,6 +93,7 @@ const App = () => {
                 render={() => (
                   <PlayerCardContainer
                     query={bestPlayers}
+                    queryName="BestPlayers"
                     header="Top Players"
                   />
                 )}
@@ -127,6 +128,7 @@ const App = () => {
                 render={() => (
                   <PlayerCardContainer
                     query={favoritePlayers}
+                    queryName="FavoritePlayers"
                     header="Favorite Players"
                   />
                 )}

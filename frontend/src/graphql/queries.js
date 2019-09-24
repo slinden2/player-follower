@@ -54,17 +54,17 @@ const BEST_PLAYERS = gql`
 `
 
 const FAVORITE_PLAYERS = gql`
-  query getFavoritePlayers {
-    favoritePlayers {
-      oneGame {
-        ...PlayerDetails
-      }
-      fiveGames {
-        ...PlayerDetails
-      }
-      tenGames {
-        ...PlayerDetails
-      }
+  query getFavoritePlayers(
+    $numOfGames: Int!
+    $positionFilter: PositionFilter!
+    $teamFilter: TeamFilter!
+  ) {
+    FavoritePlayers(
+      numOfGames: $numOfGames
+      positionFilter: $positionFilter
+      teamFilter: $teamFilter
+    ) {
+      ...PlayerDetails
     }
   }
   ${PLAYER_DETAILS}

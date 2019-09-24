@@ -13,8 +13,10 @@ const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
 const SkaterStats = require('../models/skater-stats')
-const { bestPlayersPipeline } = require('./pipelines')
-const { getBestPlayers } = require('../utils/get-best-players')
+const {
+  bestPlayersAggregate,
+  favoritePlayersAggregate,
+} = require('./pipelines')
 const roundToDecimal = require('../utils/round-to-decimal')
 const generateCumulativeStats = require('../utils/generate-cumulative-stats')
 const getSortField = require('../utils/get-sort-field')
@@ -136,7 +138,7 @@ const resolvers = {
     },
     BestPlayers: async (root, args) => {
       const players = await Player.aggregate(
-        bestPlayersPipeline(
+        bestPlayersAggregate(
           args.numOfGames,
           args.positionFilter,
           args.teamFilter
@@ -144,32 +146,20 @@ const resolvers = {
       )
       return players
     },
-    favoritePlayers: async (root, args, ctx) => {
-      if (!ctx.currentUser) {
-        return { oneGame: [], fiveGames: [], tenGames: [] }
-      }
-      const players = await Player.find({
-        _id: { $in: ctx.currentUser.favoritePlayers },
-      }).populate([
-        {
-          path: 'boxscores',
-          model: 'SkaterBoxscore',
-        },
-        {
-          path: 'currentTeam',
-          model: 'Team',
-        },
-      ])
-      const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers1 = getBestPlayers(playersJSON, 1)
-      const bestPlayers5 = getBestPlayers(playersJSON, 5)
-      const bestPlayers10 = getBestPlayers(playersJSON, 10)
-
-      return {
-        oneGame: bestPlayers1,
-        fiveGames: bestPlayers5,
-        tenGames: bestPlayers10,
-      }
+    FavoritePlayers: async (root, args, ctx) => {
+      if (!ctx.currentUser) return []
+      const favorite = true
+      const players = await Player.aggregate(
+        favoritePlayersAggregate(
+          args.numOfGames,
+          args.positionFilter,
+          args.teamFilter,
+          ctx.currentUser
+        )
+      )
+      return players.filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player._id)
+      )
     },
     GetCumulativeStats: async (root, args) => {
       try {
