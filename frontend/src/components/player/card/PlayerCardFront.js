@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { event } from '../../../utils/tracking'
 import colors from '../../../styles/colors'
 import { NotificationContext } from '../../../contexts/NotificationContext'
@@ -47,82 +47,87 @@ const FavImg = styled.img`
   top: 10px;
 `
 
-const SPlayerName = styled.div`
+const GenDataContainer = styled.div`
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
   border-bottom: 3px solid ${colors.grey2};
-  padding-bottom: 2px;
-  margin: 0 auto;
-
-  & > p:first-child {
-    display: inline-block;
-    width: 25%;
-    text-align: right;
-    vertical-align: middle;
-    margin: 0;
-    padding-right: 10px;
-    font-size: 1.25rem;
-
-    & > span {
-      color: ${colors.grey1};
-    }
-  }
-
-  & > p:last-child {
-    display: inline-block;
-    width: 25%;
-    vertical-align: middle;
-    margin: 0;
-    padding-left: 10px;
-    font-size: 1.5rem;
-
-    & > span {
-      color: ${colors.grey1};
-    }
-  }
-
-  & > div {
-    display: inline-block;
-    width: 50%;
-    text-align: center;
-    vertical-align: middle;
-    border-left: 2px solid ${colors.grey2};
-    border-right: 2px solid ${colors.grey2};
-
-    & p {
-      margin: 0;
-      font-size: ${props => (props.reduceFont ? '1rem' : '1.375rem')};
-    }
-  }
 `
 
-const SPlayerStatsContainer = styled.div`
-  margin: auto;
-  padding: 3px 18px;
-  font-size: 1.125rem;
-  text-shadow: 1px 1px ${colors.grey2};
-  border-bottom: ${props => (props.border ? '3px' : '0px')} solid
-    ${colors.grey2};
+const genItemStyles = css`
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+`
 
-  & div {
-    display: inline-block;
-    margin: auto;
-  }
+const SideContainer = styled.div`
+  ${genItemStyles}
+  width: 60px;
 
-  & > div {
-    width: ${props => props.width};
+  ${({ border }) =>
+    border &&
+    css`
+    border-${border}: 3px solid ${colors.grey2};
+  `}
 
-    & div {
-      width: 50%;
-    }
+  ${({ numIndicator }) =>
+    numIndicator &&
+    css`
+      &::before {
+        content: '#';
+        margin-right: 5px;
+        color: ${colors.grey1};
+      }
+    `}
+`
 
-    & div:first-child {
-      text-align: right;
-      padding-right: 5px;
-    }
+const PlayerName = styled.div`
+  ${genItemStyles}
+  text-align: center;
 
-    & div:last-child {
-      padding-left: 5px;
-    }
-  }
+  ${({ smallFont }) =>
+    smallFont &&
+    css`
+      font-size: 1rem;
+    `}
+`
+
+const StatsContainer = styled.div`
+  border-bottom: 3px solid ${colors.grey2};
+`
+
+const StatRow = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+`
+
+const StatItem = styled.div`
+  padding: 5px;
+  display: flex;
+  line-height: 0.75rem;
+
+  ${({ stat }) =>
+    stat === 'points' &&
+    css`
+      border-radius: 10px;
+      background-color: ${colors.blue1};
+      box-shadow: 0px 0px 1px 0.25px ${colors.grey1};
+    `}
+`
+
+const statStyling = css`
+  padding: 0 5px;
+`
+
+const StatHeader = styled.div`
+  ${statStyling}
+`
+
+const Stat = styled.div`
+  ${statStyling}
 `
 
 const OrderNumber = styled.div`
@@ -137,6 +142,11 @@ const idInArray = (array, id) => array.some(pid => pid === id)
 const handleImgNotFound = e => {
   e.target.src = fallbackImage
 }
+
+const statArrays = [
+  ['points', 'goals', 'assists'],
+  ['plusMinus', 'penaltyMinutes'],
+]
 
 const PlayerCardFront = ({ player, handleCardFlip, i }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
@@ -186,74 +196,48 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
   }
 
   const longName =
-    player.player.lastName.length > 9 || player.player.lastName.length > 9
+    player.player.firstName.length > 10 || player.player.lastName.length > 10
 
   return (
     <SPlayerCardFrontContainer>
       <PlayerImg
-        img
         src={cardImgUrl(player.player.playerId)}
         alt="player profile"
         onError={handleImgNotFound}
       />
       <ImgOverlay />
       <OrderNumber>{i}</OrderNumber>
-      <SPlayerName reduceFont={longName}>
-        <p className="team-name">
+      <GenDataContainer>
+        <SideContainer border="right">
           <Link to={`/teams/${player.team.siteLink}`}>
             {player.team.abbreviation}
           </Link>
-        </p>
-        <div>
-          <p>
-            <Link to={`/players/${player.player.siteLink}`}>
-              {player.player.firstName}
-              <br />
-              {player.player.lastName}
-            </Link>
-          </p>
-        </div>
-        <p>
-          <span>#</span>
+        </SideContainer>
+        <PlayerName smallFont={longName}>
+          <Link to={`/players/${player.player.siteLink}`}>
+            {player.player.firstName}
+            <br />
+            {player.player.lastName}
+          </Link>
+        </PlayerName>
+        <SideContainer numIndicator border="left">
           {player.player.primaryNumber}
-        </p>
-      </SPlayerName>
-      <div>
-        <SPlayerStatsContainer width="33%">
-          <div>
-            <div title={statHeaders.goals.title}>
-              {statHeaders.goals.headerText}
-            </div>
-            <div>{player.stats.goals}</div>
-          </div>
-          <div>
-            <div title={statHeaders.assists.title}>
-              {statHeaders.assists.headerText}
-            </div>
-            <div>{player.stats.assists}</div>
-          </div>
-          <div>
-            <div title={statHeaders.points.title}>
-              {statHeaders.points.headerText}
-            </div>
-            <div>{player.stats.points}</div>
-          </div>
-        </SPlayerStatsContainer>
-        <SPlayerStatsContainer width="50%" border>
-          <div>
-            <div title={statHeaders.penaltyMinutes.title}>
-              {statHeaders.penaltyMinutes.headerText}
-            </div>
-            <div>{player.stats.penaltyMinutes}</div>
-          </div>
-          <div>
-            <div title={statHeaders.plusMinus.title}>
-              {statHeaders.plusMinus.headerText}
-            </div>
-            <div>{player.stats.plusMinus}</div>
-          </div>
-        </SPlayerStatsContainer>
-      </div>
+        </SideContainer>
+      </GenDataContainer>
+      <StatsContainer>
+        {statArrays.map((statRow, i) => (
+          <StatRow key={i}>
+            {statRow.map(stat => (
+              <StatItem key={stat} stat={stat}>
+                <StatHeader title={statHeaders[stat].title}>
+                  {statHeaders[stat].headerText}
+                </StatHeader>
+                <Stat>{player.stats[stat]}</Stat>
+              </StatItem>
+            ))}
+          </StatRow>
+        ))}
+      </StatsContainer>
       {token && user.data.me && (
         <>
           {!idInArray(user.data.me.favoritePlayers, player._id) && (

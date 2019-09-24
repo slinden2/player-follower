@@ -25,8 +25,6 @@ const SPlayerCard = styled.div`
   margin-bottom: 16px;
   transition: transform 1s;
   transform-style: preserve-3d;
-  transition: transform 1s;
-  transform-style: preserve-3d;
   ${({ isFlipped }) => isFlipped && 'transform: rotateY(180deg);'}
 
   & a:hover {
