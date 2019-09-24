@@ -40,6 +40,7 @@ const handlePlayer = async (
   isGoalie
 ) => {
   if (!isGoalie) {
+    stats.points = stats.assists + stats.goals
     stats.evenTimeOnIce = convertMMSStoSec(stats.evenTimeOnIce)
     stats.powerPlayTimeOnIce = convertMMSStoSec(stats.powerPlayTimeOnIce)
     stats.shortHandedTimeOnIce = convertMMSStoSec(stats.shortHandedTimeOnIce)

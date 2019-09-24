@@ -53,6 +53,7 @@ const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => [
       timeOnIce: { $sum: '$populatedBoxscores.timeOnIce' },
       assists: { $sum: '$populatedBoxscores.assists' },
       goals: { $sum: '$populatedBoxscores.goals' },
+      points: { $sum: '$populatedBoxscores.points' },
       shots: { $sum: '$populatedBoxscores.shots' },
       hits: { $sum: '$populatedBoxscores.hits' },
       powerPlayGoals: { $sum: '$populatedBoxscores.powerPlayGoals' },
@@ -80,7 +81,6 @@ const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => [
   {
     $addFields: {
       gamesPlayed: { $size: '$gamePks' },
-      points: { $add: ['$goals', '$assists'] },
       powerPlayPoints: { $add: ['$powerPlayGoals', '$powerPlayAssists'] },
       shortHandedPoints: {
         $add: ['$shortHandedGoals', '$shortHandedAssists'],

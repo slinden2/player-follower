@@ -31,6 +31,10 @@ const skaterBoxscoreSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  points: {
+    type: Number,
+    required: true,
+  },
   plusMinus: {
     type: Number,
     required: true,

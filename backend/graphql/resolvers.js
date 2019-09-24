@@ -148,7 +148,6 @@ const resolvers = {
     },
     FavoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) return []
-      const favorite = true
       const players = await Player.aggregate(
         favoritePlayersAggregate(
           args.numOfGames,
