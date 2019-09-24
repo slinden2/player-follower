@@ -7,7 +7,7 @@ import { PlayerContext } from './contexts/PlayerContext'
 import ProtectedRoute from './components/route/ProtectedRoute'
 import NoTokenRoute from './components/route/NoTokenRoute'
 import Navigation from './components/navigation/Navigation'
-import PlayerCardContainer from './components/player/card/PlayerCardContainer'
+import PlayerCardPage from './components/player/card/PlayerCardPage'
 import Notification from './components/Notification'
 import LoginPage from './components/user/LoginPage'
 import SignupPage from './components/user/SignupPage'
@@ -65,7 +65,6 @@ browserHistory.listen((location, action) => {
 
 const App = () => {
   const { notification } = useContext(NotificationContext)
-  const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
   const { searchValue } = useContext(SearchContext)
   const [cookieConsent, setCookieConsent] = useState(getCookie('funcConsent'))
 
@@ -91,8 +90,7 @@ const App = () => {
                 exact
                 path="/"
                 render={() => (
-                  <PlayerCardContainer
-                    query={bestPlayers}
+                  <PlayerCardPage
                     queryName="BestPlayers"
                     header="Top Players"
                   />
@@ -126,8 +124,7 @@ const App = () => {
               <ProtectedRoute
                 path="/favorites"
                 render={() => (
-                  <PlayerCardContainer
-                    query={favoritePlayers}
+                  <PlayerCardPage
                     queryName="FavoritePlayers"
                     header="Favorite Players"
                   />
