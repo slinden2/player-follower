@@ -71,7 +71,7 @@ const StatsTable = ({
   const createCells = () =>
     data.map(item => (
       <TableRow
-        key={item._id}
+        key={item._id || item.id}
         data={item}
         showPointer={handleRowClick}
         handleRowClick={handleRowClick}

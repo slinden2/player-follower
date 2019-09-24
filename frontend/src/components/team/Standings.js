@@ -109,7 +109,11 @@ const Standings = () => {
 
   return (
     <PageContainer title="Standings">
-      <DropdownMenu items={standingsTypes} setState={setStandingsType} />
+      <DropdownMenu
+        items={standingsTypes}
+        state={standingsType}
+        setState={setStandingsType}
+      />
       {Object.keys(standings).map(conference => (
         <StatsTable
           key={conference}
