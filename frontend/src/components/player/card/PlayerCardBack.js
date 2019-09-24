@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { statHeaders, convertSecsToMMSS } from '../../../utils'
+import { statHeaders } from '../../../utils'
 import styled from 'styled-components'
 import FlipDiv from './FlipDiv'
 import colors from '../../../styles/colors'
