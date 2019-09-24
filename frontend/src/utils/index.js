@@ -161,20 +161,22 @@ const statHeaders = {
     sortString: 'ASSISTS',
     showOnMobile: true,
   },
-  blocks: {
-    headerText: 'Blocks',
-    id: 'blocks',
-    title: 'Blocks',
-  },
   blocked: {
-    headerText: 'Blocks',
+    headerText: 'BLK',
     id: 'blocked',
-    title: 'Blocks',
+    title: 'Blocked shots',
+    sortString: 'BLOCKED',
   },
   faceOffsTaken: {
     headerText: 'FOT',
     id: 'faceOffsTaken',
     title: 'Faceoffs Taken',
+  },
+  faceOffPct: {
+    headerText: 'FO%',
+    id: 'faceOffPct',
+    title: 'Faceoff Win Percentage',
+    sortString: 'FO_PCT',
   },
   fullName: {
     headerText: 'Player',
@@ -197,16 +199,11 @@ const statHeaders = {
     title: 'Date',
     showOnMobile: true,
   },
-  gameWinningGoals: {
-    headerText: 'GWG',
-    id: 'gameWinningGoals',
-    title: 'Game Winning Goals',
-    sortString: 'GWG',
-  },
   giveaways: {
     headerText: 'GA',
     id: 'giveaways',
     title: 'Giveaways',
+    sortString: 'GA',
   },
   goals: {
     headerText: 'G',
@@ -219,12 +216,6 @@ const statHeaders = {
     headerText: 'Hits',
     id: 'hits',
     title: 'Hits',
-  },
-  overTimeGoals: {
-    headerText: 'OTG',
-    id: 'overTimeGoals',
-    title: 'Overtime Goals',
-    sortString: 'OTG',
   },
   penaltyMinutes: {
     headerText: 'PM',
@@ -282,6 +273,12 @@ const statHeaders = {
     id: 'powerPlayTimeOnIce',
     title: 'Power Play Time on Ice',
   },
+  powerPlayTimeOnIcePerGame: {
+    headerText: 'PPT/GP',
+    id: 'powerPlayTimeOnIcePerGame',
+    title: 'Power Play Time on Ice per Game',
+    sortString: 'PPTON_PER_GAME',
+  },
   shortHandedAssists: {
     headerText: 'SHA',
     id: 'shortHandedAssists',
@@ -304,10 +301,17 @@ const statHeaders = {
     id: 'shortHandedTimeOnIce',
     title: 'Shorthanded Time on Ice',
   },
+  shortHandedTimeOnIcePerGame: {
+    headerText: 'SHT/GP',
+    id: 'shortHandedTimeOnIcePerGame',
+    title: 'Shorthanded Time on Ice per Game',
+    sortString: 'SHTON_PER_GAME',
+  },
   shotPct: {
     headerText: 'S%',
     id: 'shotPct',
     title: 'Shot Percentage',
+    sortString: 'SHOT_PCT',
   },
   shots: {
     headerText: 'Shots',
@@ -319,6 +323,7 @@ const statHeaders = {
     headerText: 'TA',
     id: 'takeaways',
     title: 'Takeaways',
+    sortString: 'TA',
   },
   team: {
     headerText: 'Team',
@@ -342,6 +347,7 @@ const statHeaders = {
     headerText: 'T/GP',
     id: 'timeOnIcePerGame',
     title: 'Time on Ice per Game',
+    sortString: 'TON_PER_GAME',
   },
 }
 

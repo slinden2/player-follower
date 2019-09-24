@@ -37,6 +37,11 @@ const cache = new InMemoryCache({
           return object.numOfGamesId + object.id
         }
         return object.id
+      case 'CumulativeStats':
+        if (object.sortCode) {
+          return object.sortCode + object._id
+        }
+        return object._id
       default:
         return defaultDataIdFromObject(object)
     }

@@ -12,10 +12,10 @@ require('../models/division') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
-const SkaterStats = require('../models/skater-stats')
 const {
   bestPlayersAggregate,
   favoritePlayersAggregate,
+  seasonStatsAggregate,
 } = require('./pipelines')
 const roundToDecimal = require('../utils/round-to-decimal')
 const generateCumulativeStats = require('../utils/generate-cumulative-stats')
@@ -167,38 +167,19 @@ const resolvers = {
 
         let sortBy = getSortField(sortByEnum)
         const sortDir = sortDirEnum === 'DESC' ? '-' : ''
+        const offset = args.offset
 
-        const allStatsAggregate = await SkaterStats.aggregate()
-          .addFields({
-            points: { $add: ['$goals', '$assists'] },
-            pointsPerGame: {
-              $divide: [{ $add: ['$goals', '$assists'] }, '$gamesPlayed'],
-            },
-            powerPlayPoints: { $add: ['$powerPlayGoals', '$powerPlayAssists'] },
-            shortHandedPoints: {
-              $add: ['$shortHandedGoals', '$shortHandedAssists'],
-            },
-          })
-          .sort(`field ${sortDir}${sortBy}`)
-          .skip(args.offset)
-          .limit(25)
-
-        const allStats = await Player.populate(allStatsAggregate, {
-          path: 'player',
-          model: 'Player',
-          select: 'firstName lastName primaryPosition siteLink',
-          populate: {
-            path: 'currentTeam',
-            model: 'Team',
-            select: 'abbreviation siteLink',
-          },
-        })
-
-        const cumulativeStats = allStats.map(entry =>
-          generateCumulativeStats(entry)
+        const players = await Player.aggregate(
+          seasonStatsAggregate(
+            args.teamFilter,
+            args.positionFilter,
+            sortBy,
+            sortDir,
+            offset
+          )
         )
 
-        return cumulativeStats
+        return players
       } catch ({ name, message }) {
         console.log(`${name}: ${message}`)
       }
@@ -514,6 +495,13 @@ const resolvers = {
     fullName: root => `${root.firstName} ${root.lastName}`,
     points: root => root.goals + root.assists,
     pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
+    shotPct: root => roundToDecimal(root.shotPct, 2),
+    timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
+    powerPlayTimeOnIcePerGame: root =>
+      convertSecsToMin(root.powerPlayTimeOnIcePerGame),
+    shortHandedTimeOnIcePerGame: root =>
+      convertSecsToMin(root.shortHandedTimeOnIcePerGame),
+    faceOffPct: root => roundToDecimal(root.faceOffPct, 2),
   },
   Position: {
     code: root => root,

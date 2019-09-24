@@ -159,12 +159,20 @@ const FIND_BY_NAME = gql`
 
 const CUMULATIVE_STATS = gql`
   query GetCumulativeStats(
+    $positionFilter: PositionFilter!
+    $teamFilter: TeamFilter!
     $offset: Int!
     $sortBy: SortBy!
     $sortDir: SortDir!
   ) {
-    GetCumulativeStats(offset: $offset, sortBy: $sortBy, sortDir: $sortDir) {
-      id
+    GetCumulativeStats(
+      positionFilter: $positionFilter
+      teamFilter: $teamFilter
+      offset: $offset
+      sortBy: $sortBy
+      sortDir: $sortDir
+    ) {
+      _id
       fullName
       siteLink
       team
@@ -177,13 +185,21 @@ const CUMULATIVE_STATS = gql`
       plusMinus
       penaltyMinutes
       pointsPerGame
-      gameWinningGoals
-      overTimeGoals
       powerPlayGoals
       powerPlayPoints
       shortHandedGoals
       shortHandedPoints
       shots
+      shotPct
+      faceOffsTaken
+      faceOffPct
+      takeaways
+      giveaways
+      timeOnIcePerGame
+      powerPlayTimeOnIcePerGame
+      shortHandedTimeOnIcePerGame
+      blocked
+      sortCode
     }
   }
 `

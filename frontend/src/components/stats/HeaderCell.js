@@ -21,7 +21,6 @@ const Header = styled.th`
 // cant sort by these fields atm because of
 // how aggregation is done in the backend
 const disableSortVariables = [
-  'PLAYER',
   'TEAM',
   'POSITION',
   'fullName',
@@ -45,10 +44,20 @@ const HeaderCell = ({
     if (disableSortVariables.includes(sortBy) || sortDisabled) return
     if (sortBy === sortVariables.sortBy) {
       sortVariables.sortDir === 'DESC'
-        ? setSortVariables({ offset: 0, sortBy, sortDir: 'ASC' })
-        : setSortVariables({ offset: 0, sortBy, sortDir: 'DESC' })
+        ? setSortVariables({
+            ...sortVariables,
+            offset: 0,
+            sortBy,
+            sortDir: 'ASC',
+          })
+        : setSortVariables({
+            ...sortVariables,
+            offset: 0,
+            sortBy,
+            sortDir: 'DESC',
+          })
     } else {
-      setSortVariables({ offset: 0, sortBy, sortDir: 'DESC' })
+      setSortVariables({ ...sortVariables, offset: 0, sortBy, sortDir: 'DESC' })
     }
   }
 

@@ -232,26 +232,34 @@ const typeDefs = gql`
   }
 
   type CumulativeStats {
-    id: ID!
+    _id: ID!
     fullName: String!
     siteLink: String!
     team: String
     teamSiteLink: String
     position: String!
     gamesPlayed: Int!
-    goals: Int!
     assists: Int!
+    goals: Int!
     points: Int!
     plusMinus: Int!
     penaltyMinutes: Int!
     pointsPerGame: Float!
-    gameWinningGoals: Int!
-    overTimeGoals: Int!
     powerPlayGoals: Int!
     powerPlayPoints: Int!
     shortHandedGoals: Int!
     shortHandedPoints: Int!
     shots: Int!
+    shotPct: Float!
+    faceOffsTaken: Int!
+    faceOffPct: Float!
+    takeaways: Int!
+    giveaways: Int!
+    blocked: Int!
+    timeOnIcePerGame: String!
+    powerPlayTimeOnIcePerGame: String!
+    shortHandedTimeOnIcePerGame: String!
+    sortCode: String!
   }
 
   type PlayerMilestone {
@@ -296,13 +304,19 @@ const typeDefs = gql`
     PLUSMINUS
     PM
     POINTS_PER_GAME
-    GWG
-    OTG
     PPG
     PPP
     SHG
     SHP
     SHOTS
+    FO_PCT
+    SHOT_PCT
+    TA
+    GA
+    TON_PER_GAME
+    SHTON_PER_GAME
+    PPTON_PER_GAME
+    BLOCKED
   }
 
   enum SortDir {
@@ -401,6 +415,8 @@ const typeDefs = gql`
     Cumulative player stats considering all games of the season.
     """
     GetCumulativeStats(
+      positionFilter: PositionFilter!
+      teamFilter: TeamFilter!
       offset: Int!
       sortBy: SortBy!
       sortDir: SortDir!

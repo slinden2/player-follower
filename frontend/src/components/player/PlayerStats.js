@@ -18,17 +18,25 @@ const headers = [
   'plusMinus',
   'penaltyMinutes',
   'pointsPerGame',
-  'gameWinningGoals',
-  'overTimeGoals',
   'powerPlayGoals',
   'powerPlayPoints',
   'shortHandedGoals',
   'shortHandedPoints',
   'shots',
+  'shotPct',
+  'faceOffPct',
+  'takeaways',
+  'giveaways',
+  'blocked',
+  'timeOnIcePerGame',
+  'shortHandedTimeOnIcePerGame',
+  'powerPlayTimeOnIcePerGame',
 ]
 
 const PlayerStats = () => {
   const [variables, setVariables] = useState({
+    positionFilter: 'ALL', // not in use
+    teamFilter: 'ALL', // not in use
     offset: 0,
     sortBy: 'POINTS',
     sortDir: 'DESC',

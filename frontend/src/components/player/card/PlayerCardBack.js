@@ -134,8 +134,8 @@ const PlayerCardBack = ({ player, handleCardFlip }) => {
       <StatRow last>
         <StatItem rightBorder descRight>
           <p>{player.stats.blocked}</p>
-          <p title={statHeaders.blocks.title}>
-            {statHeaders.blocks.headerText}
+          <p title={statHeaders.blocked.title}>
+            {statHeaders.blocked.headerText}
           </p>
         </StatItem>
       </StatRow>
