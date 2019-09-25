@@ -44,6 +44,24 @@ const typeDefs = gql`
     rosterStats: [CumulativeStats]
   }
 
+  type TeamProfile {
+    _id: ID!
+    conference: Conference!
+    division: Division!
+    teamId: Int!
+    link: String!
+    siteLink: String!
+    name: String!
+    teamName: String!
+    shortName: String!
+    abbreviation: String!
+    locationName: String!
+    firstYearOfPlay: Int!
+    officialSiteUrl: String!
+    active: Boolean!
+    players: [CumulativeStats!]!
+  }
+
   type Standings {
     id: ID!
     teamName: String!
@@ -130,6 +148,7 @@ const typeDefs = gql`
     assists: Int!
     blocked: Int!
     evenTimeOnIce: String!
+
     goals: Int!
     hits: Int!
     penaltyMinutes: Int!
@@ -139,10 +158,12 @@ const typeDefs = gql`
     powerPlayGoals: Int!
     powerPlayPoints: Int! # custom resolver
     powerPlayTimeOnIce: String!
+
     shortHandedAssists: Int!
     shortHandedGoals: Int!
     shortHandedPoints: Int! # custom resolver
     shortHandedTimeOnIce: String!
+
     shotPct: Float
     shots: Int!
     timeOnIce: String!
@@ -167,6 +188,10 @@ const typeDefs = gql`
     pointsPerGame: Float!
     overTimeGoals: Int!
     shifts: Int!
+    evenTimeOnIcePerGame: String!
+    powerPlayTimeOnIcePerGame: String!
+    shortHandedTimeOnIcePerGame: String!
+    timeOnIcePerGame: String!
 
     # Group for all StatsNGames-only related stats
     """
@@ -201,7 +226,6 @@ const typeDefs = gql`
     ot: Int!
     powerPlaySavePct: Float!
     shutouts: Int!
-    timeOnIcePerGame: Int!
     wins: Int!
     # you can query only gamesPlayed
   }
@@ -218,38 +242,43 @@ const typeDefs = gql`
   }
 
   type PlayerCard {
-    firstName: String!
-    lastName: String!
-    primaryNumber: Int
-    playerId: Int!
-    id: ID!
+    _id: ID!
     numOfGamesId: Int!
-    siteLink: String!
+    player: Player!
     stats: Stats!
-    currentTeam: Team!
+    team: Team!
   }
 
   type CumulativeStats {
-    id: ID!
+    _id: ID!
     fullName: String!
     siteLink: String!
     team: String
     teamSiteLink: String
     position: String!
     gamesPlayed: Int!
-    goals: Int!
     assists: Int!
+    goals: Int!
     points: Int!
     plusMinus: Int!
     penaltyMinutes: Int!
     pointsPerGame: Float!
-    gameWinningGoals: Int!
-    overTimeGoals: Int!
     powerPlayGoals: Int!
     powerPlayPoints: Int!
     shortHandedGoals: Int!
     shortHandedPoints: Int!
+    hits: Int!
     shots: Int!
+    shotPct: Float!
+    faceOffsTaken: Int!
+    faceOffPct: Float!
+    takeaways: Int!
+    giveaways: Int!
+    blocked: Int!
+    timeOnIcePerGame: String!
+    powerPlayTimeOnIcePerGame: String!
+    shortHandedTimeOnIcePerGame: String!
+    sortCode: String!
   }
 
   type PlayerMilestone {
@@ -294,18 +323,67 @@ const typeDefs = gql`
     PLUSMINUS
     PM
     POINTS_PER_GAME
-    GWG
-    OTG
     PPG
     PPP
     SHG
     SHP
     SHOTS
+    SHOT_PCT
+    HITS
+    FOT
+    FO_PCT
+    TA
+    GA
+    TON_PER_GAME
+    SHTON_PER_GAME
+    PPTON_PER_GAME
+    BLOCKED
   }
 
   enum SortDir {
     ASC
     DESC
+  }
+
+  enum PositionFilter {
+    ALL
+    FORWARD
+    DEFENCE
+  }
+
+  enum TeamFilter {
+    ALL
+    ANA
+    ARI
+    BOS
+    BUF
+    CAR
+    CGY
+    CHI
+    CBJ
+    COL
+    DAL
+    DET
+    EDM
+    FLA
+    LAK
+    MIN
+    MTL
+    NSH
+    NJD
+    NYI
+    NYR
+    OTT
+    PHI
+    PIT
+    SJS
+    STL
+    TBL
+    TOR
+    VAN
+    VGK
+    WPG
+    WSH
   }
 
   type Query {
@@ -317,11 +395,19 @@ const typeDefs = gql`
     """
     Returns best players for the last 3, 5 and 10 games.
     """
-    bestPlayers: StatsNGames!
+    BestPlayers(
+      numOfGames: Int!
+      positionFilter: PositionFilter!
+      teamFilter: TeamFilter!
+    ): [PlayerCard!]!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
     """
-    favoritePlayers: StatsNGames!
+    FavoritePlayers(
+      numOfGames: Int!
+      positionFilter: PositionFilter!
+      teamFilter: TeamFilter!
+    ): [PlayerCard]!
     """
     Single player by playerId
     """
@@ -350,6 +436,8 @@ const typeDefs = gql`
     Cumulative player stats considering all games of the season.
     """
     GetCumulativeStats(
+      positionFilter: PositionFilter!
+      teamFilter: TeamFilter!
       offset: Int!
       sortBy: SortBy!
       sortDir: SortDir!
@@ -373,7 +461,7 @@ const typeDefs = gql`
     """
     Returns a team and its roster
     """
-    GetTeam(teamId: Int, siteLink: String): Team!
+    GetTeam(siteLink: String!): TeamProfile!
     """
     Returns the logged user
     """

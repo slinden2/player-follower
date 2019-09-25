@@ -5,6 +5,7 @@ const { UserInputError, AuthenticationError } = require('apollo-server')
 const dateFns = require('date-fns')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for field population
+require('../models/skater-stats') // needed for field population
 require('../models/goalie-boxscore') // needed for field population
 require('../models/team-stats') // needed for field population
 require('../models/conference') // needed for field population
@@ -12,9 +13,12 @@ require('../models/division') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
-const BestPlayers = require('../models/best-players')
-const SkaterStats = require('../models/skater-stats')
-const { getBestPlayers } = require('../utils/get-best-players')
+const {
+  bestPlayersAggregate,
+  favoritePlayersAggregate,
+  seasonStatsAggregate,
+  teamProfileAggregate,
+} = require('./pipelines')
 const roundToDecimal = require('../utils/round-to-decimal')
 const generateCumulativeStats = require('../utils/generate-cumulative-stats')
 const getSortField = require('../utils/get-sort-field')
@@ -57,7 +61,7 @@ const resolvers = {
         {
           path: 'currentTeam',
           model: 'Team',
-          select: 'name abbreviation locationName',
+          select: 'name abbreviation locationName siteLink',
         },
       ])
 
@@ -134,43 +138,29 @@ const resolvers = {
 
       return players.map(player => player.toJSON())
     },
-    bestPlayers: async () => {
-      const bestPlayers = await BestPlayers.find({})
-        .sort({ _id: -1 })
-        .limit(1)
-
-      return {
-        oneGame: JSON.parse(bestPlayers[0].oneGame).slice(0, 15),
-        fiveGames: JSON.parse(bestPlayers[0].fiveGames).slice(0, 15),
-        tenGames: JSON.parse(bestPlayers[0].tenGames).slice(0, 15),
-      }
+    BestPlayers: async (root, args) => {
+      const players = await Player.aggregate(
+        bestPlayersAggregate(
+          args.numOfGames,
+          args.positionFilter,
+          args.teamFilter
+        )
+      )
+      return players
     },
-    favoritePlayers: async (root, args, ctx) => {
-      if (!ctx.currentUser) {
-        return { oneGame: [], fiveGames: [], tenGames: [] }
-      }
-      const players = await Player.find({
-        _id: { $in: ctx.currentUser.favoritePlayers },
-      }).populate([
-        {
-          path: 'boxscores',
-          model: 'SkaterBoxscore',
-        },
-        {
-          path: 'currentTeam',
-          model: 'Team',
-        },
-      ])
-      const playersJSON = players.map(player => player.toJSON())
-      const bestPlayers1 = getBestPlayers(playersJSON, 1)
-      const bestPlayers5 = getBestPlayers(playersJSON, 5)
-      const bestPlayers10 = getBestPlayers(playersJSON, 10)
-
-      return {
-        oneGame: bestPlayers1,
-        fiveGames: bestPlayers5,
-        tenGames: bestPlayers10,
-      }
+    FavoritePlayers: async (root, args, ctx) => {
+      if (!ctx.currentUser) return []
+      const players = await Player.aggregate(
+        favoritePlayersAggregate(
+          args.numOfGames,
+          args.positionFilter,
+          args.teamFilter,
+          ctx.currentUser.favoritePlayers
+        )
+      )
+      return players.filter(player =>
+        ctx.currentUser.favoritePlayers.includes(player._id)
+      )
     },
     GetCumulativeStats: async (root, args) => {
       try {
@@ -179,38 +169,19 @@ const resolvers = {
 
         let sortBy = getSortField(sortByEnum)
         const sortDir = sortDirEnum === 'DESC' ? '-' : ''
+        const offset = args.offset
 
-        const allStatsAggregate = await SkaterStats.aggregate()
-          .addFields({
-            points: { $add: ['$goals', '$assists'] },
-            pointsPerGame: {
-              $divide: [{ $add: ['$goals', '$assists'] }, '$gamesPlayed'],
-            },
-            powerPlayPoints: { $add: ['$powerPlayGoals', '$powerPlayAssists'] },
-            shortHandedPoints: {
-              $add: ['$shortHandedGoals', '$shortHandedAssists'],
-            },
-          })
-          .sort(`field ${sortDir}${sortBy}`)
-          .skip(args.offset)
-          .limit(25)
-
-        const allStats = await Player.populate(allStatsAggregate, {
-          path: 'player',
-          model: 'Player',
-          select: 'firstName lastName primaryPosition siteLink',
-          populate: {
-            path: 'currentTeam',
-            model: 'Team',
-            select: 'abbreviation siteLink',
-          },
-        })
-
-        const cumulativeStats = allStats.map(entry =>
-          generateCumulativeStats(entry)
+        const players = await Player.aggregate(
+          seasonStatsAggregate(
+            args.teamFilter,
+            args.positionFilter,
+            sortBy,
+            sortDir,
+            offset
+          )
         )
 
-        return cumulativeStats
+        return players
       } catch ({ name, message }) {
         console.log(`${name}: ${message}`)
       }
@@ -268,38 +239,10 @@ const resolvers = {
     },
     GetTeam: async (root, args) => {
       const { siteLink } = args
-      const team = await Team.findOne({ siteLink }).populate([
-        {
-          path: 'players',
-          model: 'Player',
-          select: 'firstName lastName siteLink primaryPosition stats',
-          populate: {
-            path: 'stats',
-            model: 'SkaterStats',
-          },
-        },
-      ])
 
-      const newTeam = team.toJSON()
+      const team = await Team.aggregate(teamProfileAggregate(siteLink))
 
-      // Correct functioning of reduce NOT TESTED!!!
-      newTeam.players = newTeam.players
-        .filter(
-          player => player.primaryPosition !== 'G' && player.stats.length > 0
-        )
-        .map(player => {
-          player.stats = player.stats.reduce(
-            (acc, cur) => (acc.date > cur.date ? acc : cur),
-            []
-          )
-          return player
-        })
-
-      newTeam.rosterStats = newTeam.players.map(player =>
-        generateCumulativeStats(player)
-      )
-
-      return newTeam
+      return team[0]
     },
   },
   Mutation: {
@@ -508,21 +451,31 @@ const resolvers = {
       if (root.saves === 0) return 0
       return roundToDecimal(root.goals / root.saves, 1)
     },
-    points: root => root.goals + root.assists,
-    powerPlayPoints: root => root.powerPlayGoals + root.powerPlayAssists,
-    shortHandedPoints: root => root.shortHandedGoals + root.shortHandedAssists,
     pointsPerGame: root =>
       roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
     gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
+    timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),
+    evenTimeOnIcePerGame: root => convertSecsToMin(root.evenTimeOnIcePerGame),
     powerPlayTimeOnIce: root => convertSecsToMin(root.powerPlayTimeOnIce),
+    powerPlayTimeOnIcePerGame: root =>
+      convertSecsToMin(root.powerPlayTimeOnIcePerGame),
     shortHandedTimeOnIce: root => convertSecsToMin(root.shortHandedTimeOnIce),
+    shortHandedTimeOnIcePerGame: root =>
+      convertSecsToMin(root.shortHandedTimeOnIcePerGame),
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
     points: root => root.goals + root.assists,
     pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
+    shotPct: root => roundToDecimal(root.shotPct, 2),
+    timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
+    powerPlayTimeOnIcePerGame: root =>
+      convertSecsToMin(root.powerPlayTimeOnIcePerGame),
+    shortHandedTimeOnIcePerGame: root =>
+      convertSecsToMin(root.shortHandedTimeOnIcePerGame),
+    faceOffPct: root => roundToDecimal(root.faceOffPct, 2),
   },
   Position: {
     code: root => root,

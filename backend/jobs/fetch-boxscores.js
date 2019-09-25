@@ -64,6 +64,8 @@ const handlePlayer = async (
     ...stats,
   }
 
+  if (!boxscore.penaltyMinutes) boxscore.penaltyMinutes = 0
+
   try {
     if (isDuplicate(playerInDb, gamePk)) {
       throw new Error('Duplicate internal game id!')

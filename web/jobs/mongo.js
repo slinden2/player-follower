@@ -42,11 +42,12 @@ const deletePlayers = async () => {
 
 const deletePlayerBoxscores = async () => {
   await SkaterBoxscore.deleteMany({})
-  const players = await Player.find({ boxscoreType: 'SkaterBoxsore' })
-  for (const player of players) {
-    player.boxscores = []
-    await player.save()
-  }
+  await Player.updateMany({}, { $set: { boxscores: [] } })
+  // const players = await Player.find({ boxscoreType: 'SkaterBoxsore' })
+  // for (const player of players) {
+  //   player.boxscores = []
+  //   await player.save()
+  // }
 }
 
 const deleteGoalieBoxscores = async () => {
@@ -234,6 +235,13 @@ const addNationalities = async () => {
   }
 }
 
+const addPointsToBoxscores = async () => {
+  await SkaterBoxscore.updateMany(
+    {},
+    { $set: { points: { $add: ['$assists', '$goals'] } } }
+  )
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -253,3 +261,4 @@ const addNationalities = async () => {
 // deleteAllStarGames().then(() => mongoose.connection.close())
 // addTeamsToBoxscores().then(() => mongoose.connection.close())
 // addNationalities().then(() => mongoose.connection.close())
+// addPointsToBoxscores().then(() => mongoose.connection.close())
