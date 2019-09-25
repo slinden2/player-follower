@@ -20,35 +20,10 @@ const matchPlayers = (positionFilter, teamFilter) => {
     }
 }
 
-const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => [
-  {
-    $lookup: {
-      from: 'teams',
-      localField: 'currentTeam',
-      foreignField: '_id',
-      as: 'team',
-    },
-  },
-  matchPlayers(positionFilter, teamFilter),
-  {
-    $lookup: {
-      from: 'skaterboxscores',
-      localField: 'boxscores',
-      foreignField: '_id',
-      as: 'populatedBoxscores',
-    },
-  },
-  {
-    $project: {
-      firstName: 1,
-      lastName: 1,
-      populatedBoxscores: { $slice: ['$populatedBoxscores', -numOfGames] },
-    },
-  },
-  { $unwind: '$populatedBoxscores' },
+const calculateStats = idString => [
   {
     $group: {
-      _id: '$_id',
+      _id: `$${idString}`,
       gamePks: { $push: '$populatedBoxscores.gamePk' },
       timeOnIce: { $sum: '$populatedBoxscores.timeOnIce' },
       assists: { $sum: '$populatedBoxscores.assists' },
@@ -119,6 +94,35 @@ const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => [
       },
     },
   },
+]
+
+const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => [
+  {
+    $lookup: {
+      from: 'teams',
+      localField: 'currentTeam',
+      foreignField: '_id',
+      as: 'team',
+    },
+  },
+  matchPlayers(positionFilter, teamFilter),
+  {
+    $lookup: {
+      from: 'skaterboxscores',
+      localField: 'boxscores',
+      foreignField: '_id',
+      as: 'populatedBoxscores',
+    },
+  },
+  {
+    $project: {
+      firstName: 1,
+      lastName: 1,
+      populatedBoxscores: { $slice: ['$populatedBoxscores', -numOfGames] },
+    },
+  },
+  { $unwind: '$populatedBoxscores' },
+  ...calculateStats('_id'),
 ]
 
 const reformatPlayCardData = numOfGames => [
@@ -250,12 +254,12 @@ const favoritePlayersAggregate = (
   numOfGames,
   positionFilter,
   teamFilter,
-  user
+  playerList
 ) => {
   const pipeline = [
     {
       $match: {
-        _id: { $in: user.favoritePlayers },
+        _id: { $in: playerList },
       },
     },
     ...bestPlayersPipeline(numOfGames, positionFilter, teamFilter),
@@ -315,8 +319,95 @@ const seasonStatsAggregate = (
   return pipeline
 }
 
+const teamProfileAggregate = siteLink => {
+  const pipeline = [
+    {
+      $match: {
+        siteLink,
+      },
+    },
+    {
+      $lookup: {
+        from: 'players',
+        localField: 'players',
+        foreignField: '_id',
+        as: 'populatedPlayers',
+      },
+    },
+    { $unwind: '$populatedPlayers' },
+    {
+      $lookup: {
+        from: 'skaterboxscores',
+        localField: 'populatedPlayers.boxscores',
+        foreignField: '_id',
+        as: 'populatedBoxscores',
+      },
+    },
+    {
+      $project: {
+        playerId: '$populatedPlayers._id',
+        populatedBoxscores: 1,
+      },
+    },
+    {
+      $unwind: '$populatedBoxscores',
+    },
+    ...calculateStats('playerId'),
+    {
+      $project: {
+        players: '$$ROOT',
+      },
+    },
+    {
+      $lookup: {
+        from: 'players',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'player',
+      },
+    },
+    {
+      $lookup: {
+        from: 'teams',
+        localField: 'player.currentTeam',
+        foreignField: '_id',
+        as: 'team',
+      },
+    },
+    {
+      $addFields: {
+        'players.firstName': { $arrayElemAt: ['$player.firstName', 0] },
+        'players.lastName': { $arrayElemAt: ['$player.lastName', 0] },
+        'players.position': { $arrayElemAt: ['$player.primaryPosition', 0] },
+      },
+    },
+    {
+      $project: {
+        players: 1,
+        player: { $arrayElemAt: ['$player', 0] },
+        team: { $arrayElemAt: ['$team', 0] },
+      },
+    },
+    {
+      $group: {
+        _id: '$team._id',
+        conference: { $first: '$team.conference' },
+        division: { $first: '$team.division' },
+        teamId: { $first: '$team.teamid' },
+        siteLink: { $first: '$team.siteLink' },
+        name: { $first: '$team.name' },
+        abbreviation: { $first: '$team.abbreviation' },
+        players: { $push: '$players' },
+      },
+    },
+  ]
+
+  return pipeline
+}
+
 module.exports = {
   bestPlayersAggregate,
   favoritePlayersAggregate,
   seasonStatsAggregate,
+  teamProfileAggregate,
 }

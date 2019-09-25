@@ -42,7 +42,7 @@ const TeamProfile = ({ siteLink }) => {
     .slice(0, index)
     .concat(playerStatsHeaders.slice(index + 1))
 
-  const playersWithLink = data.GetTeam.rosterStats.map(player => ({
+  const playersWithLink = data.GetTeam.players.map(player => ({
     ...player,
     fullName: <Link to={`/players/${player.siteLink}`}>{player.fullName}</Link>,
   }))

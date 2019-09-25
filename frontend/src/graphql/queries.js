@@ -191,6 +191,7 @@ const CUMULATIVE_STATS = gql`
       shortHandedPoints
       shots
       shotPct
+      hits
       faceOffsTaken
       faceOffPct
       takeaways
@@ -266,28 +267,34 @@ const GET_TEAMS_BY_NAME = gql`
 const TEAM_PROFILE = gql`
   query getTeamByName($siteLink: String!) {
     GetTeam(siteLink: $siteLink) {
-      id
       name
       abbreviation
-      rosterStats {
-        id
+      players {
+        _id
         fullName
-        siteLink
-        position
         gamesPlayed
+        position
         goals
         assists
         points
         plusMinus
         penaltyMinutes
         pointsPerGame
-        gameWinningGoals
-        overTimeGoals
+        timeOnIcePerGame
+        powerPlayTimeOnIcePerGame
+        shortHandedTimeOnIcePerGame
+        shots
+        shotPct
         powerPlayGoals
         powerPlayPoints
         shortHandedGoals
         shortHandedPoints
-        shots
+        faceOffsTaken
+        faceOffPct
+        hits
+        blocked
+        giveaways
+        takeaways
       }
     }
   }

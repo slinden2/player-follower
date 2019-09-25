@@ -44,6 +44,24 @@ const typeDefs = gql`
     rosterStats: [CumulativeStats]
   }
 
+  type TeamProfile {
+    _id: ID!
+    conference: Conference!
+    division: Division!
+    teamId: Int!
+    link: String!
+    siteLink: String!
+    name: String!
+    teamName: String!
+    shortName: String!
+    abbreviation: String!
+    locationName: String!
+    firstYearOfPlay: Int!
+    officialSiteUrl: String!
+    active: Boolean!
+    players: [CumulativeStats!]!
+  }
+
   type Standings {
     id: ID!
     teamName: String!
@@ -249,6 +267,7 @@ const typeDefs = gql`
     powerPlayPoints: Int!
     shortHandedGoals: Int!
     shortHandedPoints: Int!
+    hits: Int!
     shots: Int!
     shotPct: Float!
     faceOffsTaken: Int!
@@ -309,8 +328,10 @@ const typeDefs = gql`
     SHG
     SHP
     SHOTS
-    FO_PCT
     SHOT_PCT
+    HITS
+    FOT
+    FO_PCT
     TA
     GA
     TON_PER_GAME
@@ -440,7 +461,7 @@ const typeDefs = gql`
     """
     Returns a team and its roster
     """
-    GetTeam(teamId: Int, siteLink: String): Team!
+    GetTeam(siteLink: String!): TeamProfile!
     """
     Returns the logged user
     """

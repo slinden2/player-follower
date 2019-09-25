@@ -5,6 +5,7 @@ const { UserInputError, AuthenticationError } = require('apollo-server')
 const dateFns = require('date-fns')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for field population
+require('../models/skater-stats') // needed for field population
 require('../models/goalie-boxscore') // needed for field population
 require('../models/team-stats') // needed for field population
 require('../models/conference') // needed for field population
@@ -16,6 +17,7 @@ const {
   bestPlayersAggregate,
   favoritePlayersAggregate,
   seasonStatsAggregate,
+  teamProfileAggregate,
 } = require('./pipelines')
 const roundToDecimal = require('../utils/round-to-decimal')
 const generateCumulativeStats = require('../utils/generate-cumulative-stats')
@@ -153,7 +155,7 @@ const resolvers = {
           args.numOfGames,
           args.positionFilter,
           args.teamFilter,
-          ctx.currentUser
+          ctx.currentUser.favoritePlayers
         )
       )
       return players.filter(player =>
@@ -237,38 +239,10 @@ const resolvers = {
     },
     GetTeam: async (root, args) => {
       const { siteLink } = args
-      const team = await Team.findOne({ siteLink }).populate([
-        {
-          path: 'players',
-          model: 'Player',
-          select: 'firstName lastName siteLink primaryPosition stats',
-          populate: {
-            path: 'stats',
-            model: 'SkaterStats',
-          },
-        },
-      ])
 
-      const newTeam = team.toJSON()
+      const team = await Team.aggregate(teamProfileAggregate(siteLink))
 
-      // Correct functioning of reduce NOT TESTED!!!
-      newTeam.players = newTeam.players
-        .filter(
-          player => player.primaryPosition !== 'G' && player.stats.length > 0
-        )
-        .map(player => {
-          player.stats = player.stats.reduce(
-            (acc, cur) => (acc.date > cur.date ? acc : cur),
-            []
-          )
-          return player
-        })
-
-      newTeam.rosterStats = newTeam.players.map(player =>
-        generateCumulativeStats(player)
-      )
-
-      return newTeam
+      return team[0]
     },
   },
   Mutation: {

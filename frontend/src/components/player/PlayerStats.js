@@ -6,32 +6,7 @@ import StatsTable from '../stats/StatsTable'
 import Button from '../elements/Button'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
-
-const headers = [
-  'fullName',
-  'team',
-  'position',
-  'gamesPlayed',
-  'goals',
-  'assists',
-  'points',
-  'plusMinus',
-  'penaltyMinutes',
-  'pointsPerGame',
-  'powerPlayGoals',
-  'powerPlayPoints',
-  'shortHandedGoals',
-  'shortHandedPoints',
-  'shots',
-  'shotPct',
-  'faceOffPct',
-  'takeaways',
-  'giveaways',
-  'blocked',
-  'timeOnIcePerGame',
-  'shortHandedTimeOnIcePerGame',
-  'powerPlayTimeOnIcePerGame',
-]
+import { playerStatsHeaders } from '../../utils'
 
 const PlayerStats = () => {
   const [variables, setVariables] = useState({
@@ -76,7 +51,7 @@ const PlayerStats = () => {
   return (
     <PageContainer title="Player Stats">
       <StatsTable
-        headers={headers}
+        headers={playerStatsHeaders}
         stats="Stats"
         data={playersWithLink}
         sortVariables={variables}

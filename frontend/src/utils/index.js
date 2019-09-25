@@ -171,6 +171,7 @@ const statHeaders = {
     headerText: 'FOT',
     id: 'faceOffsTaken',
     title: 'Faceoffs Taken',
+    sortString: 'FOT',
   },
   faceOffPct: {
     headerText: 'FO%',
@@ -216,6 +217,7 @@ const statHeaders = {
     headerText: 'Hits',
     id: 'hits',
     title: 'Hits',
+    sortString: 'HITS',
   },
   penaltyMinutes: {
     headerText: 'PM',
@@ -468,13 +470,21 @@ const playerStatsHeaders = [
   'plusMinus',
   'penaltyMinutes',
   'pointsPerGame',
-  'gameWinningGoals',
-  'overTimeGoals',
   'powerPlayGoals',
   'powerPlayPoints',
   'shortHandedGoals',
   'shortHandedPoints',
   'shots',
+  'shotPct',
+  'hits',
+  'faceOffsTaken',
+  'faceOffPct',
+  'takeaways',
+  'giveaways',
+  'blocked',
+  'timeOnIcePerGame',
+  'powerPlayTimeOnIcePerGame',
+  'shortHandedTimeOnIcePerGame',
 ]
 
 const userProfileHeaders = {
