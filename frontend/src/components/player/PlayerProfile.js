@@ -49,7 +49,6 @@ const headers = [
   'powerPlayTimeOnIce',
   'shortHandedTimeOnIce',
   'shots',
-  'shotPct',
   'blocked',
   'hits',
   'giveaways',
