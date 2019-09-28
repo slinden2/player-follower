@@ -23,8 +23,10 @@ try {
   return
 }
 
+const timeYesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
+
 // construct current date in YYYY-MM-DD format
-const UTC_DATE = new Date().toISOString().split('T')[0]
+const UTC_DATE = timeYesterday.toISOString().split('T')[0]
 const date = process.argv[2] || UTC_DATE
 
 console.log(`fetch-boxsores.index.fetch-started-${date}`)

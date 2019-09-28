@@ -11,6 +11,14 @@ const removeScratches = (skaters, scratches) => {
   return skaters.filter(playerId => !scratches.includes(playerId))
 }
 
+const getPlayers = async playerIds => {
+  const players = await Player.find({
+    playerId: { $in: playerIds },
+  }).populate('boxscores', { gamePk: 1 })
+
+  return players
+}
+
 const fetchBoxscore = async (gamePk, gameDate) => {
   const {
     data: { teams },
@@ -28,22 +36,26 @@ const fetchBoxscore = async (gamePk, gameDate) => {
     ...goaliesAway,
   ]
 
-  const playersInDb = await Player.find({
-    playerId: { $in: playerIds },
-  }).populate('boxscores', { gamePk: 1 })
+  let playersInDb = await getPlayers(playerIds)
 
   const playerIdsInDb = playersInDb.map(player => player.playerId)
   const playerIdsNotInDb = playerIds.filter(
     playerId => !playerIdsInDb.includes(playerId)
   )
 
-  await createPlayers(teams, playerIdsNotInDb, gamePk)
+  try {
+    await createPlayers(teams, playerIdsNotInDb, gamePk)
+  } catch ({ name, message }) {
+    console.error(
+      `fetch-boxscores.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playerIdsToAdd: ${playerIdsNotInDb}`
+    )
+    console.error(`${name}: ${message}`)
+  }
 
-  // In production this should be unneccesary. The players will be fetched and saved before boxscores
-  // so when fetching boxscores all players should be found.
-  console.log(
-    `gamePk: ${gamePk} | gameDate: ${gameDate} | playerIds not found in db: ${playerIdsNotInDb}`
-  )
+  // update playerInDb if new players were added in createPlayers
+  if (playerIdsNotInDb.length > 0) {
+    playersInDb = await getPlayers(playerIds)
+  }
 
   const fetchedPlayers = { ...teams.home.players, ...teams.away.players }
 
@@ -63,15 +75,22 @@ const fetchBoxscore = async (gamePk, gameDate) => {
       isGoalie = true
     }
 
-    await handlePlayer(
-      player,
-      playerStats,
-      gamePk,
-      gameDate,
-      homeTeam,
-      awayTeam,
-      isGoalie
-    )
+    try {
+      await handlePlayer(
+        player,
+        playerStats,
+        gamePk,
+        gameDate,
+        homeTeam,
+        awayTeam,
+        isGoalie
+      )
+    } catch ({ name, message }) {
+      console.error(
+        `fetch-boxscore.fetchGames.fetchBoxscore.handlePlayer - gamePk: ${gamePk} | gameDate: ${gameDate} | playerId: ${player.playerId}`
+      )
+      console.error(`${name}: ${message}`)
+    }
   }
 }
 

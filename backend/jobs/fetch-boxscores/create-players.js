@@ -7,6 +7,10 @@ const {
 } = require('../helpers/fetch-helpers')
 
 const createPlayers = async (data, newPlayers, gamePk) => {
+  console.log(
+    `fetch-boxscores.fetchGames.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
+  )
+
   const dataPerTeam = [data.away, data.home]
 
   for (const team of dataPerTeam) {
@@ -54,24 +58,31 @@ const createPlayers = async (data, newPlayers, gamePk) => {
             boxscoreType,
           },
         ]
-      } catch (exception) {
-        console.log(exception)
-        console.log(
-          `Error while fetching game ${gamePk}. The playerId being fetched was ${player.person.id}.`
+      } catch ({ name, message }) {
+        console.error(
+          `fetch-boxscores.fetchGames.fetchBoxscore.createPlayers.playerLoop - gamePk: ${gamePk} | playerId: ${player.person.id}`
         )
+        console.error(`${name}: ${message}`)
         continue
       }
     }
 
-    const insertedPlayers = await Player.insertMany(finalPlayerArray, {
-      ordered: false,
-    })
+    try {
+      const insertedPlayers = await Player.insertMany(finalPlayerArray, {
+        ordered: true,
+      })
 
-    teamInDb.players = [
-      ...teamInDb.players,
-      ...insertedPlayers.map(player => player._id),
-    ]
-    await teamInDb.save()
+      teamInDb.players = [
+        ...teamInDb.players,
+        ...insertedPlayers.map(player => player._id),
+      ]
+      await teamInDb.save()
+    } catch ({ name, message }) {
+      console.error(
+        `fetch-boxscores.fetchGames.fetchBoxscore.createPlayers.updateDb - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
+      )
+      console.error(`${name}: ${message}`)
+    }
   }
 }
 

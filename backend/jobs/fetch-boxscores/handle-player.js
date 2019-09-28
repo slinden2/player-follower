@@ -52,10 +52,10 @@ const handlePlayer = async (
     playerInDb.boxscores = playerInDb.boxscores.concat(savedBoxscore._id)
     await playerInDb.save()
   } catch ({ name, message }) {
-    console.log(
-      `Error while saving a boxscore for ${playerInDb.firstName} ${playerInDb.lastName} ${playerInDb._id}. | gamePk: ${gamePk}`
+    console.error(
+      `fetch-boxscores.fetchGames.fetchBoxscore.handlePlayer.saveNewPlayer - playerId: ${playerInDb.playerId}. | gamePk: ${gamePk}`
     )
-    console.log(`${name}: ${message}`)
+    console.error(`${name}: ${message}`)
   }
 }
 
