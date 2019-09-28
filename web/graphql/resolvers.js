@@ -139,7 +139,6 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     BestPlayers: async (root, args) => {
-      console.log('Getting best players')
       const players = await Player.aggregate(
         bestPlayersAggregate(
           args.numOfGames,
