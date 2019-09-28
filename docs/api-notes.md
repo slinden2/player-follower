@@ -33,3 +33,5 @@ This is for the cumulative stats. The link gives all season from 19171918 to 201
 [Sorted cumulative stats](https://api.nhle.com/stats/rest/skaters?isAggregate=true&reportType=basic&isGame=false&reportName=skatersummary&sort=[{%22property%22:%22points%22,%22direction%22:%22DESC%22},{%22property%22:%22goals%22,%22direction%22:%22DESC%22},{%22property%22:%22assists%22,%22direction%22:%22DESC%22}]&cayenneExp=leagueId=133%20and%20gameTypeId=2%20and%20seasonId%3E=20182019%20and%20seasonId%3C=20182019)
 
 Stats as shown by default on [nhl.com](http://www.nhl.com)
+
+[Game logs](https://statsapi.web.nhl.com/api/v1/people/8471698/stats?stats=gameLog&season=20182019)

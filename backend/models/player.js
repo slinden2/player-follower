@@ -84,21 +84,10 @@ const playerSchema = mongoose.Schema({
       refPath: 'boxscoreType',
     },
   ],
-  stats: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      refPath: 'statType',
-    },
-  ],
   boxscoreType: {
     type: String,
     required: true,
     enum: ['SkaterBoxscore', 'GoalieBoxscore'],
-  },
-  statType: {
-    type: String,
-    required: true,
-    enum: ['SkaterStats', 'GoalieStats'],
   },
   active: {
     type: Boolean,

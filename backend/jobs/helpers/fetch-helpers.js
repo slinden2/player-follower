@@ -24,6 +24,7 @@ const generateSiteLink = (firstName, lastName) => {
   return fullName
     .replace(/[^a-zA-Z0-9\s]/g, '')
     .replace(/\s/, '-')
+    .replace(/\s/, '-')
     .toLowerCase()
 }
 
