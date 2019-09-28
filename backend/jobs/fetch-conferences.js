@@ -31,8 +31,8 @@ const fetchConferences = async () => {
       await newConference.save()
     }
   } catch ({ name, message }) {
-    console.log('Error in fetchConferences')
-    console.log(`${name}: ${message}`)
+    console.error('fetch-conferences.fetchConferences')
+    console.error(`${name}: ${message}`)
   }
 }
 
