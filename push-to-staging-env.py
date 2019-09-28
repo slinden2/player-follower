@@ -34,7 +34,7 @@ def copy_build_folder():
 
 def push_to_heroku():
     os.system('git add web')
-    os.system('git commit -m f"{COMMIT_MSG}"')
+    os.system(f'git commit -m "{COMMIT_MSG}"')
     os.system('git push origin master')
     os.system('git subtree push --prefix web staging master')
 
