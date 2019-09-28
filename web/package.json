@@ -12,7 +12,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "start_local": "cross-env NODE_ENV=production node server.js",
+    "start_local": "cross-env NODE_ENV=development node server.js",
     "watch": "cross-env NODE_ENV=development nodemon server.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "client": "npm start --prefix ../frontend",
@@ -22,7 +22,7 @@
     "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
     "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
     "fetch_players": "cross-env NODE_ENV=development node jobs/fetch-players.js",
-    "fetch_boxscores": "cross-env NODE_ENV=development node jobs/fetch-boxscores.js",
+    "fetch_boxscores": "cross-env NODE_ENV=development node jobs/fetch-boxscores/",
     "fetch_stats": "cross-env NODE_ENV=development node jobs/fetch-stats.js",
     "fetch_team_stats": "cross-env NODE_ENV=development node jobs/fetch-team-stats.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
@@ -32,6 +32,7 @@
   "author": "Samu Linden",
   "license": "MIT",
   "devDependencies": {
+    "apollo": "^2.18.3",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",

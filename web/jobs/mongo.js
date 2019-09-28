@@ -9,7 +9,6 @@ const GoalieBoxscore = require('../models/goalie-boxscore')
 const SkaterStats = require('../models/skater-stats')
 const GoalieStats = require('../models/goalie-stats')
 const TeamStats = require('../models/team-stats')
-const BestPlayers = require('../models/best-players')
 const User = require('../models/user')
 const config = require('../utils/config')
 
@@ -27,27 +26,21 @@ const deleteLeague = async () => {
   await SkaterStats.deleteMany({})
   await GoalieStats.deleteMany({})
   await TeamStats.deleteMany({})
-  await BestPlayers.deleteMany({})
 
-  const users = await User.find({})
-  for (const user of users) {
-    user.favoritePlayers = []
-    await user.save()
-  }
+  await User.updateMany({}, { $set: { favoritePlayers: [] } })
 }
 
 const deletePlayers = async () => {
   await Player.deleteMany({})
+  await SkaterBoxscore.deleteMany({})
+  await GoalieBoxscore.deleteMany({})
+  await Team.updateMany({}, { $set: { players: [] } })
+  await User.updateMany({}, { $set: { favoritePlayers: [] } })
 }
 
 const deletePlayerBoxscores = async () => {
   await SkaterBoxscore.deleteMany({})
   await Player.updateMany({}, { $set: { boxscores: [] } })
-  // const players = await Player.find({ boxscoreType: 'SkaterBoxsore' })
-  // for (const player of players) {
-  //   player.boxscores = []
-  //   await player.save()
-  // }
 }
 
 const deleteGoalieBoxscores = async () => {
@@ -243,7 +236,7 @@ const addPointsToBoxscores = async () => {
 }
 
 // deleteLeague().then(() => mongoose.connection.close())
-// deletePlayers().then(() => mongoose.connection.close())
+deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
 // deleteGoalieBoxscores().then(() => mongoose.connection.close())
 // deletePlayerStats().then(() => mongoose.connection.close())

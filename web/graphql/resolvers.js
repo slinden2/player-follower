@@ -20,7 +20,6 @@ const {
   teamProfileAggregate,
 } = require('./pipelines')
 const roundToDecimal = require('../utils/round-to-decimal')
-const generateCumulativeStats = require('../utils/generate-cumulative-stats')
 const getSortField = require('../utils/get-sort-field')
 const convertSecsToMin = require('../utils/convert-secs-to-min')
 const positions = require('../utils/position-codes')
@@ -445,11 +444,11 @@ const resolvers = {
   Stats: {
     shotPct: root => {
       if (root.shots === 0) return 0
-      return roundToDecimal(root.goals / root.shots, 1)
+      return roundToDecimal(root.goals / root.shots)
     },
     savePct: root => {
       if (root.saves === 0) return 0
-      return roundToDecimal(root.goals / root.saves, 1)
+      return roundToDecimal(root.goals / root.saves)
     },
     pointsPerGame: root =>
       roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
