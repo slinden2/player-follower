@@ -20,6 +20,9 @@ const fetchTeams = async () => {
     const response = await axios.get(teamsUrl)
 
     for (const team of response.data.teams) {
+      console.log(
+        `fetch-team.fetchTeam.teamLoop - teamId: ${team.id} | name: ${team.shortName}`
+      )
       try {
         const teamInDb = await Team.findOne({ teamId: team.id })
         if (teamInDb) continue
