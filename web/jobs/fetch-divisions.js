@@ -40,8 +40,8 @@ const fetchDivisions = async () => {
       await conference.save()
     }
   } catch ({ name, message }) {
-    console.log('Error in fetchDivisions')
-    console.log(`${name}: ${message}`)
+    console.error('fetch-divisions.fetchDivisions')
+    console.error(`${name}: ${message}`)
   }
 }
 
