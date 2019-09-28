@@ -5,7 +5,6 @@ const { UserInputError, AuthenticationError } = require('apollo-server')
 const dateFns = require('date-fns')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for field population
-require('../models/skater-stats') // needed for field population
 require('../models/goalie-boxscore') // needed for field population
 require('../models/team-stats') // needed for field population
 require('../models/conference') // needed for field population
@@ -19,10 +18,12 @@ const {
   seasonStatsAggregate,
   teamProfileAggregate,
 } = require('./pipelines')
-const roundToDecimal = require('../utils/round-to-decimal')
-const getSortField = require('../utils/get-sort-field')
-const convertSecsToMin = require('../utils/convert-secs-to-min')
-const positions = require('../utils/position-codes')
+const {
+  convertSecsToMin,
+  roundToDecimal,
+  getSortField,
+  getPosition,
+} = require('../utils/generic-helpers')
 const { validatePassword } = require('../utils/password-requirements')
 const {
   sendVerificationEmail,
@@ -478,7 +479,7 @@ const resolvers = {
   },
   Position: {
     code: root => root,
-    description: root => positions[root],
+    description: root => getPosition(root),
   },
   Standings: {
     pointPct: root => roundToDecimal(root.pointPct, 2),

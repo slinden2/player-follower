@@ -6,8 +6,6 @@ const Team = require('../models/team')
 const Player = require('../models/player')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
-const SkaterStats = require('../models/skater-stats')
-const GoalieStats = require('../models/goalie-stats')
 const TeamStats = require('../models/team-stats')
 const User = require('../models/user')
 const config = require('../utils/config')
@@ -23,8 +21,6 @@ const deleteLeague = async () => {
   await Player.deleteMany({})
   await SkaterBoxscore.deleteMany({})
   await GoalieBoxscore.deleteMany({})
-  await SkaterStats.deleteMany({})
-  await GoalieStats.deleteMany({})
   await TeamStats.deleteMany({})
 
   await User.updateMany({}, { $set: { favoritePlayers: [] } })
@@ -48,24 +44,6 @@ const deleteGoalieBoxscores = async () => {
   const players = await Player.find({ boxscoreType: 'GoalieBoxsore' })
   for (const player of players) {
     player.boxscores = []
-    await player.save()
-  }
-}
-
-const deletePlayerStats = async () => {
-  await SkaterStats.deleteMany({})
-  const players = await Player.find({ statType: 'SkaterStats' })
-  for (const player of players) {
-    player.stats = []
-    await player.save()
-  }
-}
-
-const deleteGoalieStats = async () => {
-  await GoalieStats.deleteMany({})
-  const players = await Player.find({ statType: 'GoalieStats' })
-  for (const player of players) {
-    player.stats = []
     await player.save()
   }
 }
@@ -109,47 +87,10 @@ const addGoalieBoxscore = async () => {
   console.log(savedGoalie)
 }
 
-const addPlayerStats = async () => {
-  const stats = new SkaterStats({
-    player: '5d287460c19785048cb047e9',
-    assists: 2,
-    goals: 1,
-  })
-
-  const savedStats = await stats.save()
-
-  const skater = await Player.findOne({ _id: '5d287460c19785048cb047e9' })
-  skater.stats = skater.stats.concat(savedStats._id)
-  const savedSkater = await skater.save()
-  console.log(savedSkater)
-}
-
-const addGoalieStats = async () => {
-  const stats = new GoalieStats({
-    player: '5d287460c19785048cb047eb',
-    saves: 30,
-    shotsAgainst: 31,
-  })
-
-  const savedStats = await stats.save()
-
-  const goalie = await Player.findOne({ _id: '5d287460c19785048cb047eb' })
-  goalie.stats = goalie.stats.concat(savedStats._id)
-  const savedGoalie = await goalie.save()
-  console.log(savedGoalie)
-}
-
 const populatePlayerBoxscores = async () => {
   const player = await Player.findOne({
     _id: '5d287460c19785048cb047e9',
   }).populate('boxscores')
-  console.log(player)
-}
-
-const populatePlayerStats = async () => {
-  const player = await Player.findOne({
-    _id: '5d287460c19785048cb047eb',
-  }).populate('stats')
   console.log(player)
 }
 
@@ -236,18 +177,13 @@ const addPointsToBoxscores = async () => {
 }
 
 // deleteLeague().then(() => mongoose.connection.close())
-deletePlayers().then(() => mongoose.connection.close())
+// deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
 // deleteGoalieBoxscores().then(() => mongoose.connection.close())
-// deletePlayerStats().then(() => mongoose.connection.close())
-// deleteGoalieStats().then(() => mongoose.connection.close())
 // deleteTeamStats().then(() => mongoose.connection.close())
 // addPlayerBoxscore().then(() => mongoose.connection.close())
 // addGoalieBoxscore().then(() => mongoose.connection.close())
-// addPlayerStats().then(() => mongoose.connection.close())
-// addGoalieStats().then(() => mongoose.connection.close())
 // populatePlayerBoxscores().then(() => mongoose.connection.close())
-// populatePlayerStats().then(() => mongoose.connection.close())
 // populatePlayer().then(() => mongoose.connection.close())
 // generatePlayerLinks().then(() => mongoose.connection.close())
 // generateTeamLinks().then(() => mongoose.connection.close())

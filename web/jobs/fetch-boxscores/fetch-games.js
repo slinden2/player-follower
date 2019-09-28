@@ -21,14 +21,19 @@ const fetchGames = async date => {
     for (const game of games) {
       const { gamePk, gameDate } = game
       console.log(
-        `fetch-boxscores.fetch-games.fetchGames-gamePk/gameDate: ${gamePk}/${gameDate}`
+        `fetch-boxscores.fetchGames - gamePk: ${gamePk} | gameDate: ${gameDate}`
       )
-      await fetchBoxscore(gamePk, gameDate)
+      try {
+        await fetchBoxscore(gamePk, gameDate)
+      } catch ({ name, message }) {
+        console.error(
+          `fetch-boxscores.fetchBoxscore - gamePk: ${gamePk} | gameDate: ${gameDate}`
+        )
+        console.error(`${name}: ${message}`)
+      }
     }
   } catch ({ name, message }) {
-    console.error(
-      `fetch-boxscores.fetch-games.fetchGames.error-while-fetching-games-${date}`
-    )
+    console.error(`fetch-boxscores.fetch-games.fetchGames - date: ${date}`)
     console.error(`${name}: ${message}`)
   }
 }

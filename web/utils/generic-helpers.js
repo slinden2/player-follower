@@ -1,3 +1,14 @@
+const dateFns = require('date-fns')
+
+const convertSecsToMin = secs => {
+  const helperDate = dateFns.addSeconds(new Date(0), secs)
+  return dateFns.format(helperDate, 'mm:ss')
+}
+
+const roundToDecimal = num => {
+  return parseFloat(Math.round(num * 100) / 100).toFixed(2)
+}
+
 const ENUMS = {
   PLAYER: 'lastName',
   GP: 'gamesPlayed',
@@ -28,4 +39,15 @@ const getSortField = sortString => {
   return ENUMS[sortString]
 }
 
-module.exports = getSortField
+const positions = {
+  R: 'Right Wing',
+  L: 'Left Wing',
+  C: 'Center',
+  D: 'Defenceman',
+}
+
+const getPosition = code => {
+  return positions[code]
+}
+
+module.exports = { convertSecsToMin, roundToDecimal, getSortField, getPosition }
