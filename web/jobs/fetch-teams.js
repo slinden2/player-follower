@@ -6,10 +6,7 @@ const Team = require('../models/team')
 const config = require('../utils/config')
 const { generateTeamSiteLink } = require('./helpers/fetch-helpers')
 
-if (
-  process.env.NODE_ENV !== 'production' &&
-  process.env.NODE_ENV !== 'staging'
-) {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 

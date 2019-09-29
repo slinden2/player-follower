@@ -2,10 +2,7 @@ const mongoose = require('mongoose')
 const config = require('../../utils/config')
 const fetchGames = require('./fetch-games')
 
-if (
-  process.env.NODE_ENV !== 'production' &&
-  process.env.NODE_ENV !== 'staging'
-) {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
