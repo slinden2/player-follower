@@ -3,12 +3,14 @@ import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import { setCookie, getCookie, removeCookie } from '../utils'
 import { USER } from '../graphql/queries'
 import { PlayerContext } from './PlayerContext'
+import { NotificationContext } from './NotificationContext'
 
 export const AuthContext = createContext()
 
 const AuthContextProvider = props => {
   const [token, setToken] = useState(getCookie('user'))
   const { favoritePlayers } = useContext(PlayerContext)
+  const { setNotification } = useContext(NotificationContext)
 
   const client = useApolloClient()
   const user = useQuery(USER)
@@ -27,6 +29,7 @@ const AuthContextProvider = props => {
     setToken(null)
     removeCookie('user')
     client.resetStore()
+    setNotification('positive', 'You have been logged out.', 'site')
   }
 
   return (
