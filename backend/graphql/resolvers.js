@@ -252,14 +252,14 @@ const resolvers = {
         $or: [{ username }, { email }],
       })
       if (existingUser) {
-        throw new UserInputError('username or email is taken')
+        throw new UserInputError('Username or email is taken.')
       }
 
       validatePassword(password)
 
       if (!username || !email) {
         throw new UserInputError(
-          'you must provide a valid username and an email address'
+          'You must provide a valid username and an email address.'
         )
       }
 
@@ -290,7 +290,7 @@ const resolvers = {
       const token = await Token.findOne({ userId: decodedUser.userId })
 
       if (!token) {
-        throw new AuthenticationError('invalid or expired token')
+        throw new AuthenticationError('Invalid or expired token.')
       }
 
       const user = await User.findOneAndUpdate(
@@ -319,11 +319,11 @@ const resolvers = {
           : await bcrypt.compare(password, user.passwordHash)
 
       if (!(user && passwordCorrect)) {
-        throw new UserInputError('invalid username or password')
+        throw new UserInputError('Invalid username or password')
       }
 
       if (!user.isVerified) {
-        throw new AuthenticationError('account not activated')
+        throw new AuthenticationError('Account has not been activated.')
       }
 
       const userForToken = {
@@ -339,7 +339,7 @@ const resolvers = {
       const user = await User.findOne({ email })
 
       if (!user) {
-        throw new UserInputError('invalid email address')
+        throw new UserInputError('Invalid email address')
       }
 
       const verificationToken = new Token({
@@ -375,7 +375,7 @@ const resolvers = {
         ctx.currentUser.passwordHash
       )
       if (!passwordCorrect) {
-        throw new UserInputError('Invalid old password.')
+        throw new UserInputError('Invalid old password')
       }
 
       validatePassword(args.newPassword)
@@ -400,7 +400,7 @@ const resolvers = {
     followPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx
       if (!currentUser) {
-        throw new AuthenticationError('you must be logged in')
+        throw new AuthenticationError('You must be logged in')
       }
 
       const { id, followType } = args
@@ -419,16 +419,16 @@ const resolvers = {
       const player = await Player.findOne({ _id: id })
 
       if (!player) {
-        throw new UserInputError('invalid player id')
+        throw new UserInputError('Invalid player id')
       }
 
       if (currentUser.favoritePlayers.includes(id)) {
         if (followType === 'FOLLOW') {
-          throw new UserInputError('you already follow this player')
+          throw new UserInputError('You already follow this player.')
         }
       } else {
         if (followType === 'UNFOLLOW') {
-          throw new UserInputError('you are not following this player')
+          throw new UserInputError('You are not following this player.')
         }
       }
 
