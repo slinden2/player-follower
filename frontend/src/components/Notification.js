@@ -1,9 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
+import { darken } from 'polished'
 import colors from '../styles/colors'
 
-const Container = styled.div`
+const FormContainer = styled.div`
   color: ${({ color }) => color};
+`
+
+const GlobalContainer = styled.div`
+  color: ${colors.white1};
+  border-radius: 10px;
+  background-color: ${({ color }) => darken(0.05, color)};
+  border: 2px solid ${({ color }) => color};
+  text-align: center;
+  padding: 5px 5px;
+  margin: 5px 5px 0px 5px;
 `
 
 const Notification = ({ position, notification }) => {
@@ -18,9 +29,9 @@ const Notification = ({ position, notification }) => {
   const type = typeSelector[notification.type]
 
   return position === 'form' ? (
-    <Container {...type}>{notification.message}</Container>
+    <FormContainer {...type}>{notification.message}</FormContainer>
   ) : (
-    <Container {...type}>{notification.message}</Container>
+    <GlobalContainer {...type}>{notification.message}</GlobalContainer>
   )
 }
 
