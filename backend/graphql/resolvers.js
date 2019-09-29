@@ -249,7 +249,7 @@ const resolvers = {
     createUser: async (root, args) => {
       const { username, password, email } = args
       const existingUser = await User.findOne({
-        $or: [{ username }, { email }],
+        $or: [{ usernameLower: username.toLowerCase() }, { email }],
       })
       if (existingUser) {
         throw new UserInputError('Username or email is taken.')
@@ -268,7 +268,8 @@ const resolvers = {
 
       const user = new User({
         username,
-        email,
+        usernameLower: username.toLowerCase(),
+        email: email.toLowerCase(),
         passwordHash,
         isVerified: false,
       })
@@ -281,7 +282,7 @@ const resolvers = {
 
       const savedUser = await user.save()
 
-      await sendVerificationEmail(user.email, savedToken.token)
+      sendVerificationEmail(user.email, savedToken.token)
 
       return savedUser
     },
@@ -308,9 +309,11 @@ const resolvers = {
       return user
     },
     login: async (root, args) => {
-      const { username, password } = args
+      const { password } = args
+      const usernameLower = args.username.toLowerCase()
+
       const user = await User.findOne({
-        $or: [{ username }, { email: username }],
+        $or: [{ usernameLower }, { email: usernameLower }],
       })
 
       const passwordCorrect =
@@ -327,7 +330,7 @@ const resolvers = {
       }
 
       const userForToken = {
-        username,
+        username: user.username,
         id: user._id,
       }
 
