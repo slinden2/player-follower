@@ -5,7 +5,10 @@ const TeamStats = require('../../models/team-stats')
 const config = require('../../utils/config')
 const createTeamStats = require('./create-team-stats')
 
-if (process.env.NODE_ENV !== 'production') {
+if (
+  process.env.NODE_ENV !== 'production' &&
+  process.env.NODE_ENV !== 'staging'
+) {
   require('dotenv').config()
 }
 

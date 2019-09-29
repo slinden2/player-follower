@@ -1,6 +1,9 @@
 const mailgun = require('mailgun-js')
 
-if (process.env.NODE_ENV !== 'production') {
+if (
+  process.env.NODE_ENV !== 'production' &&
+  process.env.NODE_ENV !== 'staging'
+) {
   require('dotenv').config()
 }
 

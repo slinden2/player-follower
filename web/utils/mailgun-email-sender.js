@@ -3,7 +3,10 @@ const generateAccountConfirmationEmail = require('./templates/account-activation
 const generateForgotPasswordEmail = require('./templates/forgot-password-email')
 
 let domain = 'http://www.player.fan'
-if (process.env.NODE_ENV !== 'production') {
+if (
+  process.env.NODE_ENV !== 'production' &&
+  process.env.NODE_ENV !== 'staging'
+) {
   require('dotenv').config()
   domain = 'http://localhost:3000'
 }

@@ -4,7 +4,10 @@ const Conference = require('../models/conference')
 const Division = require('../models/division')
 const config = require('../utils/config')
 
-if (process.env.NODE_ENV !== 'production') {
+if (
+  process.env.NODE_ENV !== 'production' &&
+  process.env.NODE_ENV !== 'staging'
+) {
   require('dotenv').config()
 }
 
