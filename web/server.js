@@ -8,12 +8,15 @@ const typeDefs = require('./graphql/schema')
 const resolvers = require('./graphql/resolvers')
 const User = require('./models/user')
 
-console.log('connecting to', config.MONGODB_URI)
+console.log('connecting to the DB')
 
 mongoose.set('useFindAndModify', false)
 
 mongoose
-  .connect(config.MONGODB_URI, { useNewUrlParser: true })
+  .connect(config.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log('connected to MongoDB')
   })
