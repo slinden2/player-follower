@@ -40,7 +40,7 @@ const PlayerCard = ({ player, i }) => {
     event(
       'PLAYER_CARD',
       'Card Flipped',
-      `${player.firstName} ${player.lastName}`
+      `${player.player.firstName} ${player.player.lastName}`
     )
   }
 
