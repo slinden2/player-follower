@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 const Conference = require('../models/conference')
 const config = require('../utils/config')
 
-if (process.env.NODE_ENV !== 'production') {
+if (
+  process.env.NODE_ENV !== 'production' &&
+  process.env.NODE_ENV !== 'staging'
+) {
   require('dotenv').config()
 }
 

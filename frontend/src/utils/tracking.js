@@ -2,12 +2,11 @@ import ReactGA from 'react-ga'
 import { getCookie, setCookie } from '../utils/index'
 
 export const initGA = () => {
-  console.log(process.env)
   if (getCookie('gaConsent')) {
     if (process.env.NODE_ENV === 'production') {
-      ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_NO)
+      ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID_PROD)
     } else {
-      ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_NO_DEV)
+      ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID_DEV)
     }
 
     // fl (first load) cookie allows to record the first pageview after accepting cookies

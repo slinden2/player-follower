@@ -8,7 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 let MONGODB_URI
 
-if (process.env.NODE_ENV === 'development') {
+if (
+  process.env.NODE_ENV === 'development' ||
+  process.env.NODE_ENV === 'staging'
+) {
   MONGODB_URI = process.env.DEV_MONGODB_URI
 }
 
