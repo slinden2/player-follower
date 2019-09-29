@@ -7,6 +7,10 @@ const NotificationContextProvider = props => {
   const [notification, setNotification] = useNotification()
 
   const handleException = (exception, position) => {
+    if (exception.message.startsWith('GraphQL error: ')) {
+      exception.message = exception.message.replace(/GraphQL error: /, '')
+    }
+
     setNotification('negative', `${exception.message}`, position)
   }
 
