@@ -2,7 +2,7 @@ const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
-const dateFns = require('date-fns')
+const { format } = require('date-fns')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for field population
 require('../models/goalie-boxscore') // needed for field population
@@ -12,6 +12,7 @@ require('../models/division') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
+const SkaterBoxscore = require('../models/skater-boxscore')
 const {
   bestPlayersAggregate,
   favoritePlayersAggregate,
@@ -244,6 +245,15 @@ const resolvers = {
 
       return team[0]
     },
+    GetLastUpdate: async () => {
+      const score = await SkaterBoxscore.find({}, { _id: 1 })
+        .sort({
+          $natural: -1,
+        })
+        .limit(1)
+
+      return { date: score[0]._id.getTimestamp().toISOString() }
+    },
   },
   Mutation: {
     createUser: async (root, args) => {
@@ -443,7 +453,7 @@ const resolvers = {
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
-    birthDate: root => dateFns.format(root.birthDate, 'D MMM YYYY'),
+    birthDate: root => format(root.birthDate, 'D MMM YYYY'),
   },
   Stats: {
     shotPct: root => {
@@ -456,7 +466,7 @@ const resolvers = {
     },
     pointsPerGame: root =>
       roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
-    gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
+    gameDate: root => format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),

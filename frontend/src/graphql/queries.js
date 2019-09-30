@@ -300,6 +300,14 @@ const TEAM_PROFILE = gql`
   }
 `
 
+const LAST_UPDATE = gql`
+  query GetLastUpdate {
+    GetLastUpdate {
+      date
+    }
+  }
+`
+
 export {
   BEST_PLAYERS,
   FAVORITE_PLAYERS,
@@ -311,4 +319,5 @@ export {
   PLAYER_MILESTONES,
   GET_TEAMS_BY_NAME,
   TEAM_PROFILE,
+  LAST_UPDATE
 }

@@ -307,6 +307,10 @@ const typeDefs = gql`
     value: String!
   }
 
+  type LastUpdate {
+    date: String!
+  }
+
   enum FollowType {
     FOLLOW
     UNFOLLOW
@@ -466,6 +470,10 @@ const typeDefs = gql`
     Returns the logged user
     """
     me: User
+    """
+    Returns the time of the last update of the db
+    """
+    GetLastUpdate: LastUpdate!
   }
 
   type Mutation {

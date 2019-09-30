@@ -2,7 +2,7 @@ const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
-const dateFns = require('date-fns')
+const { format } = require('date-fns')
 const Player = require('../models/player')
 require('../models/skater-boxscore') // needed for field population
 require('../models/goalie-boxscore') // needed for field population
@@ -12,6 +12,7 @@ require('../models/division') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
+const SkaterBoxscore = require('../models/skater-boxscore')
 const {
   bestPlayersAggregate,
   favoritePlayersAggregate,
@@ -244,22 +245,31 @@ const resolvers = {
 
       return team[0]
     },
+    GetLastUpdate: async () => {
+      const score = await SkaterBoxscore.find({}, { _id: 1 })
+        .sort({
+          $natural: -1,
+        })
+        .limit(1)
+
+      return { date: score[0]._id.getTimestamp().toISOString() }
+    },
   },
   Mutation: {
     createUser: async (root, args) => {
       const { username, password, email } = args
       const existingUser = await User.findOne({
-        $or: [{ username }, { email }],
+        $or: [{ usernameLower: username.toLowerCase() }, { email }],
       })
       if (existingUser) {
-        throw new UserInputError('username or email is taken')
+        throw new UserInputError('Username or email is taken.')
       }
 
       validatePassword(password)
 
       if (!username || !email) {
         throw new UserInputError(
-          'you must provide a valid username and an email address'
+          'You must provide a valid username and an email address.'
         )
       }
 
@@ -268,7 +278,8 @@ const resolvers = {
 
       const user = new User({
         username,
-        email,
+        usernameLower: username.toLowerCase(),
+        email: email.toLowerCase(),
         passwordHash,
         isVerified: false,
       })
@@ -281,7 +292,7 @@ const resolvers = {
 
       const savedUser = await user.save()
 
-      await sendVerificationEmail(user.email, savedToken.token)
+      sendVerificationEmail(user.email, savedToken.token)
 
       return savedUser
     },
@@ -290,7 +301,7 @@ const resolvers = {
       const token = await Token.findOne({ userId: decodedUser.userId })
 
       if (!token) {
-        throw new AuthenticationError('invalid or expired token')
+        throw new AuthenticationError('Invalid or expired token.')
       }
 
       const user = await User.findOneAndUpdate(
@@ -308,9 +319,11 @@ const resolvers = {
       return user
     },
     login: async (root, args) => {
-      const { username, password } = args
+      const { password } = args
+      const usernameLower = args.username.toLowerCase()
+
       const user = await User.findOne({
-        $or: [{ username }, { email: username }],
+        $or: [{ usernameLower }, { email: usernameLower }],
       })
 
       const passwordCorrect =
@@ -319,15 +332,15 @@ const resolvers = {
           : await bcrypt.compare(password, user.passwordHash)
 
       if (!(user && passwordCorrect)) {
-        throw new UserInputError('invalid username or password')
+        throw new UserInputError('Invalid username or password')
       }
 
       if (!user.isVerified) {
-        throw new AuthenticationError('account not activated')
+        throw new AuthenticationError('Account has not been activated.')
       }
 
       const userForToken = {
-        username,
+        username: user.username,
         id: user._id,
       }
 
@@ -339,7 +352,7 @@ const resolvers = {
       const user = await User.findOne({ email })
 
       if (!user) {
-        throw new UserInputError('invalid email address')
+        throw new UserInputError('Invalid email address')
       }
 
       const verificationToken = new Token({
@@ -375,7 +388,7 @@ const resolvers = {
         ctx.currentUser.passwordHash
       )
       if (!passwordCorrect) {
-        throw new UserInputError('Invalid old password.')
+        throw new UserInputError('Invalid old password')
       }
 
       validatePassword(args.newPassword)
@@ -400,7 +413,7 @@ const resolvers = {
     followPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx
       if (!currentUser) {
-        throw new AuthenticationError('you must be logged in')
+        throw new AuthenticationError('You must be logged in')
       }
 
       const { id, followType } = args
@@ -419,16 +432,16 @@ const resolvers = {
       const player = await Player.findOne({ _id: id })
 
       if (!player) {
-        throw new UserInputError('invalid player id')
+        throw new UserInputError('Invalid player id')
       }
 
       if (currentUser.favoritePlayers.includes(id)) {
         if (followType === 'FOLLOW') {
-          throw new UserInputError('you already follow this player')
+          throw new UserInputError('You already follow this player.')
         }
       } else {
         if (followType === 'UNFOLLOW') {
-          throw new UserInputError('you are not following this player')
+          throw new UserInputError('You are not following this player.')
         }
       }
 
@@ -440,7 +453,7 @@ const resolvers = {
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
-    birthDate: root => dateFns.format(root.birthDate, 'D MMM YYYY'),
+    birthDate: root => format(root.birthDate, 'D MMM YYYY'),
   },
   Stats: {
     shotPct: root => {
@@ -453,7 +466,7 @@ const resolvers = {
     },
     pointsPerGame: root =>
       roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
-    gameDate: root => dateFns.format(root.gameDate, 'YYYY/MM/DD'),
+    gameDate: root => format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),

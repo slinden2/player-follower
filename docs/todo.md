@@ -35,6 +35,14 @@
 - [x] 404 page
 - [x] Loader animation for search
 - [x] Redirect after logout
+- [x] Load more links on main page. 50 results minimum.
+- [x] Filtering by team and position in player cards.
+- [x] Problem with stat pagination. Duplicate players on load more.
+- [x] Blocked shots needed in cumulative stats
+- [x] More data to player bio table
+- [x] Do recent stats calculations as a scheduled task and save results in db daily as string
+  - [x] Find a more efficient way to do this...
+  - [x] Done with huge aggregation
 
 * [x] Component for stats tables
 * [x] Standings
@@ -44,32 +52,26 @@
   - [x] Sorting for standings
 
 - [x] A view for single players
+
   - [x] Bio
   - [x] Performance Game-by-Game
   - [x] Links to goals videos
-- [x] Do recent stats calculations as a scheduled task and save results in db daily as string
-  - [ ] Find a more efficient way to do this...
-- [x] Stats
 
+- [x] Stats
   - [x] First version done via external API.
   - [x] Create a schema and a fetch script.
   - [x] Implement pagination
   - [x] Implement table sorting
 
-- [ ] A view to show top performes. For example, most goals / points this month, this season etc.
-- [ ] Problem with stat pagination. Duplicate players on load more.
-- [ ] Blocked shots needed in cumulative stats
-- [x] More data to player bio table
-- [ ] Most recent goals on the team page
-
-- [ ] Load more links on main page. 50 results minimum.
-- [ ] Filtering by team and position in player cards.
-
-* [ ] Tests for backend
-  - [x] Unit tests for get best players etc
-  - [x] Unit tests for GraphQL schema
-  - [ ] Integration tests
-* [ ] Tests for frontend
+* [ ] A view to show top performes. For example, most goals / points this month, this season etc.
+* [ ] Most recent goals on the team page
+* [ ] OAuth
+* [ ] Social media icons
+* [ ] Player card social media sharing functions
+* [ ] Video social media sharing functions
+* [ ] Videos must be saved in db with comments and ranking
+* [ ] Chat? Forum?
+* [ ] Follow button for player profiles
 * [ ] OAuth
 
 ## Notes
@@ -83,10 +85,4 @@
 
 - http://statsapi.web.nhl.com/api/v1/game/2018021000/content for highlight videos
 
-- Ranking for goal videos
-
-- Difference between blocked and blocks in the stats table???
-
-- Save also /players in the siteLinks?
-
-- Game view? All goals videos related to a game
+* Game view? All goals videos related to a game
