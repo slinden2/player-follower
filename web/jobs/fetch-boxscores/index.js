@@ -15,7 +15,10 @@ if (process.argv[2]) {
 }
 
 try {
-  mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+  mongoose.connect(config.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   console.log('fetch-boxscores.index.connected-to-db')
 } catch (exception) {
   console.error('fetch-boxscores.index.db-connection-error')

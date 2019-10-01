@@ -12,7 +12,10 @@ const config = require('../utils/config')
 
 /* eslint-disable no-unused-vars */
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
 
 const deleteLeague = async () => {
   await Conference.deleteMany({})

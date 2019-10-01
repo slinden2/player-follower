@@ -1,11 +1,13 @@
 const axios = require('axios')
-const fetchBoxscore = require('./fetch-boxscore')
+const handleGames = require('./handle-games')
+const fetchBoxscore = require('../fetch-boxscore')
 
 const gamesUrl = date =>
   `https://statsapi.web.nhl.com/api/v1/schedule?date=${date}`
 
 const fetchGames = async date => {
   const url = gamesUrl(date)
+  console.log(`fetch-boxscore.fetchGames - url: ${url}`)
 
   try {
     const {
@@ -18,7 +20,9 @@ const fetchGames = async date => {
 
     const { games } = dates[0]
 
-    for (const game of games) {
+    const insertedGames = await handleGames(games)
+
+    for (const game of insertedGames) {
       const { gamePk, gameDate } = game
       console.log(
         `fetch-boxscores.fetchGames - gamePk: ${gamePk} | gameDate: ${gameDate}`
