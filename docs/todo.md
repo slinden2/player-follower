@@ -64,6 +64,7 @@
   - [x] Implement table sorting
 
 * [ ] A view to show top performes. For example, most goals / points this month, this season etc.
+* [ ] A top performer view. Link to the "condensed game" video and individual goal videos
 * [ ] Most recent goals on the team page
 * [ ] OAuth
 * [ ] Social media icons
@@ -73,6 +74,7 @@
 * [ ] Chat? Forum?
 * [ ] Follow button for player profiles
 * [ ] OAuth
+* [ ] Dont fetch team stats but use https://statsapi.web.nhl.com/api/v1/teams/5/stats
 
 ## Notes
 

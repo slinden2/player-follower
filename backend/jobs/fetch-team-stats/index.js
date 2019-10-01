@@ -9,10 +9,15 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
 
 const statUrl =
-  'https://api.nhle.com/stats/rest/team?isAggregate=false&reportType=basic&isGame=false&reportName=teamsummary&cayenneExp=leagueId=133%20and%20gameTypeId=2%20and%20seasonId>=20192020%20and%20seasonId<=20192020'
+  'https://api.nhle.com/stats/rest/team?isAggregate=false&reportType=basic&isGame=false&reportName=teamsummary&cayenneExp=leagueId=133%20and%20gameTypeId=2%20and%20seasonId>=20182019%20and%20seasonId<=20182019'
+
+// use this https://statsapi.web.nhl.com/api/v1/teams/5/stats
 
 const fetchTeamStats = async () => {
   console.log(`fetch-team.stats.fetchTeamStats - url: ${statUrl}`)

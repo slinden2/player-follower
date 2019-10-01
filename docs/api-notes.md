@@ -35,3 +35,5 @@ This is for the cumulative stats. The link gives all season from 19171918 to 201
 Stats as shown by default on [nhl.com](http://www.nhl.com)
 
 [Game logs](https://statsapi.web.nhl.com/api/v1/people/8471698/stats?stats=gameLog&season=20182019)
+
+[All logos ever](https://records.nhl.com/site/api/franchise?include=teams.id&include=teams.active&include=teams.triCode&include=teams.placeName&include=teams.commonName&include=teams.fullName&include=teams.logos&include=teams.conference.name&include=teams.division.name&include=teams.franchiseTeam.firstSeason.id&include=teams.franchiseTeam.lastSeason.id&include=teams.franchiseTeam.teamCommonName)
