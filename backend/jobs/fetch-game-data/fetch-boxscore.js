@@ -47,7 +47,7 @@ const fetchBoxscore = async (gamePk, gameDate) => {
     await createPlayers(teams, playerIdsNotInDb, gamePk)
   } catch ({ name, message }) {
     console.error(
-      `fetch-boxscores.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playerIdsToAdd: ${playerIdsNotInDb}`
+      `fetch-game-data.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playerIdsToAdd: ${playerIdsNotInDb}`
     )
     console.error(`${name}: ${message}`)
   }

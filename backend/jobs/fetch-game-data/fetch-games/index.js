@@ -25,19 +25,19 @@ const fetchGames = async date => {
     for (const game of insertedGames) {
       const { gamePk, gameDate } = game
       console.log(
-        `fetch-boxscores.fetchGames - gamePk: ${gamePk} | gameDate: ${gameDate}`
+        `fetch-game-data.fetchGames - gamePk: ${gamePk} | gameDate: ${gameDate}`
       )
       try {
         await fetchBoxscore(gamePk, gameDate)
       } catch ({ name, message }) {
         console.error(
-          `fetch-boxscores.fetchBoxscore - gamePk: ${gamePk} | gameDate: ${gameDate}`
+          `fetch-game-data.fetchBoxscore - gamePk: ${gamePk} | gameDate: ${gameDate}`
         )
         console.error(`${name}: ${message}`)
       }
     }
   } catch ({ name, message }) {
-    console.error(`fetch-boxscores.fetch-games.fetchGames - date: ${date}`)
+    console.error(`fetch-game-data.fetch-games.fetchGames - date: ${date}`)
     console.error(`${name}: ${message}`)
   }
 }

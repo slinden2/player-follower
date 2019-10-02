@@ -71,7 +71,7 @@ const handleGames = async games => {
       gameArray = [...gameArray, newGame]
     } catch ({ name, message }) {
       console.error(
-        `fetch-boxscores.fetchGames.handleGames - gamePk: ${game.gamePk}, url: ${url}`
+        `fetch-game-data.fetchGames.handleGames - gamePk: ${game.gamePk}, url: ${url}`
       )
     }
   }
