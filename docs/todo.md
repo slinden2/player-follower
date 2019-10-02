@@ -75,6 +75,7 @@
 * [ ] Follow button for player profiles
 * [ ] OAuth
 * [ ] Dont fetch team stats but use https://statsapi.web.nhl.com/api/v1/teams/5/stats
+* [ ] Logout doesnt redirect
 
 ## Notes
 
