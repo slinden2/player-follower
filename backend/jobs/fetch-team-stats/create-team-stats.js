@@ -3,7 +3,7 @@ const createTeamStats = (teamInDb, stats) => {
     ...stats,
     faceOffWinPct: stats.faceoffWinPctg,
     ppPct: stats.ppPctg,
-    pkPct: stats.pkPctg,
+    pkPct: stats.pkPctg || 0,
     pointPct: stats.pointPctg,
   }
   teamStats.date = new Date().toISOString().split('T')[0]

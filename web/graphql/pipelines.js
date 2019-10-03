@@ -378,6 +378,7 @@ const teamProfileAggregate = siteLink => {
       $addFields: {
         'players.firstName': { $arrayElemAt: ['$player.firstName', 0] },
         'players.lastName': { $arrayElemAt: ['$player.lastName', 0] },
+        'players.siteLink': { $arrayElemAt: ['$player.siteLink', 0] },
         'players.position': { $arrayElemAt: ['$player.primaryPosition', 0] },
       },
     },

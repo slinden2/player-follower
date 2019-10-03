@@ -272,6 +272,7 @@ const TEAM_PROFILE = gql`
       players {
         _id
         fullName
+        siteLink
         gamesPlayed
         position
         goals
@@ -319,5 +320,5 @@ export {
   PLAYER_MILESTONES,
   GET_TEAMS_BY_NAME,
   TEAM_PROFILE,
-  LAST_UPDATE
+  LAST_UPDATE,
 }

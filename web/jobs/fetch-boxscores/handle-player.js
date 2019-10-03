@@ -53,7 +53,7 @@ const handlePlayer = async (
     await playerInDb.save()
   } catch ({ name, message }) {
     console.error(
-      `fetch-boxscores.fetchGames.fetchBoxscore.handlePlayer.saveNewBoxscore - playerId: ${playerInDb.playerId}. | gamePk: ${gamePk}`
+      `fetch-game-data.fetchGames.fetchBoxscore.handlePlayer.saveNewBoxscore - playerId: ${playerInDb.playerId}. | gamePk: ${gamePk}`
     )
     console.error(`${name}: ${message}`)
   }

@@ -8,7 +8,7 @@ const {
 
 const createPlayers = async (data, newPlayers, gamePk) => {
   console.log(
-    `fetch-boxscores.fetchGames.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
+    `fetch-game-data.fetchGames.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
   )
 
   const dataPerTeam = [data.away, data.home]
@@ -60,7 +60,7 @@ const createPlayers = async (data, newPlayers, gamePk) => {
         ]
       } catch ({ name, message }) {
         console.error(
-          `fetch-boxscores.fetchGames.fetchBoxscore.createPlayers.playerLoop - gamePk: ${gamePk} | playerId: ${player.person.id}`
+          `fetch-game-data.fetchGames.fetchBoxscore.createPlayers.playerLoop - gamePk: ${gamePk} | playerId: ${player.person.id}`
         )
         console.error(`${name}: ${message}`)
         continue
@@ -79,7 +79,7 @@ const createPlayers = async (data, newPlayers, gamePk) => {
       await teamInDb.save()
     } catch ({ name, message }) {
       console.error(
-        `fetch-boxscores.fetchGames.fetchBoxscore.createPlayers.updateDb - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
+        `fetch-game-data.fetchGames.fetchBoxscore.createPlayers.updateDb - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
       )
       console.error(`${name}: ${message}`)
     }

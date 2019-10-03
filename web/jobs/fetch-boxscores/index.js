@@ -19,9 +19,9 @@ try {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  console.log('fetch-boxscores.index.connected-to-db')
+  console.log('fetch-game-data.index.connected-to-db')
 } catch (exception) {
-  console.error('fetch-boxscores.index.db-connection-error')
+  console.error('fetch-game-data.index.db-connection-error')
   console.error(exception)
   return
 }
@@ -32,10 +32,10 @@ const timeYesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
 const UTC_DATE = timeYesterday.toISOString().split('T')[0]
 const date = process.argv[2] || UTC_DATE
 
-console.log(`fetch-boxsores.index.fetch-started-${date}`)
+console.log(`fetch-game-data.index.fetch-started-${date}`)
 
 fetchGames(date)
   .catch(({ name, message }) => {
-    console.error(`fetch-boxscores.fetchGames: ${name}: ${message}`)
+    console.error(`fetch-game-data.fetchGames: ${name}: ${message}`)
   })
   .then(() => mongoose.connection.close())

@@ -15,7 +15,7 @@ mongoose.connect(config.MONGODB_URI, {
 })
 
 const statUrl =
-  'https://api.nhle.com/stats/rest/team?isAggregate=false&reportType=basic&isGame=false&reportName=teamsummary&cayenneExp=leagueId=133%20and%20gameTypeId=2%20and%20seasonId>=20182019%20and%20seasonId<=20182019'
+  'https://api.nhle.com/stats/rest/team?isAggregate=false&reportType=basic&isGame=false&reportName=teamsummary&cayenneExp=leagueId=133%20and%20gameTypeId=2%20and%20seasonId>=20192020%20and%20seasonId<=20192020'
 
 // use this https://statsapi.web.nhl.com/api/v1/teams/5/stats
 
