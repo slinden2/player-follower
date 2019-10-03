@@ -60,11 +60,13 @@ const FAVORITE_PLAYERS = gql`
     $numOfGames: Int!
     $positionFilter: PositionFilter!
     $teamFilter: TeamFilter!
+    $nationalityFilter: NationalityFilter!
   ) {
     FavoritePlayers(
       numOfGames: $numOfGames
       positionFilter: $positionFilter
       teamFilter: $teamFilter
+      nationalityFilter: $nationalityFilter
     ) {
       ...PlayerDetails
     }
@@ -163,6 +165,7 @@ const CUMULATIVE_STATS = gql`
   query GetCumulativeStats(
     $positionFilter: PositionFilter!
     $teamFilter: TeamFilter!
+    $nationalityFilter: NationalityFilter!
     $offset: Int!
     $sortBy: SortBy!
     $sortDir: SortDir!
@@ -170,6 +173,7 @@ const CUMULATIVE_STATS = gql`
     GetCumulativeStats(
       positionFilter: $positionFilter
       teamFilter: $teamFilter
+      nationalityFilter: $nationalityFilter
       offset: $offset
       sortBy: $sortBy
       sortDir: $sortDir

@@ -157,6 +157,7 @@ const resolvers = {
           args.numOfGames,
           args.positionFilter,
           args.teamFilter,
+          args.nationalityFilter,
           ctx.currentUser.favoritePlayers
         )
       )
@@ -177,6 +178,7 @@ const resolvers = {
           seasonStatsAggregate(
             args.teamFilter,
             args.positionFilter,
+            args.nationalityFilter,
             sortBy,
             sortDir,
             offset

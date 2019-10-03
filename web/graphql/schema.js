@@ -436,6 +436,7 @@ const typeDefs = gql`
       numOfGames: Int!
       positionFilter: PositionFilter!
       teamFilter: TeamFilter!
+      nationalityFilter: NationalityFilter!
     ): [PlayerCard]!
     """
     Single player by playerId
@@ -467,6 +468,7 @@ const typeDefs = gql`
     GetCumulativeStats(
       positionFilter: PositionFilter!
       teamFilter: TeamFilter!
+      nationalityFilter: NationalityFilter!
       offset: Int!
       sortBy: SortBy!
       sortDir: SortDir!
