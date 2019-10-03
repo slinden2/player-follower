@@ -144,7 +144,8 @@ const resolvers = {
         bestPlayersAggregate(
           args.numOfGames,
           args.positionFilter,
-          args.teamFilter
+          args.teamFilter,
+          args.nationalityFilter
         )
       )
       return players

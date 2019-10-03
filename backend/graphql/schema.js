@@ -351,6 +351,9 @@ const typeDefs = gql`
 
   enum PositionFilter {
     ALL
+    CENTER
+    LEFT
+    RIGHT
     FORWARD
     DEFENCE
   }

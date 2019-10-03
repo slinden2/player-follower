@@ -1,23 +1,39 @@
-const matchPlayers = (positionFilter, teamFilter) => {
-  const playerPos =
-    positionFilter === 'DEFENCE'
-      ? ['D']
-      : positionFilter === 'FORWARD'
-        ? ['L', 'R', 'C']
-        : ['L', 'R', 'C', 'D']
+const matchPlayers = (positionFilter, teamFilter, nationalityFilter) => {
+  const getPosition = posEnum => {
+    const positions = {
+      RIGHT: ['R'],
+      CENTER: ['C'],
+      LEFT: ['L'],
+      DEFENCE: ['D'],
+      FORWARD: ['L', 'R', 'C'],
+      ALL: ['L', 'R', 'C', 'D'],
+    }
 
-  return teamFilter !== 'ALL'
-    ? {
-      $match: {
-        'team.abbreviation': teamFilter,
-        primaryPosition: { $in: playerPos },
-      },
-    }
-    : {
-      $match: {
-        primaryPosition: { $in: playerPos },
-      },
-    }
+    return positions[posEnum]
+  }
+
+  const handlePositionFilter = () => {
+    if (positionFilter === 'ALL') return {}
+    return { primaryPosition: { $in: getPosition(positionFilter) } }
+  }
+
+  const handleTeamFilter = () => {
+    if (teamFilter === 'ALL') return {}
+    return { 'team.abbreviation': teamFilter }
+  }
+
+  const handleNationalityFilter = () => {
+    if (nationalityFilter === 'ALL') return {}
+    return { nationality: nationalityFilter }
+  }
+
+  return {
+    $match: {
+      ...handlePositionFilter(),
+      ...handleTeamFilter(),
+      ...handleNationalityFilter(),
+    },
+  }
 }
 
 const calculateStats = idString => [
@@ -96,7 +112,12 @@ const calculateStats = idString => [
   },
 ]
 
-const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => [
+const bestPlayersPipeline = (
+  numOfGames,
+  positionFilter,
+  teamFilter,
+  nationalityFilter
+) => [
   {
     $lookup: {
       from: 'teams',
@@ -105,7 +126,7 @@ const bestPlayersPipeline = (numOfGames, positionFilter, teamFilter) => [
       as: 'team',
     },
   },
-  matchPlayers(positionFilter, teamFilter),
+  matchPlayers(positionFilter, teamFilter, nationalityFilter),
   {
     $lookup: {
       from: 'skaterboxscores',
@@ -240,9 +261,19 @@ const playerCardSort = [
   { $limit: 50 },
 ]
 
-const bestPlayersAggregate = (numOfGames, positionFilter, teamFilter) => {
+const bestPlayersAggregate = (
+  numOfGames,
+  positionFilter,
+  teamFilter,
+  nationalityFilter
+) => {
   const pipeline = [
-    ...bestPlayersPipeline(numOfGames, positionFilter, teamFilter),
+    ...bestPlayersPipeline(
+      numOfGames,
+      positionFilter,
+      teamFilter,
+      nationalityFilter
+    ),
     ...reformatPlayCardData(numOfGames),
     ...playerCardSort,
   ]
@@ -254,6 +285,7 @@ const favoritePlayersAggregate = (
   numOfGames,
   positionFilter,
   teamFilter,
+  nationalityFilter,
   playerList
 ) => {
   const pipeline = [
@@ -262,7 +294,12 @@ const favoritePlayersAggregate = (
         _id: { $in: playerList },
       },
     },
-    ...bestPlayersPipeline(numOfGames, positionFilter, teamFilter),
+    ...bestPlayersPipeline(
+      numOfGames,
+      positionFilter,
+      teamFilter,
+      nationalityFilter
+    ),
     ...reformatPlayCardData(numOfGames),
     ...playerCardSort,
   ]
@@ -273,6 +310,7 @@ const favoritePlayersAggregate = (
 const seasonStatsAggregate = (
   positionFilter,
   teamFilter,
+  nationalityFilter,
   sortBy,
   sortDir,
   offset
@@ -311,7 +349,12 @@ const seasonStatsAggregate = (
   ]
 
   const pipeline = [
-    ...bestPlayersPipeline(numOfGames, positionFilter, teamFilter),
+    ...bestPlayersPipeline(
+      numOfGames,
+      positionFilter,
+      teamFilter,
+      nationalityFilter
+    ),
     ...reformatSeasonStatsData(numOfGames),
     ...seasonStatsSort,
   ]

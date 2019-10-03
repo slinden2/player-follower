@@ -507,6 +507,21 @@ const playerPosFilterItems = [
     value: 'ALL',
   },
   {
+    key: 'CENTER',
+    text: 'Centers',
+    value: 'CENTER',
+  },
+  {
+    key: 'LEFT',
+    text: 'Left Wings',
+    value: 'LEFT',
+  },
+  {
+    key: 'RIGHT',
+    text: 'Right Wings',
+    value: 'RIGHT',
+  },
+  {
     key: 'FORWARD',
     text: 'Forwards',
     value: 'FORWARD',
