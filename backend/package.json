@@ -22,7 +22,7 @@
     "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
     "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
     "fetch_players": "cross-env NODE_ENV=development node jobs/fetch-players.js",
-    "fetch_game_data": "cross-env NODE_ENV=development node jobs/fetch-game-data/",
+    "fetch_boxscores": "cross-env NODE_ENV=development node jobs/fetch-boxscores/",
     "fetch_stats": "cross-env NODE_ENV=development node jobs/fetch-stats.js",
     "fetch_team_stats": "cross-env NODE_ENV=development node jobs/fetch-team-stats/",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
