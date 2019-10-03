@@ -41,11 +41,13 @@ const BEST_PLAYERS = gql`
     $numOfGames: Int!
     $positionFilter: PositionFilter!
     $teamFilter: TeamFilter!
+    $nationalityFilter: NationalityFilter!
   ) {
     BestPlayers(
       numOfGames: $numOfGames
       positionFilter: $positionFilter
       teamFilter: $teamFilter
+      nationalityFilter: $nationalityFilter
     ) {
       ...PlayerDetails
     }

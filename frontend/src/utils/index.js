@@ -681,6 +681,99 @@ const playerTeamFilterItems = [
   },
 ]
 
+const playerNationalityFilterItems = [
+  {
+    key: 'ALL',
+    text: 'All countries',
+    value: 'ALL',
+  },
+  {
+    key: 'AUS',
+    text: 'Australia',
+    value: 'AUS',
+  },
+  {
+    key: 'AUT',
+    text: 'Austria',
+    value: 'AUT',
+  },
+  {
+    key: 'CAN',
+    text: 'Canada',
+    value: 'CAN',
+  },
+  {
+    key: 'CZE',
+    text: 'Czech Republic',
+    value: 'CZE',
+  },
+  {
+    key: 'DNK',
+    text: 'Denmark',
+    value: 'DNK',
+  },
+  {
+    key: 'FIN',
+    text: 'Finland',
+    value: 'FIN',
+  },
+  {
+    key: 'FRA',
+    text: 'France',
+    value: 'FRA',
+  },
+  {
+    key: 'DEU',
+    text: 'Germany',
+    value: 'DEU',
+  },
+  {
+    key: 'LVA',
+    text: 'Latvia',
+    value: 'LVA',
+  },
+  {
+    key: 'NLD',
+    text: 'Netherlands',
+    value: 'NLD',
+  },
+  {
+    key: 'NOR',
+    text: 'Norway',
+    value: 'NOR',
+  },
+  {
+    key: 'RUS',
+    text: 'Russia',
+    value: 'RUS',
+  },
+  {
+    key: 'SVK',
+    text: 'Slovakia',
+    value: 'SVK',
+  },
+  {
+    key: 'SVN',
+    text: 'Slovenia',
+    value: 'SVN',
+  },
+  {
+    key: 'SWE',
+    text: 'Sweden',
+    value: 'SWE',
+  },
+  {
+    key: 'CHE',
+    text: 'Switzerland',
+    value: 'CHE',
+  },
+  {
+    key: 'USA',
+    text: 'United States',
+    value: 'USA',
+  },
+]
+
 export {
   getCookie,
   removeCookie,
@@ -697,4 +790,5 @@ export {
   userProfileHeadersToShow,
   playerPosFilterItems,
   playerTeamFilterItems,
+  playerNationalityFilterItems,
 }

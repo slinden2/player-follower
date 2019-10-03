@@ -12,6 +12,7 @@ const PlayerStats = () => {
   const [variables, setVariables] = useState({
     positionFilter: 'ALL', // not in use
     teamFilter: 'ALL', // not in use
+    nationalityFilter: 'ALL', // not in use
     offset: 0,
     sortBy: 'POINTS',
     sortDir: 'DESC',

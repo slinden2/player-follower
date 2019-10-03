@@ -390,6 +390,27 @@ const typeDefs = gql`
     WSH
   }
 
+  enum NationalityFilter {
+    ALL
+    CAN
+    USA
+    SWE
+    RUS
+    CZE
+    FIN
+    SVK
+    CHE
+    DNK
+    AUT
+    SVN
+    DEU
+    NOR
+    FRA
+    LVA
+    NLD
+    AUS
+  }
+
   type Query {
     playerCount: Int!
     """
@@ -403,6 +424,7 @@ const typeDefs = gql`
       numOfGames: Int!
       positionFilter: PositionFilter!
       teamFilter: TeamFilter!
+      nationalityFilter: NationalityFilter!
     ): [PlayerCard!]!
     """
     Returns users favorite players for the last 3, 5 and 10 games.

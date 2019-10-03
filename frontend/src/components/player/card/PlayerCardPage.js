@@ -5,7 +5,11 @@ import PlayerViewSelector from './PlayerViewSelector'
 import styled from 'styled-components'
 import DropdownMenu from '../../elements/DropdownMenu'
 import { PlayerContext } from '../../../contexts/PlayerContext'
-import { playerPosFilterItems, playerTeamFilterItems } from '../../../utils'
+import {
+  playerPosFilterItems,
+  playerTeamFilterItems,
+  playerNationalityFilterItems,
+} from '../../../utils'
 import PlayerCardContainer from './PlayerCardContainer'
 import Loader from '../../elements/Loader'
 import { LAST_UPDATE } from '../../../graphql/queries'
@@ -49,6 +53,8 @@ const PlayerCardPage = ({ queryName, header }) => {
     setPositionFilter,
     teamFilter,
     setTeamFilter,
+    nationalityFilter,
+    setNationalityFilter,
   } = useContext(PlayerContext)
   const { data, loading } = useQuery(LAST_UPDATE)
 
@@ -80,6 +86,11 @@ const PlayerCardPage = ({ queryName, header }) => {
             items={playerTeamFilterItems}
             state={teamFilter}
             setState={setTeamFilter}
+          />
+          <DropdownMenu
+            items={playerNationalityFilterItems}
+            state={nationalityFilter}
+            setState={setNationalityFilter}
           />
         </FilterContainer>
         <PlayerCardContainer queryName={queryName} />
