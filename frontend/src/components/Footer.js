@@ -43,15 +43,13 @@ const Footer = () => {
           <Link to="/about">About</Link>
         </ListItem>
         <ListItem>
-          <Link to="/terms-and-conditions">Terms and Conditions</Link>
+          <Link to="/terms-and-conditions">{'Terms & Conditions'}</Link>
         </ListItem>
         <ListItem>
           <Link to="/privacy-policy">Privacy</Link>
         </ListItem>
       </List>
-      <Copyright>
-        Copyright &copy; 2019 Player Fan - All Rights Reserved
-      </Copyright>
+      <Copyright>&copy; Copyright 2019 Player Fan</Copyright>
     </Container>
   )
 }
