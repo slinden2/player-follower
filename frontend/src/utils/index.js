@@ -26,10 +26,10 @@ const setCookie = (name, value, expires) => {
 
 // const imgUrl = playerId => `http://3.cdn.nhle.com/photos/mugs/${playerId}.jpg`
 const cardImgUrl = playerId =>
-  `https://nhl.bamcontent.com/images/headshots/current/168x168/${playerId}.jpg`
+  `https://nhl.bamcontent.com/images/headshots/current/168x168/playerid.jpg` // playerId removed
 
 const profileImgUrl = playerId =>
-  `https://nhl.bamcontent.com/images/actionshots/${playerId}.jpg`
+  `https://nhl.bamcontent.com/images/actionshots/playerid.jpg` // playerId removed
 
 const convertSecsToMMSS = secs => {
   const mins = Math.floor(secs / 60)
