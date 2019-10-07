@@ -26,7 +26,7 @@ const setCookie = (name, value, expires) => {
 
 // const imgUrl = playerId => `http://3.cdn.nhle.com/photos/mugs/${playerId}.jpg`
 const cardImgUrl = playerId =>
-  `https://nhl.bamcontent.com/images/headshots/current/168x168/playerid.jpg` // playerId removed
+  `https://nhl.bamcontent.com/images/headshots/current/168x168/${playerId}.jpg` // playerId removed
 
 const profileImgUrl = playerId =>
   `https://nhl.bamcontent.com/images/actionshots/playerid.jpg` // playerId removed
@@ -789,6 +789,40 @@ const playerNationalityFilterItems = [
   },
 ]
 
+const teamColors = {
+  ANA: { primary: '#111111', secondary: '#fc4c02' },
+  ARI: { primary: '#98002e', secondary: '#ebe3d7' },
+  BOS: { primary: '#111111', secondary: '#ffb81c' },
+  BUF: { primary: '#041e42', secondary: '#fff' },
+  CAR: { primary: '#cc0000', secondary: '#fff' },
+  CGY: { primary: '#c8102e', secondary: '#f1be48' },
+  CHI: { primary: '#ce1126', secondary: '#000' },
+  CBJ: { primary: '#003366', secondary: '#ce0e2d' },
+  COL: { primary: '#8a2432', secondary: '#236093' },
+  DAL: { primary: '#006341', secondary: '#000' },
+  DET: { primary: '#fff', secondary: '#c8102e' },
+  EDM: { primary: '#fa530d', secondary: '#091f40' },
+  FLA: { primary: '#b9975b', secondary: '#c8102e' },
+  LAK: { primary: '#111111', secondary: '#a2aaad' },
+  MIN: { primary: '#154734', secondary: '#e2d6b5' },
+  MTL: { primary: '#ac1a2f', secondary: '#032366' },
+  NSH: { primary: '#ffb81c', secondary: '#041e42' },
+  NJD: { primary: '#ce1126', secondary: '#111111' },
+  NYI: { primary: '#00468b', secondary: '#f26924' },
+  NYR: { primary: '#00428d', secondary: '#ba062a' },
+  OTT: { primary: '#d41434', secondary: '#191919' },
+  PHI: { primary: '#fa4616', secondary: '#000000' },
+  PIT: { primary: '#000000', secondary: '#ffcc33' },
+  SJS: { primary: '#00788a', secondary: '#000000' },
+  STL: { primary: '#002f87', secondary: '#ffca38' },
+  TBL: { primary: '#00205b', secondary: '#fff' },
+  TOR: { primary: '#00488e', secondary: '#fff' },
+  VAN: { primary: '#fff', secondary: '#002d55' },
+  VGK: { primary: '#85714d', secondary: '#111111' },
+  WPG: { primary: '#fff', secondary: '#002d52' },
+  WSH: { primary: '#c8102e', secondary: '#041e42' },
+}
+
 export {
   getCookie,
   removeCookie,
@@ -806,4 +840,5 @@ export {
   playerPosFilterItems,
   playerTeamFilterItems,
   playerNationalityFilterItems,
+  teamColors,
 }

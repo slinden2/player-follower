@@ -7,10 +7,11 @@ import { NotificationContext } from '../../../contexts/NotificationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { PlayerContext } from '../../../contexts/PlayerContext'
 import FlipDiv from './FlipDiv'
-import { statHeaders, cardImgUrl } from '../../../utils'
+import { statHeaders } from '../../../utils'
 import starDisabled from '../../../assets/star-disable.svg'
 import starEnabled from '../../../assets/star-enable.svg'
 import fallbackImage from '../../../assets/noimg-card.png'
+import ImageCircle from './ImageCircle'
 
 const SPlayerCardFrontContainer = styled.div`
   width: 100%;
@@ -19,24 +20,6 @@ const SPlayerCardFrontContainer = styled.div`
   position: absolute;
   transform: rotateX(0deg);
   backface-visibility: hidden;
-`
-
-const PlayerImg = styled.img`
-  width: 168px;
-  height: 168px;
-  border-radius: 50%;
-  display: block;
-  margin: auto;
-`
-
-const ImgOverlay = styled.div`
-  position: absolute;
-  width: 168px;
-  height: 168px;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 50%;
-  left: 40px;
-  top: 0px;
 `
 
 const FavImg = styled.img`
@@ -139,10 +122,6 @@ const OrderNumber = styled.div`
 
 const idInArray = (array, id) => array.some(pid => pid === id)
 
-const handleImgNotFound = e => {
-  e.target.src = fallbackImage
-}
-
 const statArrays = [
   ['points', 'goals', 'assists'],
   ['plusMinus', 'penaltyMinutes'],
@@ -200,12 +179,12 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
 
   return (
     <SPlayerCardFrontContainer>
-      <PlayerImg
-        src={cardImgUrl(player.player.playerId)}
-        alt="player profile"
-        onError={handleImgNotFound}
+      <ImageCircle
+        name={player.player.lastName}
+        number={player.player.primaryNumber}
+        longName={longName}
+        team={player.team.abbreviation}
       />
-      <ImgOverlay />
       <OrderNumber>{i}</OrderNumber>
       <GenDataContainer>
         <SideContainer border="right">
