@@ -46,7 +46,7 @@ const Footer = () => {
           <Link to="/terms-and-conditions">{'Terms & Conditions'}</Link>
         </ListItem>
         <ListItem>
-          <Link to="/privacy-policy">Privacy</Link>
+          <Link to="/privacy-policy">Privacy Policy</Link>
         </ListItem>
       </List>
       <Copyright>&copy; Copyright 2019 Player Fan</Copyright>
