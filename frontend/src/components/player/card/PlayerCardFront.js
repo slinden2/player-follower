@@ -175,7 +175,7 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
   }
 
   const longName =
-    player.player.firstName.length > 10 || player.player.lastName.length > 10
+    player.player.firstName.length > 9 || player.player.lastName.length > 9
 
   return (
     <SPlayerCardFrontContainer>
