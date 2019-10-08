@@ -76,17 +76,17 @@ const typeDefs = gql`
     otLosses: Int!
     points: Int!
     regPlusOtWins: Int!
-    pointPct: Float!
+    pointPct: String!
     goalsFor: Int!
     goalsAgainst: Int!
     shootoutGamesWon: Int!
-    goalsForPerGame: Float!
-    goalsAgainstPerGame: Float!
-    ppPct: Float!
-    pkPct: Float!
-    shotsForPerGame: Float!
-    shotsAgainstPerGame: Float!
-    faceOffWinPct: Float!
+    goalsForPerGame: String!
+    goalsAgainstPerGame: String!
+    ppPct: String!
+    pkPct: String!
+    shotsForPerGame: String!
+    shotsAgainstPerGame: String!
+    faceOffWinPct: String!
   }
 
   """
@@ -262,16 +262,16 @@ const typeDefs = gql`
     points: Int!
     plusMinus: Int!
     penaltyMinutes: Int!
-    pointsPerGame: Float!
+    pointsPerGame: String!
     powerPlayGoals: Int!
     powerPlayPoints: Int!
     shortHandedGoals: Int!
     shortHandedPoints: Int!
     hits: Int!
     shots: Int!
-    shotPct: Float!
+    shotPct: String!
     faceOffsTaken: Int!
-    faceOffPct: Float!
+    faceOffPct: String!
     takeaways: Int!
     giveaways: Int!
     blocked: Int!

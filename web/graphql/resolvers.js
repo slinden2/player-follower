@@ -468,7 +468,7 @@ const resolvers = {
       return roundToDecimal(root.goals / root.saves)
     },
     pointsPerGame: root =>
-      roundToDecimal((root.goals + root.assists) / root.gamesPlayed, 2),
+      roundToDecimal((root.goals + root.assists) / root.gamesPlayed),
     gameDate: root => format(root.gameDate, 'YYYY/MM/DD'),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
@@ -484,28 +484,28 @@ const resolvers = {
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
     points: root => root.goals + root.assists,
-    pointsPerGame: root => roundToDecimal(root.pointsPerGame, 2),
-    shotPct: root => roundToDecimal(root.shotPct, 2),
+    pointsPerGame: root => roundToDecimal(root.pointsPerGame),
+    shotPct: root => roundToDecimal(root.shotPct),
     timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
     powerPlayTimeOnIcePerGame: root =>
       convertSecsToMin(root.powerPlayTimeOnIcePerGame),
     shortHandedTimeOnIcePerGame: root =>
       convertSecsToMin(root.shortHandedTimeOnIcePerGame),
-    faceOffPct: root => roundToDecimal(root.faceOffPct, 2),
+    faceOffPct: root => roundToDecimal(root.faceOffPct),
   },
   Position: {
     code: root => root,
     description: root => getPosition(root),
   },
   Standings: {
-    pointPct: root => roundToDecimal(root.pointPct, 2),
-    goalsForPerGame: root => roundToDecimal(root.goalsForPerGame, 2),
-    goalsAgainstPerGame: root => roundToDecimal(root.goalsAgainstPerGame, 2),
-    ppPct: root => roundToDecimal(root.ppPct, 2),
-    pkPct: root => roundToDecimal(root.pkPct, 2),
-    shotsForPerGame: root => roundToDecimal(root.shotsForPerGame, 2),
-    shotsAgainstPerGame: root => roundToDecimal(root.shotsAgainstPerGame, 2),
-    faceOffWinPct: root => roundToDecimal(root.faceOffWinPct, 2),
+    pointPct: root => roundToDecimal(root.pointPct * 100),
+    goalsForPerGame: root => roundToDecimal(root.goalsForPerGame),
+    goalsAgainstPerGame: root => roundToDecimal(root.goalsAgainstPerGame),
+    ppPct: root => roundToDecimal(root.ppPct * 100),
+    pkPct: root => roundToDecimal(root.pkPct * 100),
+    shotsForPerGame: root => roundToDecimal(root.shotsForPerGame),
+    shotsAgainstPerGame: root => roundToDecimal(root.shotsAgainstPerGame),
+    faceOffWinPct: root => roundToDecimal(root.faceOffWinPct * 100),
   },
 }
 

@@ -82,6 +82,8 @@ const Standings = () => {
     return <Loader offset />
   }
 
+  console.log(data)
+
   const sortTeams = teams => {
     const sortedTeams = teams.sort((a, b) => {
       let sort
