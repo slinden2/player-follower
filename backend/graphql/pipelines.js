@@ -261,7 +261,7 @@ const playerCardSort = sortBy => {
         ...sortArg,
         'stats.goals': -1,
         'stats.plusMinus': -1,
-        'stats.lastName': -1,
+        'player.lastName': 1,
       },
     },
     { $limit: 50 },
