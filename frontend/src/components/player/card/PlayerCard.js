@@ -73,6 +73,7 @@ const PlayerCard = ({ player, i }) => {
           player={player}
           isFlipped={isFlipped}
           handleCardFlip={handleCardFlip}
+          sortBy={sortBy}
         />
       </SPlayerCard>
     </Scene>

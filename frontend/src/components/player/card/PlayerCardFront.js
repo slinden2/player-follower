@@ -91,8 +91,8 @@ const StatItem = styled.div`
   display: flex;
   line-height: 0.75rem;
 
-  ${({ stat, sortBy }) =>
-    stat === sortBy &&
+  ${({ isHighlighted }) =>
+    isHighlighted &&
     css`
       border-radius: 10px;
       background-color: ${colors.blue1};
@@ -206,7 +206,10 @@ const PlayerCardFront = ({ player, handleCardFlip, i, sortBy }) => {
         {statArrays.map((statRow, i) => (
           <StatRow key={i}>
             {statRow.map(stat => (
-              <StatItem key={stat} stat={stat} sortBy={sortByHighlight[sortBy]}>
+              <StatItem
+                key={stat}
+                isHighlighted={stat === sortByHighlight[sortBy]}
+              >
                 <StatHeader title={statHeaders[stat].title}>
                   {statHeaders[stat].headerText}
                 </StatHeader>
