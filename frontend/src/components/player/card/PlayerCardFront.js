@@ -7,10 +7,9 @@ import { NotificationContext } from '../../../contexts/NotificationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { PlayerContext } from '../../../contexts/PlayerContext'
 import FlipDiv from './FlipDiv'
-import { statHeaders } from '../../../utils'
+import { statHeaders, sortByHighlight } from '../../../utils'
 import starDisabled from '../../../assets/star-disable.svg'
 import starEnabled from '../../../assets/star-enable.svg'
-import fallbackImage from '../../../assets/noimg-card.png'
 import ImageCircle from './ImageCircle'
 
 const SPlayerCardFrontContainer = styled.div`
@@ -92,8 +91,8 @@ const StatItem = styled.div`
   display: flex;
   line-height: 0.75rem;
 
-  ${({ stat }) =>
-    stat === 'points' &&
+  ${({ stat, sortBy }) =>
+    stat === sortBy &&
     css`
       border-radius: 10px;
       background-color: ${colors.blue1};
@@ -127,7 +126,7 @@ const statArrays = [
   ['plusMinus', 'penaltyMinutes'],
 ]
 
-const PlayerCardFront = ({ player, handleCardFlip, i }) => {
+const PlayerCardFront = ({ player, handleCardFlip, i, sortBy }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
@@ -207,7 +206,7 @@ const PlayerCardFront = ({ player, handleCardFlip, i }) => {
         {statArrays.map((statRow, i) => (
           <StatRow key={i}>
             {statRow.map(stat => (
-              <StatItem key={stat} stat={stat}>
+              <StatItem key={stat} stat={stat} sortBy={sortByHighlight[sortBy]}>
                 <StatHeader title={statHeaders[stat].title}>
                   {statHeaders[stat].headerText}
                 </StatHeader>

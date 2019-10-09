@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { event } from '../../../utils/tracking'
 import colors from '../../../styles/colors'
 import PlayerCardFront from './PlayerCardFront'
 import PlayerCardBack from './PlayerCardBack'
+import { PlayerContext } from '../../../contexts/PlayerContext'
 
 const Scene = styled.div`
   width: 250px;
@@ -32,8 +33,12 @@ const SPlayerCard = styled.div`
   }
 `
 
+const frontStats = ['POINTS', 'GOALS', 'ASSISTS', 'PLUSMINUS', 'PM']
+
 const PlayerCard = ({ player, i }) => {
   const [isFlipped, setIsFlipped] = useState(false)
+  const [prevSortBy, setPrevSortBy] = useState(null)
+  const { sortBy } = useContext(PlayerContext)
 
   const handleCardFlip = () => {
     setIsFlipped(!isFlipped)
@@ -44,6 +49,16 @@ const PlayerCard = ({ player, i }) => {
     )
   }
 
+  // This block is needed to flip cards automatically in base of the
+  // sort field.
+  if (!frontStats.includes(sortBy) && sortBy !== prevSortBy) {
+    setIsFlipped(true)
+    setPrevSortBy(sortBy)
+  } else if (frontStats.includes(sortBy) && sortBy !== prevSortBy) {
+    setIsFlipped(false)
+    setPrevSortBy(sortBy)
+  }
+
   return (
     <Scene>
       <SPlayerCard isFlipped={isFlipped}>
@@ -52,6 +67,7 @@ const PlayerCard = ({ player, i }) => {
           isFlipped={isFlipped}
           handleCardFlip={handleCardFlip}
           i={i}
+          sortBy={sortBy}
         />
         <PlayerCardBack
           player={player}

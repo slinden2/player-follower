@@ -872,6 +872,25 @@ const sortByItems = [
   },
 ]
 
+const sortByHighlight = {
+  POINTS: 'points',
+  GOALS: 'goals',
+  ASSISTS: 'assists',
+  PLUSMINUS: 'plusMinus',
+  PM: 'penaltyMinutes',
+  PPG: 'powerPlayGoals',
+  PPP: 'powerPlayPoints',
+  SHG: 'shortHandedGoals',
+  SHP: 'shortHandedPoints',
+  TON_PER_GAME: 'timeOnIcePerGame',
+  FOT: 'faceOffsTaken',
+  SHOTS: 'shots',
+  HITS: 'hits',
+  TA: 'takeaways',
+  GA: 'giveaways',
+  BLOCKED: 'blocked',
+}
+
 const teamColors = {
   ANA: { primary: '#fc4c02', secondary: '#000', tertiary: '#ba9865' },
   ARI: { primary: '#862633', secondary: '#fff', tertiary: '#ddcba4' },
@@ -925,4 +944,5 @@ export {
   playerNationalityFilterItems,
   sortByItems,
   teamColors,
+  sortByHighlight,
 }
