@@ -9,6 +9,7 @@ import {
   playerPosFilterItems,
   playerTeamFilterItems,
   playerNationalityFilterItems,
+  sortByItems,
 } from '../../../utils'
 import PlayerCardContainer from './PlayerCardContainer'
 import Loader from '../../elements/Loader'
@@ -55,6 +56,8 @@ const PlayerCardPage = ({ queryName, header }) => {
     setTeamFilter,
     nationalityFilter,
     setNationalityFilter,
+    sortBy,
+    setSortBy,
   } = useContext(PlayerContext)
   const { data, loading } = useQuery(LAST_UPDATE)
 
@@ -77,6 +80,11 @@ const PlayerCardPage = ({ queryName, header }) => {
           setCurrentView={setNumOfGames}
         />
         <FilterContainer>
+          <DropdownMenu
+            items={sortByItems}
+            state={sortBy}
+            setState={setSortBy}
+          />
           <DropdownMenu
             items={playerPosFilterItems}
             state={positionFilter}

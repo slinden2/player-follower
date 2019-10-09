@@ -789,6 +789,89 @@ const playerNationalityFilterItems = [
   },
 ]
 
+const sortByItems = [
+  {
+    key: 'POINTS',
+    text: 'Points',
+    value: 'POINTS',
+  },
+  {
+    key: 'GOALS',
+    text: 'Goals',
+    value: 'GOALS',
+  },
+  {
+    key: 'ASSISTS',
+    text: 'Assists',
+    value: 'ASSISTS',
+  },
+  {
+    key: 'PLUSMINUS',
+    text: '+/-',
+    value: 'PLUSMINUS',
+  },
+  {
+    key: 'PM',
+    text: 'Penalty Minutes',
+    value: 'PM',
+  },
+  {
+    key: 'PPG',
+    text: 'Powerplay Goals',
+    value: 'PPG',
+  },
+  {
+    key: 'PPP',
+    text: 'Powerplay Points',
+    value: 'PPP',
+  },
+  {
+    key: 'SHG',
+    text: 'Shorthanded Goals',
+    value: 'SHG',
+  },
+  {
+    key: 'SHP',
+    text: 'Shorthanded Points',
+    value: 'SHP',
+  },
+  {
+    key: 'TON_PER_GAME',
+    text: 'TON/GP',
+    value: 'TON_PER_GAME',
+  },
+  {
+    key: 'FOT',
+    text: 'Faceoffs Taken',
+    value: 'FOT',
+  },
+  {
+    key: 'SHOTS',
+    text: 'Shots',
+    value: 'SHOTS',
+  },
+  {
+    key: 'HITS',
+    text: 'Hits',
+    value: 'HITS',
+  },
+  {
+    key: 'TA',
+    text: 'Takeaways',
+    value: 'TA',
+  },
+  {
+    key: 'GA',
+    text: 'Giveaways',
+    value: 'GA',
+  },
+  {
+    key: 'BLOCKED',
+    text: 'Blocked shots',
+    value: 'BLOCKED',
+  },
+]
+
 const teamColors = {
   ANA: { primary: '#fc4c02', secondary: '#000', tertiary: '#ba9865' },
   ARI: { primary: '#862633', secondary: '#fff', tertiary: '#ddcba4' },
@@ -840,5 +923,6 @@ export {
   playerPosFilterItems,
   playerTeamFilterItems,
   playerNationalityFilterItems,
+  sortByItems,
   teamColors,
 }

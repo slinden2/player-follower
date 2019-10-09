@@ -145,7 +145,8 @@ const resolvers = {
           args.numOfGames,
           args.positionFilter,
           args.teamFilter,
-          args.nationalityFilter
+          args.nationalityFilter,
+          getSortField(args.sortBy)
         )
       )
       return players
@@ -154,11 +155,12 @@ const resolvers = {
       if (!ctx.currentUser) return []
       const players = await Player.aggregate(
         favoritePlayersAggregate(
+          ctx.currentUser.favoritePlayers,
           args.numOfGames,
           args.positionFilter,
           args.teamFilter,
           args.nationalityFilter,
-          ctx.currentUser.favoritePlayers
+          getSortField(args.sortBy)
         )
       )
       return players.filter(player =>

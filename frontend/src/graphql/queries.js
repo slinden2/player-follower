@@ -42,12 +42,14 @@ const BEST_PLAYERS = gql`
     $positionFilter: PositionFilter!
     $teamFilter: TeamFilter!
     $nationalityFilter: NationalityFilter!
+    $sortBy: SortBy
   ) {
     BestPlayers(
       numOfGames: $numOfGames
       positionFilter: $positionFilter
       teamFilter: $teamFilter
       nationalityFilter: $nationalityFilter
+      sortBy: $sortBy
     ) {
       ...PlayerDetails
     }
@@ -61,12 +63,14 @@ const FAVORITE_PLAYERS = gql`
     $positionFilter: PositionFilter!
     $teamFilter: TeamFilter!
     $nationalityFilter: NationalityFilter!
+    $sortBy: SortBy
   ) {
     FavoritePlayers(
       numOfGames: $numOfGames
       positionFilter: $positionFilter
       teamFilter: $teamFilter
       nationalityFilter: $nationalityFilter
+      sortBy: $sortBy
     ) {
       ...PlayerDetails
     }

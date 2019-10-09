@@ -9,6 +9,7 @@ const PlayerContextProvider = props => {
   const [positionFilter, setPositionFilter] = useState('ALL')
   const [teamFilter, setTeamFilter] = useState('ALL')
   const [nationalityFilter, setNationalityFilter] = useState('ALL')
+  const [sortBy, setSortBy] = useState('POINTS')
   const [numOfGames, setNumOfGames] = useState(1)
 
   const variables = {
@@ -16,6 +17,7 @@ const PlayerContextProvider = props => {
     positionFilter,
     teamFilter,
     nationalityFilter,
+    sortBy,
   }
 
   const bestPlayers = useQuery(BEST_PLAYERS, {
@@ -65,6 +67,8 @@ const PlayerContextProvider = props => {
         setTeamFilter,
         nationalityFilter,
         setNationalityFilter,
+        sortBy,
+        setSortBy,
         followPlayer,
         unfollowPlayer,
       }}
