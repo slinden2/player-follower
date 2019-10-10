@@ -233,6 +233,7 @@ const typeDefs = gql`
   type Position {
     code: String!
     description: String!
+    abbreviation: String!
   }
 
   type StatsNGames {

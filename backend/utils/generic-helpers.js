@@ -39,15 +39,27 @@ const getSortField = sortString => {
   return ENUMS[sortString]
 }
 
-const positions = {
+const positionDesc = {
   R: 'Right Wing',
   L: 'Left Wing',
   C: 'Center',
   D: 'Defenceman',
 }
 
-const getPosition = code => {
-  return positions[code]
+const positionAbbr = {
+  R: 'RW',
+  L: 'LW',
+  C: 'C',
+  D: 'D',
 }
 
-module.exports = { convertSecsToMin, roundToDecimal, getSortField, getPosition }
+const getPositionData = code => {
+  return { abbr: positionAbbr[code], desc: positionDesc[code] }
+}
+
+module.exports = {
+  convertSecsToMin,
+  roundToDecimal,
+  getSortField,
+  getPositionData,
+}

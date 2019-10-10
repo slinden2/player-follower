@@ -23,7 +23,7 @@ const {
   convertSecsToMin,
   roundToDecimal,
   getSortField,
-  getPosition,
+  getPositionData,
 } = require('../utils/generic-helpers')
 const { validatePassword } = require('../utils/password-requirements')
 const {
@@ -497,7 +497,8 @@ const resolvers = {
   },
   Position: {
     code: root => root,
-    description: root => getPosition(root),
+    description: root => getPositionData(root).desc,
+    abbreviation: root => getPositionData(root).abbr,
   },
   Standings: {
     pointPct: root => roundToDecimal(root.pointPct * 100),

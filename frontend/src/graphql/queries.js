@@ -8,6 +8,9 @@ const PLAYER_DETAILS = gql`
       firstName
       lastName
       primaryNumber
+      primaryPosition {
+        abbreviation
+      }
       playerId
       siteLink
     }

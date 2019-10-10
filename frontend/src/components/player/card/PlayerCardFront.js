@@ -53,16 +53,6 @@ const SideContainer = styled.div`
     css`
     border-${border}: 3px solid ${colors.grey2};
   `}
-
-  ${({ numIndicator }) =>
-    numIndicator &&
-    css`
-      &::before {
-        content: '#';
-        margin-right: 5px;
-        color: ${colors.grey1};
-      }
-    `}
 `
 
 const PlayerName = styled.div`
@@ -198,8 +188,8 @@ const PlayerCardFront = ({ player, handleCardFlip, i, sortBy }) => {
             {player.player.lastName}
           </Link>
         </PlayerName>
-        <SideContainer numIndicator border="left">
-          {player.player.primaryNumber}
+        <SideContainer border="left">
+          {player.player.primaryPosition.abbreviation}
         </SideContainer>
       </GenDataContainer>
       <StatsContainer>
