@@ -233,6 +233,7 @@ const typeDefs = gql`
   type Position {
     code: String!
     description: String!
+    abbreviation: String!
   }
 
   type StatsNGames {
@@ -428,6 +429,7 @@ const typeDefs = gql`
       positionFilter: PositionFilter!
       teamFilter: TeamFilter!
       nationalityFilter: NationalityFilter!
+      sortBy: SortBy
     ): [PlayerCard!]!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
@@ -437,6 +439,7 @@ const typeDefs = gql`
       positionFilter: PositionFilter!
       teamFilter: TeamFilter!
       nationalityFilter: NationalityFilter!
+      sortBy: SortBy
     ): [PlayerCard]!
     """
     Single player by playerId

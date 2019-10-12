@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
+import styled, { css } from 'styled-components'
 import PageContainer from '../../elements/PageContainer'
 import PlayerViewSelector from './PlayerViewSelector'
-import styled from 'styled-components'
 import DropdownMenu from '../../elements/DropdownMenu'
 import { PlayerContext } from '../../../contexts/PlayerContext'
 import {
@@ -13,6 +13,7 @@ import {
 } from '../../../utils'
 import PlayerCardContainer from './PlayerCardContainer'
 import Loader from '../../elements/Loader'
+import Button from '../../elements/Button'
 import { LAST_UPDATE } from '../../../graphql/queries'
 import breakpoints from '../../../styles/breakpoints'
 import colors from '../../../styles/colors'
@@ -21,8 +22,44 @@ const Container = styled.div`
   position: relative;
 `
 
-const FilterContainer = styled.div`
+const ShowFiltersButton = styled(Button)`
+  font-size: 0.75rem;
+  padding: 5px;
+  margin: 10px auto;
+  display: block;
+
   @media ${breakpoints.showDesktopNavi} {
+    display: none;
+  }
+`
+
+const FilterContainer = styled.div`
+  height: auto;
+  max-height: 200px;
+  ${({ isVisible }) =>
+    !isVisible &&
+    css`
+      transition: max-height 250ms ease-in-out 150ms, opacity 150ms ease-in-out,
+        transform 150ms ease-in-out;
+      max-height: 0;
+      opacity: 0;
+      transform: translateX(-100%);
+    `};
+
+  ${({ isVisible }) =>
+    isVisible &&
+    css`
+      transition: max-height 100ms ease-in, opacity 250ms ease-in-out 250ms,
+        transform 250ms ease-in-out 150ms;
+      max-height: 500px;
+      opacity: 1;
+      transform: translateX(0);
+    `};
+
+  @media ${breakpoints.showDesktopNavi} {
+    max-height: 200px;
+    transform: none;
+    opacity: 1;
     display: flex;
     justify-content: center;
   }
@@ -79,6 +116,7 @@ const PlayerCardPage = ({ queryName, header }) => {
     setSortBy,
   } = useContext(PlayerContext)
   const { data, loading } = useQuery(LAST_UPDATE)
+  const [filtersAreVisible, setFiltersAreVisible] = useState(false)
 
   if (loading) {
     return <Loader offset />
@@ -98,7 +136,11 @@ const PlayerCardPage = ({ queryName, header }) => {
           currentView={numOfGames}
           setCurrentView={setNumOfGames}
         />
-        <FilterContainer>
+        <ShowFiltersButton
+          content={(filtersAreVisible ? 'Hide' : 'Show') + ' Filters'}
+          onClick={() => setFiltersAreVisible(!filtersAreVisible)}
+        />
+        <FilterContainer isVisible={filtersAreVisible}>
           <FieldContainer>
             <FieldsetTitle>Sort</FieldsetTitle>
             <DropdownMenu

@@ -249,23 +249,31 @@ const reformatSeasonStatsData = numOfGames => [
   { $addFields: { numOfGamesId: numOfGames } },
 ]
 
-const playerCardSort = [
-  {
-    $sort: {
-      'stats.points': -1,
-      'stats.goals': -1,
-      'stats.plusMinus': -1,
-      'player.lastName': 1,
+const playerCardSort = sortBy => {
+  const sortArg =
+    sortBy === 'points'
+      ? { [`stats.${sortBy}`]: -1 }
+      : { [`stats.${sortBy}`]: -1, 'stats.points': -1 }
+
+  return [
+    {
+      $sort: {
+        ...sortArg,
+        'stats.goals': -1,
+        'stats.plusMinus': -1,
+        'player.lastName': 1,
+      },
     },
-  },
-  { $limit: 50 },
-]
+    { $limit: 50 },
+  ]
+}
 
 const bestPlayersAggregate = (
   numOfGames,
   positionFilter,
   teamFilter,
-  nationalityFilter
+  nationalityFilter,
+  sortBy
 ) => {
   const pipeline = [
     ...bestPlayersPipeline(
@@ -275,18 +283,19 @@ const bestPlayersAggregate = (
       nationalityFilter
     ),
     ...reformatPlayCardData(numOfGames),
-    ...playerCardSort,
+    ...playerCardSort(sortBy),
   ]
 
   return pipeline
 }
 
 const favoritePlayersAggregate = (
+  playerList,
   numOfGames,
   positionFilter,
   teamFilter,
   nationalityFilter,
-  playerList
+  sortBy
 ) => {
   const pipeline = [
     {
@@ -301,7 +310,7 @@ const favoritePlayersAggregate = (
       nationalityFilter
     ),
     ...reformatPlayCardData(numOfGames),
-    ...playerCardSort,
+    ...playerCardSort(sortBy),
   ]
 
   return pipeline

@@ -23,7 +23,7 @@ const {
   convertSecsToMin,
   roundToDecimal,
   getSortField,
-  getPosition,
+  getPositionData,
 } = require('../utils/generic-helpers')
 const { validatePassword } = require('../utils/password-requirements')
 const {
@@ -145,7 +145,8 @@ const resolvers = {
           args.numOfGames,
           args.positionFilter,
           args.teamFilter,
-          args.nationalityFilter
+          args.nationalityFilter,
+          getSortField(args.sortBy)
         )
       )
       return players
@@ -154,11 +155,12 @@ const resolvers = {
       if (!ctx.currentUser) return []
       const players = await Player.aggregate(
         favoritePlayersAggregate(
+          ctx.currentUser.favoritePlayers,
           args.numOfGames,
           args.positionFilter,
           args.teamFilter,
           args.nationalityFilter,
-          ctx.currentUser.favoritePlayers
+          getSortField(args.sortBy)
         )
       )
       return players.filter(player =>
@@ -495,7 +497,8 @@ const resolvers = {
   },
   Position: {
     code: root => root,
-    description: root => getPosition(root),
+    description: root => getPositionData(root).desc,
+    abbreviation: root => getPositionData(root).abbr,
   },
   Standings: {
     pointPct: root => roundToDecimal(root.pointPct * 100),
