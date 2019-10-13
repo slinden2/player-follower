@@ -106,7 +106,7 @@ const resolvers = {
               blurb: milestone.highlight.blurb,
               playback:
                 milestone.highlight.playbacks[
-                  milestone.highlight.playbacks.length - 2
+                  milestone.highlight.playbacks.length - 1
                 ],
             }))
         )
