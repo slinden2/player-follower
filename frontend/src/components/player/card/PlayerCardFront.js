@@ -9,8 +9,6 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { PlayerContext } from '../../../contexts/PlayerContext'
 import FlipDiv from './FlipDiv'
 import { statHeaders, sortByHighlight } from '../../../utils'
-import starDisabled from '../../../assets/star-disable.svg'
-import starEnabled from '../../../assets/star-enable.svg'
 import ImageCircle from './ImageCircle'
 
 const Container = styled.div`
@@ -27,12 +25,18 @@ const Container = styled.div`
     `}
 `
 
-const FavImg = styled.img`
+const FavImg2 = styled.svg`
   position: absolute;
-  width: 24px;
-  height: 24px;
   left: 15px;
   top: 15px;
+  width: 27px;
+  height: 28px;
+  stroke: ${colors.grey1};
+
+  & path {
+    fill: ${({ isFav }) => (isFav ? colors.yellow1 : 'none')};
+    stroke-width: 1;
+  }
 `
 
 const GenDataContainer = styled.div`
@@ -172,6 +176,8 @@ const PlayerCardFront = ({ player, isFlipped, handleCardFlip, i, sortBy }) => {
   const longName =
     player.player.firstName.length > 9 || player.player.lastName.length > 9
 
+  const isFav = idInArray(user.data.me.favoritePlayers, player._id)
+
   return (
     <Container isFlipped={isFlipped}>
       <ImageCircle
@@ -216,14 +222,13 @@ const PlayerCardFront = ({ player, isFlipped, handleCardFlip, i, sortBy }) => {
         ))}
       </StatsContainer>
       {token && user.data.me && (
-        <>
-          {!idInArray(user.data.me.favoritePlayers, player._id) && (
-            <FavImg src={starDisabled} onClick={handleFollow} />
-          )}
-          {idInArray(user.data.me.favoritePlayers, player._id) && (
-            <FavImg src={starEnabled} onClick={handleUnfollow} />
-          )}
-        </>
+        <FavImg2
+          xmlns="http://www.w3.org/2000/svg"
+          isFav={isFav}
+          onClick={isFav ? handleUnfollow : handleFollow}
+        >
+          <path d="M13.496 1.5l-3.706 7.901L1.5 10.67l6.002 6.1463L6.0887 25.5l7.4147-4.102 7.4182 4.0963-1.4194-8.6818 5.9978-6.15-8.292-1.2635z" />
+        </FavImg2>
       )}
       <FlipDiv onClick={handleCardFlip} />
     </Container>

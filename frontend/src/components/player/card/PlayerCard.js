@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const frontStats = ['POINTS', 'GOALS', 'ASSISTS', 'PLUSMINUS', 'PM']
 
-const PlayerCard = ({ player, i }) => {
+const PlayerCard = React.memo(({ player, i }) => {
   const [isFlipped, setIsFlipped] = useState(false)
   const [prevSortBy, setPrevSortBy] = useState(null)
   const { sortBy } = useContext(PlayerContext)
@@ -58,6 +58,6 @@ const PlayerCard = ({ player, i }) => {
       />
     </Container>
   )
-}
+})
 
 export default PlayerCard

@@ -12,4 +12,6 @@ export default {
   blue1: '#6c81cb',
 
   green1: '#43b581',
+
+  yellow1: '#c8972c',
 }
