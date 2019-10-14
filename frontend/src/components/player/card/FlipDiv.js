@@ -9,7 +9,7 @@ const Triangle = styled.div`
   width: 50px;
   height: 50px;
   right: 0;
-  bottom: 5px;
+  bottom: 0;
   border-bottom-right-radius: 10px;
   clip-path: polygon(100% 0, 0 100%, 100% 100%);
   cursor: pointer;

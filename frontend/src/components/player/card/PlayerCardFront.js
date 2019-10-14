@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { event } from '../../../utils/tracking'
 import colors from '../../../styles/colors'
+import { commonStyles } from './playerCardStyles'
 import { NotificationContext } from '../../../contexts/NotificationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { PlayerContext } from '../../../contexts/PlayerContext'
@@ -12,13 +13,18 @@ import starDisabled from '../../../assets/star-disable.svg'
 import starEnabled from '../../../assets/star-enable.svg'
 import ImageCircle from './ImageCircle'
 
-const SPlayerCardFrontContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  position: absolute;
-  transform: rotateX(0deg);
-  backface-visibility: hidden;
+const Container = styled.div`
+  ${commonStyles}
+
+  padding-top: 10px;
+
+  transform: rotateY(0deg);
+
+  ${({ isFlipped }) =>
+    isFlipped &&
+    css`
+      transform: rotateY(-180deg);
+    `}
 `
 
 const FavImg = styled.img`
@@ -26,7 +32,7 @@ const FavImg = styled.img`
   width: 24px;
   height: 24px;
   left: 15px;
-  top: 10px;
+  top: 15px;
 `
 
 const GenDataContainer = styled.div`
@@ -105,7 +111,7 @@ const Stat = styled.div`
 const OrderNumber = styled.div`
   position: absolute;
   font-size: 0.75rem;
-  top: 0;
+  top: 5px;
   right: 10px;
 `
 
@@ -116,7 +122,7 @@ const statArrays = [
   ['plusMinus', 'penaltyMinutes'],
 ]
 
-const PlayerCardFront = ({ player, handleCardFlip, i, sortBy }) => {
+const PlayerCardFront = ({ player, isFlipped, handleCardFlip, i, sortBy }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
@@ -167,7 +173,7 @@ const PlayerCardFront = ({ player, handleCardFlip, i, sortBy }) => {
     player.player.firstName.length > 9 || player.player.lastName.length > 9
 
   return (
-    <SPlayerCardFrontContainer>
+    <Container isFlipped={isFlipped}>
       <ImageCircle
         name={player.player.lastName}
         number={player.player.primaryNumber}
@@ -220,7 +226,7 @@ const PlayerCardFront = ({ player, handleCardFlip, i, sortBy }) => {
         </>
       )}
       <FlipDiv onClick={handleCardFlip} />
-    </SPlayerCardFrontContainer>
+    </Container>
   )
 }
 
