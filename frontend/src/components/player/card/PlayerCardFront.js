@@ -176,7 +176,10 @@ const PlayerCardFront = ({ player, isFlipped, handleCardFlip, i, sortBy }) => {
   const longName =
     player.player.firstName.length > 9 || player.player.lastName.length > 9
 
-  const isFav = idInArray(user.data.me.favoritePlayers, player._id)
+  let isFav = false
+  if (token && user.data.me) {
+    isFav = idInArray(user.data.me.favoritePlayers, player._id)
+  }
 
   return (
     <Container isFlipped={isFlipped}>

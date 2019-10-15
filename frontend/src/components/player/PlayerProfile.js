@@ -3,16 +3,14 @@ import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import Media from 'react-media'
 import { useQuery } from 'react-apollo-hooks'
-import { profileImgUrl } from '../../utils'
 import { PLAYER_PROFILE } from '../../graphql/queries'
 import PlayerBioTable from './PlayerBioTable'
 import StatsTable from '../stats/StatsTable'
 import PlayerMilestones from './PlayerMilestones'
 import PageContainer from '../elements/PageContainer'
-import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
-import fallbackImg from '../../assets/noimg.png'
 import Loader from '../elements/Loader'
+import Rink from './rink/Rink'
 
 const Container = styled.div`
   display: flex;
@@ -23,14 +21,6 @@ const Container = styled.div`
     width: 1000px;
     margin: 0 auto;
   }
-`
-
-const ActionImg = styled.img`
-  width: 100%;
-  max-width: 1000px;
-  border: 3px solid ${colors.grey3};
-  border-radius: 5px;
-  margin-bottom: 10px;
 `
 
 const headers = [
@@ -61,10 +51,6 @@ const sortBoxscoresByDate = boxscores => {
     b = b.gameDate.split('/').join('')
     return a < b ? 1 : a > b ? -1 : 0
   })
-}
-
-const handleImgNotFound = e => {
-  e.target.src = fallbackImg
 }
 
 const PlayerProfile = ({ siteLink }) => {
@@ -98,11 +84,9 @@ const PlayerProfile = ({ siteLink }) => {
   return (
     <PageContainer title="Player Profile">
       <Container>
-        <ActionImg
-          src={profileImgUrl(data.findPlayer.playerId)}
-          onError={handleImgNotFound}
-        />
         <PlayerBioTable player={player} />
+        <Rink />
+
         <Media query={breakpoints.showDesktopNavi}>
           {matches =>
             matches ? (
