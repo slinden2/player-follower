@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { statHeaders, teamStatHeaders } from '../../utils'
+import Title from '../elements/Title'
 import TableRow from './TableRow'
 import HeaderCell from './HeaderCell'
 import TableCell from './TableCell'
@@ -13,13 +14,6 @@ const Container = styled.div`
 const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
-`
-
-const TableTitle = styled.h3`
-  margin: 0;
-  text-align: center;
-  margin-bottom: 5px;
-  font-weight: bolder;
 `
 
 const TableHead = styled.thead``
@@ -92,7 +86,7 @@ const StatsTable = ({
 
   return (
     <Container>
-      <TableTitle>{title}</TableTitle>
+      <Title>{title}</Title>
       <Table>
         <TableHead>{createHeaders()}</TableHead>
         <TableBody>{createCells()}</TableBody>
