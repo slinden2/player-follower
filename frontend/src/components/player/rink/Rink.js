@@ -2,9 +2,24 @@ import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import colors from '../../../styles/colors'
 import Tooltip from './Tooltip'
+import Title from '../../elements/Title'
 
 const Container = styled.div`
+  margin: 10px 0;
   width: 100%;
+  position: relative;
+`
+
+const Puck = styled.circle`
+  &:hover,
+  :focus {
+    filter: url(#drop-shadow);
+  }
+`
+
+const RinkSvg = styled.svg`
+  max-width: 1000px;
+  display: block;
   position: relative;
   opacity: 0.8;
   transition: opacity 200ms ease-in-out;
@@ -14,57 +29,16 @@ const Container = styled.div`
   }
 `
 
-const Puck = styled.circle`
-  &:hover {
-    filter: url(#drop-shadow);
-  }
-`
-
-const RinkSvg = styled.svg`
-  max-width: 1000px;
-  display: block;
-  position: relative;
-`
-
-const Rink = () => {
+const Rink = ({ data }) => {
   const [showTooltip, setShowTooltip] = useState(false)
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 })
+  const [tooltipPos, setTooltipPos] = useState({})
+  const [tooltipData, setTooltipData] = useState({})
   const refContainer = useRef(null)
 
-  const data = [
-    {
-      teams: {
-        away: 'ANA',
-        home: 'BUF',
-      },
-      coordinates: {
-        x: 70,
-        y: -40,
-      },
-    },
-    {
-      teams: {
-        away: 'ANA',
-        home: 'BUF',
-      },
-      coordinates: {
-        x: 60,
-        y: 20,
-      },
-    },
-    {
-      teams: {
-        away: 'ANA',
-        home: 'BUF',
-      },
-      coordinates: {
-        x: -84,
-        y: -10,
-      },
-    },
-  ]
+  console.log(data)
 
   const handleMouseOver = e => {
+    setTooltipData(Object.assign({}, e.target.dataset))
     setTooltipPos({
       x: e.pageX - refContainer.current.offsetLeft,
       y: e.pageY - refContainer.current.offsetTop,
@@ -72,8 +46,13 @@ const Rink = () => {
     setShowTooltip(true)
   }
 
+  const handleMouseLeave = () => {
+    setShowTooltip(false)
+  }
+
   return (
     <Container ref={refContainer}>
+      <Title>Goal Detail</Title>
       <RinkSvg
         xmlns="http://www.w3.org/2000/svg"
         version="1.0"
@@ -274,15 +253,22 @@ const Rink = () => {
           data.map((goal, i) => (
             <Puck
               key={i}
+              data-away-team={goal.awayTeam.abbreviation}
+              data-home-team={goal.homeTeam.abbreviation}
+              data-strength={goal.strength}
+              data-game-date={goal.gameDate}
+              data-period-number={goal.periodNumber}
+              data-period-time={goal.periodTime}
               cx={100.5 + goal.coordinates.x}
-              cy={43 + goal.coordinates.y}
+              cy={43 + goal.coordinates.y * -1}
               r="1"
+              onClick={handleMouseOver}
               onMouseOver={handleMouseOver}
-              onMouseLeave={() => setShowTooltip(false)}
+              onMouseLeave={handleMouseLeave}
             />
           ))}
       </RinkSvg>
-      <Tooltip show={showTooltip} position={tooltipPos} />
+      <Tooltip show={showTooltip} position={tooltipPos} data={tooltipData} />
     </Container>
   )
 }

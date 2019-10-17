@@ -139,6 +139,23 @@ const PLAYER_PROFILE = gql`
           abbreviation
         }
       }
+      goals {
+        id
+        strength
+        homeTeam {
+          abbreviation
+        }
+        awayTeam {
+          abbreviation
+        }
+        gameDate
+        periodNumber
+        periodTime
+        coordinates {
+          x
+          y
+        }
+      }
     }
   }
 `

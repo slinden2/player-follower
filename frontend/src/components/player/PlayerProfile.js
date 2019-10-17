@@ -85,8 +85,6 @@ const PlayerProfile = ({ siteLink }) => {
     <PageContainer title="Player Profile">
       <Container>
         <PlayerBioTable player={player} />
-        <Rink />
-
         <Media query={breakpoints.showDesktopNavi}>
           {matches =>
             matches ? (
@@ -106,6 +104,7 @@ const PlayerProfile = ({ siteLink }) => {
             )
           }
         </Media>
+        <Rink data={player.goals} />
         <PlayerMilestones
           playerId={player.playerId}
           fullName={player.fullName}

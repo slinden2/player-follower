@@ -4,43 +4,85 @@ import colors from '../../../styles/colors'
 
 const TooltipSvg = styled.svg`
   position: absolute;
-  left: ${({ position }) => `${position.x - 39.36}px`};
-  top: ${({ position }) => `${position.y - 50.5}px`};
+  left: ${({ position }) => `${position.x - 48}px`};
+  top: ${({ position }) => `${position.y - 80}px`};
   z-index: 5;
-  opacity: 1;
-  transition: opacity 100ms ease-in-out;
+  width: 90px;
+  height: 60px;
+
   ${({ show }) =>
     !show &&
     css`
       opacity: 0;
+      transform: translateX(-100vw);
+      transition: opacity 100ms ease-in-out, transform 50ms ease-in-out 100ms;
+    `}
+
+  ${({ show }) =>
+    show &&
+    css`
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity 100ms ease-in-out;
     `}
 `
 
-const Tooltip = ({ show, position }) => {
+const Tooltip = ({ show, position, data }) => {
   return (
-    <TooltipSvg
-      xmlns="http://www.w3.org/2000/svg"
-      width="78.75"
-      height="40.5"
-      viewBox="0 0 105 54"
-      show={show}
-      position={position}
-    >
-      <path
-        d="M52.4737 52.7895L66.512 36.311h35.9536c.821 0 1.4818-.4157 1.4818-.932V1.9318c0-.5162-.661-.9318-1.4818-.9318H2.4818C1.661 1 1 1.4156 1 1.9318v33.4474c0 .5162.661.932 1.4818.932h35.9536z"
-        strokeWidth="3"
-        stroke={colors.grey1}
+    <TooltipSvg position={position} show={show} viewBox="0 0 28 21">
+      <rect
+        width="100%"
+        height="100%"
+        x="0"
+        y="0"
         fill={colors.grey4}
+        stroke={colors.grey1}
+        strokeWidth="0.75"
+        strokeLinecap="round"
+        ry="2.5"
+        rx="2.5"
       />
       <text
         textAnchor="middle"
-        fill={colors.white1}
+        fontSize="4"
         fontFamily="Quicksand"
-        fontSize="16"
-        stroke="none"
+        fill={colors.white1}
       >
-        <tspan x="52.4737" y="21.3242">
-          WSH@WSH
+        <tspan x="14" y="6">
+          {`${data.awayTeam} @ ${data.homeTeam}`}
+        </tspan>
+      </text>
+      <text
+        textAnchor="middle"
+        fontSize="3.5"
+        fontFamily="Quicksand"
+        fill={colors.white1}
+        letterSpacing="0.45"
+      >
+        <tspan x="14" y="11">
+          {data.gameDate}
+        </tspan>
+      </text>
+      <text
+        textAnchor="middle"
+        fontSize="3.5"
+        fontFamily="Quicksand"
+        fill={colors.white1}
+        letterSpacing="0.45"
+      >
+        <tspan x="14" y="15">
+          {`${data.periodNumber} ${data.periodTime}`}
+        </tspan>
+      </text>
+      <text
+        textAnchor="middle"
+        fontSize="3.5"
+        fontFamily="Quicksand"
+        fill={colors.white1}
+        letterSpacing="0.45"
+      >
+        <tspan x="14" y="19">
+          {data.strength}
         </tspan>
       </text>
     </TooltipSvg>
