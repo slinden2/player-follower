@@ -76,6 +76,7 @@
 * [ ] OAuth
 * [ ] Dont fetch team stats but use https://statsapi.web.nhl.com/api/v1/teams/5/stats
 * [ ] Performance issue with sorting the player cards. Rerenders 4 times.
+* [ ] Fix create-milestones. Filter duplicate videoids before db insert.
 
 ## Notes
 

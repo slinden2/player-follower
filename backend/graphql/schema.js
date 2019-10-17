@@ -133,6 +133,7 @@ const typeDefs = gql`
     """
     boxscores: [Stats!]!
     stats: [Stats!]!
+    goals: [Goal]
     id: ID!
     numOfGamesId: Int!
   }
@@ -295,6 +296,22 @@ const typeDefs = gql`
     height: Int!
     width: Int!
     url: String!
+  }
+
+  type Goal {
+    id: ID!
+    gameDate: String!
+    strength: String!
+    homeTeam: Team!
+    awayTeam: Team!
+    periodNumber: String!
+    periodTime: String!
+    coordinates: Coordinate!
+  }
+
+  type Coordinate {
+    x: Int!
+    y: Int!
   }
 
   type User {
