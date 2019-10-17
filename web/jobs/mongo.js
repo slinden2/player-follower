@@ -8,6 +8,8 @@ const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
 const TeamStats = require('../models/team-stats')
 const User = require('../models/user')
+const Game = require('../models/game')
+const Milestone = require('../models/milestone')
 const config = require('../utils/config')
 
 /* eslint-disable no-unused-vars */
@@ -179,6 +181,22 @@ const addPointsToBoxscores = async () => {
   )
 }
 
+const deleteLatestGames = async () => {
+  const gamePk = 3019020060 // gamePk greater than this will be deleted
+
+  await Game.deleteMany({ gamePk: { $gt: gamePk } })
+  await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
+
+  // // !!! NOT TESTED !!! //
+  // const boxscores = await SkaterBoxscore.find(
+  //   { gamePk: { $gt: gamePk } },
+  //   { _id: 1 }
+  // )
+  // const bsIds = boxscores.map(bs => bs._id)
+  // await Player.updateMany({}, { boxscore: { $in: bsIds } })
+  // await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -194,3 +212,4 @@ const addPointsToBoxscores = async () => {
 // addTeamsToBoxscores().then(() => mongoose.connection.close())
 // addNationalities().then(() => mongoose.connection.close())
 // addPointsToBoxscores().then(() => mongoose.connection.close())
+// deleteLatestGames().then(() => mongoose.connection.close())

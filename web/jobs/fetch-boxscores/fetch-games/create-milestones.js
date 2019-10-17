@@ -11,7 +11,18 @@ const createMilestones = async (data, game, awayTeam, homeTeam) => {
   )
 
   let milestoneArray = []
+  let inDb = false
   for (const milestone of milestones) {
+    if (
+      milestone.highlight.id === '69589203' ||
+      milestone.highlight.id === '69589403' ||
+      milestone.highlight.id === '69588603' ||
+      milestone.highlight.id === '69591303' ||
+      milestone.highlight.id === '69592103'
+    ) {
+      if (inDb) continue
+      inDb = true
+    }
     const opponentId =
       parseInt(milestone.teamId) === awayTeam.teamId
         ? homeTeam.teamId

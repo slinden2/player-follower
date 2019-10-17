@@ -15,6 +15,7 @@ const periodNumberToString = num => {
     2: '2nd',
     3: '3rd',
     4: 'OT',
+    5: 'SO',
   }
 
   return strObj[num]

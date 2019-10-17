@@ -9,6 +9,18 @@ const roundToDecimal = num => {
   return (Math.round(num * 100) / 100).toFixed(2)
 }
 
+const periodNumberToString = num => {
+  const strObj = {
+    1: '1st',
+    2: '2nd',
+    3: '3rd',
+    4: 'OT',
+    5: 'SO',
+  }
+
+  return strObj[num]
+}
+
 const ENUMS = {
   PLAYER: 'lastName',
   GP: 'gamesPlayed',
@@ -62,4 +74,5 @@ module.exports = {
   roundToDecimal,
   getSortField,
   getPositionData,
+  periodNumberToString,
 }
