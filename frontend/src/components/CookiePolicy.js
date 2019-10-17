@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import Link from './elements/StyledLink'
 import Button from './elements/Button'
@@ -40,24 +40,44 @@ const ConsentButton = styled(Button)`
 `
 
 const CookiePolicy = ({ setCookieConsent }) => {
-  if (getCookie('funcConsent')) return null
+  const setCookies = useCallback(() => {
+    let rootNode = document.documentElement,
+      body = document.body,
+      top = 'scrollTop',
+      height = 'scrollHeight'
 
-  const setCookies = () => {
-    setCookie('funcConsent', true, 365)
-    setCookie('gaConsent', true, 365)
-    setCookieConsent(true)
+    let percentage =
+      ((rootNode[top] || body[top]) /
+        ((rootNode[height] || body[height]) - rootNode.clientHeight)) *
+      100
+
+    if (percentage > 5) {
+      setCookie('funcConsent', true, 365)
+      setCookie('gaConsent', true, 365)
+      setCookieConsent(true)
+    }
+  }, [setCookieConsent])
+
+  useEffect(() => {
+    window.addEventListener('scroll', setCookies)
+  }, [setCookies])
+
+  if (getCookie('funcConsent')) {
+    window.removeEventListener('scroll', setCookies)
+    return null
   }
 
   return (
     <Container>
       <Text>
         This website uses cookies to ensure you get the best experience on our
-        website.{' '}
+        website. You accept the cookie policy by clicking <i>Accept</i>, by
+        scrolling the page or by continuing to browse otherwise.{' '}
       </Text>
       <LinkContainer>
         <Link to="/privacy-policy" name="Learn more" />
       </LinkContainer>
-      <ConsentButton content="Got it!" size="medium" onClick={setCookies} />
+      <ConsentButton content="Accept" size="medium" onClick={setCookies} />
     </Container>
   )
 }
