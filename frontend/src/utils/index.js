@@ -20,7 +20,7 @@ const setCookie = (name, value, expires) => {
     const now = new Date()
     now.setDate(now.getDate() + expires)
     const newTime = now.toUTCString()
-    document.cookie = `${name}=${value}; expires=${newTime}`
+    document.cookie = `${name}=${value}; expires=${newTime}; path=/`
   }
 }
 
