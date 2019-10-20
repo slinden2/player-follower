@@ -4,7 +4,6 @@ const createVideoData = require('./create-video-data')
 const { convertMMSStoSec } = require('../../helpers/fetch-helpers')
 
 const createMilestones = async (data, game, awayTeam, homeTeam) => {
-  if (game.gamePk !== 2019020114) return []
   const rawMilestones = data.milestones.items.filter(
     item =>
       (item.type === 'SHOT' || item.type === 'GOAL') &&
