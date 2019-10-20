@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { event } from '../../utils/tracking'
 import NavContainer from './NavContainer'
 import HamburgerToggle from './HamburgerToggle'
+import SocialIcons from '../SocialIcons'
 import Img from '../../assets/logo.png'
 import colors from '../../styles/colors'
 import variables from '../../styles/variables'
@@ -28,8 +29,6 @@ const Container = styled.header`
   }
 `
 
-const Logo = styled.img``
-
 const LogoContainer = styled.div`
   flex: none;
   font-size: 1.5rem;
@@ -45,6 +44,8 @@ const LogoContainer = styled.div`
   }
 `
 
+const Logo = styled.img``
+
 const Navigation = () => {
   const handleLogoClick = () => {
     event('NAVIGATION', 'Logo clicked', 'No link')
@@ -57,6 +58,7 @@ const Navigation = () => {
       </LogoContainer>
       <HamburgerToggle />
       <NavContainer />
+      <SocialIcons position="navi" />
     </Container>
   )
 }

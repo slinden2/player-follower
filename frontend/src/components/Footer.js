@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import SocialIcons from './SocialIcons'
 import styled from 'styled-components'
 import colors from '../styles/colors'
 import breakpoints from '../styles/breakpoints'
@@ -13,6 +14,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 
   @media ${breakpoints.narrowScreen} {
     font-size: 0.625rem;
@@ -38,6 +40,7 @@ const Copyright = styled.div`
 const Footer = () => {
   return (
     <Container>
+      <SocialIcons position="footer" />
       <List>
         <ListItem>
           <Link to="/about">About</Link>
