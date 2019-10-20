@@ -171,7 +171,9 @@ const App = () => {
           </ContentBox>
         </PageWrapper>
         <Footer />
-        <CookiePolicy setCookieConsent={setCookieConsent} />
+        {!getCookie('funcConsent') && (
+          <CookiePolicy setCookieConsent={setCookieConsent} />
+        )}
       </Router>
     </Container>
   )

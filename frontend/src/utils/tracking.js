@@ -1,4 +1,5 @@
 import ReactGA from 'react-ga'
+import ReactPixel from 'react-facebook-pixel'
 import { getCookie, setCookie } from '../utils/index'
 
 export const initGA = () => {
@@ -10,9 +11,15 @@ export const initGA = () => {
 
     ReactGA.initialize(gaId)
 
+    const fbPixel =
+      process.env.NODE_ENV === 'production' && process.env.REACT_APP_FB_PIXEL_ID
+
+    ReactPixel.init(fbPixel)
+
     // fl (first load) cookie allows to record the first pageview after accepting cookies
     if (!getCookie('fl')) {
       ReactGA.pageview(window.location.pathname)
+      ReactPixel.pageView()
     }
 
     setCookie('fl', true, 365)
@@ -22,6 +29,7 @@ export const initGA = () => {
 export const pageView = history => {
   ReactGA.set({ page: history.pathname })
   ReactGA.pageview(history.pathname + history.search)
+  ReactPixel.pageView()
 }
 
 export const modalView = name => {

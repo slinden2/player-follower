@@ -14,11 +14,14 @@ const createMilestones = async (data, game, awayTeam, homeTeam) => {
   let inDb = false
   for (const milestone of milestones) {
     if (
-      milestone.highlight.id === '69589203' ||
-      milestone.highlight.id === '69589403' ||
-      milestone.highlight.id === '69588603' ||
-      milestone.highlight.id === '69591303' ||
-      milestone.highlight.id === '69592103'
+      // milestone.highlight.id === '69589203' ||
+      // milestone.highlight.id === '69589403' ||
+      // milestone.highlight.id === '69588603' ||
+      // milestone.highlight.id === '69591303' ||
+      // milestone.highlight.id === '69592103' ||
+      milestone.highlight.id === '69752503' ||
+      milestone.highlight.id === '69753003' ||
+      milestone.highlight.id === '69753203'
     ) {
       if (inDb) continue
       inDb = true

@@ -182,7 +182,7 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 3019020060 // gamePk greater than this will be deleted
+  const gamePk = 3019020112 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -212,4 +212,4 @@ const deleteLatestGames = async () => {
 // addTeamsToBoxscores().then(() => mongoose.connection.close())
 // addNationalities().then(() => mongoose.connection.close())
 // addPointsToBoxscores().then(() => mongoose.connection.close())
-// deleteLatestGames().then(() => mongoose.connection.close())
+deleteLatestGames().then(() => mongoose.connection.close())

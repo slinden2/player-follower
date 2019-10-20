@@ -40,23 +40,26 @@ const ConsentButton = styled(Button)`
 `
 
 const CookiePolicy = ({ setCookieConsent }) => {
-  const setCookies = useCallback(() => {
-    let rootNode = document.documentElement,
-      body = document.body,
-      top = 'scrollTop',
-      height = 'scrollHeight'
+  const setCookies = useCallback(
+    accept => {
+      let rootNode = document.documentElement,
+        body = document.body,
+        top = 'scrollTop',
+        height = 'scrollHeight'
 
-    let percentage =
-      ((rootNode[top] || body[top]) /
-        ((rootNode[height] || body[height]) - rootNode.clientHeight)) *
-      100
+      let percentage =
+        ((rootNode[top] || body[top]) /
+          ((rootNode[height] || body[height]) - rootNode.clientHeight)) *
+        100
 
-    if (percentage > 5) {
-      setCookie('funcConsent', true, 365)
-      setCookie('gaConsent', true, 365)
-      setCookieConsent(true)
-    }
-  }, [setCookieConsent])
+      if (percentage > 5 || accept) {
+        setCookie('funcConsent', true, 365)
+        setCookie('gaConsent', true, 365)
+        setCookieConsent(true)
+      }
+    },
+    [setCookieConsent]
+  )
 
   useEffect(() => {
     window.addEventListener('scroll', setCookies)
@@ -77,7 +80,11 @@ const CookiePolicy = ({ setCookieConsent }) => {
       <LinkContainer>
         <Link to="/privacy-policy" name="Learn more" />
       </LinkContainer>
-      <ConsentButton content="Accept" size="medium" onClick={setCookies} />
+      <ConsentButton
+        content="Accept"
+        size="medium"
+        onClick={() => setCookies('accept')}
+      />
     </Container>
   )
 }
