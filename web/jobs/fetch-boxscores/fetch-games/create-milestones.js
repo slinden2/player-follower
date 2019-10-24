@@ -4,28 +4,17 @@ const createVideoData = require('./create-video-data')
 const { convertMMSStoSec } = require('../../helpers/fetch-helpers')
 
 const createMilestones = async (data, game, awayTeam, homeTeam) => {
-  const milestones = data.milestones.items.filter(
+  const rawMilestones = data.milestones.items.filter(
     item =>
       (item.type === 'SHOT' || item.type === 'GOAL') &&
       !_.isEmpty(item.highlight)
   )
 
+  // Sometimes there are duplicate milestone. This fixes removes duplicates.
+  const milestones = _.uniqBy(rawMilestones, 'highlight.id')
+
   let milestoneArray = []
-  let inDb = false
   for (const milestone of milestones) {
-    if (
-      // milestone.highlight.id === '69589203' ||
-      // milestone.highlight.id === '69589403' ||
-      // milestone.highlight.id === '69588603' ||
-      // milestone.highlight.id === '69591303' ||
-      // milestone.highlight.id === '69592103' ||
-      milestone.highlight.id === '69752503' ||
-      milestone.highlight.id === '69753003' ||
-      milestone.highlight.id === '69753203'
-    ) {
-      if (inDb) continue
-      inDb = true
-    }
     const opponentId =
       parseInt(milestone.teamId) === awayTeam.teamId
         ? homeTeam.teamId

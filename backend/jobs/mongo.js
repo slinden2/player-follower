@@ -9,6 +9,7 @@ const GoalieBoxscore = require('../models/goalie-boxscore')
 const TeamStats = require('../models/team-stats')
 const User = require('../models/user')
 const Game = require('../models/game')
+const Goal = require('../models/goal')
 const Milestone = require('../models/milestone')
 const config = require('../utils/config')
 
@@ -182,19 +183,27 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 3019020060 // gamePk greater than this will be deleted
+  const gamePk = 3019020112 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
+  await Goal.deleteMany({ gamePk: { $gt: gamePk } })
 
-  // // !!! NOT TESTED !!! //
-  // const boxscores = await SkaterBoxscore.find(
-  //   { gamePk: { $gt: gamePk } },
-  //   { _id: 1 }
-  // )
-  // const bsIds = boxscores.map(bs => bs._id)
-  // await Player.updateMany({}, { boxscore: { $in: bsIds } })
-  // await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+  const boxscores = await SkaterBoxscore.find(
+    { gamePk: { $gt: gamePk } },
+    { _id: 1 }
+  )
+  const bsIds = boxscores.map(bs => bs._id)
+
+  const goalieBoxscores = await GoalieBoxscore.find(
+    { gamePk: { $gt: gamePk } },
+    { _id: 1 }
+  )
+  const gBsIds = goalieBoxscores.map(bs => bs._id)
+
+  await Player.updateMany({}, { boxscore: { $in: [...bsIds, ...gBsIds] } })
+  await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+  await GoalieBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
 }
 
 // deleteLeague().then(() => mongoose.connection.close())
