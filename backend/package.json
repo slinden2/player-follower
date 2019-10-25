@@ -24,6 +24,7 @@
     "fetch_players": "cross-env NODE_ENV=development node jobs/fetch-players.js",
     "fetch_boxscores": "cross-env NODE_ENV=development node jobs/fetch-boxscores/",
     "fetch_stats": "cross-env NODE_ENV=development node jobs/fetch-stats.js",
+    "fetch_games": "cross-env NODE_ENV=development node jobs/fetch-games/",
     "fetch_team_stats": "cross-env NODE_ENV=development node jobs/fetch-team-stats/",
     "fetch_goals": "cross-env NODE_ENV=development node jobs/fetch-goals/",
     "daily_fetch": "cross-env NODE_ENV=development node jobs/daily-fetch",

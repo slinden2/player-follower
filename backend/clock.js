@@ -9,15 +9,9 @@ const WORKER_QUEUE = 'worker-queue' // To consume from worker process
 const JOBS = [
   {
     // You could store these jobs in a database
-    name: 'Cron process 1',
-    message: { taskName: 'Task 1', queue: 'worker-queue' }, // message in json format
+    name: 'fetchGames process',
+    message: { taskName: 'fetchGames', queue: 'worker-queue' }, // message in json format
     cronTime: '* * * * *', // Every 1st of every month at 3:17 AM
-    repeat: 1,
-  },
-  {
-    name: 'Cron process 2',
-    message: { taskName: 'Task 2', queue: 'worker-queue' }, // message in json format
-    cronTime: '*/2 * * * *', // At specific time. Only executed once
     repeat: 1,
   },
 ]

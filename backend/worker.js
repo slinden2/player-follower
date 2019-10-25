@@ -1,4 +1,5 @@
 const amqp = require('amqp-connection-manager')
+const { exec } = require('child_process')
 
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost'
 if (!AMQP_URL) process.exit(1)
@@ -7,7 +8,7 @@ const WORKER_QUEUE = 'worker-queue'
 
 // Create a new connection manager from AMQP
 var connection = amqp.connect([AMQP_URL])
-console.log('[AMQP] - Connecting....')
+console.log('[AMQP] - Connecting...')
 
 connection.on('connect', function() {
   process.once('SIGINT', function() {
@@ -44,6 +45,7 @@ channelWrapper
 
 // Process message from AMQP
 function onMessage(data) {
+  console.log(data)
   let message
   try {
     message = JSON.parse(data.content.toString())
@@ -51,27 +53,21 @@ function onMessage(data) {
     console.error('[AMQP] - Error parsing message... ', data)
   }
 
-  console.log('[AMQP] - Message incoming... ', message)
+  console.log('[AMQP] - Receiving message... ', message)
   channelWrapper.ack(data)
   if (!message) {
     return
   }
 
   switch (message.taskName) {
-  case 'Task 1':
-    console.log('Task 1 begins')
-    setTimeout(() => {
-      console.log('Task 1 ends')
-    }, 5000)
+  case 'fetchGames': {
+    // console.log('Running fetchGames')
+    // exec('npm run fetch_games', (err, stdout, stderr) => {
+    //   console.log('stdout', stdout)
+    //   console.error('stderr', stderr)
+    // })
     break
-
-  case 'Task 2':
-    console.log('Task 2 begins')
-    setTimeout(() => {
-      console.log('Task 2 ends')
-    }, 8000)
-
-    break
+  }
 
   default:
     console.error('No task was found with name => ' + message.taskName)
