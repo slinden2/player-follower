@@ -52,9 +52,3 @@ const runFetchGoals = async gamePks => {
     mongoose.connection.close()
   }
 }
-
-// fetchGoals(gamePks)
-//   .catch(({ name, message }) => {
-//     console.error(`fetch-goals.fetchGoals: ${name}: ${message}`)
-//   })
-//   .then(() => mongoose.connection.close())

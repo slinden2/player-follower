@@ -42,6 +42,33 @@ const isValidDate = date => {
   }
 }
 
+const createPlayerObject = (player, team, boxscoreType) => {
+  return {
+    playerId: player.id,
+    firstName: player.firstName,
+    lastName: player.lastName,
+    primaryNumber: player.primaryNumber,
+    link: player.link,
+    siteLink: generateTeamSiteLink(player.fullName),
+    birthDate: player.birthDate,
+    birthCity: player.birthCity,
+    birthStateProvince: player.birthStateProvince,
+    birthCountry: player.birthCountry,
+    nationality: player.nationality,
+    height: convertFtToCm(player.height),
+    weight: convertLbsToKg(player.weight),
+    alternateCaptain: player.alternateCaptain || false,
+    captain: player.captain || false,
+    rookie: player.rookie,
+    shootsCatches: player.shootsCatches,
+    rosterStatus: player.rosterStatus,
+    currentTeam: team._id,
+    primaryPosition: player.primaryPosition.code,
+    active: player.active,
+    boxscoreType,
+  }
+}
+
 module.exports = {
   convertFtToCm,
   convertLbsToKg,
@@ -50,4 +77,5 @@ module.exports = {
   generateSiteLink,
   generateTeamSiteLink,
   isValidDate,
+  createPlayerObject,
 }

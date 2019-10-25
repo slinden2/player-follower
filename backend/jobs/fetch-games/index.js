@@ -19,9 +19,9 @@ try {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  console.log('fetch-game-data.index.connected-to-db')
+  console.log('fetch-games.index.connected-to-db')
 } catch (err) {
-  console.error('fetch-game-data.index.db-connection-error\n', err.stack)
+  console.error('fetch-games.index.db-connection-error\n', err.stack)
   return
 }
 

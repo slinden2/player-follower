@@ -10,7 +10,11 @@ const contentUrl = gamePk =>
 const fetchGoals = async gamePks => {
   console.log(`fetch-goals.fetchGoals - ${gamePks}`)
   const scriptAlreadyRan = await ScriptState.findOne({})
-  if (scriptAlreadyRan.fetchGoals) {
+  if (!scriptAlreadyRan.fetchGames) {
+    throw new Error(
+      `fetch-goals.fetchGoals - Games much be fetched first: ${gamePks}`
+    )
+  } else if (scriptAlreadyRan.fetchGoals) {
     throw new Error(
       `fetch-goals.fetchGoals - Goals have been already fetched for ${gamePks}`
     )
