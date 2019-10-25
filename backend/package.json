@@ -27,7 +27,7 @@
     "fetch_games": "cross-env NODE_ENV=development node jobs/fetch-games/",
     "fetch_team_stats": "cross-env NODE_ENV=development node jobs/fetch-team-stats/",
     "fetch_goals": "cross-env NODE_ENV=development node jobs/fetch-goals/",
-    "daily_fetch": "cross-env NODE_ENV=development node jobs/daily-fetch",
+    "fetch_player": "cross-env NODE_ENV=development node jobs/fetch-player",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json"
