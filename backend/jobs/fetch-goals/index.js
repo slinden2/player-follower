@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const config = require('../../utils/config')
 const Game = require('../../models/game')
 const fetchGoals = require('./fetch-goals')
+const { isValidDate } = require('../fetch-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -19,11 +20,15 @@ try {
   return
 }
 
-// console.log(`fetch-goals.index.fetch-started-${gamePk}`)
-
 if (process.argv[2]) {
-  const gamePks = [process.argv[2]]
-  runFetchGoals(gamePks)
+  const date = process.argv[2]
+  isValidDate(date)
+  Game.find(
+    { apiDate: new Date(date).toISOString() },
+    { gamePk: 1, _id: 0 }
+  ).then(gamePks => {
+    runFetchGoals(gamePks.map(game => game.gamePk))
+  })
 } else {
   Game.find({}, { apiDate: 1, _id: 0 })
     .sort({ apiDate: -1 })

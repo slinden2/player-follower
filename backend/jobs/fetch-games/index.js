@@ -3,6 +3,7 @@ const axios = require('axios')
 const config = require('../../utils/config')
 const ScriptState = require('../../models/script-state')
 const handleGames = require('./handle-games')
+const { isValidDate } = require('../fetch-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -10,10 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // validate date string
 if (process.argv[2]) {
-  const dateArg = process.argv[2]
-  if (!/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(dateArg)) {
-    throw new Error('Invalid date argument')
-  }
+  isValidDate(process.argv[2])
 }
 
 try {

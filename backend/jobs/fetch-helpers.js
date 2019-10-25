@@ -36,6 +36,12 @@ const generateTeamSiteLink = name => {
     .toLowerCase()
 }
 
+const isValidDate = date => {
+  if (!/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(date)) {
+    throw new Error('Invalid date argument')
+  }
+}
+
 module.exports = {
   convertFtToCm,
   convertLbsToKg,
@@ -43,4 +49,5 @@ module.exports = {
   convertMMSStoSec,
   generateSiteLink,
   generateTeamSiteLink,
+  isValidDate,
 }

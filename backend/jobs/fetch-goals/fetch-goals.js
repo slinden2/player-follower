@@ -8,6 +8,7 @@ const contentUrl = gamePk =>
   `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`
 
 const fetchGoals = async gamePks => {
+  console.log(`fetch-goals.fetchGoals - ${gamePks}`)
   const scriptAlreadyRan = await ScriptState.findOne({})
   if (scriptAlreadyRan.fetchGoals) {
     throw new Error(
