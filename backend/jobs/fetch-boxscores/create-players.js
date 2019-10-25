@@ -4,11 +4,12 @@ const {
   generateTeamSiteLink,
   convertFtToCm,
   convertLbsToKg,
-} = require('../helpers/fetch-helpers')
+  createPlayerObject,
+} = require('../fetch-helpers')
 
 const createPlayers = async (data, newPlayers, gamePk) => {
   console.log(
-    `fetch-game-data.fetchGames.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
+    `fetch-game-data.fetchGames.fetchBoxscore.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
   )
 
   const dataPerTeam = [data.away, data.home]
@@ -33,56 +34,32 @@ const createPlayers = async (data, newPlayers, gamePk) => {
 
         finalPlayerArray = [
           ...finalPlayerArray,
-          {
-            playerId: player.person.id,
-            firstName: player.person.firstName,
-            lastName: player.person.lastName,
-            primaryNumber: player.person.primaryNumber,
-            link: player.person.link,
-            siteLink: generateTeamSiteLink(player.person.fullName),
-            birthDate: player.person.birthDate,
-            birthCity: player.person.birthCity,
-            birthStateProvince: player.person.birthStateProvince,
-            birthCountry: player.person.birthCountry,
-            nationality: player.person.nationality,
-            height: convertFtToCm(player.person.height),
-            weight: convertLbsToKg(player.person.weight),
-            alternateCaptain: player.person.alternateCaptain || false,
-            captain: player.person.captain || false,
-            rookie: player.person.rookie,
-            shootsCatches: player.person.shootsCatches,
-            rosterStatus: player.person.rosterStatus,
-            currentTeam: teamInDb._id,
-            primaryPosition: player.person.primaryPosition.code,
-            active: player.person.active,
-            boxscoreType,
-          },
+          createPlayerObject(player.person, teamInDb, boxscoreType),
         ]
-      } catch ({ name, message }) {
+      } catch (err) {
         console.error(
-          `fetch-game-data.fetchGames.fetchBoxscore.createPlayers.playerLoop - gamePk: ${gamePk} | playerId: ${player.person.id}`
+          `fetch-boxscores.fetchBoxscores.createPlayers.playerLoop - playerId: ${player.person.id} | ${gamePk}\n`,
+          err.stack
         )
-        console.error(`${name}: ${message}`)
         continue
       }
     }
 
-    try {
-      const insertedPlayers = await Player.insertMany(finalPlayerArray, {
-        ordered: true,
-      })
-
-      teamInDb.players = [
-        ...teamInDb.players,
-        ...insertedPlayers.map(player => player._id),
-      ]
-      await teamInDb.save()
-    } catch ({ name, message }) {
-      console.error(
-        `fetch-game-data.fetchGames.fetchBoxscore.createPlayers.updateDb - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
-      )
-      console.error(`${name}: ${message}`)
-    }
+    // try {
+    //   const insertedPlayers = await Player.insertMany(finalPlayerArray, {
+    //     ordered: true,
+    //   })
+    //   teamInDb.players = [
+    //     ...teamInDb.players,
+    //     ...insertedPlayers.map(player => player._id),
+    //   ]
+    //   await teamInDb.save()
+    // } catch (err) {
+    //   console.error(
+    //     `fetch-boxscores.fetchBoxscores.createPlayers.updateDb - playersToAdd: ${newPlayers}`,
+    //     err.stack
+    //   )
+    // }
   }
 }
 
