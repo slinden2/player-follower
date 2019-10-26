@@ -1,4 +1,5 @@
 const amqp = require('amqp-connection-manager')
+const { exec } = require('child_process')
 
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost'
 if (!AMQP_URL) process.exit(1)
@@ -7,7 +8,7 @@ const WORKER_QUEUE = 'worker-queue'
 
 // Create a new connection manager from AMQP
 var connection = amqp.connect([AMQP_URL])
-console.log('[AMQP] - Connecting....')
+console.log('[AMQP] - Connecting...')
 
 connection.on('connect', function() {
   process.once('SIGINT', function() {
@@ -51,27 +52,83 @@ function onMessage(data) {
     console.error('[AMQP] - Error parsing message... ', data)
   }
 
-  console.log('[AMQP] - Message incoming... ', message)
+  console.log('[AMQP] - Receiving message... ', message)
   channelWrapper.ack(data)
   if (!message) {
     return
   }
 
   switch (message.taskName) {
-  case 'Task 1':
-    console.log('Task 1 begins')
-    setTimeout(() => {
-      console.log('Task 1 ends')
-    }, 5000)
+  case 'resetScriptStates': {
+    console.log('[AMQP] - Running resetScriptStates')
+    exec('npm run reset_script_states', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - resetScriptStates completed')
+    })
     break
-
-  case 'Task 2':
-    console.log('Task 2 begins')
-    setTimeout(() => {
-      console.log('Task 2 ends')
-    }, 8000)
-
+  }
+  case 'fetchTeamStats': {
+    console.log('[AMQP] - Running fetchTeamStats')
+    exec('npm run fetch_team_stats', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchTeamStats completed')
+    })
     break
+  }
+  case 'fetchGames': {
+    console.log('[AMQP] - Running fetchGames')
+    exec('npm run fetch_games', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchGames completed')
+    })
+    break
+  }
+  case 'fetchBoxscores': {
+    console.log('[AMQP] - Running fetchBoxscores')
+    exec('npm run fetch_boxscores', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchBoxscores completed')
+    })
+    break
+  }
+  case 'fetchGoals': {
+    console.log('[AMQP] - Running fetchGoals')
+    exec('npm run fetch_goals', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchGoals completed')
+    })
+    break
+  }
 
   default:
     console.error('No task was found with name => ' + message.taskName)

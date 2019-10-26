@@ -45,7 +45,6 @@ channelWrapper
 
 // Process message from AMQP
 function onMessage(data) {
-  console.log(data)
   let message
   try {
     message = JSON.parse(data.content.toString())
@@ -60,12 +59,74 @@ function onMessage(data) {
   }
 
   switch (message.taskName) {
+  case 'resetScriptStates': {
+    console.log('[AMQP] - Running resetScriptStates')
+    exec('npm run reset_script_states', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - resetScriptStates completed')
+    })
+    break
+  }
+  case 'fetchTeamStats': {
+    console.log('[AMQP] - Running fetchTeamStats')
+    exec('npm run fetch_team_stats', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchTeamStats completed')
+    })
+    break
+  }
   case 'fetchGames': {
-    // console.log('Running fetchGames')
-    // exec('npm run fetch_games', (err, stdout, stderr) => {
-    //   console.log('stdout', stdout)
-    //   console.error('stderr', stderr)
-    // })
+    console.log('[AMQP] - Running fetchGames')
+    exec('npm run fetch_games', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchGames completed')
+    })
+    break
+  }
+  case 'fetchBoxscores': {
+    console.log('[AMQP] - Running fetchBoxscores')
+    exec('npm run fetch_boxscores', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchBoxscores completed')
+    })
+    break
+  }
+  case 'fetchGoals': {
+    console.log('[AMQP] - Running fetchGoals')
+    exec('npm run fetch_goals', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - fetchGoals completed')
+    })
     break
   }
 

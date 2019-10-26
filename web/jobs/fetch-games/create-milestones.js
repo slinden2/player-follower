@@ -1,7 +1,7 @@
 const _ = require('lodash')
-const Milestone = require('../../../models/milestone')
+const Milestone = require('../../models/milestone')
 const createVideoData = require('./create-video-data')
-const { convertMMSStoSec } = require('../../helpers/fetch-helpers')
+const { convertMMSStoSec } = require('../fetch-helpers')
 
 const createMilestones = async (data, game, awayTeam, homeTeam) => {
   const rawMilestones = data.milestones.items.filter(

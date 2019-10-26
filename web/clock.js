@@ -4,20 +4,37 @@ const amqp = require('amqp-connection-manager')
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost'
 if (!AMQP_URL) process.exit(1)
 
-const WORKER_QUEUE = 'worker-queue' // To consume from worker process
+const WORKER_QUEUE = 'worker-queue'
 
 const JOBS = [
   {
-    // You could store these jobs in a database
-    name: 'Cron process 1',
-    message: { taskName: 'Task 1', queue: 'worker-queue' }, // message in json format
-    cronTime: '* * * * *', // Every 1st of every month at 3:17 AM
+    name: 'Set script states to false',
+    message: { taskName: 'resetScriptStates', queue: 'worker-queue' },
+    cronTime: '0 0 * * *',
     repeat: 1,
   },
   {
-    name: 'Cron process 2',
-    message: { taskName: 'Task 2', queue: 'worker-queue' }, // message in json format
-    cronTime: '*/2 * * * *', // At specific time. Only executed once
+    name: 'Fetch team stats of the day',
+    message: { taskName: 'fetchTeamStats', queue: 'worker-queue' },
+    cronTime: '28 5 * * *',
+    repeat: 1,
+  },
+  {
+    name: 'Fetch games of the day',
+    message: { taskName: 'fetchGames', queue: 'worker-queue' },
+    cronTime: '30 5 * * *',
+    repeat: 1,
+  },
+  {
+    name: 'Fetch boxscores of the day',
+    message: { taskName: 'fetchBoxscores', queue: 'worker-queue' },
+    cronTime: '40 5 * * *',
+    repeat: 1,
+  },
+  {
+    name: 'Fetch goals of the day',
+    message: { taskName: 'fetchGoals', queue: 'worker-queue' },
+    cronTime: '50 5 * * *',
     repeat: 1,
   },
 ]

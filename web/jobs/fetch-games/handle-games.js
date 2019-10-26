@@ -1,21 +1,18 @@
 const axios = require('axios')
-const Game = require('../../../models/game')
-const Team = require('../../../models/team')
+const Game = require('../../models/game')
+const Team = require('../../models/team')
 const createMilestones = require('./create-milestones')
 const createVideoData = require('./create-video-data')
-const { convertMMSStoSec } = require('../../helpers/fetch-helpers')
 
 const contentUrl = gamePk =>
   `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/content`
 
-const handleGames = async games => {
+const handleGames = async (date, games) => {
   let gameArray = []
 
   for (const game of games) {
     const url = contentUrl(game.gamePk)
-    console.log(
-      `fetch-boxcores.fetchGames.handleGames.contentUrl - url: ${url}`
-    )
+    console.log(`fetch-games.fetchGames.handleGames.contentUrl - url: ${url}`)
 
     const {
       data: { media },
@@ -51,6 +48,7 @@ const handleGames = async games => {
       liveLink: game.link,
       contentLink: game.content.link,
       gameDate: game.gameDate,
+      apiDate: new Date(date).toISOString(),
       gameType: game.gameType,
       awayTeam: {
         team: awayTeam._id,

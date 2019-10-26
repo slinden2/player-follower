@@ -1,17 +1,11 @@
 const mongoose = require('mongoose')
+const Game = require('../../models/game')
 const config = require('../../utils/config')
-const fetchGames = require('./fetch-games')
+const fetchBoxscores = require('./fetch-boxscores')
+const { isValidDate } = require('../fetch-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
-}
-
-// validate date string
-if (process.argv[2]) {
-  const dateArg = process.argv[2]
-  if (!/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(dateArg)) {
-    throw new Error('Invalid date argument')
-  }
 }
 
 try {
@@ -19,23 +13,42 @@ try {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  console.log('fetch-game-data.index.connected-to-db')
+  console.log('fetch-boxscores.index.connected-to-db')
 } catch (exception) {
-  console.error('fetch-game-data.index.db-connection-error')
+  console.error('fetch-boxscores.index.db-connection-error')
   console.error(exception)
   return
 }
 
-const timeYesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
-
-// construct current date in YYYY-MM-DD format
-const UTC_DATE = timeYesterday.toISOString().split('T')[0]
-const date = process.argv[2] || UTC_DATE
-
-console.log(`fetch-game-data.index.fetch-started-${date}`)
-
-fetchGames(date)
-  .catch(({ name, message }) => {
-    console.error(`fetch-game-data.fetchGames: ${name}: ${message}`)
+if (process.argv[2]) {
+  const date = process.argv[2]
+  isValidDate(date)
+  Game.find(
+    { apiDate: new Date(date).toISOString() },
+    { gamePk: 1, _id: 0 }
+  ).then(gamePks => {
+    runFetchBoxscores(gamePks.map(game => game.gamePk))
   })
-  .then(() => mongoose.connection.close())
+} else {
+  Game.find({}, { apiDate: 1, _id: 0 })
+    .sort({ apiDate: -1 })
+    .skip(1)
+    .limit(1)
+    .then(([date]) =>
+      Game.find({ apiDate: date.apiDate }, { gamePk: 1, _id: 0 }).then(
+        gamePks => {
+          runFetchBoxscores(gamePks.map(game => game.gamePk))
+        }
+      )
+    )
+}
+
+const runFetchBoxscores = async gamePks => {
+  try {
+    await fetchBoxscores(gamePks)
+  } catch (err) {
+    console.error(`fetch-boxscores.fetchBoxscores - ${gamePks}\n`, err.stack)
+  } finally {
+    mongoose.connection.close()
+  }
+}

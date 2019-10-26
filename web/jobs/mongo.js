@@ -7,6 +7,7 @@ const Player = require('../models/player')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
 const TeamStats = require('../models/team-stats')
+const ScriptState = require('../models/script-state')
 const User = require('../models/user')
 const Game = require('../models/game')
 const Goal = require('../models/goal')
@@ -183,7 +184,7 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 3019020112 // gamePk greater than this will be deleted
+  const gamePk = 3019020154 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -204,6 +205,17 @@ const deleteLatestGames = async () => {
   await Player.updateMany({}, { boxscore: { $in: [...bsIds, ...gBsIds] } })
   await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
   await GoalieBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+  await ScriptState.updateOne(
+    {},
+    {
+      $set: {
+        fetchGames: false,
+        fetchGoals: false,
+        fetchBoxscores: false,
+        fetchTeamStats: false,
+      },
+    }
+  )
 }
 
 // deleteLeague().then(() => mongoose.connection.close())

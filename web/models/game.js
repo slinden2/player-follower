@@ -36,6 +36,10 @@ const gameSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  apiDate: {
+    type: Date,
+    required: true,
+  },
   gameType: {
     type: String,
     required: true,

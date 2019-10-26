@@ -36,6 +36,39 @@ const generateTeamSiteLink = name => {
     .toLowerCase()
 }
 
+const isValidDate = date => {
+  if (!/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(date)) {
+    throw new Error('Invalid date argument')
+  }
+}
+
+const createPlayerObject = (player, team, boxscoreType) => {
+  return {
+    playerId: player.id,
+    firstName: player.firstName,
+    lastName: player.lastName,
+    primaryNumber: player.primaryNumber,
+    link: player.link,
+    siteLink: generateTeamSiteLink(player.fullName),
+    birthDate: player.birthDate,
+    birthCity: player.birthCity,
+    birthStateProvince: player.birthStateProvince,
+    birthCountry: player.birthCountry,
+    nationality: player.nationality,
+    height: convertFtToCm(player.height),
+    weight: convertLbsToKg(player.weight),
+    alternateCaptain: player.alternateCaptain || false,
+    captain: player.captain || false,
+    rookie: player.rookie,
+    shootsCatches: player.shootsCatches,
+    rosterStatus: player.rosterStatus,
+    currentTeam: team._id,
+    primaryPosition: player.primaryPosition.code,
+    active: player.active,
+    boxscoreType,
+  }
+}
+
 module.exports = {
   convertFtToCm,
   convertLbsToKg,
@@ -43,4 +76,6 @@ module.exports = {
   convertMMSStoSec,
   generateSiteLink,
   generateTeamSiteLink,
+  isValidDate,
+  createPlayerObject,
 }

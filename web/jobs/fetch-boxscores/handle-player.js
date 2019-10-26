@@ -1,6 +1,6 @@
 const GoalieBoxscore = require('../../models/goalie-boxscore')
 const SkaterBoxscore = require('../../models/skater-boxscore')
-const { convertMMSStoSec, isDuplicate } = require('../helpers/fetch-helpers')
+const { convertMMSStoSec, isDuplicate } = require('../fetch-helpers')
 
 const handlePlayer = async (
   playerInDb,
@@ -51,11 +51,11 @@ const handlePlayer = async (
 
     playerInDb.boxscores = playerInDb.boxscores.concat(savedBoxscore._id)
     await playerInDb.save()
-  } catch ({ name, message }) {
+  } catch (err) {
     console.error(
-      `fetch-game-data.fetchGames.fetchBoxscore.handlePlayer.saveNewBoxscore - playerId: ${playerInDb.playerId}. | gamePk: ${gamePk}`
+      `fetch-boxscores.fetchBoxscores.handlePlayer.saveNewBoxscore - playerId: ${playerInDb.playerId} | gamePk: ${gamePk}\n`,
+      err.stack
     )
-    console.error(`${name}: ${message}`)
   }
 }
 

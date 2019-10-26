@@ -1,4 +1,4 @@
-const { convertMMSStoSec } = require('../../helpers/fetch-helpers')
+const { convertMMSStoSec } = require('../fetch-helpers')
 
 const getPlaybacks = data => {
   return data.map(playback => {

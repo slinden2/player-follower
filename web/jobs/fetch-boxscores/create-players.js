@@ -1,87 +1,46 @@
+const axios = require('axios')
 const Team = require('../../models/team')
 const Player = require('../../models/player')
-const {
-  generateTeamSiteLink,
-  convertFtToCm,
-  convertLbsToKg,
-} = require('../helpers/fetch-helpers')
+const { createPlayerObject } = require('../fetch-helpers')
 
-const createPlayers = async (data, newPlayers, gamePk) => {
+const contentUrl = playerId =>
+  `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
+
+const createPlayers = async (newPlayers, gamePk) => {
   console.log(
-    `fetch-game-data.fetchGames.fetchBoxscore.createPlayers - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
+    `fetch-games.fetchGames.fetchBoxscore.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
   )
 
-  const dataPerTeam = [data.away, data.home]
-
-  for (const team of dataPerTeam) {
-    const teamInDb = await Team.findOne({ teamId: team.team.id })
-
-    const playerArray = []
-    for (const id of newPlayers) {
-      const newData = team.players[`ID${id}`]
-      if (newData) playerArray.push(newData)
+  let playerArray = []
+  for (const id of newPlayers) {
+    const { data } = await axios.get(contentUrl(id))
+    if (data) {
+      playerArray = [...playerArray, data.people[0]]
     }
+  }
 
-    let finalPlayerArray = []
-
-    for (const player of playerArray) {
-      try {
-        const boxscoreType =
-          player.person.primaryPosition.code === 'G'
-            ? 'GoalieBoxscore'
-            : 'SkaterBoxscore'
-
-        finalPlayerArray = [
-          ...finalPlayerArray,
-          {
-            playerId: player.person.id,
-            firstName: player.person.firstName,
-            lastName: player.person.lastName,
-            primaryNumber: player.person.primaryNumber,
-            link: player.person.link,
-            siteLink: generateTeamSiteLink(player.person.fullName),
-            birthDate: player.person.birthDate,
-            birthCity: player.person.birthCity,
-            birthStateProvince: player.person.birthStateProvince,
-            birthCountry: player.person.birthCountry,
-            nationality: player.person.nationality,
-            height: convertFtToCm(player.person.height),
-            weight: convertLbsToKg(player.person.weight),
-            alternateCaptain: player.person.alternateCaptain || false,
-            captain: player.person.captain || false,
-            rookie: player.person.rookie,
-            shootsCatches: player.person.shootsCatches,
-            rosterStatus: player.person.rosterStatus,
-            currentTeam: teamInDb._id,
-            primaryPosition: player.person.primaryPosition.code,
-            active: player.person.active,
-            boxscoreType,
-          },
-        ]
-      } catch ({ name, message }) {
-        console.error(
-          `fetch-game-data.fetchGames.fetchBoxscore.createPlayers.playerLoop - gamePk: ${gamePk} | playerId: ${player.person.id}`
-        )
-        console.error(`${name}: ${message}`)
-        continue
-      }
-    }
-
+  for (const player of playerArray) {
+    const teamInDb = await Team.findOne(
+      { teamId: player.currentTeam.id },
+      { _id: 1, players: 1 }
+    )
     try {
-      const insertedPlayers = await Player.insertMany(finalPlayerArray, {
-        ordered: true,
-      })
+      const boxscoreType =
+        player.primaryPosition.code === 'G'
+          ? 'GoalieBoxscore'
+          : 'SkaterBoxscore'
 
-      teamInDb.players = [
-        ...teamInDb.players,
-        ...insertedPlayers.map(player => player._id),
-      ]
+      const playerObj = createPlayerObject(player, teamInDb, boxscoreType)
+
+      const savedPlayer = await new Player(playerObj).save()
+      teamInDb.players = [...teamInDb.players, savedPlayer._id]
       await teamInDb.save()
-    } catch ({ name, message }) {
+    } catch (err) {
       console.error(
-        `fetch-game-data.fetchGames.fetchBoxscore.createPlayers.updateDb - gamePk: ${gamePk} | playersToAdd: ${newPlayers}`
+        `fetch-boxscores.fetchBoxscores.createPlayers.playerLoop - playerId: ${player.id} | ${gamePk}\n`,
+        err.stack
       )
-      console.error(`${name}: ${message}`)
+      continue
     }
   }
 }
