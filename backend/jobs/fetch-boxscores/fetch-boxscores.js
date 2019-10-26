@@ -40,7 +40,7 @@ const fetchBoxscores = async gamePks => {
     try {
       playerIds = await getPlayers(teams)
       if (playerIds.notInDb.length) {
-        await createPlayers(teams, playerIds.notInDb, gamePk)
+        await createPlayers(playerIds.notInDb, gamePk)
       }
     } catch (err) {
       console.error(

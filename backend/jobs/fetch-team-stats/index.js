@@ -2,6 +2,7 @@ const axios = require('axios')
 const mongoose = require('mongoose')
 const Team = require('../../models/team')
 const TeamStats = require('../../models/team-stats')
+const ScriptState = require('../../models/script-state')
 const config = require('../../utils/config')
 const createTeamStats = require('./create-team-stats')
 
@@ -20,7 +21,15 @@ const statUrl =
 // use this https://statsapi.web.nhl.com/api/v1/teams/5/stats
 
 const fetchTeamStats = async () => {
-  console.log(`fetch-team.stats.fetchTeamStats - url: ${statUrl}`)
+  console.log(`fetch-team-stats.fetchTeamStats - url: ${statUrl}`)
+
+  const scriptAlreadyRan = await ScriptState.findOne({})
+  if (scriptAlreadyRan.fetchTeamStats) {
+    throw new Error(
+      'fetch-team-stats.fetchTeamStats - Team stats have already been fetched for today.'
+    )
+  }
+
   try {
     const teams = await Team.find({})
     const response = await axios.get(statUrl)
@@ -46,18 +55,19 @@ const fetchTeamStats = async () => {
 
         teamInDb.stats = teamInDb.stats.concat(savedTeamStats._id)
         await teamInDb.save()
-      } catch ({ name, message }) {
+      } catch (err) {
         console.error(
-          `fetch-team-stats.fetchTeamStats.teamLoop - team: ${teamStats.teamFullName}`
+          `fetch-team-stats.fetchTeamStats.teamLoop - team: ${teamStats.teamFullName}\n`,
+          err.stack
         )
-        console.error(`${name}: ${message}`)
         continue
       }
     }
-  } catch ({ name, message }) {
-    console.error('fetch-team-stats.fetchTeamStats')
-    console.error(`${name}: ${message}`)
+  } catch (err) {
+    console.error('fetch-team-stats.fetchTeamStats\n', err.stack)
   }
 }
 
-fetchTeamStats().then(() => mongoose.connection.close())
+fetchTeamStats()
+  .catch(err => console.error('fetch-team-stats.fetchTeamStats\n', err.stack))
+  .then(() => mongoose.connection.close())

@@ -1,65 +1,47 @@
+const axios = require('axios')
 const Team = require('../../models/team')
 const Player = require('../../models/player')
-const {
-  generateTeamSiteLink,
-  convertFtToCm,
-  convertLbsToKg,
-  createPlayerObject,
-} = require('../fetch-helpers')
+const { createPlayerObject } = require('../fetch-helpers')
 
-const createPlayers = async (data, newPlayers, gamePk) => {
+const contentUrl = playerId =>
+  `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
+
+const createPlayers = async (newPlayers, gamePk) => {
   console.log(
-    `fetch-game-data.fetchGames.fetchBoxscore.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
+    `fetch-games.fetchGames.fetchBoxscore.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
   )
 
-  const dataPerTeam = [data.away, data.home]
-
-  for (const team of dataPerTeam) {
-    const teamInDb = await Team.findOne({ teamId: team.team.id })
-
-    const playerArray = []
-    for (const id of newPlayers) {
-      const newData = team.players[`ID${id}`]
-      if (newData) playerArray.push(newData)
+  let playerArray = []
+  for (const id of newPlayers) {
+    const { data } = await axios.get(contentUrl(id))
+    if (data) {
+      playerArray = [...playerArray, data.people[0]]
     }
+  }
 
-    let finalPlayerArray = []
+  for (const player of playerArray) {
+    const teamInDb = await Team.findOne(
+      { teamId: player.currentTeam.id },
+      { _id: 1, players: 1 }
+    )
+    try {
+      const boxscoreType =
+        player.primaryPosition.code === 'G'
+          ? 'GoalieBoxscore'
+          : 'SkaterBoxscore'
 
-    for (const player of playerArray) {
-      try {
-        const boxscoreType =
-          player.person.primaryPosition.code === 'G'
-            ? 'GoalieBoxscore'
-            : 'SkaterBoxscore'
+      const playerObj = createPlayerObject(player, teamInDb, boxscoreType)
 
-        finalPlayerArray = [
-          ...finalPlayerArray,
-          createPlayerObject(player.person, teamInDb, boxscoreType),
-        ]
-      } catch (err) {
-        console.error(
-          `fetch-boxscores.fetchBoxscores.createPlayers.playerLoop - playerId: ${player.person.id} | ${gamePk}\n`,
-          err.stack
-        )
-        continue
-      }
+      const savedPlayer = await new Player(playerObj).save()
+      teamInDb.players = [...teamInDb.players, savedPlayer._id]
+      await teamInDb.save()
+    } catch (err) {
+      console.error(
+        `fetch-boxscores.fetchBoxscores.createPlayers.playerLoop - playerId: ${player.id} | ${gamePk}\n`,
+        err.stack
+      )
+      continue
     }
-
-    // try {
-    //   const insertedPlayers = await Player.insertMany(finalPlayerArray, {
-    //     ordered: true,
-    //   })
-    //   teamInDb.players = [
-    //     ...teamInDb.players,
-    //     ...insertedPlayers.map(player => player._id),
-    //   ]
-    //   await teamInDb.save()
-    // } catch (err) {
-    //   console.error(
-    //     `fetch-boxscores.fetchBoxscores.createPlayers.updateDb - playersToAdd: ${newPlayers}`,
-    //     err.stack
-    //   )
-    // }
   }
 }
 

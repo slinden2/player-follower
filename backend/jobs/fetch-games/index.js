@@ -63,7 +63,7 @@ const timeYesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
 const UTC_DATE = timeYesterday.toISOString().split('T')[0]
 const date = process.argv[2] || UTC_DATE
 
-console.log(`fetch-game-data.index.fetch-started-${date}`)
+console.log(`fetch-games.index.fetch-started-${date}`)
 
 fetchGames(date)
   .catch(err => {
