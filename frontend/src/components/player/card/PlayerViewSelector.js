@@ -17,13 +17,18 @@ const SelectorItem = styled.span`
   border-right: 2px solid ${colors.grey4};
   font-size: 5vw;
   cursor: pointer;
-  ${props => props.selected && 'font-weight: bold'};
+  ${props =>
+    props.selected &&
+    `text-shadow: 0 0 1px ${colors.white1}, 0 0 1px ${colors.white1},
+      0 0 1px ${colors.white1}`};
 
   @media (min-width: 470px) {
     font-size: 1.5rem;
   }
+
   &:hover {
-    font-weight: bolder;
+    text-shadow: 0 0 1px ${colors.white1}, 0 0 1px ${colors.white1},
+      0 0 1px ${colors.white1};
   }
 `
 
@@ -40,18 +45,21 @@ const PlayerViewSelector = ({ currentView, setCurrentView }) => {
       <SelectorItem
         onClick={() => handleViewChange(1)}
         selected={currentView === 1}
+        dataText="Last game"
       >
         Last game
       </SelectorItem>
       <SelectorItem
         onClick={() => handleViewChange(5)}
         selected={currentView === 5}
+        dataText="5 games"
       >
         5 games
       </SelectorItem>
       <SelectorItem
         onClick={() => handleViewChange(10)}
         selected={currentView === 10}
+        dataText="10 games"
       >
         10 games
       </SelectorItem>

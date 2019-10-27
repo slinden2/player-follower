@@ -82,9 +82,13 @@ const FieldsetTitle = styled.legend`
 const LastUpdated = styled.div`
   position: absolute;
   right: 10px;
-  top: -43px;
-  font-size: 0.75rem;
+  top: -60px;
+  font-size: 0.875rem;
   text-align: center;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 
 const formatDate = UTCIsoString => {

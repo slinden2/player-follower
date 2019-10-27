@@ -77,7 +77,7 @@ export const Checkbox = styled(Field)`
 `
 
 export const Dropdown = styled.select`
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: ${colors.white1};
   background-color: ${colors.blue1};
   padding: 5px;
@@ -85,10 +85,11 @@ export const Dropdown = styled.select`
   border: 0;
   border-radius: 10px;
   text-shadow: 1px 1px ${colors.grey1};
+  letter-spacing: 1px;
   margin: 10px 5px;
 
   &:hover {
-    font-weight: bolder;
+    text-shadow: 0 0 1px ${colors.white1}, 0 0 1px ${colors.white1};
   }
 `
 

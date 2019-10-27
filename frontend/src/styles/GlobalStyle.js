@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Quicksand', Arial;
+    font-family: 'Open Sans', 'sans-serif', Arial;
     color: ${colors.white1};
     background-color: ${colors.grey1};
     margin: 0;
