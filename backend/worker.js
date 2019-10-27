@@ -61,7 +61,7 @@ function onMessage(data) {
   switch (message.taskName) {
   case 'resetScriptStates': {
     console.log('[AMQP] - Running resetScriptStates')
-    exec('npm run reset_script_states', (err, stdout, stderr) => {
+    exec('npm run reset_script_states_prod', (err, stdout, stderr) => {
       console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
@@ -75,7 +75,7 @@ function onMessage(data) {
   }
   case 'fetchTeamStats': {
     console.log('[AMQP] - Running fetchTeamStats')
-    exec('npm run fetch_team_stats', (err, stdout, stderr) => {
+    exec('npm run fetch_team_stats_prod', (err, stdout, stderr) => {
       console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
@@ -89,7 +89,7 @@ function onMessage(data) {
   }
   case 'fetchGames': {
     console.log('[AMQP] - Running fetchGames')
-    exec('npm run fetch_games', (err, stdout, stderr) => {
+    exec('npm run fetch_games_prod', (err, stdout, stderr) => {
       console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
@@ -103,7 +103,7 @@ function onMessage(data) {
   }
   case 'fetchBoxscores': {
     console.log('[AMQP] - Running fetchBoxscores')
-    exec('npm run fetch_boxscores', (err, stdout, stderr) => {
+    exec('npm run fetch_boxscores_prod', (err, stdout, stderr) => {
       console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
@@ -117,7 +117,7 @@ function onMessage(data) {
   }
   case 'fetchGoals': {
     console.log('[AMQP] - Running fetchGoals')
-    exec('npm run fetch_goals', (err, stdout, stderr) => {
+    exec('npm run fetch_goals_prod', (err, stdout, stderr) => {
       console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
