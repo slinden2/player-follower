@@ -183,12 +183,14 @@ const PlayerCardFront = ({ player, isFlipped, handleCardFlip, i, sortBy }) => {
 
   return (
     <Container isFlipped={isFlipped}>
-      <ImageCircle
-        name={player.player.lastName}
-        number={player.player.primaryNumber}
-        longName={longName}
-        team={player.team.abbreviation}
-      />
+      <Link to={`/players/${player.player.siteLink}`}>
+        <ImageCircle
+          name={player.player.lastName}
+          number={player.player.primaryNumber}
+          longName={longName}
+          team={player.team.abbreviation}
+        />
+      </Link>
       <OrderNumber>{i}</OrderNumber>
       <GenDataContainer>
         <SideContainer border="right">
