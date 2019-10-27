@@ -21,14 +21,20 @@
     "fetch_conferences": "cross-env NODE_ENV=development node jobs/fetch-conferences.js",
     "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
     "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
-    "fetch_players": "cross-env NODE_ENV=development node jobs/fetch-players.js",
     "fetch_boxscores": "cross-env NODE_ENV=development node jobs/fetch-boxscores/",
-    "fetch_stats": "cross-env NODE_ENV=development node jobs/fetch-stats.js",
+    "fetch_boxscores_prod": "node jobs/fetch-boxscores/",
     "fetch_games": "cross-env NODE_ENV=development node jobs/fetch-games/",
+    "fetch_games_prod": "node jobs/fetch-games/",
     "fetch_team_stats": "cross-env NODE_ENV=development node jobs/fetch-team-stats/",
+    "fetch_team_stats_prod": "node jobs/fetch-team-stats/",
     "fetch_goals": "cross-env NODE_ENV=development node jobs/fetch-goals/",
+    "fetch_goals_prod": "node jobs/fetch-goals/",
     "fetch_player": "cross-env NODE_ENV=development node jobs/fetch-player",
+    "fetch_player_prod": "node jobs/fetch-player",
     "reset_script_states": "cross-env NODE_ENV=development node jobs/reset-script-states",
+    "reset_script_states_prod": "node jobs/reset-script-states",
+    "post_tweet": "cross-env NODE_ENV=development node jobs/post-tweet",
+    "clock_process": "cross-env NODE_ENV=development node clock/",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json"
@@ -63,7 +69,8 @@
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.7.1",
     "mongoose-unique-validator": "^2.0.3",
-    "nodemailer": "^6.3.0"
+    "nodemailer": "^6.3.0",
+    "twitter": "^1.7.1"
   },
   "jest": {
     "testEnvironment": "node"
