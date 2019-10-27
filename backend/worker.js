@@ -129,6 +129,20 @@ function onMessage(data) {
     })
     break
   }
+  case 'postTweet': {
+    console.log('[AMQP] - Running postTweet')
+    exec(`npm run post_tweet ${message.dataId}`, (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - postTweet completed')
+    })
+    break
+  }
 
   default:
     console.error('No task was found with name => ' + message.taskName)

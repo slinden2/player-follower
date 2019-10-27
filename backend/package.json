@@ -33,6 +33,8 @@
     "fetch_player_prod": "node jobs/fetch-player",
     "reset_script_states": "cross-env NODE_ENV=development node jobs/reset-script-states",
     "reset_script_states_prod": "node jobs/reset-script-states",
+    "post_tweet": "cross-env NODE_ENV=development node jobs/post-tweet",
+    "clock_process": "cross-env NODE_ENV=development node clock/",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json"
@@ -67,7 +69,8 @@
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.7.1",
     "mongoose-unique-validator": "^2.0.3",
-    "nodemailer": "^6.3.0"
+    "nodemailer": "^6.3.0",
+    "twitter": "^1.7.1"
   },
   "jest": {
     "testEnvironment": "node"
