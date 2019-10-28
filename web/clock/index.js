@@ -16,7 +16,9 @@ try {
 
 const main = async () => {
   await updateTweets()
-  clock()
+  await clock()
 }
 
-main().then(() => mongoose.connection.close())
+main()
+  .catch(err => console.error('clock.main\n', err.stack))
+  .then(() => mongoose.connection.close())

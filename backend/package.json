@@ -36,6 +36,7 @@
     "post_tweet": "cross-env NODE_ENV=development node jobs/post-tweet",
     "post_tweet_prod": "node jobs/post-tweet",
     "clock_process": "cross-env NODE_ENV=development node clock/",
+    "worker_process": "cross-env NODE_ENV=development node worker.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json"
