@@ -14,7 +14,7 @@ const clock = async () => {
     {
       name: 'Set script states to false',
       message: { taskName: 'resetScriptStates', queue: 'worker-queue' },
-      cronTime: '0 0 * * *',
+      cronTime: '0 21 * * *',
       repeat: 1,
     },
     {
@@ -39,12 +39,6 @@ const clock = async () => {
       name: 'Fetch goals of the day',
       message: { taskName: 'fetchGoals', queue: 'worker-queue' },
       cronTime: '50 5 * * *',
-      repeat: 1,
-    },
-    {
-      name: 'Tweet send test script',
-      message: { taskName: 'postTweet', queue: 'worker-queue', dataId: 0 },
-      cronTime: '* * * * *',
       repeat: 1,
     },
   ]
