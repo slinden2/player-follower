@@ -13,6 +13,12 @@ const clock = async () => {
 
   const staticJobs = [
     {
+      name: 'Test task',
+      message: { taskName: 'testTask', queue: 'worker-queue' },
+      cronTime: '* * * * *',
+      repeat: 1,
+    },
+    {
       name: 'Set script states to false',
       message: { taskName: 'resetScriptStates', queue: 'worker-queue' },
       cronTime: '0 0 * * *',

@@ -143,6 +143,20 @@ function onMessage(data) {
     })
     break
   }
+  case 'testTask': {
+    console.log('[AMQP] - Running testTask')
+    exec('npm run test_task_prod', (err, stdout, stderr) => {
+      console.log('='.repeat(20))
+      console.log('stdout\n', stdout)
+      if (stderr) {
+        console.log('='.repeat(20) + '\n')
+        console.error('stderr\n', stderr)
+      }
+      console.log('='.repeat(20))
+      console.log('[AMQP] - testTask completed')
+    })
+    break
+  }
 
   default:
     console.error('No task was found with name => ' + message.taskName)

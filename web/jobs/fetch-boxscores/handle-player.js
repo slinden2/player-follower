@@ -17,6 +17,9 @@ const handlePlayer = async (
     stats.powerPlayTimeOnIce = convertMMSStoSec(stats.powerPlayTimeOnIce)
     stats.shortHandedTimeOnIce = convertMMSStoSec(stats.shortHandedTimeOnIce)
     stats.faceOffsTaken = stats.faceoffTaken
+    // Sometimes from API shots are 0 even if player has scored.
+    // This causes zero division error in the best players aggregation pipeline.
+    if (stats.goals && !stats.shots) stats.shots = 1
   } else {
     stats.shotsAgainst = stats.shots
     stats.penaltyMinutes = stats.pim

@@ -66,6 +66,7 @@ const fetchTeamStats = async () => {
   } catch (err) {
     console.error('fetch-team-stats.fetchTeamStats\n', err.stack)
   }
+  await ScriptState.updateOne({}, { $set: { fetchTeamStats: true } })
 }
 
 fetchTeamStats()

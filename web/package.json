@@ -34,6 +34,8 @@
     "reset_script_states": "cross-env NODE_ENV=development node jobs/reset-script-states",
     "reset_script_states_prod": "node jobs/reset-script-states",
     "post_tweet": "cross-env NODE_ENV=development node jobs/post-tweet",
+    "test_task": "cross-env NODE_ENV=development node jobs/test-task.js",
+    "test_task_prod": "node jobs/test-task.js",
     "clock_process": "cross-env NODE_ENV=development node clock/",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
