@@ -8,8 +8,8 @@ const gameUrl = date =>
   `https://statsapi.web.nhl.com/api/v1/schedule?date=${date}`
 
 const updateTweets = async () => {
-  // await Job.deleteMany({})
-  // await Tweet.deleteMany({})
+  await Job.deleteMany({})
+  await Tweet.deleteMany({})
 
   const { data } = await axios.get(gameUrl(date))
 
@@ -61,8 +61,8 @@ const updateTweets = async () => {
     ]
   }
 
-  // await Tweet.insertMany(tweetArray)
-  // await Job.insertMany(jobArray)
+  await Tweet.insertMany(tweetArray)
+  await Job.insertMany(jobArray)
 }
 
 module.exports = updateTweets

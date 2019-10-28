@@ -30,6 +30,7 @@ const getTweetData = async dataId => {
   return {
     away: {
       team: dataPlayersAway[0].team.abbreviation,
+      hashtag: dataPlayersAway[0].team.twitterHashtag,
       player1: {
         lastName: dataPlayersAway[0].player.lastName,
         goals: dataPlayersAway[0].stats.goals,
@@ -42,9 +43,16 @@ const getTweetData = async dataId => {
         assists: dataPlayersAway[1].stats.assists,
         points: dataPlayersAway[1].stats.points,
       },
+      player3: {
+        lastName: dataPlayersAway[2].player.lastName,
+        goals: dataPlayersAway[2].stats.goals,
+        assists: dataPlayersAway[2].stats.assists,
+        points: dataPlayersAway[2].stats.points,
+      },
     },
     home: {
       team: dataPlayersHome[0].team.abbreviation,
+      hashtag: dataPlayersHome[0].team.twitterHashtag,
       player1: {
         lastName: dataPlayersHome[0].player.lastName,
         goals: dataPlayersHome[0].stats.goals,
@@ -57,21 +65,14 @@ const getTweetData = async dataId => {
         assists: dataPlayersHome[1].stats.assists,
         points: dataPlayersHome[1].stats.points,
       },
+      player3: {
+        lastName: dataPlayersHome[2].player.lastName,
+        goals: dataPlayersHome[2].stats.goals,
+        assists: dataPlayersHome[2].stats.assists,
+        points: dataPlayersHome[2].stats.points,
+      },
     },
   }
 }
 
 module.exports = getTweetData
-
-// .populate([
-//   {
-//     path: 'awayTeam',
-//     model: 'Team',
-//     select: 'abbreviation',
-//   },
-//   {
-//     path: 'homeTeam',
-//     model: 'Team',
-//     select: 'abbreviation',
-//   },
-// ])

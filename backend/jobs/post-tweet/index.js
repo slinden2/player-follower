@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const config = require('../../utils/config')
 const getTweetData = require('./get-tweet-data')
+const postTweet = require('./post-tweet')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -20,7 +21,15 @@ try {
 const dataId = process.argv[2]
 
 const runPostTweet = async () => {
-  const data = await getTweetData(dataId)
+  try {
+    const data = await getTweetData(dataId)
+    const response = await postTweet(data)
+    console.log(
+      `post-tweet.getPostTweet - Tweet created at ${response.created_at}`
+    )
+  } catch (err) {
+    console.error('post-tweet.getTweetData/postTweet\n', err.stack)
+  }
 }
 
 runPostTweet()

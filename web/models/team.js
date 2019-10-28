@@ -74,6 +74,7 @@ const teamSchema = mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  twitterHashtag: String,
 })
 
 teamSchema.set('toJSON', {

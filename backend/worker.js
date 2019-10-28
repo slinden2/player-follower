@@ -131,30 +131,19 @@ function onMessage(data) {
   }
   case 'postTweet': {
     console.log('[AMQP] - Running postTweet')
-    exec(`npm run post_tweet ${message.dataId}`, (err, stdout, stderr) => {
-      console.log('='.repeat(20))
-      console.log('stdout\n', stdout)
-      if (stderr) {
-        console.log('='.repeat(20) + '\n')
-        console.error('stderr\n', stderr)
+    exec(
+      `npm run post_tweet_prod ${message.dataId}`,
+      (err, stdout, stderr) => {
+        console.log('='.repeat(20))
+        console.log('stdout\n', stdout)
+        if (stderr) {
+          console.log('='.repeat(20) + '\n')
+          console.error('stderr\n', stderr)
+        }
+        console.log('='.repeat(20))
+        console.log('[AMQP] - postTweet completed')
       }
-      console.log('='.repeat(20))
-      console.log('[AMQP] - postTweet completed')
-    })
-    break
-  }
-  case 'testTask': {
-    console.log('[AMQP] - Running testTask')
-    exec('npm run test_task_prod', (err, stdout, stderr) => {
-      console.log('='.repeat(20))
-      console.log('stdout\n', stdout)
-      if (stderr) {
-        console.log('='.repeat(20) + '\n')
-        console.error('stderr\n', stderr)
-      }
-      console.log('='.repeat(20))
-      console.log('[AMQP] - testTask completed')
-    })
+    )
     break
   }
 

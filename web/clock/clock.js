@@ -1,10 +1,9 @@
 const { CronJob } = require('cron')
 const amqp = require('amqp-connection-manager')
-// const Job = require('../models/job')
+const Job = require('../models/job')
 
 const clock = async () => {
-  // const tweetJobs = await Job.find({})
-  const tweetJobs = []
+  const tweetJobs = await Job.find({})
 
   const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost'
   if (!AMQP_URL) process.exit(1)
@@ -12,12 +11,6 @@ const clock = async () => {
   const WORKER_QUEUE = 'worker-queue'
 
   const staticJobs = [
-    {
-      name: 'Test task',
-      message: { taskName: 'testTask', queue: 'worker-queue' },
-      cronTime: '* * * * *',
-      repeat: 1,
-    },
     {
       name: 'Set script states to false',
       message: { taskName: 'resetScriptStates', queue: 'worker-queue' },
@@ -46,6 +39,12 @@ const clock = async () => {
       name: 'Fetch goals of the day',
       message: { taskName: 'fetchGoals', queue: 'worker-queue' },
       cronTime: '50 5 * * *',
+      repeat: 1,
+    },
+    {
+      name: 'Tweet send test script',
+      message: { taskName: 'postTweet', queue: 'worker-queue', dataId: 0 },
+      cronTime: '* * * * *',
       repeat: 1,
     },
   ]
