@@ -140,6 +140,10 @@ const TermsAndConditions = () => {
           Comments in any and all forms, formats or media.
         </Paragraph>
 
+        <Title>No affiliate</Title>
+
+        <Paragraph>Player Fan is not affiliated with the NHL, NHLPA or any NHL club and is maintained for research purposes only.</Paragraph>
+
         <Title>Hyperlinking to our Content</Title>
 
         <Paragraph>
