@@ -35,8 +35,6 @@ const Rink = ({ data }) => {
   const [tooltipData, setTooltipData] = useState({})
   const refContainer = useRef(null)
 
-  console.log(data)
-
   const handleMouseOver = e => {
     setTooltipData(Object.assign({}, e.target.dataset))
     setTooltipPos({
