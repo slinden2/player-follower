@@ -69,7 +69,7 @@ const updateTweets = async () => {
         queue: 'worker-queue',
         dataId: 1,
       },
-      cronTime: '0 13 * * *',
+      cronTime: '0 12 * * *',
       repeat: 0,
     },
   ]
