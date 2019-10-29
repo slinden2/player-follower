@@ -40,6 +40,10 @@ const convertSecsToMMSS = secs => {
   )}`
 }
 
+const formatDate = ISODate => {
+  return new Date(ISODate).toLocaleDateString(navigator.language, { timeZone: 'America/New_York'})
+}
+
 const playerBioData = {
   primaryPosition: {
     id: 'primaryPosition.description',
@@ -945,4 +949,5 @@ export {
   sortByItems,
   teamColors,
   sortByHighlight,
+  formatDate
 }

@@ -511,7 +511,7 @@ const resolvers = {
     },
     pointsPerGame: root =>
       roundToDecimal((root.goals + root.assists) / root.gamesPlayed),
-    gameDate: root => format(root.gameDate, 'YYYY/MM/DD'),
+    gameDate: root => root.gameDate.toISOString(),
     timeOnIce: root => convertSecsToMin(root.timeOnIce),
     timeOnIcePerGame: root => convertSecsToMin(root.timeOnIcePerGame),
     evenTimeOnIce: root => convertSecsToMin(root.evenTimeOnIce),

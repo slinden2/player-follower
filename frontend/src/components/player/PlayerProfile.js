@@ -45,14 +45,6 @@ const headers = [
   'takeaways',
 ]
 
-const sortBoxscoresByDate = boxscores => {
-  return boxscores.sort((a, b) => {
-    a = a.gameDate.split('/').join('')
-    b = b.gameDate.split('/').join('')
-    return a < b ? 1 : a > b ? -1 : 0
-  })
-}
-
 const PlayerProfile = ({ siteLink }) => {
   const [selectedGamePk, setSelectedGamePk] = useState(null)
   const { data, loading } = useQuery(PLAYER_PROFILE, {
@@ -69,7 +61,7 @@ const PlayerProfile = ({ siteLink }) => {
     return <Redirect to="/404" />
   }
 
-  player.boxscores = sortBoxscoresByDate(player.boxscores)
+  player.boxscores = player.boxscores.sort((a, b) => b.gamePk - a.gamePk)
   player.boxscores = player.boxscores.map(boxscore => ({
     ...boxscore,
     teams:

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { statHeaders, teamStatHeaders } from '../../utils'
+import { statHeaders, teamStatHeaders, formatDate } from '../../utils'
 import Title from '../elements/Title'
 import TableRow from './TableRow'
 import HeaderCell from './HeaderCell'
@@ -43,6 +43,7 @@ const StatsTable = ({
   const leftAlign = header => headersToUse[header].leftAlign
 
   const getData = (item, header) => {
+    if (header === 'gameDate') return formatDate(item[headersToUse[header].id])
     return item[headersToUse[header].id]
   }
 

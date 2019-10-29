@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import colors from '../../../styles/colors'
+import { formatDate } from '../../../utils/'
 
 const TooltipSvg = styled.svg`
   position: absolute;
@@ -45,7 +46,7 @@ const Tooltip = ({ show, position, data }) => {
       <text
         textAnchor="middle"
         fontSize="4"
-        fontFamily="Quicksand"
+        fontFamily="Open Sans"
         fill={colors.white1}
       >
         <tspan x="14" y="6">
@@ -55,18 +56,18 @@ const Tooltip = ({ show, position, data }) => {
       <text
         textAnchor="middle"
         fontSize="3.5"
-        fontFamily="Quicksand"
+        fontFamily="Open Sans"
         fill={colors.white1}
         letterSpacing="0.45"
       >
         <tspan x="14" y="11">
-          {data.gameDate}
+          {formatDate(data.gameDate)}
         </tspan>
       </text>
       <text
         textAnchor="middle"
         fontSize="3.5"
-        fontFamily="Quicksand"
+        fontFamily="Open Sans"
         fill={colors.white1}
         letterSpacing="0.45"
       >
@@ -77,7 +78,7 @@ const Tooltip = ({ show, position, data }) => {
       <text
         textAnchor="middle"
         fontSize="3.5"
-        fontFamily="Quicksand"
+        fontFamily="Open Sans"
         fill={colors.white1}
         letterSpacing="0.45"
       >
