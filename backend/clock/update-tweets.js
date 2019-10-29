@@ -60,6 +60,19 @@ const updateTweets = async () => {
       },
     ]
   }
+  jobArray = [
+    ...jobArray,
+    {
+      name: 'Tweet #X',
+      message: {
+        taskName: 'postTweet',
+        queue: 'worker-queue',
+        dataId: 1,
+      },
+      cronTime: '0 13 * * *',
+      repeat: 0,
+    },
+  ]
 
   await Tweet.insertMany(tweetArray)
   await Job.insertMany(jobArray)
