@@ -7,6 +7,7 @@ import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
 import Loader from '../elements/Loader'
 import PlayerVideo from './PlayerVideo'
+import { formatDate } from '../../utils'
 
 const textPropOnDesktop = css`
   @media ${breakpoints.showDesktopNavi} {
@@ -85,7 +86,7 @@ const PlayerMilestones = ({
         <MilestoneContainer key={milestone.title}>
           <MilestoneHeader>{milestone.title}</MilestoneHeader>
           <MilestoneDate>
-            {getDate(milestone.gamePk, boxscores)}{' '}
+            {formatDate(getDate(milestone.gamePk, boxscores))}{' '}
             {milestone.blurb.split(':')[0]}
           </MilestoneDate>
           <PlayerVideo
