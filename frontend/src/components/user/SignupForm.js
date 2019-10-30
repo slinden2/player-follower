@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import Reaptcha from 'reaptcha'
 import { event } from '../../utils/tracking'
 import { signupSchema } from './validationSchemas'
 import { CREATE_USER } from '../../graphql/mutations'
@@ -12,6 +13,7 @@ import {
   Label,
   TextRow,
   Input,
+  ReCaptchaContainer,
 } from '../../styles/forms'
 import FormError from './FormError'
 import Link from '../elements/StyledLink'
@@ -24,11 +26,12 @@ const SignupForm = ({ history, onModal }) => {
   const { notification, setNotification, handleException } = useContext(
     NotificationContext
   )
+  const recaptchaRef = useRef(null)
 
   const createUser = useMutation(CREATE_USER)
 
   const handleSignup = async (
-    { username, email, password },
+    { username, email, password, recaptcha },
     { resetForm, setSubmitting }
   ) => {
     try {
@@ -37,6 +40,7 @@ const SignupForm = ({ history, onModal }) => {
           username,
           email,
           password,
+          recaptcha
         },
       })
       setNotification(
@@ -51,6 +55,7 @@ const SignupForm = ({ history, onModal }) => {
       handleException(exception, 'form')
       resetForm()
       setSubmitting(false)
+      recaptchaRef.current.reset()
       return
     }
   }
@@ -63,6 +68,7 @@ const SignupForm = ({ history, onModal }) => {
           email: '',
           password: '',
           confirmPassword: '',
+          recaptcha: ''
         }}
         validationSchema={signupSchema}
         onSubmit={handleSignup}
@@ -74,6 +80,7 @@ const SignupForm = ({ history, onModal }) => {
           isSubmitting,
           handleChange,
           handleBlur,
+          setFieldValue
         }) => (
           <SForm>
             <SField>
@@ -146,6 +153,19 @@ const SignupForm = ({ history, onModal }) => {
             </TextRow>
             <br />
             <Notification position="form" notification={notification} />
+            <br />
+            <ReCaptchaContainer>
+              <Reaptcha
+                ref={recaptchaRef}
+                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
+                onVerify={(token) => setFieldValue('recaptcha', token)}
+                theme="dark"
+              />
+            </ReCaptchaContainer>
+            <FormError
+              message={errors.recaptcha}
+              show={errors.recaptcha && touched.username && touched.password && touched.email && touched.confirmPassword}
+            />
             <br />
             <Button
               type="submit"

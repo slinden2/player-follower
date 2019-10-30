@@ -12,7 +12,9 @@ const validateRecaptcha = async token => {
     recaptchaQuery
   )
 
-  console.log(res)
+  if (!res.data.success) {
+    throw new Error('reCAPTCHA validation failed.')
+  }
 
   return res.data.success
 }

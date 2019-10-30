@@ -303,7 +303,10 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (root, args) => {
-      const { username, password, email } = args
+      const { username, password, email, recaptcha } = args
+
+      await validateRecaptcha(recaptcha)
+
       const existingUser = await User.findOne({
         $or: [{ usernameLower: username.toLowerCase() }, { email }],
       })
@@ -452,11 +455,11 @@ const resolvers = {
       const { name, email, subject, message, recaptcha } = args
       const username = currentUser && currentUser.username
 
-      const recaptchaResult = await validateRecaptcha(recaptcha)
+      await validateRecaptcha(recaptcha)
 
       await sendContactFormEmail(name, email, subject, message, username)
 
-      return recaptchaResult
+      return true
     },
     followPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx

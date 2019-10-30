@@ -9,8 +9,8 @@ const USER_DETAILS = gql`
 `
 
 const CREATE_USER = gql`
-  mutation createUser($username: String!, $email: String!, $password: String!) {
-    createUser(username: $username, email: $email, password: $password) {
+  mutation createUser($username: String!, $email: String!, $password: String!, $recaptcha: String!) {
+    createUser(username: $username, email: $email, password: $password recaptcha: $recaptcha) {
       ...UserDetails
     }
   }

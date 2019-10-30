@@ -37,11 +37,6 @@ const ContactForm = ({ history }) => {
       const success = await sendContactForm({
         variables: { name, email, subject, message, recaptcha },
       })
-
-      if (!success.data.SendContactForm) {
-        throw new Error('reCAPTCHA validation failed.')
-      }
-
       setNotification(
         'positive',
         'Thanks for the feedback. I will get back to you as soon as possible.',

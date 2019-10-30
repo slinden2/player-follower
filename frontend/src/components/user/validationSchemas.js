@@ -56,6 +56,7 @@ export const signupSchema = yup.object().shape({
   email,
   password,
   confirmPassword,
+  recaptcha
 })
 
 export const loginSchema = yup.object().shape({
