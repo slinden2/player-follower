@@ -537,6 +537,7 @@ const typeDefs = gql`
       email: String!
       subject: String!
       message: String!
+      recaptcha: String!
     ): Boolean!
   }
 `

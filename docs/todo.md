@@ -39,6 +39,9 @@
 - [x] Filtering by team and position in player cards.
 - [x] Problem with stat pagination. Duplicate players on load more.
 - [x] Blocked shots needed in cumulative stats
+
+* [x] Social media icons
+
 - [x] More data to player bio table
 - [x] Do recent stats calculations as a scheduled task and save results in db daily as string
   - [x] Find a more efficient way to do this...
@@ -67,7 +70,6 @@
 * [ ] A top performer view. Link to the "condensed game" video and individual goal videos
 * [ ] Most recent goals on the team page
 * [ ] OAuth
-* [ ] Social media icons
 * [ ] Player card social media sharing functions
 * [ ] Video social media sharing functions
 * [ ] Videos must be saved in db with comments and ranking

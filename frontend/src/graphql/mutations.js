@@ -94,12 +94,14 @@ const SEND_CONTACT_FORM = gql`
     $email: String!
     $subject: String!
     $message: String!
+    $recaptcha: String!
   ) {
     SendContactForm(
       name: $name
       email: $email
       subject: $subject
       message: $message
+      recaptcha: $recaptcha
     )
   }
 `

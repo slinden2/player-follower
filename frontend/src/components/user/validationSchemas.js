@@ -49,6 +49,8 @@ const password = yup
   )
   .matches(/(?=.*[0-9])/, 'Password must contain at least one number.')
 
+const recaptcha = yup.string().required('Please select "I\'m not a robot."')
+
 export const signupSchema = yup.object().shape({
   username,
   email,
@@ -81,4 +83,5 @@ export const contactSchema = yup.object().shape({
   email,
   subject,
   message,
+  recaptcha
 })

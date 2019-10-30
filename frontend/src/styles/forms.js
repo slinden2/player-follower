@@ -93,4 +93,9 @@ export const Dropdown = styled.select`
   }
 `
 
+export const ReCaptchaContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 export const DropdownItem = styled.option``

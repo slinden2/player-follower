@@ -1,6 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
+import ReCAPTCHA from 'react-google-recaptcha'
+import Reaptcha from 'reaptcha'
 import { event } from '../utils/tracking'
 import { NotificationContext } from '../contexts/NotificationContext'
 import { SEND_CONTACT_FORM } from '../graphql/mutations'
@@ -13,6 +15,7 @@ import {
   Label,
   Input,
   TextArea,
+  ReCaptchaContainer,
 } from '../styles/forms'
 import FormError from './user/FormError'
 import { contactSchema } from './user/validationSchemas'
@@ -25,15 +28,21 @@ const ContactForm = ({ history }) => {
     NotificationContext
   )
   const sendContactForm = useMutation(SEND_CONTACT_FORM)
+  const recaptchaRef = useRef(null)
 
   const handleSubmitForm = async (
-    { name, email, subject, message },
+    { name, email, subject, message, recaptcha },
     { resetForm, setSubmitting }
   ) => {
     try {
-      await sendContactForm({
-        variables: { name, email, subject, message },
+      const success = await sendContactForm({
+        variables: { name, email, subject, message, recaptcha },
       })
+
+      if (!success.data.SendContactForm) {
+        throw new Error('reCAPTCHA validation failed.')
+      }
+
       setNotification(
         'positive',
         'Thanks for the feedback. I will get back to you as soon as possible.',
@@ -45,6 +54,7 @@ const ContactForm = ({ history }) => {
       handleException(exception, 'form')
       resetForm()
       setSubmitting(false)
+      recaptchaRef.current.reset()
     }
   }
 
@@ -57,7 +67,7 @@ const ContactForm = ({ history }) => {
       <ContentWrapper>
         <Container>
           <Formik
-            initialValues={{ name: '', email: '', subject: '', message: '' }}
+            initialValues={{ name: '', email: '', subject: '', message: '', recaptcha: '' }}
             validationSchema={contactSchema}
             onSubmit={handleSubmitForm}
           >
@@ -68,6 +78,7 @@ const ContactForm = ({ history }) => {
               isSubmitting,
               handleChange,
               handleBlur,
+              setFieldValue,
             }) => {
               return (
                 <SForm>
@@ -131,7 +142,24 @@ const ContactForm = ({ history }) => {
                   <br />
                   <Notification position="form" notification={notification} />
                   <br />
-
+                  <ReCaptchaContainer>
+                    <Reaptcha
+                      ref={recaptchaRef}
+                      sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
+                      onVerify={(token) => setFieldValue('recaptcha', token)}
+                    />
+                    {/* <ReCAPTCHA 
+                      sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
+                      onChange={(value) => setFieldValue('recaptcha', value)}
+                      ref={recaptcha}
+                      theme="dark"
+                    /> */}
+                  </ReCaptchaContainer>
+                  <FormError
+                    message={errors.recaptcha}
+                    show={errors.recaptcha && touched.name && touched.email && touched.subject && touched.message}
+                  />
+                  <br />
                   <Button
                     type="submit"
                     size="big"

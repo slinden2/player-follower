@@ -15,6 +15,7 @@ const User = require('../models/user')
 const Token = require('../models/token')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const Goal = require('../models/goal')
+const validateRecaptcha = require('../utils/validate-recaptcha')
 const {
   bestPlayersAggregate,
   favoritePlayersAggregate,
@@ -448,12 +449,14 @@ const resolvers = {
     },
     SendContactForm: async (root, args, ctx) => {
       const { currentUser } = ctx
-      const { name, email, subject, message } = args
+      const { name, email, subject, message, recaptcha } = args
       const username = currentUser && currentUser.username
+
+      const recaptchaResult = await validateRecaptcha(recaptcha)
 
       await sendContactFormEmail(name, email, subject, message, username)
 
-      return true
+      return recaptchaResult
     },
     followPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx

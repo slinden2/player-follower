@@ -72,6 +72,7 @@
     "mongoose": "^5.7.1",
     "mongoose-unique-validator": "^2.0.3",
     "nodemailer": "^6.3.0",
+    "querystring": "^0.2.0",
     "twitter": "^1.7.1"
   },
   "jest": {
