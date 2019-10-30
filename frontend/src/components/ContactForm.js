@@ -1,7 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { Formik } from 'formik'
-import ReCAPTCHA from 'react-google-recaptcha'
 import Reaptcha from 'reaptcha'
 import { event } from '../utils/tracking'
 import { NotificationContext } from '../contexts/NotificationContext'

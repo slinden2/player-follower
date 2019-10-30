@@ -65,6 +65,7 @@ const clock = async () => {
   const startCronProcess = jobs => {
     if (jobs && jobs.length) {
       jobs.forEach(job => {
+        console.log(job)
         let j = new CronJob({
           cronTime: job.cronTime,
           onTick: () => {
