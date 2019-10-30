@@ -146,13 +146,8 @@ const ContactForm = ({ history }) => {
                       ref={recaptchaRef}
                       sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
                       onVerify={(token) => setFieldValue('recaptcha', token)}
-                    />
-                    {/* <ReCAPTCHA 
-                      sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
-                      onChange={(value) => setFieldValue('recaptcha', value)}
-                      ref={recaptcha}
                       theme="dark"
-                    /> */}
+                    />
                   </ReCaptchaContainer>
                   <FormError
                     message={errors.recaptcha}

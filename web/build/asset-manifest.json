@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.js": "/static/js/main.417b05d4.chunk.js",
+    "main.js": "/static/js/main.2017d76f.chunk.js",
     "runtime-main.js": "/static/js/runtime-main.fbe98da3.js",
     "static/js/2.6da29f48.chunk.js": "/static/js/2.6da29f48.chunk.js",
     "index.html": "/index.html",
-    "precache-manifest.abb07afc11bb398eb541f5448c44aa5d.js": "/precache-manifest.abb07afc11bb398eb541f5448c44aa5d.js",
+    "precache-manifest.8b57f043e8234469bcfebb49c7330114.js": "/precache-manifest.8b57f043e8234469bcfebb49c7330114.js",
     "service-worker.js": "/service-worker.js",
     "static/media/magnifying-glass-icon.svg": "/static/media/magnifying-glass-icon.b6a65f37.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.fbe98da3.js",
     "static/js/2.6da29f48.chunk.js",
-    "static/js/main.417b05d4.chunk.js"
+    "static/js/main.2017d76f.chunk.js"
   ]
 }

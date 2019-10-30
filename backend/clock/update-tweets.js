@@ -34,9 +34,6 @@ const updateTweets = async () => {
         homeTeam: homeTeam._id,
       },
     ]
-    const date = game.gameDate.split('T')[0]
-    const month = parseInt(date.split('-')[1])
-    const day = parseInt(date.split('-')[2])
 
     const time = game.gameDate.split('T')[1]
     let hours = parseInt(time.split(':')[0]) - 1
@@ -44,7 +41,7 @@ const updateTweets = async () => {
 
     const minutes = parseInt(time.split(':')[1])
 
-    const cronTime = `${minutes} ${hours} ${day} ${month} *`
+    const cronTime = `${minutes} ${hours} * * *`
 
     jobArray = [
       ...jobArray,

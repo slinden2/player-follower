@@ -12,6 +12,8 @@ const validateRecaptcha = async token => {
     recaptchaQuery
   )
 
+  console.log(res)
+
   return res.data.success
 }
 
