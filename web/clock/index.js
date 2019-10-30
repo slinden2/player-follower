@@ -15,7 +15,7 @@ try {
 }
 
 const main = async () => {
-  await updateTweets()
+  // await updateTweets()
   await clock()
 }
 
