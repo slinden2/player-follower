@@ -27,7 +27,7 @@ let channelWrapper = connection.createChannel({
   json: true,
   setup: function(channel) {
     return Promise.all([
-      channel.assertQueue(WORKER_QUEUE, { autoDelete: true, durable: false }),
+      channel.assertQueue(WORKER_QUEUE, { autoDelete: false, durable: false }),
       channel.prefetch(1),
       channel.consume(WORKER_QUEUE, onMessage),
     ])
