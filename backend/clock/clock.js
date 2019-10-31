@@ -13,13 +13,19 @@ const clock = async () => {
   const staticJobs = [
     {
       name: 'Set script states to false',
-      message: { taskName: 'resetScriptStates', queue: 'worker-queue' },
+      message: {
+        taskName: 'resetScriptStates',
+        queue: 'worker-queue',
+      },
       cronTime: '0 21 * * *',
       repeat: 1,
     },
     {
       name: 'Fetch team stats of the day',
-      message: { taskName: 'fetchTeamStats', queue: 'worker-queue' },
+      message: {
+        taskName: 'fetchTeamStats',
+        queue: 'worker-queue',
+      },
       cronTime: '28 5 * * *',
       repeat: 1,
     },
@@ -31,7 +37,10 @@ const clock = async () => {
     },
     {
       name: 'Fetch boxscores of the day',
-      message: { taskName: 'fetchBoxscores', queue: 'worker-queue' },
+      message: {
+        taskName: 'fetchBoxscores',
+        queue: 'worker-queue',
+      },
       cronTime: '40 5 * * *',
       repeat: 1,
     },
@@ -89,14 +98,13 @@ const clock = async () => {
     let senderChannelWrapper = connection.createChannel({
       json: true,
       setup: function(channel) {
-        return channel.assertQueue(queue, { durable: true })
+        return channel.assertQueue(queue, { durable: false })
       },
     })
 
     senderChannelWrapper
       .sendToQueue(queue, message, {
         contentType: 'application/json',
-        persistent: true,
       })
       .then(function() {
         console.log('[AMQP] - Message sent to queue =>', queue)

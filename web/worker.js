@@ -27,7 +27,7 @@ let channelWrapper = connection.createChannel({
   json: true,
   setup: function(channel) {
     return Promise.all([
-      channel.assertQueue(WORKER_QUEUE, { autoDelete: false, durable: true }),
+      channel.assertQueue(WORKER_QUEUE, { autoDelete: true, durable: false }),
       channel.prefetch(1),
       channel.consume(WORKER_QUEUE, onMessage),
     ])
@@ -62,13 +62,10 @@ function onMessage(data) {
   case 'resetScriptStates': {
     console.log('[AMQP] - Running resetScriptStates')
     exec('npm run reset_script_states_prod', (err, stdout, stderr) => {
-      console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
-        console.log('='.repeat(20) + '\n')
         console.error('stderr\n', stderr)
       }
-      console.log('='.repeat(20))
       console.log('[AMQP] - resetScriptStates completed')
     })
     break
@@ -76,13 +73,10 @@ function onMessage(data) {
   case 'fetchTeamStats': {
     console.log('[AMQP] - Running fetchTeamStats')
     exec('npm run fetch_team_stats_prod', (err, stdout, stderr) => {
-      console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
-        console.log('='.repeat(20) + '\n')
         console.error('stderr\n', stderr)
       }
-      console.log('='.repeat(20))
       console.log('[AMQP] - fetchTeamStats completed')
     })
     break
@@ -90,13 +84,10 @@ function onMessage(data) {
   case 'fetchGames': {
     console.log('[AMQP] - Running fetchGames')
     exec('npm run fetch_games_prod', (err, stdout, stderr) => {
-      console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
-        console.log('='.repeat(20) + '\n')
         console.error('stderr\n', stderr)
       }
-      console.log('='.repeat(20))
       console.log('[AMQP] - fetchGames completed')
     })
     break
@@ -104,13 +95,10 @@ function onMessage(data) {
   case 'fetchBoxscores': {
     console.log('[AMQP] - Running fetchBoxscores')
     exec('npm run fetch_boxscores_prod', (err, stdout, stderr) => {
-      console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
-        console.log('='.repeat(20) + '\n')
         console.error('stderr\n', stderr)
       }
-      console.log('='.repeat(20))
       console.log('[AMQP] - fetchBoxscores completed')
     })
     break
@@ -118,13 +106,10 @@ function onMessage(data) {
   case 'fetchGoals': {
     console.log('[AMQP] - Running fetchGoals')
     exec('npm run fetch_goals_prod', (err, stdout, stderr) => {
-      console.log('='.repeat(20))
       console.log('stdout\n', stdout)
       if (stderr) {
-        console.log('='.repeat(20) + '\n')
         console.error('stderr\n', stderr)
       }
-      console.log('='.repeat(20))
       console.log('[AMQP] - fetchGoals completed')
     })
     break
@@ -134,13 +119,10 @@ function onMessage(data) {
     exec(
       `npm run post_tweet_prod ${message.dataId}`,
       (err, stdout, stderr) => {
-        console.log('='.repeat(20))
         console.log('stdout\n', stdout)
         if (stderr) {
-          console.log('='.repeat(20) + '\n')
           console.error('stderr\n', stderr)
         }
-        console.log('='.repeat(20))
         console.log('[AMQP] - postTweet completed')
       }
     )
