@@ -35,6 +35,8 @@
     "reset_script_states_prod": "node jobs/reset-script-states",
     "post_tweet": "cross-env NODE_ENV=development node jobs/post-tweet",
     "post_tweet_prod": "node jobs/post-tweet",
+    "daily_fetch": "cross-env NODE_ENV=development node jobs/daily-fetch",
+    "daily_fetch_prod": "node jobs/daily-fetch",
     "clock_process": "cross-env NODE_ENV=development node clock/",
     "worker_process": "cross-env NODE_ENV=development node worker.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",

@@ -1,6 +1,12 @@
 const amqp = require('amqp-connection-manager')
 const { exec } = require('child_process')
 
+let processExt = ''
+
+if (process.env.NODE_ENV === 'production') {
+  processExt = '_prod'
+}
+
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost'
 if (!AMQP_URL) process.exit(1)
 
@@ -27,7 +33,7 @@ let channelWrapper = connection.createChannel({
   json: true,
   setup: function(channel) {
     return Promise.all([
-      channel.assertQueue(WORKER_QUEUE, { autoDelete: true, durable: false }),
+      channel.assertQueue(WORKER_QUEUE, { autoDelete: false, durable: false }),
       channel.prefetch(1),
       channel.consume(WORKER_QUEUE, onMessage),
     ])
@@ -59,65 +65,21 @@ function onMessage(data) {
   }
 
   switch (message.taskName) {
-  case 'resetScriptStates': {
-    console.log('[AMQP] - Running resetScriptStates')
-    exec('npm run reset_script_states_prod', (err, stdout, stderr) => {
+  case 'dailyFetch': {
+    console.log(`[AMQP] - Running ${message.taskName}`)
+    exec(`npm run daily_fetch${processExt}`, (err, stdout, stderr) => {
       console.log('stdout\n', stdout)
       if (stderr) {
         console.error('stderr\n', stderr)
       }
-      console.log('[AMQP] - resetScriptStates completed')
-    })
-    break
-  }
-  case 'fetchTeamStats': {
-    console.log('[AMQP] - Running fetchTeamStats')
-    exec('npm run fetch_team_stats_prod', (err, stdout, stderr) => {
-      console.log('stdout\n', stdout)
-      if (stderr) {
-        console.error('stderr\n', stderr)
-      }
-      console.log('[AMQP] - fetchTeamStats completed')
-    })
-    break
-  }
-  case 'fetchGames': {
-    console.log('[AMQP] - Running fetchGames')
-    exec('npm run fetch_games_prod', (err, stdout, stderr) => {
-      console.log('stdout\n', stdout)
-      if (stderr) {
-        console.error('stderr\n', stderr)
-      }
-      console.log('[AMQP] - fetchGames completed')
-    })
-    break
-  }
-  case 'fetchBoxscores': {
-    console.log('[AMQP] - Running fetchBoxscores')
-    exec('npm run fetch_boxscores_prod', (err, stdout, stderr) => {
-      console.log('stdout\n', stdout)
-      if (stderr) {
-        console.error('stderr\n', stderr)
-      }
-      console.log('[AMQP] - fetchBoxscores completed')
-    })
-    break
-  }
-  case 'fetchGoals': {
-    console.log('[AMQP] - Running fetchGoals')
-    exec('npm run fetch_goals_prod', (err, stdout, stderr) => {
-      console.log('stdout\n', stdout)
-      if (stderr) {
-        console.error('stderr\n', stderr)
-      }
-      console.log('[AMQP] - fetchGoals completed')
+      console.log(`[AMQP] - ${message.taskName} completed`)
     })
     break
   }
   case 'postTweet': {
     console.log('[AMQP] - Running postTweet')
     exec(
-      `npm run post_tweet_prod ${message.dataId}`,
+      `npm run post_tweet${processExt} ${message.dataId}`,
       (err, stdout, stderr) => {
         console.log('stdout\n', stdout)
         if (stderr) {
