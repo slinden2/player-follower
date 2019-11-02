@@ -1,8 +1,5 @@
 const Player = require('../../models/player')
-
-const removeScratches = (skaters, scratches) => {
-  return skaters.filter(playerId => !scratches.includes(playerId))
-}
+const { removeScratches } = require('../fetch-helpers')
 
 const getPlayers = async teams => {
   const skatersHome = removeScratches(teams.home.skaters, teams.home.scratches)

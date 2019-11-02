@@ -69,6 +69,10 @@ const createPlayerObject = (player, team, boxscoreType) => {
   }
 }
 
+const removeScratches = (skaters, scratches) => {
+  return skaters.filter(playerId => !scratches.includes(playerId))
+}
+
 module.exports = {
   convertFtToCm,
   convertLbsToKg,
@@ -78,4 +82,5 @@ module.exports = {
   generateTeamSiteLink,
   isValidDate,
   createPlayerObject,
+  removeScratches,
 }
