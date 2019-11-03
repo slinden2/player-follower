@@ -63,30 +63,49 @@ const typeDefs = gql`
   }
 
   type Standings {
-    id: ID!
-    teamName: String!
-    teamAbbr: String!
-    teamSiteLink: String!
+    _id: ID!
+    awayRecord: String!
+    blocked: Int!
     conference: Conference!
     division: Division!
-    gamesPlayed: Int!
-    wins: Int!
-    losses: Int!
-    ties: Int!
-    otLosses: Int!
-    points: Int!
-    regPlusOtWins: Int!
-    pointPct: String!
-    goalsFor: Int!
-    goalsAgainst: Int!
-    shootoutGamesWon: Int!
-    goalsForPerGame: String!
-    goalsAgainstPerGame: String!
-    ppPct: String!
-    pkPct: String!
-    shotsForPerGame: String!
-    shotsAgainstPerGame: String!
+    faceOffsTaken: Int!
     faceOffWinPct: String!
+    faceOffWins: Int!
+    gamesPlayed: Int!
+    giveaways: Int!
+    goalDiff: Int!
+    goalsAgainst: Int!
+    goalsAgainstPerGame: String!
+    goalsFor: Int!
+    goalsForPerGame: String!
+    hitsAgainst: Int!
+    hitsAgainstPerGame: String!
+    hitsFor: Int!
+    hitsForPerGame: String!
+    homeRecord: String!
+    losses: Int!
+    otLosses: Int!
+    penaltyMinutes: Int!
+    pkPct: String!
+    pointPct: String!
+    points: Int!
+    powerPlayGoals: Int!
+    powerPlayGoalsAllowed: Int!
+    powerPlayOpportunities: Int!
+    powerPlayOpportunitiesAllowed: Int!
+    ppPct: String!
+    regPlusOtWins: Int!
+    regWins: Int!
+    shootOutWins: Int!
+    shotsAgainst: Int!
+    shotsAgainstPerGame: String!
+    shotsFor: Int!
+    shotsForPerGame: String!
+    takeaways: Int!
+    teamAbbr: String!
+    teamName: String!
+    teamSiteLink: String!
+    wins: Int!
   }
 
   """

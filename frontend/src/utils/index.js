@@ -383,12 +383,6 @@ const teamStatHeaders = {
     title: 'Losses',
     showOnMobile: true,
   },
-  ties: {
-    headerText: 'T',
-    id: 'ties',
-    title: 'Ties',
-    showOnMobile: true,
-  },
   otLosses: {
     headerText: 'OT',
     id: 'otLosses',
@@ -421,9 +415,9 @@ const teamStatHeaders = {
     id: 'goalsAgainst',
     title: 'Goals Against',
   },
-  shootoutGamesWon: {
+  shootOutWins: {
     headerText: 'SOW',
-    id: 'shootoutGamesWon',
+    id: 'shootOutWins',
     title: 'Shootout Wins',
   },
   goalsForPerGame: {

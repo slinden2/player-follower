@@ -17,6 +17,10 @@ const scriptStateSchema = mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  fetchLinescores: {
+    type: Boolean,
+    required: true,
+  },
 })
 
 const ScriptState = mongoose.model('ScriptState', scriptStateSchema)

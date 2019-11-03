@@ -72,6 +72,7 @@ function onMessage(data) {
       if (stderr) {
         console.error('stderr\n', stderr)
       }
+      console.error('[AMQP] - Child Process Error', err.stack)
       console.log(`[AMQP] - ${message.taskName} completed`)
     })
     break

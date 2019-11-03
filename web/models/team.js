@@ -70,6 +70,12 @@ const teamSchema = mongoose.Schema({
       ref: 'TeamStats',
     },
   ],
+  linescores: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Linescore',
+    },
+  ],
   active: {
     type: Boolean,
     required: true,

@@ -7,6 +7,7 @@ const Player = require('../models/player')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
 const TeamStats = require('../models/team-stats')
+const Linescore = require('../models/linescore')
 const ScriptState = require('../models/script-state')
 const User = require('../models/user')
 const Game = require('../models/game')
@@ -184,7 +185,7 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 3019020169 // gamePk greater than this will be deleted
+  const gamePk = 2019020203 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -202,9 +203,17 @@ const deleteLatestGames = async () => {
   )
   const gBsIds = goalieBoxscores.map(bs => bs._id)
 
+  // const linescores = await Linescore.find(
+  //   { gamePk: { $gt: gamePk } },
+  //   { _id: 1 }
+  // )
+  // const lsIds = linescores.map(ls => ls._id)
+
   await Player.updateMany({}, { boxscore: { $in: [...bsIds, ...gBsIds] } })
   await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
   await GoalieBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+  // await Team.updateMany({})
+  // await Linescore.deleteMany({ gamePk: { $gt: gamePk } })
   await ScriptState.updateOne(
     {},
     {
@@ -213,9 +222,27 @@ const deleteLatestGames = async () => {
         fetchGoals: false,
         fetchBoxscores: false,
         fetchTeamStats: false,
+        fetchLinescores: false,
       },
     }
   )
+}
+
+const addLinescoreArrays = async () => {
+  // await Team.updateMany({}, { $set: { linescores: [] } })
+  // await Game.updateMany(
+  //   {},
+  //   { $unset: { awayTeamLinescore: '', homeTeamLinescore: '' } }
+  // )
+}
+
+const deleteLinescores = async () => {
+  await Game.updateMany(
+    {},
+    { $unset: { awayLinescore: '', homeLinescore: '' } }
+  )
+  await Team.updateMany({}, { $unset: { linescores: '' } })
+  await Linescore.deleteMany({})
 }
 
 // deleteLeague().then(() => mongoose.connection.close())
@@ -233,4 +260,6 @@ const deleteLatestGames = async () => {
 // addTeamsToBoxscores().then(() => mongoose.connection.close())
 // addNationalities().then(() => mongoose.connection.close())
 // addPointsToBoxscores().then(() => mongoose.connection.close())
+// addLinescoreArrays().then(() => mongoose.connection.close())
+// deleteLinescores().then(() => mongoose.connection.close())
 // deleteLatestGames().then(() => mongoose.connection.close())

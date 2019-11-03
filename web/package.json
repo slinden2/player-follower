@@ -31,6 +31,8 @@
     "fetch_goals_prod": "node jobs/fetch-goals/",
     "fetch_player": "cross-env NODE_ENV=development node jobs/fetch-player",
     "fetch_player_prod": "node jobs/fetch-player",
+    "fetch_linescores": "cross-env NODE_ENV=development node jobs/fetch-linescores/",
+    "fetch_linescores_prod": "node jobs/fetch-linescores/",
     "reset_script_states": "cross-env NODE_ENV=development node jobs/reset-script-states",
     "reset_script_states_prod": "node jobs/reset-script-states",
     "post_tweet": "cross-env NODE_ENV=development node jobs/post-tweet",

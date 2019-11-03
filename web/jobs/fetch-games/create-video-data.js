@@ -15,7 +15,6 @@ const getPlaybacks = data => {
 }
 
 const createVideoData = data => {
-  console.log(data.id)
   return {
     videoId: parseInt(data.id),
     title: data.title.trim(),

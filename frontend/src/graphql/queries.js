@@ -238,20 +238,19 @@ const CUMULATIVE_STATS = gql`
 const STANDINGS = gql`
   query getStandings {
     Standings {
-      id
+      _id
       teamName
       teamSiteLink
       gamesPlayed
       wins
       losses
-      ties
       otLosses
       points
       regPlusOtWins
       pointPct
       goalsFor
       goalsAgainst
-      shootoutGamesWon
+      shootOutWins
       goalsForPerGame
       goalsAgainstPerGame
       ppPct

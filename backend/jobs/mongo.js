@@ -7,6 +7,7 @@ const Player = require('../models/player')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const GoalieBoxscore = require('../models/goalie-boxscore')
 const TeamStats = require('../models/team-stats')
+const Linescore = require('../models/linescore')
 const ScriptState = require('../models/script-state')
 const User = require('../models/user')
 const Game = require('../models/game')
@@ -202,9 +203,17 @@ const deleteLatestGames = async () => {
   )
   const gBsIds = goalieBoxscores.map(bs => bs._id)
 
+  // const linescores = await Linescore.find(
+  //   { gamePk: { $gt: gamePk } },
+  //   { _id: 1 }
+  // )
+  // const lsIds = linescores.map(ls => ls._id)
+
   await Player.updateMany({}, { boxscore: { $in: [...bsIds, ...gBsIds] } })
   await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
   await GoalieBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+  // await Team.updateMany({})
+  // await Linescore.deleteMany({ gamePk: { $gt: gamePk } })
   await ScriptState.updateOne(
     {},
     {
@@ -213,6 +222,7 @@ const deleteLatestGames = async () => {
         fetchGoals: false,
         fetchBoxscores: false,
         fetchTeamStats: false,
+        fetchLinescores: false,
       },
     }
   )
@@ -224,6 +234,15 @@ const addLinescoreArrays = async () => {
   //   {},
   //   { $unset: { awayTeamLinescore: '', homeTeamLinescore: '' } }
   // )
+}
+
+const deleteLinescores = async () => {
+  await Game.updateMany(
+    {},
+    { $unset: { awayLinescore: '', homeLinescore: '' } }
+  )
+  await Team.updateMany({}, { $unset: { linescores: '' } })
+  await Linescore.deleteMany({})
 }
 
 // deleteLeague().then(() => mongoose.connection.close())
@@ -242,4 +261,5 @@ const addLinescoreArrays = async () => {
 // addNationalities().then(() => mongoose.connection.close())
 // addPointsToBoxscores().then(() => mongoose.connection.close())
 // addLinescoreArrays().then(() => mongoose.connection.close())
+// deleteLinescores().then(() => mongoose.connection.close())
 // deleteLatestGames().then(() => mongoose.connection.close())

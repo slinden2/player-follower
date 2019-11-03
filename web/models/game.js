@@ -46,6 +46,14 @@ const gameSchema = mongoose.Schema({
   },
   awayTeam: teamSchema,
   homeTeam: teamSchema,
+  awayLinescore: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Linescore',
+  },
+  homeLinescore: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Linescore',
+  },
   gameRecap: videoSchema,
   gameCondensed: videoSchema,
   milestones: [

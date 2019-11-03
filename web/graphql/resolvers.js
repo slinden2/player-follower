@@ -21,6 +21,7 @@ const {
   favoritePlayersAggregate,
   seasonStatsAggregate,
   teamProfileAggregate,
+  teamStandingsAggregate,
 } = require('./pipelines')
 const {
   convertSecsToMin,
@@ -233,48 +234,9 @@ const resolvers = {
         console.log(`${name}: ${message}`)
       }
     },
-    Standings: async () => {
-      const standingsAggregate = await Team.aggregate().project({
-        name: 1,
-        abbreviation: 1,
-        siteLink: 1,
-        conference: 1,
-        division: 1,
-        latestStats: { $slice: ['$stats', -1] },
-      })
-
-      const standings = await Team.populate(standingsAggregate, [
-        {
-          path: 'latestStats',
-          model: 'TeamStats',
-          select: '-seasonId -date -team',
-        },
-        {
-          path: 'conference',
-          model: 'Conference',
-          select: 'name',
-        },
-        {
-          path: 'division',
-          model: 'Division',
-          select: 'name',
-        },
-      ])
-
-      const sortedStandings = standings
-        .map(team => {
-          return {
-            teamName: team.name,
-            teamAbbr: team.abbreviation,
-            teamSiteLink: team.siteLink,
-            conference: team.conference,
-            division: team.division,
-            ...team.latestStats[0].toJSON(),
-          }
-        })
-        .sort((teamA, teamB) => teamB.points - teamA.points)
-
-      return sortedStandings
+    Standings: async (root, args) => {
+      const standings = await Team.aggregate(teamStandingsAggregate())
+      return standings
     },
     GetTeams: async (root, args) => {
       const searchString = new RegExp(args.searchString, 'ig')
@@ -547,14 +509,20 @@ const resolvers = {
     abbreviation: root => getPositionData(root).abbr,
   },
   Standings: {
-    pointPct: root => roundToDecimal(root.pointPct * 100),
+    pointPct: root => roundToDecimal(root.pointPct),
     goalsForPerGame: root => roundToDecimal(root.goalsForPerGame),
     goalsAgainstPerGame: root => roundToDecimal(root.goalsAgainstPerGame),
-    ppPct: root => roundToDecimal(root.ppPct * 100),
-    pkPct: root => roundToDecimal(root.pkPct * 100),
+    ppPct: root => roundToDecimal(root.ppPct),
+    pkPct: root => roundToDecimal(root.pkPct),
     shotsForPerGame: root => roundToDecimal(root.shotsForPerGame),
     shotsAgainstPerGame: root => roundToDecimal(root.shotsAgainstPerGame),
-    faceOffWinPct: root => roundToDecimal(root.faceOffWinPct * 100),
+    faceOffWinPct: root => roundToDecimal(root.faceOffWinPct),
+    hitsForPerGame: root => roundToDecimal(root.hitsForPerGame),
+    hitsAgainstPerGame: root => roundToDecimal(root.hitsAgainstPerGame),
+    homeRecord: root =>
+      `${root.winsHome}-${root.lossesHome}-${root.otLossesHome}`,
+    awayRecord: root =>
+      `${root.winsAway}-${root.lossesAway}-${root.otLossesAway}`,
   },
   Goal: {
     periodNumber: root => periodNumberToString(root.periodNumber),
