@@ -31,8 +31,10 @@ const handleGames = async (date, games) => {
     const condensedGame = media.epg.find(
       category => category.title === 'Extended Highlights'
     )
-
     const gameRecap = media.epg.find(category => category.title === 'Recap')
+
+    const hasCondensedVideo = condensedGame.items.length
+    const hasRecapVideo = gameRecap.items.length
 
     const createdMilestones = await createMilestones(
       media,
@@ -58,9 +60,14 @@ const handleGames = async (date, games) => {
         team: homeTeam._id,
         score: game.teams.home.score,
       },
-      gameCondensed: createVideoData(condensedGame.items[0]),
-      gameRecap: createVideoData(gameRecap.items[0]),
       milestones: milestoneIds,
+    }
+
+    if (hasCondensedVideo) {
+      newGame.gameCondensed = createVideoData(condensedGame.items[0])
+    }
+    if (hasRecapVideo) {
+      newGame.gameRecap = createVideoData(gameRecap.items[0])
     }
 
     gameArray = [...gameArray, newGame]
