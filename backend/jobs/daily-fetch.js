@@ -22,7 +22,7 @@ const loadProcess = process => {
       console.log(data)
     })
     cp.stderr.on('data', data => {
-      console.log('stderr:\n', data)
+      console.error('stderr:\n', data)
     })
     cp.on('close', code => {
       console.log(`Process "${process.substring(8)}" exited with code ${code}`)

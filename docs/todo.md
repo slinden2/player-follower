@@ -40,6 +40,8 @@
 - [x] Problem with stat pagination. Duplicate players on load more.
 - [x] Blocked shots needed in cumulative stats
 
+* [x] Fix create-milestones. Filter duplicate videoids before db insert.
+
 * [x] Social media icons
 
 - [x] More data to player bio table
@@ -78,7 +80,7 @@
 * [ ] OAuth
 * [ ] Dont fetch team stats but use https://statsapi.web.nhl.com/api/v1/teams/5/stats
 * [ ] Performance issue with sorting the player cards. Rerenders 4 times.
-* [ ] Fix create-milestones. Filter duplicate videoids before db insert.
+* [ ] Check that all milestones are in db. Probably not because of videoId bug.
 
 ## Notes
 
