@@ -29,6 +29,7 @@ const mainNaviItems = [
   'players',
   'favorites',
   'stats',
+  'teams',
   'standings',
   'contact',
   'search',

@@ -196,7 +196,6 @@ const resolvers = {
     },
     BestTeams: async (root, args) => {
       const teams = await Team.aggregate(bestTeamsAggregate(args.numOfGames))
-      console.log(teams[0])
       return teams
     },
     FavoritePlayers: async (root, args, ctx) => {

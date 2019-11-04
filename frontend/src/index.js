@@ -34,12 +34,17 @@ const cache = new InMemoryCache({
     switch (object.__typename) {
       case 'PlayerCard':
         if (object.numOfGamesId) {
-          return object.numOfGamesId + object.id
+          return object.numOfGamesId + object._id
         }
-        return object.id
+        return object._id
       case 'CumulativeStats':
         if (object.sortCode) {
           return object.sortCode + object._id
+        }
+        return object._id
+      case 'TeamCard':
+        if (object.numOfGamesId) {
+          return object.numOfGamesId + object._id
         }
         return object._id
       default:

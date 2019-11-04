@@ -103,6 +103,10 @@ const naviItems = {
     to: '/players/stats',
     name: 'stats',
   },
+  teams: {
+    to: '/teams/top-teams',
+    name: 'teams',
+  },
   standings: {
     to: '/teams/standings',
     name: 'standings',
@@ -870,6 +874,57 @@ const sortByItems = [
   },
 ]
 
+const teamFilterItems = [
+  {
+    key: 'ALL',
+    text: 'All teams',
+    value: 'ALL',
+  },
+  {
+    key: 'E',
+    text: 'Eastern Conference',
+    value: 'E',
+  },
+  {
+    key: 'W',
+    text: 'Western Conference',
+    value: 'W',
+  },
+  {
+    key: 'A',
+    text: 'Atlantic Division',
+    value: 'A',
+  },
+  {
+    key: 'C',
+    text: 'Central Division',
+    value: 'C',
+  },
+  {
+    key: 'M',
+    text: 'Metropolitan Division',
+    value: 'M',
+  },
+  {
+    key: 'P',
+    text: 'Pacific Division',
+    value: 'P',
+  },
+]
+
+const teamSortByItems = [
+  {
+    key: 'POINTS',
+    text: 'Points',
+    value: 'POINTS',
+  },
+  {
+    key: 'GOALS_FOR',
+    text: 'Goals For',
+    value: 'GOALS_FOR',
+  },
+]
+
 const sortByHighlight = {
   POINTS: 'points',
   GOALS: 'goals',
@@ -943,5 +998,7 @@ export {
   sortByItems,
   teamColors,
   sortByHighlight,
-  formatDate
+  formatDate,
+  teamFilterItems,
+  teamSortByItems,
 }

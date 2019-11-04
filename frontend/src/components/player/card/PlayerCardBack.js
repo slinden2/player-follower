@@ -80,7 +80,6 @@ const statArray = [
 ]
 
 const PlayerCardBack = ({ player, isFlipped, handleCardFlip, sortBy }) => {
-  console.log(player)
   return (
     <Container isFlipped={isFlipped}>
       <NameBar>

@@ -6,7 +6,7 @@ import _ from 'lodash'
 import StatsTable from '../stats/StatsTable'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
-import DropdownMenu from '../elements/DropdownMenu'
+import DropdownMenu from '../elements/dropdown/DropdownMenu'
 
 const headers = [
   'teamName',

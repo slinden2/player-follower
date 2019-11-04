@@ -32,6 +32,7 @@ import TermsAndConditions from './components/TermsAndConditions'
 import CookiePolicy from './components/CookiePolicy'
 import { getCookie } from './utils'
 import NoMatchPage from './components/NoMatchPage'
+import TeamCardPage from './components/card/TeamCardPage'
 
 const Container = styled.div`
   margin: 0;
@@ -96,6 +97,7 @@ const App = () => {
                 )}
               />
               <Route path="/players/stats" render={() => <PlayerStats />} />
+              <Route path="/teams/top-teams" render={() => <TeamCardPage />} />
               <Route path="/teams/standings" render={() => <Standings />} />
               <Route path="/about" render={() => <About />} />
               <Route

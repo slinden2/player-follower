@@ -160,6 +160,45 @@ const PLAYER_PROFILE = gql`
   }
 `
 
+const BEST_TEAMS = gql`
+  query bestTeams($numOfGames: Int!) {
+    BestTeams(numOfGames: $numOfGames) {
+      _id
+      numOfGamesId
+      team {
+        name
+        abbreviation
+      }
+      conference {
+        name
+        abbreviation
+      }
+      division {
+        name
+        abbreviation
+      }
+      stats {
+        wins
+        losses
+        otLosses
+        points
+        regPlusOtWins
+        pointPct
+        goalsFor
+        goalsAgainst
+        shootOutWins
+        goalsForPerGame
+        goalsAgainstPerGame
+        ppPct
+        pkPct
+        shotsForPerGame
+        shotsAgainstPerGame
+        faceOffWinPct
+      }
+    }
+  }
+`
+
 const USER = gql`
   query loggedUser {
     me {
@@ -345,6 +384,7 @@ export {
   FIND_BY_NAME,
   CUMULATIVE_STATS,
   STANDINGS,
+  BEST_TEAMS,
   PLAYER_PROFILE,
   PLAYER_MILESTONES,
   GET_TEAMS_BY_NAME,
