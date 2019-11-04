@@ -185,7 +185,7 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 2019020203 // gamePk greater than this will be deleted
+  const gamePk = 2019020217 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
