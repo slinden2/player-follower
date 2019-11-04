@@ -270,6 +270,15 @@ const typeDefs = gql`
     team: Team!
   }
 
+  type TeamCard {
+    _id: ID!
+    numOfGamesId: Int!
+    stats: Standings!
+    team: Team!
+    conference: Conference!
+    division: Division!
+  }
+
   type CumulativeStats {
     _id: ID!
     fullName: String!
@@ -458,7 +467,7 @@ const typeDefs = gql`
     """
     allPlayers: [Player!]!
     """
-    Returns best players for the last 3, 5 and 10 games.
+    Returns best players for the last 1, 5 and 10 games.
     """
     BestPlayers(
       numOfGames: Int!
@@ -512,6 +521,10 @@ const typeDefs = gql`
       sortBy: SortBy!
       sortDir: SortDir!
     ): [CumulativeStats!]!
+    """
+    Returns best teams for the last 1, 5 or 10 games.
+    """
+    BestTeams(numOfGames: Int!): [TeamCard!]!
     """
     Team standings.
     """
