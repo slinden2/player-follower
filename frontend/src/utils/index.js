@@ -41,7 +41,9 @@ const convertSecsToMMSS = secs => {
 }
 
 const formatDate = ISODate => {
-  return new Date(ISODate).toLocaleDateString(navigator.language, { timeZone: 'America/New_York'})
+  return new Date(ISODate).toLocaleDateString(navigator.language, {
+    timeZone: 'America/New_York',
+  })
 }
 
 const playerBioData = {

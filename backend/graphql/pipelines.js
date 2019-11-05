@@ -329,16 +329,16 @@ const seasonStatsAggregate = (
   const sortOperation =
     sortBy === 'lastName'
       ? {
-        $sort: {
-          lowerCaseLastName: parseInt(`${sortDir}1`) * -1,
-        },
-      }
+          $sort: {
+            lowerCaseLastName: parseInt(`${sortDir}1`) * -1,
+          },
+        }
       : {
-        $sort: {
-          [`${sortBy}`]: parseInt(`${sortDir}1`),
-          lowerCaseLastName: 1,
-        },
-      }
+          $sort: {
+            [`${sortBy}`]: parseInt(`${sortDir}1`),
+            lowerCaseLastName: 1,
+          },
+        }
 
   const seasonStatsSort = [
     {
