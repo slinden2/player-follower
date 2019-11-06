@@ -11,6 +11,7 @@ const tasks = [
   `npm run fetch_games${extension}`,
   `npm run fetch_boxscores${extension}`,
   `npm run fetch_goals${extension}`,
+  `npm run fetch_linescores${extension}`,
   `npm run fetch_team_stats${extension}`,
 ]
 

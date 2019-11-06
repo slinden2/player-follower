@@ -185,7 +185,7 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 2019020203 // gamePk greater than this will be deleted
+  const gamePk = 2019020223 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -245,6 +245,13 @@ const deleteLinescores = async () => {
   await Linescore.deleteMany({})
 }
 
+const getDate = async () => {
+  const record = await SkaterBoxscore.find({}, { _id: 1 })
+    .sort({ $natural: -1 })
+    .limit(1)
+  console.log(record[0]._id.getTimestamp().toISOString())
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -262,4 +269,5 @@ const deleteLinescores = async () => {
 // addPointsToBoxscores().then(() => mongoose.connection.close())
 // addLinescoreArrays().then(() => mongoose.connection.close())
 // deleteLinescores().then(() => mongoose.connection.close())
+// getDate().then(() => mongoose.connection.close())
 // deleteLatestGames().then(() => mongoose.connection.close())

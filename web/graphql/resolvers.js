@@ -22,6 +22,7 @@ const {
   seasonStatsAggregate,
   teamProfileAggregate,
   teamStandingsAggregate,
+  bestTeamsAggregate,
 } = require('./pipelines')
 const {
   convertSecsToMin,
@@ -193,6 +194,10 @@ const resolvers = {
       )
       return players
     },
+    BestTeams: async (root, args) => {
+      const teams = await Team.aggregate(bestTeamsAggregate(args.numOfGames))
+      return teams
+    },
     FavoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) return []
       const players = await Player.aggregate(
@@ -234,7 +239,7 @@ const resolvers = {
         console.log(`${name}: ${message}`)
       }
     },
-    Standings: async (root, args) => {
+    Standings: async () => {
       const standings = await Team.aggregate(teamStandingsAggregate())
       return standings
     },

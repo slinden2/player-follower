@@ -65,34 +65,36 @@ function onMessage(data) {
   }
 
   switch (message.taskName) {
-  case 'dailyFetch': {
-    console.log(`[AMQP] - Running ${message.taskName}`)
-    exec(`npm run daily_fetch${processExt}`, (err, stdout, stderr) => {
-      console.log('stdout\n', stdout)
-      if (stderr) {
-        console.error('stderr\n', stderr)
-      }
-      console.error('[AMQP] - Child Process Error', err.stack)
-      console.log(`[AMQP] - ${message.taskName} completed`)
-    })
-    break
-  }
-  case 'postTweet': {
-    console.log('[AMQP] - Running postTweet')
-    exec(
-      `npm run post_tweet${processExt} ${message.dataId}`,
-      (err, stdout, stderr) => {
+    case 'dailyFetch': {
+      console.log(`[AMQP] - Running ${message.taskName}`)
+      exec(`npm run daily_fetch${processExt}`, (err, stdout, stderr) => {
         console.log('stdout\n', stdout)
         if (stderr) {
           console.error('stderr\n', stderr)
         }
-        console.log('[AMQP] - postTweet completed')
-      }
-    )
-    break
-  }
+        if (err) {
+          console.error('[AMQP] - Child Process Error', err.stack)
+        }
+        console.log(`[AMQP] - ${message.taskName} completed`)
+      })
+      break
+    }
+    case 'postTweet': {
+      console.log('[AMQP] - Running postTweet')
+      exec(
+        `npm run post_tweet${processExt} ${message.dataId}`,
+        (err, stdout, stderr) => {
+          console.log('stdout\n', stdout)
+          if (stderr) {
+            console.error('stderr\n', stderr)
+          }
+          console.log('[AMQP] - postTweet completed')
+        }
+      )
+      break
+    }
 
-  default:
-    console.error('No task was found with name => ' + message.taskName)
+    default:
+      console.error('No task was found with name => ' + message.taskName)
   }
 }
