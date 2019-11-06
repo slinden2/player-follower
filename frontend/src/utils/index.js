@@ -251,7 +251,7 @@ const statHeaders = {
     showOnMobile: true,
   },
   pointsPerGame: {
-    headerText: 'P/GP',
+    headerText: 'P/G',
     id: 'pointsPerGame',
     title: 'Points per Game',
     sortString: 'POINTS_PER_GAME',
@@ -286,7 +286,7 @@ const statHeaders = {
     title: 'Power Play Time on Ice',
   },
   powerPlayTimeOnIcePerGame: {
-    headerText: 'PPT/GP',
+    headerText: 'PPT/G',
     id: 'powerPlayTimeOnIcePerGame',
     title: 'Power Play Time on Ice per Game',
     sortString: 'PPTON_PER_GAME',
@@ -314,7 +314,7 @@ const statHeaders = {
     title: 'Shorthanded Time on Ice',
   },
   shortHandedTimeOnIcePerGame: {
-    headerText: 'SHT/GP',
+    headerText: 'SHT/G',
     id: 'shortHandedTimeOnIcePerGame',
     title: 'Shorthanded Time on Ice per Game',
     sortString: 'SHTON_PER_GAME',
@@ -356,7 +356,7 @@ const statHeaders = {
     title: 'Time on Ice',
   },
   timeOnIcePerGame: {
-    headerText: 'T/GP',
+    headerText: 'T/G',
     id: 'timeOnIcePerGame',
     title: 'Time on Ice per Game',
     sortString: 'TON_PER_GAME',
@@ -395,6 +395,16 @@ const teamStatHeaders = {
     title: 'Overtime Losses',
     showOnMobile: true,
   },
+  homeRecord: {
+    headerText: 'H',
+    id: 'homeRecord',
+    title: 'Home',
+  },
+  awayRecord: {
+    headerText: 'A',
+    id: 'awayRecord',
+    title: 'Away',
+  },
   points: {
     headerText: 'P',
     id: 'points',
@@ -427,12 +437,12 @@ const teamStatHeaders = {
     title: 'Shootout Wins',
   },
   goalsForPerGame: {
-    headerText: 'GF/GP',
+    headerText: 'GF/G',
     id: 'goalsForPerGame',
     title: 'Goals For per Game',
   },
   goalsAgainstPerGame: {
-    headerText: 'GA/GP',
+    headerText: 'GA/G',
     id: 'goalsAgainstPerGame',
     title: 'Goals Against per Game',
   },
@@ -441,18 +451,23 @@ const teamStatHeaders = {
     id: 'ppPct',
     title: 'Powerplay Percentage',
   },
+  powerPlayGoals: {
+    headerText: 'PPG',
+    id: 'powerPlayGoals',
+    title: 'Powerplay Goals',
+  },
   pkPct: {
     headerText: 'PK%',
     id: 'pkPct',
     title: 'Penalty Kill Percentage',
   },
   shotsForPerGame: {
-    headerText: 'S/GP',
+    headerText: 'SF/G',
     id: 'shotsForPerGame',
     title: 'Shots For per Game',
   },
   shotsAgainstPerGame: {
-    headerText: 'SA/GP',
+    headerText: 'SA/G',
     id: 'shotsAgainstPerGame',
     title: 'Shots Against per Game',
   },
@@ -460,6 +475,31 @@ const teamStatHeaders = {
     headerText: 'FOW%',
     id: 'faceOffWinPct',
     title: 'Faceoff Win Percentage',
+  },
+  takeaways: {
+    headerText: 'TA',
+    id: 'takeaways',
+    title: 'Takeaways',
+  },
+  giveaways: {
+    headerText: 'GA',
+    id: 'giveaways',
+    title: 'Giveaways',
+  },
+  hitsForPerGame: {
+    headerText: 'HF/G',
+    id: 'hitsForPerGame',
+    title: 'Hits For Per Game',
+  },
+  hitsAgainstPerGame: {
+    headerText: 'HA/G',
+    id: 'hitsAgainstPerGame',
+    title: 'Hits Against Per Game',
+  },
+  powerPlayOpportunitiesAllowed: {
+    headerText: 'SHT',
+    id: 'powerPlayOpportunitiesAllowed',
+    title: 'Shorthanded Times',
   },
 }
 
@@ -841,7 +881,7 @@ const sortByItems = [
   },
   {
     key: 'TON_PER_GAME',
-    text: 'TON/GP',
+    text: 'TON/G',
     value: 'TON_PER_GAME',
   },
   {
@@ -916,14 +956,89 @@ const teamFilterItems = [
 
 const teamSortByItems = [
   {
-    key: 'POINTS',
-    text: 'Points',
-    value: 'POINTS',
+    key: 'wins',
+    text: 'Wins',
+    value: 'wins',
   },
   {
-    key: 'GOALS_FOR',
+    key: 'losses',
+    text: 'Losses',
+    value: 'losses',
+  },
+  {
+    key: 'otLosses',
+    text: 'OT Losses',
+    value: 'otLosses',
+  },
+  {
+    key: 'homeRecord',
+    text: 'Home Record',
+    value: 'homeRecord',
+  },
+  {
+    key: 'awayRecord',
+    text: 'Away Record',
+    value: 'awayRecord',
+  },
+  {
+    key: 'goalsFor',
     text: 'Goals For',
-    value: 'GOALS_FOR',
+    value: 'goalsFor',
+  },
+  {
+    key: 'goalsAgainst',
+    text: 'Goals Against',
+    value: 'goalsAgainst',
+  },
+  {
+    key: 'powerPlayGoals',
+    text: 'Powerplay Goals',
+    value: 'powerPlayGoals',
+  },
+  {
+    key: 'ppPct',
+    text: 'Powerplay Percentage',
+    value: 'ppPct',
+  },
+  {
+    key: 'powerPlayOpportuniesAllowed',
+    text: 'Shorthanded Times',
+    value: 'powerPlayOpportuniesAllowed',
+  },
+  {
+    key: 'shPct',
+    text: 'Shorthanded Percentage',
+    value: 'shPct',
+  },
+  {
+    key: 'shotsForPerGame',
+    text: 'Shots For Per Game',
+    value: 'shotsForPerGame',
+  },
+  {
+    key: 'shotsAgainstPerGame',
+    text: 'Shots Against Per Game',
+    value: 'shotsAgainstPerGame',
+  },
+  {
+    key: 'takeaways',
+    text: 'Takeaways',
+    value: 'takeaways',
+  },
+  {
+    key: 'giveaways',
+    text: 'Giveaways',
+    value: 'giveaways',
+  },
+  {
+    key: 'hitsForPerGame',
+    text: 'Hits For Per Game',
+    value: 'hitsForPerGame',
+  },
+  {
+    key: 'hitsAgainstPerGame',
+    text: 'Hits Against Per Game',
+    value: 'hitsAgainstPerGame',
   },
 ]
 

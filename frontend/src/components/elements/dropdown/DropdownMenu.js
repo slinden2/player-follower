@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, DropdownItem } from '../../styles/forms'
+import { Dropdown, DropdownItem } from '../../../styles/forms'
 
 const DropdownMenu = ({ items, state, setState }) => {
   // defaultType is needed so that the dropdown doesnt reset back to All players

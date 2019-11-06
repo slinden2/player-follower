@@ -26,6 +26,7 @@ const resetScriptStates = async () => {
         fetchGames: false,
         fetchGoals: false,
         fetchBoxscores: false,
+        fetchLinescores: false,
         fetchTeamStats: false,
       },
     }

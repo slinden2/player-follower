@@ -167,7 +167,10 @@ const BEST_TEAMS = gql`
       numOfGamesId
       team {
         name
+        teamName
+        locationName
         abbreviation
+        siteLink
       }
       conference {
         name
@@ -181,6 +184,8 @@ const BEST_TEAMS = gql`
         wins
         losses
         otLosses
+        homeRecord
+        awayRecord
         points
         regPlusOtWins
         pointPct
@@ -191,9 +196,15 @@ const BEST_TEAMS = gql`
         goalsAgainstPerGame
         ppPct
         pkPct
+        powerPlayGoals
+        powerPlayOpportunitiesAllowed
+        takeaways
+        giveaways
         shotsForPerGame
         shotsAgainstPerGame
         faceOffWinPct
+        hitsForPerGame
+        hitsAgainstPerGame
       }
     }
   }

@@ -1,22 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import { statHeaders, sortByHighlight } from '../../../utils'
+import { statHeaders, sortByHighlight, teamStatHeaders } from '../../utils'
 import FlipDiv from './FlipDiv'
-import colors from '../../../styles/colors'
-import { commonStyles } from './playerCardStyles'
-
-const Container = styled.div`
-  ${commonStyles}
-
-  transform: rotateY(180deg);
-
-  ${({ isFlipped }) =>
-    isFlipped &&
-    css`
-      transform: rotateY(0);
-    `}
-`
+import colors from '../../styles/colors'
+import { BackContainer } from './styles'
 
 const NameBar = styled.div`
   background-color: ${colors.blue1};
@@ -79,15 +67,58 @@ const statArray = [
   ['blocked'],
 ]
 
-const PlayerCardBack = ({ player, isFlipped, handleCardFlip, sortBy }) => {
+const PlayerCardBack = ({
+  context,
+  data,
+  isFlipped,
+  handleCardFlip,
+  sortBy,
+}) => {
+  const contextSelector = {
+    player: () => ({
+      link: `/players/${data.player.siteLink}`,
+      name: data.player.firstName + ' ' + data.player.lastName,
+      stats: {
+        statArray: [
+          ['powerPlayGoals', 'powerPlayPoints'],
+          ['shortHandedGoals', 'shortHandedPoints'],
+          ['timeOnIcePerGame', 'faceOffsTaken'],
+          ['shots', 'hits'],
+          ['takeaways', 'giveaways'],
+          ['blocked'],
+        ],
+        stats: data.stats,
+        headers: statHeaders,
+      },
+      isHighlighted: stat => stat === sortByHighlight[sortBy],
+    }),
+    team: () => ({
+      link: `/teams/${data.team.siteLink}`,
+      name: data.team.name,
+      stats: {
+        statArray: [
+          ['goalsFor', 'goalsAgainst'],
+          ['powerPlayGoals', 'ppPct'],
+          ['powerPlayOpportunitiesAllowed', 'pkPct'],
+          ['shotsForPerGame', 'shotsAgainstPerGame'],
+          ['takeaways', 'giveaways'],
+          ['hitsForPerGame', 'hitsAgainstPerGame'],
+        ],
+        stats: data.stats,
+        headers: teamStatHeaders,
+      },
+      isHighlighted: stat => stat === sortBy,
+    }),
+  }
+
+  const curContext = contextSelector[context]()
+
   return (
-    <Container isFlipped={isFlipped}>
+    <BackContainer isFlipped={isFlipped}>
       <NameBar>
-        <Link to={`/players/${player.player.siteLink}`}>
-          {player.player.firstName + ' ' + player.player.lastName}
-        </Link>
+        <Link to={curContext.link}>{curContext.name}</Link>
       </NameBar>
-      {statArray.map((row, i) => (
+      {curContext.stats.statArray.map((row, i) => (
         <StatRow first={!i} last={i + 1 === statArray.length} key={i}>
           {row.map((stat, i) => {
             const isRightCol = (i + 1) % 2
@@ -95,21 +126,21 @@ const PlayerCardBack = ({ player, isFlipped, handleCardFlip, sortBy }) => {
               <StatItem
                 key={stat}
                 isRightCol={isRightCol}
-                isHighlighted={stat === sortByHighlight[sortBy]}
+                isHighlighted={curContext.isHighlighted(stat)}
               >
                 {isRightCol ? (
                   <>
-                    <p>{player.stats[stat]}</p>
-                    <p title={statHeaders[stat].title}>
-                      {statHeaders[stat].headerText}
+                    <p>{curContext.stats.stats[stat]}</p>
+                    <p title={curContext.stats.headers[stat].title}>
+                      {curContext.stats.headers[stat].headerText}
                     </p>
                   </>
                 ) : (
                   <>
-                    <p title={statHeaders[stat].title}>
-                      {statHeaders[stat].headerText}
+                    <p title={curContext.stats.headers[stat].title}>
+                      {curContext.stats.headers[stat].headerText}
                     </p>
-                    <p>{player.stats[stat]}</p>
+                    <p>{curContext.stats.stats[stat]}</p>
                   </>
                 )}
               </StatItem>
@@ -118,7 +149,7 @@ const PlayerCardBack = ({ player, isFlipped, handleCardFlip, sortBy }) => {
         </StatRow>
       ))}
       <FlipDiv onClick={handleCardFlip} />
-    </Container>
+    </BackContainer>
   )
 }
 

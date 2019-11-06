@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import Loader from '../../elements/Loader'
-import { PlayerContext } from '../../../contexts/PlayerContext'
-import PlayerCard from './PlayerCard'
+import Loader from '../elements/Loader'
+import { PlayerContext } from '../../contexts/PlayerContext'
+import Card from './Card'
 
 const Container = styled.div`
   display: grid;
@@ -23,7 +23,7 @@ const PlayerCardContainer = ({ queryName }) => {
     if (!playerResults.length) return <div>No results</div>
 
     return playerResults.map((player, i) => (
-      <PlayerCard key={player._id} player={player} i={i + 1} />
+      <Card key={player._id} context='player' data={player} i={i + 1} />
     ))
   }
 

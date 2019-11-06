@@ -6,7 +6,7 @@ import { NotificationContext } from './contexts/NotificationContext'
 import ProtectedRoute from './components/route/ProtectedRoute'
 import NoTokenRoute from './components/route/NoTokenRoute'
 import Navigation from './components/navigation/Navigation'
-import PlayerCardPage from './components/player/card/PlayerCardPage'
+import PlayerCardPage from './components/card/PlayerCardPage'
 import Notification from './components/Notification'
 import LoginPage from './components/user/LoginPage'
 import SignupPage from './components/user/SignupPage'
@@ -83,76 +83,76 @@ const App = () => {
         <Navigation />
         <PageWrapper>
           <ContentBox>
-            <Notification notification={notification} position="site" />
+            <Notification notification={notification} position='site' />
             {searchValue && <div>Search value present</div>}
             <Switch>
               <Route
                 exact
-                path="/"
+                path='/'
                 render={() => (
                   <PlayerCardPage
-                    queryName="BestPlayers"
-                    header="Top Players"
+                    queryName='BestPlayers'
+                    header='Top Players'
                   />
                 )}
               />
-              <Route path="/players/stats" render={() => <PlayerStats />} />
-              <Route path="/teams/top-teams" render={() => <TeamCardPage />} />
-              <Route path="/teams/standings" render={() => <Standings />} />
-              <Route path="/about" render={() => <About />} />
+              <Route path='/players/stats' render={() => <PlayerStats />} />
+              <Route path='/teams/top-teams' render={() => <TeamCardPage />} />
+              <Route path='/teams/standings' render={() => <Standings />} />
+              <Route path='/about' render={() => <About />} />
               <Route
-                path="/contact"
+                path='/contact'
                 render={({ history }) => <ContactForm history={history} />}
               />
-              <Route path="/search" render={() => <SearchPage />} />
+              <Route path='/search' render={() => <SearchPage />} />
               <Route
-                path="/terms-and-conditions"
+                path='/terms-and-conditions'
                 render={() => <TermsAndConditions />}
               />
-              <Route path="/privacy-policy" render={() => <PrivacyPolicy />} />
+              <Route path='/privacy-policy' render={() => <PrivacyPolicy />} />
               <Route
-                path="/players/:siteLink"
+                path='/players/:siteLink'
                 render={({ match }) => (
                   <PlayerProfile siteLink={match.params.siteLink} />
                 )}
               />
               <Route
-                path="/teams/:siteLink"
+                path='/teams/:siteLink'
                 render={({ match }) => (
                   <TeamProfile siteLink={match.params.siteLink} />
                 )}
               />
               <ProtectedRoute
-                path="/favorites"
+                path='/favorites'
                 render={() => (
                   <PlayerCardPage
-                    queryName="FavoritePlayers"
-                    header="Favorite Players"
+                    queryName='FavoritePlayers'
+                    header='Favorite Players'
                   />
                 )}
               />
-              <ProtectedRoute path="/profile" render={() => <UserProfile />} />
+              <ProtectedRoute path='/profile' render={() => <UserProfile />} />
               <NoTokenRoute
-                path="/login"
+                path='/login'
                 render={({ history }) => <LoginPage history={history} />}
               />
               <NoTokenRoute
-                path="/signup"
+                path='/signup'
                 render={({ history }) => <SignupPage history={history} />}
               />
               <NoTokenRoute
-                path="/login"
+                path='/login'
                 render={({ history }) => <LoginPage history={history} />}
               />
               <NoTokenRoute
                 exact
-                path="/forgot-password"
+                path='/forgot-password'
                 render={({ history }) => (
                   <ForgotPasswordPage history={history} />
                 )}
               />
               <NoTokenRoute
-                path="/forgot-password/:token"
+                path='/forgot-password/:token'
                 render={({ history, match }) => (
                   <SetNewPassword
                     history={history}
@@ -161,7 +161,7 @@ const App = () => {
                 )}
               />
               <NoTokenRoute
-                path="/confirmation/:token"
+                path='/confirmation/:token'
                 render={({ history, match }) => (
                   <Confirmation history={history} token={match.params.token} />
                 )}

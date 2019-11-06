@@ -34,7 +34,7 @@ const ContactForm = ({ history }) => {
     { resetForm, setSubmitting }
   ) => {
     try {
-      const success = await sendContactForm({
+      await sendContactForm({
         variables: { name, email, subject, message, recaptcha },
       })
       setNotification(
@@ -57,11 +57,17 @@ const ContactForm = ({ history }) => {
   }
 
   return (
-    <PageContainer title="Contact">
+    <PageContainer title='Contact'>
       <ContentWrapper>
         <Container>
           <Formik
-            initialValues={{ name: '', email: '', subject: '', message: '', recaptcha: '' }}
+            initialValues={{
+              name: '',
+              email: '',
+              subject: '',
+              message: '',
+              recaptcha: '',
+            }}
             validationSchema={contactSchema}
             onSubmit={handleSubmitForm}
           >
@@ -77,10 +83,10 @@ const ContactForm = ({ history }) => {
               return (
                 <SForm>
                   <SField>
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor='name'>Name</Label>
                     <Input
-                      name="name"
-                      type="text"
+                      name='name'
+                      type='text'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.name}
@@ -91,10 +97,10 @@ const ContactForm = ({ history }) => {
                     />
                   </SField>
                   <SField>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor='email'>Email</Label>
                     <Input
-                      name="email"
-                      type="email"
+                      name='email'
+                      type='email'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
@@ -105,10 +111,10 @@ const ContactForm = ({ history }) => {
                     />
                   </SField>
                   <SField>
-                    <Label htmlFor="subject">Subject</Label>
+                    <Label htmlFor='subject'>Subject</Label>
                     <Input
-                      name="subject"
-                      type="text"
+                      name='subject'
+                      type='text'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.subject}
@@ -119,11 +125,11 @@ const ContactForm = ({ history }) => {
                     />
                   </SField>
                   <SField>
-                    <Label htmlFor="message">Message</Label>
+                    <Label htmlFor='message'>Message</Label>
                     <TextArea
-                      name="message"
-                      component="textarea"
-                      type="text"
+                      name='message'
+                      component='textarea'
+                      type='text'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.message}
@@ -134,34 +140,40 @@ const ContactForm = ({ history }) => {
                     />
                   </SField>
                   <br />
-                  <Notification position="form" notification={notification} />
+                  <Notification position='form' notification={notification} />
                   <br />
                   <ReCaptchaContainer>
                     <Reaptcha
                       ref={recaptchaRef}
                       sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
-                      onVerify={(token) => setFieldValue('recaptcha', token)}
-                      theme="dark"
+                      onVerify={token => setFieldValue('recaptcha', token)}
+                      theme='dark'
                     />
                   </ReCaptchaContainer>
                   <FormError
                     message={errors.recaptcha}
-                    show={errors.recaptcha && touched.name && touched.email && touched.subject && touched.message}
+                    show={
+                      errors.recaptcha &&
+                      touched.name &&
+                      touched.email &&
+                      touched.subject &&
+                      touched.message
+                    }
                   />
                   <br />
                   <Button
-                    type="submit"
-                    size="big"
-                    fontCase="uppercase"
-                    content="Send"
+                    type='submit'
+                    size='big'
+                    fontCase='uppercase'
+                    content='Send'
                     disabled={isSubmitting}
                     style={{ marginRight: '10px' }}
                   />
                   <Button
-                    type="button"
-                    size="big"
-                    fontCase="uppercase"
-                    content="Cancel"
+                    type='button'
+                    size='big'
+                    fontCase='uppercase'
+                    content='Cancel'
                     color={colors.red1}
                     onClick={handleCancel}
                     style={{ marginLeft: '10px' }}

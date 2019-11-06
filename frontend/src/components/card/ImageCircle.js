@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { teamColors } from '../../../utils/'
-import colors from '../../../styles/colors'
+import { teamColors } from '../../utils'
+import colors from '../../styles/colors'
 
 const Container = styled.div`
   display: flex;
@@ -59,9 +59,9 @@ const Number = styled.div`
   width: 120px;
   text-align: center;
   left: 50%;
-  top: 45%;
+  top: ${({ isTeam }) => (isTeam ? '35%' : '45%')};
   margin-left: -60px;
-  font-size: 52px;
+  font-size: ${({ isTeam }) => (isTeam ? '40px' : '52px')};
   letter-spacing: 3px;
   ${({ borderColor }) =>
     borderColor &&
@@ -72,7 +72,7 @@ const Number = styled.div`
 `
 
 const ImageCircle = ({ name, number, team }) => {
-  const longName = name.length > 8
+  const longName = name && name.length > 8
 
   return (
     <Container>
@@ -86,11 +86,12 @@ const ImageCircle = ({ name, number, team }) => {
           borderColor={teamColors[team].tertiary}
           longName={longName}
         >
-          {name.toUpperCase()}
+          {name && name.toUpperCase()}
         </LastName>
         <Number
           color={teamColors[team].secondary}
           borderColor={teamColors[team].tertiary}
+          isTeam={!name}
         >
           {number}
         </Number>

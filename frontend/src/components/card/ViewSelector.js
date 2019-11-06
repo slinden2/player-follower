@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { event } from '../../../utils/tracking'
-import colors from '../../../styles/colors'
+import { event } from '../../utils/tracking'
+import colors from '../../styles/colors'
 
 const Container = styled.div`
   text-align: center;
@@ -32,39 +32,42 @@ const SelectorItem = styled.span`
   }
 `
 
-const PlayerViewSelector = ({ currentView, setCurrentView }) => {
+const ViewSelector = ({ currentView, setCurrentView, numbers, context }) => {
   const handleViewChange = view => {
     const viewText =
-      view === 1 ? 'Last game' : view === 5 ? 'Five games' : 'Ten games'
+      view === 1
+        ? 'Last game'
+        : view === 3
+        ? 'Three games'
+        : view === 5
+        ? 'Five games'
+        : 'Ten games'
     setCurrentView(view)
-    event('PLAYER_CARD', 'Card view changed', viewText)
+    event(context, 'Card view changed', viewText)
   }
 
   return (
     <Container>
       <SelectorItem
-        onClick={() => handleViewChange(1)}
-        selected={currentView === 1}
-        dataText="Last game"
+        onClick={() => handleViewChange(numbers[0])}
+        selected={currentView === numbers[0]}
       >
-        Last game
+        {numbers[0] === 1 ? 'Last game' : `${numbers[0]} games`}
       </SelectorItem>
       <SelectorItem
-        onClick={() => handleViewChange(5)}
-        selected={currentView === 5}
-        dataText="5 games"
+        onClick={() => handleViewChange(numbers[1])}
+        selected={currentView === numbers[1]}
       >
-        5 games
+        {`${numbers[1]} games`}
       </SelectorItem>
       <SelectorItem
-        onClick={() => handleViewChange(10)}
-        selected={currentView === 10}
-        dataText="10 games"
+        onClick={() => handleViewChange(numbers[2])}
+        selected={currentView === numbers[2]}
       >
-        10 games
+        {`${numbers[2]} games`}
       </SelectorItem>
     </Container>
   )
 }
 
-export default PlayerViewSelector
+export default ViewSelector
