@@ -13,7 +13,7 @@ const Btn = styled.button`
   font-size: 1rem;
 
   &:hover {
-    font-weight: bolder;
+    text-shadow: 0 0 1px ${colors.white1}, 0 0 1px ${colors.white1};
     cursor: pointer;
   }
 
@@ -31,7 +31,7 @@ const Button = ({
   fontCase,
   disabled,
   style,
-  className
+  className,
 }) => {
   const padding = size === 'big' ? '1em' : size === 'medium' ? '0.875em' : '5px'
   const textTransform = fontCase ? fontCase : 'none'

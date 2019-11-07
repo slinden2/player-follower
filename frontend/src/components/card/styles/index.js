@@ -8,6 +8,7 @@ export const ShowFiltersButton = styled(Button)`
   padding: 5px;
   margin: 10px auto;
   display: block;
+  font-size: 1rem;
 
   @media ${breakpoints.showDesktopNavi} {
     display: none;
