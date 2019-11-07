@@ -1,6 +1,7 @@
 const matchPlayers = (positionFilter, teamFilter, nationalityFilter) => {
   const getPosition = posEnum => {
     const positions = {
+      GOALIE: ['G'],
       RIGHT: ['R'],
       CENTER: ['C'],
       LEFT: ['L'],
@@ -112,39 +113,135 @@ const calculateStats = idString => [
   },
 ]
 
+const calculateGoalieStats = idString => [
+  {
+    $group: {
+      _id: `$${idString}`,
+      gamePks: { $push: '$populatedBoxscores.gamePk' },
+      gamesPlayed: { $sum: 1 },
+      timeOnIce: { $sum: '$populatedBoxscores.timeOnIce' },
+      assists: { $sum: '$populatedBoxscores.assists' },
+      goals: { $sum: '$populatedBoxscores.goals' },
+      saves: { $sum: '$populatedBoxscores.saves' },
+      evenSaves: { $sum: '$populatedBoxscores.evenSaves' },
+      powerPlaySaves: { $sum: '$populatedBoxscores.powerPlaySaves' },
+      shortHandedSaves: { $sum: '$populatedBoxscores.shortHandedSaves' },
+      shotsAgainst: { $sum: '$populatedBoxscores.shotsAgainst' },
+      powerPlayShotsAgainst: {
+        $sum: '$populatedBoxscores.powerPlayShotsAgainst',
+      },
+      shortHandedShotsAgainst: {
+        $sum: '$populatedBoxscores.shortHandedShotsAgainst',
+      },
+      wins: {
+        $sum: { $cond: [{ $eq: ['$populatedBoxscores.decision', 'W'] }, 1, 0] },
+      },
+      losses: {
+        $sum: { $cond: [{ $eq: ['$populatedBoxscores.decision', 'L'] }, 1, 0] },
+      },
+      penaltyMinutes: { $sum: '$populatedBoxscores.penaltyMinutes' },
+      goalsAgainst: {
+        $sum: {
+          $subtract: [
+            '$populatedBoxscores.shotsAgainst',
+            '$populatedBoxscores.saves',
+          ],
+        },
+      },
+    },
+  },
+  {
+    $addFields: {
+      goalsAgainstAverage: { $divide: ['$goalsAgainst', '$gamesPlayed'] },
+      savePct: {
+        $cond: [
+          '$shotsAgainst',
+          {
+            $multiply: [
+              {
+                $divide: ['$saves', '$shotsAgainst'],
+              },
+              100,
+            ],
+          },
+          0,
+        ],
+      },
+      powerPlaySavePct: {
+        $cond: [
+          '$powerPlayShotsAgainst',
+          {
+            $multiply: [
+              {
+                $divide: ['$powerPlaySaves', '$powerPlayShotsAgainst'],
+              },
+              100,
+            ],
+          },
+          0,
+        ],
+      },
+      shortHandedSavePct: {
+        $cond: [
+          '$shortHandedShotsAgainst',
+          {
+            $multiply: [
+              {
+                $divide: ['$shortHandedSaves', '$shortHandedShotsAgainst'],
+              },
+              100,
+            ],
+          },
+          0,
+        ],
+      },
+      timeOnIcePerGame: { $divide: ['$timeOnIce', '$gamesPlayed'] },
+      savesPerGame: { $divide: ['$saves', '$gamesPlayed'] },
+      shotsAgainstPerGame: { $divide: ['$shotsAgainst', '$gamesPlayed'] },
+      winPct: { $multiply: [{ $divide: ['$wins', '$gamesPlayed'] }, 100] },
+    },
+  },
+]
+
 const bestPlayersPipeline = (
   numOfGames,
   positionFilter,
   teamFilter,
   nationalityFilter
-) => [
-  {
-    $lookup: {
-      from: 'teams',
-      localField: 'currentTeam',
-      foreignField: '_id',
-      as: 'team',
+) => {
+  const bsField =
+    positionFilter === 'GOALIE' ? 'goalieboxscores' : 'skaterboxscores'
+  const calcStats =
+    positionFilter === 'GOALIE' ? calculateGoalieStats : calculateStats
+  return [
+    {
+      $lookup: {
+        from: 'teams',
+        localField: 'currentTeam',
+        foreignField: '_id',
+        as: 'team',
+      },
     },
-  },
-  matchPlayers(positionFilter, teamFilter, nationalityFilter),
-  {
-    $lookup: {
-      from: 'skaterboxscores',
-      localField: 'boxscores',
-      foreignField: '_id',
-      as: 'populatedBoxscores',
+    matchPlayers(positionFilter, teamFilter, nationalityFilter),
+    {
+      $lookup: {
+        from: bsField,
+        localField: 'boxscores',
+        foreignField: '_id',
+        as: 'populatedBoxscores',
+      },
     },
-  },
-  {
-    $project: {
-      firstName: 1,
-      lastName: 1,
-      populatedBoxscores: { $slice: ['$populatedBoxscores', -numOfGames] },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        populatedBoxscores: { $slice: ['$populatedBoxscores', -numOfGames] },
+      },
     },
-  },
-  { $unwind: '$populatedBoxscores' },
-  ...calculateStats('_id'),
-]
+    { $unwind: '$populatedBoxscores' },
+    ...calcStats('_id'),
+  ]
+}
 
 const reformatPlayerCardData = numOfGames => [
   {
@@ -268,6 +365,24 @@ const playerCardSort = sortBy => {
   ]
 }
 
+const playerCardSortGoalie = sortBy => {
+  const sortArg =
+    sortBy === 'wins'
+      ? { [`stats.${sortBy}`]: -1 }
+      : { [`stats.${sortBy}`]: -1, 'stats.wins': -1 }
+
+  return [
+    {
+      $sort: {
+        ...sortArg,
+        'stats.savePct': -1,
+        'stats.goalsAgainstAverage': 1,
+        'player.lastName': 1,
+      },
+    },
+  ]
+}
+
 const bestPlayersAggregate = (
   numOfGames,
   positionFilter,
@@ -275,6 +390,9 @@ const bestPlayersAggregate = (
   nationalityFilter,
   sortBy
 ) => {
+  const getSortStage =
+    positionFilter === 'GOALIE' ? playerCardSortGoalie : playerCardSort
+
   const pipeline = [
     ...bestPlayersPipeline(
       numOfGames,
@@ -283,7 +401,7 @@ const bestPlayersAggregate = (
       nationalityFilter
     ),
     ...reformatPlayerCardData(numOfGames),
-    ...playerCardSort(sortBy),
+    ...getSortStage(sortBy),
   ]
 
   return pipeline

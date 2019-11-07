@@ -23,6 +23,7 @@ const {
   teamProfileAggregate,
   teamStandingsAggregate,
   bestTeamsAggregate,
+  bestGoaliesAggregate,
 } = require('./pipelines')
 const {
   convertSecsToMin,
@@ -478,10 +479,6 @@ const resolvers = {
       if (root.shots === 0) return 0
       return roundToDecimal(root.goals / root.shots)
     },
-    savePct: root => {
-      if (root.saves === 0) return 0
-      return roundToDecimal(root.goals / root.saves)
-    },
     pointsPerGame: root =>
       roundToDecimal((root.goals + root.assists) / root.gamesPlayed),
     gameDate: root => root.gameDate.toISOString(),
@@ -495,6 +492,13 @@ const resolvers = {
     shortHandedTimeOnIce: root => convertSecsToMin(root.shortHandedTimeOnIce),
     shortHandedTimeOnIcePerGame: root =>
       convertSecsToMin(root.shortHandedTimeOnIcePerGame),
+    savePct: root => roundToDecimal(root.savePct),
+    powerPlaySavePct: root => roundToDecimal(root.powerPlaySavePct),
+    shortHandedSavePct: root => roundToDecimal(root.shortHandedSavePct),
+    goalsAgainstAverage: root => roundToDecimal(root.goalsAgainstAverage),
+    savesPerGame: root => roundToDecimal(root.savesPerGame),
+    shotsAgainstPerGame: root => roundToDecimal(root.shotsAgainstPerGame),
+    winPct: root => roundToDecimal(root.winPct),
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
