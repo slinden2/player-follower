@@ -36,7 +36,7 @@ const PlayerContextProvider = props => {
       positionFilter: 'GOALIE',
       teamFilter,
       nationalityFilter,
-      goalieSortBy,
+      sortBy: goalieSortBy,
     },
   })
 

@@ -399,6 +399,7 @@ const typeDefs = gql`
     SHG
     SHOT_PCT
     SHOTS
+    SHUTOUTS
     SHP
     SHTON_PER_GAME
     TA
