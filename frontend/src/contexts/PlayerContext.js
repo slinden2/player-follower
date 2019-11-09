@@ -1,6 +1,11 @@
 import React, { createContext, useState } from 'react'
 import { useQuery, useMutation } from 'react-apollo-hooks'
-import { USER, BEST_PLAYERS, FAVORITE_PLAYERS } from '../graphql/queries'
+import {
+  USER,
+  BEST_PLAYERS,
+  FAVORITE_PLAYERS,
+  BEST_GOALIES,
+} from '../graphql/queries'
 import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 
 export const PlayerContext = createContext()
@@ -10,6 +15,7 @@ const PlayerContextProvider = props => {
   const [teamFilter, setTeamFilter] = useState('ALL')
   const [nationalityFilter, setNationalityFilter] = useState('ALL')
   const [sortBy, setSortBy] = useState('POINTS')
+  const [goalieSortBy, setGoalieSortBy] = useState('WINS')
   const [numOfGames, setNumOfGames] = useState(1)
 
   const variables = {
@@ -23,6 +29,17 @@ const PlayerContextProvider = props => {
   const bestPlayers = useQuery(BEST_PLAYERS, {
     variables,
   })
+
+  const bestGoalies = useQuery(BEST_GOALIES, {
+    variables: {
+      numOfGames,
+      positionFilter: 'GOALIE',
+      teamFilter,
+      nationalityFilter,
+      goalieSortBy,
+    },
+  })
+
   const favoritePlayers = useQuery(FAVORITE_PLAYERS, {
     variables,
     // must set fetchPolicy because Apollo doesnt support partially resetting
@@ -58,6 +75,7 @@ const PlayerContextProvider = props => {
     <PlayerContext.Provider
       value={{
         bestPlayers,
+        bestGoalies,
         favoritePlayers,
         setNumOfGames,
         numOfGames,
@@ -69,6 +87,8 @@ const PlayerContextProvider = props => {
         setNationalityFilter,
         sortBy,
         setSortBy,
+        goalieSortBy,
+        setGoalieSortBy,
         followPlayer,
         unfollowPlayer,
       }}

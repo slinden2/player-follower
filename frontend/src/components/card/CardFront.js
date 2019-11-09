@@ -7,7 +7,12 @@ import { NotificationContext } from '../../contexts/NotificationContext'
 import { AuthContext } from '../../contexts/AuthContext'
 import { PlayerContext } from '../../contexts/PlayerContext'
 import FlipDiv from './FlipDiv'
-import { statHeaders, sortByHighlight, teamStatHeaders } from '../../utils'
+import {
+  statHeaders,
+  goalieStatHeaders,
+  sortByHighlight,
+  teamStatHeaders,
+} from '../../utils'
 import ImageCircle from './ImageCircle'
 import { FrontContainer } from './styles'
 
@@ -70,6 +75,12 @@ const StatRow = styled.div`
   display: flex;
   justify-content: space-around;
   margin-top: 5px;
+  ${({ outerMargin }) =>
+    outerMargin &&
+    css`
+      margin-left: 20px;
+      margin-right: 20px;
+    `}
 `
 
 const StatItem = styled.div`
@@ -119,8 +130,9 @@ const PlayerCardFront = ({
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
 
-  const contextSelector = {
-    player: () => ({
+  let playerBioData = {}
+  if (context !== 'team') {
+    playerBioData = {
       isLongName: data.player.firstName > 9 || data.player.lastName > 9,
       imageData: {
         name: data.player.lastName,
@@ -141,6 +153,12 @@ const PlayerCardFront = ({
           text: data.player.primaryPosition.abbreviation,
         },
       },
+    }
+  }
+
+  const contextSelector = {
+    player: () => ({
+      ...playerBioData,
       stats: {
         statArray: [
           ['points', 'goals', 'assists'],
@@ -148,6 +166,18 @@ const PlayerCardFront = ({
         ],
         stats: data.stats,
         headers: statHeaders,
+      },
+      isHighlighted: stat => stat === sortByHighlight[sortBy],
+    }),
+    goalie: () => ({
+      ...playerBioData,
+      stats: {
+        statArray: [
+          ['wins', 'losses', 'shutouts'],
+          ['savePct', 'goalsAgainstAverage'],
+        ],
+        stats: data.stats,
+        headers: goalieStatHeaders,
       },
       isHighlighted: stat => stat === sortByHighlight[sortBy],
     }),
@@ -264,7 +294,7 @@ const PlayerCardFront = ({
       </GenDataContainer>
       <StatsContainer>
         {curContext.stats.statArray.map((statRow, i) => (
-          <StatRow key={i}>
+          <StatRow key={i} outerMargin={i === 1}>
             {statRow.map(stat => (
               <StatItem
                 key={stat}

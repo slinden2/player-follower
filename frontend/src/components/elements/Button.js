@@ -11,6 +11,7 @@ const Btn = styled.button`
   color: ${colors.white1};
   text-transform: ${({ textTransform }) => textTransform};
   font-size: 1rem;
+  letter-spacing: 1px;
 
   &:hover {
     text-shadow: 0 0 1px ${colors.white1}, 0 0 1px ${colors.white1};

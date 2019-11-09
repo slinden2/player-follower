@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Loader from '../elements/Loader'
-import { PlayerContext } from '../../contexts/PlayerContext'
 import Card from './Card'
 
 const Container = styled.div`
@@ -10,20 +9,17 @@ const Container = styled.div`
   grid-gap: 15px;
 `
 
-const PlayerCardContainer = ({ queryName }) => {
-  const { bestPlayers, favoritePlayers } = useContext(PlayerContext)
-
-  const query = queryName === 'BestPlayers' ? bestPlayers : favoritePlayers
-
+const PlayerCardContainer = ({ query, queryName }) => {
   if (query.loading) {
     return <Loader offset />
   }
 
+  const context = queryName === 'BestGoalies' ? 'goalie' : 'player'
+
   const createRow = playerResults => {
     if (!playerResults.length) return <div>No results</div>
-
     return playerResults.map((player, i) => (
-      <Card key={player._id} context='player' data={player} i={i + 1} />
+      <Card key={player._id} context={context} data={player} i={i + 1} />
     ))
   }
 

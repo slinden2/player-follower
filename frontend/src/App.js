@@ -91,8 +91,19 @@ const App = () => {
                 path='/'
                 render={() => (
                   <PlayerCardPage
+                    context='player'
                     queryName='BestPlayers'
                     header='Top Players'
+                  />
+                )}
+              />
+              <Route
+                path='/players/top-goalies'
+                render={() => (
+                  <PlayerCardPage
+                    context='goalie'
+                    queryName='BestGoalies'
+                    header='Top Goalies'
                   />
                 )}
               />

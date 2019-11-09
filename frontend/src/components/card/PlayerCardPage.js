@@ -9,6 +9,7 @@ import {
   playerTeamFilterItems,
   playerNationalityFilterItems,
   sortByItems,
+  goalieSortByItems,
 } from '../../utils'
 import PlayerCardContainer from './PlayerCardContainer'
 import Loader from '../elements/Loader'
@@ -47,8 +48,11 @@ const formatDate = UTCIsoString => {
   return UTCDate.toLocaleDateString(navigator.language, options)
 }
 
-const PlayerCardPage = ({ queryName, header }) => {
+const PlayerCardPage = ({ context, queryName, header }) => {
   const {
+    bestPlayers,
+    bestGoalies,
+    favoritePlayers,
     numOfGames,
     setNumOfGames,
     positionFilter,
@@ -59,6 +63,8 @@ const PlayerCardPage = ({ queryName, header }) => {
     setNationalityFilter,
     sortBy,
     setSortBy,
+    goalieSortBy,
+    setGoalieSortBy,
   } = useContext(PlayerContext)
   const { data, loading } = useQuery(LAST_UPDATE)
   const [filtersAreVisible, setFiltersAreVisible] = useState(false)
@@ -67,13 +73,6 @@ const PlayerCardPage = ({ queryName, header }) => {
     return <Loader offset />
   }
 
-  const date = formatDate(data.GetLastUpdate.date)
-
-  const sortDropdownData = {
-    items: sortByItems,
-    state: sortBy,
-    setState: setSortBy,
-  }
   const filterDropdownData = [
     {
       items: playerPosFilterItems,
@@ -91,6 +90,33 @@ const PlayerCardPage = ({ queryName, header }) => {
       setState: setNationalityFilter,
     },
   ]
+
+  const contextSelector = {
+    player: () => ({
+      filterArray: filterDropdownData,
+      sortData: {
+        items: sortByItems,
+        state: sortBy,
+        setState: setSortBy,
+      },
+      query: queryName === 'FavoritePlayers' ? favoritePlayers : bestPlayers,
+      queryName,
+    }),
+    goalie: () => ({
+      filterArray: filterDropdownData.slice(1),
+      sortData: {
+        items: goalieSortByItems,
+        state: goalieSortBy,
+        setState: setGoalieSortBy,
+      },
+      query: bestGoalies,
+      queryName,
+    }),
+  }
+
+  const curContext = contextSelector[context]()
+
+  const date = formatDate(data.GetLastUpdate.date)
 
   return (
     <PageContainer title={header}>
@@ -111,10 +137,13 @@ const PlayerCardPage = ({ queryName, header }) => {
           onClick={() => setFiltersAreVisible(!filtersAreVisible)}
         />
         <FilterContainer isVisible={filtersAreVisible}>
-          <FramedDropdown title='Sort' fields={sortDropdownData} />
-          <FramedDropdown title='Filter' fields={filterDropdownData} />
+          <FramedDropdown title='Sort' fields={curContext.sortData} />
+          <FramedDropdown title='Filter' fields={curContext.filterArray} />
         </FilterContainer>
-        <PlayerCardContainer queryName={queryName} />
+        <PlayerCardContainer
+          query={curContext.query}
+          queryName={curContext.queryName}
+        />
       </Container>
     </PageContainer>
   )

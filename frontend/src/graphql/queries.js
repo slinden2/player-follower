@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost'
 
-const PLAYER_DETAILS = gql`
-  fragment PlayerDetails on PlayerCard {
+const PLAYER_CARD_BIO = gql`
+  fragment PlayerCardBio on PlayerCard {
     _id
     numOfGamesId
     player {
@@ -14,6 +14,15 @@ const PLAYER_DETAILS = gql`
       playerId
       siteLink
     }
+    team {
+      abbreviation
+      siteLink
+    }
+  }
+`
+
+const PLAYER_DETAILS = gql`
+  fragment PlayerStats on PlayerCard {
     stats {
       goals
       assists
@@ -31,10 +40,6 @@ const PLAYER_DETAILS = gql`
       blocked
       giveaways
       takeaways
-    }
-    team {
-      abbreviation
-      siteLink
     }
   }
 `
@@ -54,10 +59,50 @@ const BEST_PLAYERS = gql`
       nationalityFilter: $nationalityFilter
       sortBy: $sortBy
     ) {
-      ...PlayerDetails
+      ...PlayerCardBio
+      ...PlayerStats
     }
   }
+  ${PLAYER_CARD_BIO}
   ${PLAYER_DETAILS}
+`
+
+const BEST_GOALIES = gql`
+  query getBestGoalies(
+    $numOfGames: Int!
+    $positionFilter: PositionFilter!
+    $teamFilter: TeamFilter!
+    $nationalityFilter: NationalityFilter!
+    $sortBy: SortBy
+  ) {
+    BestGoalies(
+      numOfGames: $numOfGames
+      positionFilter: $positionFilter
+      teamFilter: $teamFilter
+      nationalityFilter: $nationalityFilter
+      sortBy: $sortBy
+    ) {
+      ...PlayerCardBio
+      stats {
+        wins
+        losses
+        shutouts
+        savePct
+        goalsAgainstAverage
+        powerPlaySavePct
+        powerPlayShotsAgainst
+        shortHandedSavePct
+        shortHandedShotsAgainst
+        savesPerGame
+        shotsAgainstPerGame
+        winPct
+        goals
+        assists
+        penaltyMinutes
+      }
+    }
+  }
+  ${PLAYER_CARD_BIO}
 `
 
 const FAVORITE_PLAYERS = gql`
@@ -75,9 +120,11 @@ const FAVORITE_PLAYERS = gql`
       nationalityFilter: $nationalityFilter
       sortBy: $sortBy
     ) {
-      ...PlayerDetails
+      ...PlayerCardBio
+      ...PlayerStats
     }
   }
+  ${PLAYER_CARD_BIO}
   ${PLAYER_DETAILS}
 `
 
@@ -295,6 +342,7 @@ const STANDINGS = gql`
       wins
       losses
       otLosses
+      otWins
       points
       regPlusOtWins
       pointPct
@@ -396,6 +444,7 @@ export {
   CUMULATIVE_STATS,
   STANDINGS,
   BEST_TEAMS,
+  BEST_GOALIES,
   PLAYER_PROFILE,
   PLAYER_MILESTONES,
   GET_TEAMS_BY_NAME,

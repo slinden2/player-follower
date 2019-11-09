@@ -363,6 +363,94 @@ const statHeaders = {
   },
 }
 
+const goalieStatHeaders = {
+  wins: {
+    headerText: 'W',
+    id: 'wins',
+    title: 'Wins',
+    showOnMobile: true,
+  },
+  losses: {
+    headerText: 'L',
+    id: 'losses',
+    title: 'Losses',
+    showOnMobile: true,
+  },
+  shutouts: {
+    headerText: 'SO',
+    id: 'shutouts',
+    title: 'Shutouts',
+    showOnMobile: true,
+  },
+  savePct: {
+    headerText: 'S%',
+    id: 'savePct',
+    title: 'Save Percentage',
+    showOnMobile: true,
+  },
+  goalsAgainstAverage: {
+    headerText: 'GAA',
+    id: 'goalsAgainstAverage',
+    title: 'Goals Against Average',
+    showOnMobile: true,
+  },
+  powerPlaySavePct: {
+    headerText: 'PPS%',
+    id: 'powerPlaySavePct',
+    title: 'Powerplay Save Percentage',
+  },
+  powerPlayShotsAgainst: {
+    headerText: 'PPSA',
+    id: 'powerPlayShotsAgainst',
+    title: 'Powerplay Shots Against',
+  },
+  shortHandedSavePct: {
+    headerText: 'SHS%',
+    id: 'shortHandedSavePct',
+    title: 'Shorthanded Save Percentage',
+  },
+  shortHandedShotsAgainst: {
+    headerText: 'SHSA',
+    id: 'shortHandedShotsAgainst',
+    title: 'Shorthanded Shots Against',
+  },
+  savesPerGame: {
+    headerText: 'S/G',
+    id: 'savesPerGame',
+    title: 'Saves per Game',
+  },
+  shotsAgainstPerGame: {
+    headerText: 'SA/G',
+    id: 'shotsAgainstPerGame',
+    title: 'Shots Against per Game',
+  },
+  winPct: {
+    headerText: 'W%',
+    id: 'winPct',
+    title: 'Win Percentage',
+  },
+  goals: {
+    headerText: 'G',
+    id: 'goals',
+    title: 'Goals',
+  },
+  assists: {
+    headerText: 'A',
+    id: 'assists',
+    title: 'Assists',
+  },
+  points: {
+    headerText: 'P',
+    id: 'points',
+    title: 'Points',
+  },
+  penaltyMinutes: {
+    headerText: 'PM',
+    id: 'penaltyMinutes',
+    title: 'Penalty Minutes',
+  },
+}
+
 const teamStatHeaders = {
   teamName: {
     headerText: 'Team',
@@ -394,6 +482,11 @@ const teamStatHeaders = {
     id: 'otLosses',
     title: 'Overtime Losses',
     showOnMobile: true,
+  },
+  otWins: {
+    headerText: 'OTW',
+    id: 'otWins',
+    title: 'Overtime Wins',
   },
   homeRecord: {
     headerText: 'H',
@@ -916,6 +1009,84 @@ const sortByItems = [
   },
 ]
 
+const goalieSortByItems = [
+  {
+    key: 'WINS',
+    text: 'Wins',
+    value: 'WINS',
+  },
+  {
+    key: 'LOSSES',
+    text: 'Losses',
+    value: 'LOSSES',
+  },
+  {
+    key: 'SHUTOUTS',
+    text: 'Shutouts',
+    value: 'SHUTOUTS',
+  },
+  {
+    key: 'SAVE_PCT',
+    text: 'Save-%',
+    value: 'SAVE_PCT',
+  },
+  {
+    key: 'GAA',
+    text: 'Goals Against Average',
+    value: 'GAA',
+  },
+  {
+    key: 'PPS_PCT',
+    text: 'Powerplay Save-%',
+    value: 'PPS_PCT',
+  },
+  {
+    key: 'SHS_PCT',
+    text: 'Shorthanded Save-%',
+    value: 'SHS_PCT',
+  },
+  {
+    key: 'PPSA',
+    text: 'Powerplay Shots Against',
+    value: 'PPSA',
+  },
+  {
+    key: 'SHSA',
+    text: 'Shorthanded Shots Against',
+    value: 'SHSA',
+  },
+  {
+    key: 'SAVES_PER_GAME',
+    text: 'Saves per Game',
+    value: 'SAVES_PER_GAME',
+  },
+  {
+    key: 'SA_PER_GAME',
+    text: 'Shots Against per Game',
+    value: 'SA_PER_GAME',
+  },
+  {
+    key: 'WIN_PCT',
+    text: 'Win-%',
+    value: 'WIN_PCT',
+  },
+  {
+    key: 'PM',
+    text: 'Penalty Minutes',
+    value: 'PM',
+  },
+  {
+    key: 'GOALS',
+    text: 'Goals',
+    value: 'GOALS',
+  },
+  {
+    key: 'ASSISTS',
+    text: 'Assists',
+    value: 'ASSISTS',
+  },
+]
+
 const teamFilterItems = [
   {
     key: 'ALL',
@@ -1059,6 +1230,18 @@ const sortByHighlight = {
   TA: 'takeaways',
   GA: 'giveaways',
   BLOCKED: 'blocked',
+  WINS: 'wins',
+  LOSSES: 'losses',
+  SHUTOUTS: 'shutouts',
+  SAVE_PCT: 'savePct',
+  GAA: 'goalsAgainstAverage',
+  PPS_PCT: 'powerPlaySavePct',
+  SHS_PCT: 'shortHandedSavePct',
+  PPSA: 'powerPlayShotsAgainst',
+  SHSA: 'shortHandedShotsAgainst',
+  SAVES_PER_GAME: 'savesPerGame',
+  SA_PER_GAME: 'shotsAgainstPerGame',
+  WIN_PCT: 'winPct',
 }
 
 const teamColors = {
@@ -1118,4 +1301,6 @@ export {
   formatDate,
   teamFilterItems,
   teamSortByItems,
+  goalieSortByItems,
+  goalieStatHeaders,
 }

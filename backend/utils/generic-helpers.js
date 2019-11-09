@@ -73,6 +73,7 @@ const positionDesc = {
   L: 'Left Wing',
   C: 'Center',
   D: 'Defenceman',
+  G: 'Goalie',
 }
 
 const positionAbbr = {
@@ -80,6 +81,7 @@ const positionAbbr = {
   L: 'LW',
   C: 'C',
   D: 'D',
+  G: 'G',
 }
 
 const getPositionData = code => {

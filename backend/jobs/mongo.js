@@ -1,5 +1,6 @@
 const axios = require('axios')
 const mongoose = require('mongoose')
+const Twitter = require('twitter')
 const Conference = require('../models/conference')
 const Division = require('../models/division')
 const Team = require('../models/team')
@@ -185,7 +186,7 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 2019020223 // gamePk greater than this will be deleted
+  const gamePk = 2019020247 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -252,6 +253,55 @@ const getDate = async () => {
   console.log(record[0]._id.getTimestamp().toISOString())
 }
 
+const updatePlayerTeam = async () => {
+  const contentUrl = playerId =>
+    `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
+
+  const players = await Player.find(
+    {},
+    { playerId: 1, currentTeam: 1 }
+  ).populate('currentTeam', { teamId: 1 })
+
+  for (const player of players) {
+    // There is an error here. The old team players get completely deleted.
+    const {
+      data: { people },
+    } = await axios.get(contentUrl(player.playerId))
+    const newTeamId = people[0].currentTeam.id
+    if (player.currentTeam.teamId !== newTeamId) {
+      const oldTeam = await Team.findOne({ teamId: player.currentTeam.teamId })
+      oldTeam.players = oldTeam.players.filter(id => id === player._id)
+      const newTeam = await Team.findOne({ teamId: newTeamId })
+      newTeam.players = [...newTeam.players, player._id]
+      player.currentTeam = newTeam._id
+      const test = await Promise.all([
+        oldTeam.save(),
+        newTeam.save(),
+        player.save(),
+      ])
+      console.log(test)
+    }
+  }
+}
+
+const fetchTweets = async () => {
+  const client = new Twitter({
+    consumer_key: process.env.TW_CONSUMER_API_KEY,
+    consumer_secret: process.env.TW_API_SECRET_KEY,
+    access_token_key: process.env.TW_ACCESS_TOKEN,
+    access_token_secret: process.env.TW_ACCESS_TOKEN_SECRET,
+  })
+
+  const params = { screen_name: 'PR_NHL' }
+  const tweets = await client.get('statuses/user_timeline', params)
+  const filteredTweets = tweets.filter(tweet =>
+    tweet.text.startsWith('OFFICIAL')
+  )
+  for (const tweet of filteredTweets) {
+    console.log(tweet.text)
+  }
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -270,4 +320,6 @@ const getDate = async () => {
 // addLinescoreArrays().then(() => mongoose.connection.close())
 // deleteLinescores().then(() => mongoose.connection.close())
 // getDate().then(() => mongoose.connection.close())
+// updatePlayerTeam().then(() => mongoose.connection.close())
+// fetchTweets().then(() => mongoose.connection.close())
 // deleteLatestGames().then(() => mongoose.connection.close())

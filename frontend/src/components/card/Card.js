@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { event } from '../../utils/tracking'
-import PlayerCardFront from './CardFront'
-import PlayerCardBack from './CardBack'
+import CardFront from './CardFront'
+import CardBack from './CardBack'
 import { PlayerContext } from '../../contexts/PlayerContext'
 
 const Container = styled.div`
@@ -15,21 +15,28 @@ const Container = styled.div`
   perspective: 600px;
 `
 
-const PlayerCard = React.memo(({ context, data, i, teamSortBy }) => {
+const Card = React.memo(({ context, data, i, teamSortBy }) => {
   const [isFlipped, setIsFlipped] = useState(false)
   const [prevSortBy, setPrevSortBy] = useState(null)
-  const { sortBy } = useContext(PlayerContext)
+  const { sortBy, goalieSortBy } = useContext(PlayerContext)
+
+  const playerFlipEvent = () =>
+    event(
+      'PLAYER_CARD',
+      'Card Flipped',
+      `${data.player.firstName} ${data.player.lastName}`
+    )
 
   const contextSelector = {
     player: () => ({
-      flipEvent: () =>
-        event(
-          'PLAYER_CARD',
-          'Card Flipped',
-          `${data.player.firstName} ${data.player.lastName}`
-        ),
+      flipEvent: playerFlipEvent,
       sortBy: sortBy,
       statsOnFront: ['POINTS', 'GOALS', 'ASSISTS', 'PLUSMINUS', 'PM'],
+    }),
+    goalie: () => ({
+      flipEvent: playerFlipEvent,
+      sortBy: goalieSortBy,
+      statsOnFront: ['WINS', 'LOSSES', 'SHUTOUTS', 'SAVE_PCT', 'GAA'],
     }),
     team: () => ({
       flipEvent: () =>
@@ -64,7 +71,7 @@ const PlayerCard = React.memo(({ context, data, i, teamSortBy }) => {
 
   return (
     <Container isFlipped={isFlipped}>
-      <PlayerCardFront
+      <CardFront
         context={context}
         data={data}
         isFlipped={isFlipped}
@@ -72,7 +79,7 @@ const PlayerCard = React.memo(({ context, data, i, teamSortBy }) => {
         i={i}
         sortBy={curContext.sortBy}
       />
-      <PlayerCardBack
+      <CardBack
         context={context}
         data={data}
         isFlipped={isFlipped}
@@ -83,4 +90,4 @@ const PlayerCard = React.memo(({ context, data, i, teamSortBy }) => {
   )
 })
 
-export default PlayerCard
+export default Card

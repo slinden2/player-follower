@@ -1,7 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import { statHeaders, sortByHighlight, teamStatHeaders } from '../../utils'
+import {
+  statHeaders,
+  goalieStatHeaders,
+  sortByHighlight,
+  teamStatHeaders,
+} from '../../utils'
 import FlipDiv from './FlipDiv'
 import colors from '../../styles/colors'
 import { BackContainer } from './styles'
@@ -74,10 +79,18 @@ const PlayerCardBack = ({
   handleCardFlip,
   sortBy,
 }) => {
-  const contextSelector = {
-    player: () => ({
+  let playerSharedData = {}
+  if (context !== 'team') {
+    playerSharedData = {
       link: `/players/${data.player.siteLink}`,
       name: data.player.firstName + ' ' + data.player.lastName,
+      isHighlighted: stat => stat === sortByHighlight[sortBy],
+    }
+  }
+
+  const contextSelector = {
+    player: () => ({
+      ...playerSharedData,
       stats: {
         statArray: [
           ['powerPlayGoals', 'powerPlayPoints'],
@@ -90,7 +103,20 @@ const PlayerCardBack = ({
         stats: data.stats,
         headers: statHeaders,
       },
-      isHighlighted: stat => stat === sortByHighlight[sortBy],
+    }),
+    goalie: () => ({
+      ...playerSharedData,
+      stats: {
+        statArray: [
+          ['powerPlaySavePct', 'shortHandedSavePct'],
+          ['powerPlayShotsAgainst', 'shortHandedShotsAgainst'],
+          ['savesPerGame', 'shotsAgainstPerGame'],
+          ['winPct', 'penaltyMinutes'],
+          ['goals', 'assists'],
+        ],
+        stats: data.stats,
+        headers: goalieStatHeaders,
+      },
     }),
     team: () => ({
       link: `/teams/${data.team.siteLink}`,
@@ -119,7 +145,11 @@ const PlayerCardBack = ({
         <Link to={curContext.link}>{curContext.name}</Link>
       </NameBar>
       {curContext.stats.statArray.map((row, i) => (
-        <StatRow first={!i} last={i + 1 === statArray.length} key={i}>
+        <StatRow
+          first={!i}
+          last={i + 1 === curContext.stats.statArray.length}
+          key={i}
+        >
           {row.map((stat, i) => {
             const isRightCol = (i + 1) % 2
             return (

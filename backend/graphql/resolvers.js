@@ -195,6 +195,19 @@ const resolvers = {
       )
       return players
     },
+    BestGoalies: async (root, args) => {
+      const goalies = await Player.aggregate(
+        bestPlayersAggregate(
+          args.numOfGames,
+          'GOALIE',
+          args.teamFilter,
+          args.nationalityFilter,
+          getSortField(args.sortBy)
+        )
+      )
+      console.log(goalies[0].player.lastName)
+      return goalies
+    },
     BestTeams: async (root, args) => {
       const teams = await Team.aggregate(bestTeamsAggregate(args.numOfGames))
       return teams
