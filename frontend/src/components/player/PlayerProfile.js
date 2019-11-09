@@ -69,8 +69,11 @@ const PlayerProfile = ({ siteLink }) => {
   }))
   const gamePks = player.boxscores.map(boxscore => boxscore.gamePk)
 
+  // Temp fix. The videos of the new games do not work!
+  const filteredGamePks = gamePks.filter(gamePk => gamePk < 2019020248)
+
   const handleRowClick = rowData => {
-    setSelectedGamePk([rowData.gamePk])
+    if (rowData.gamePk < 2019020248) setSelectedGamePk([rowData.gamePk])
   }
 
   return (
@@ -100,7 +103,7 @@ const PlayerProfile = ({ siteLink }) => {
         <PlayerMilestones
           playerId={player.playerId}
           fullName={player.fullName}
-          gamePks={gamePks.slice(0, 5)}
+          gamePks={filteredGamePks.slice(0, 5)}
           selectedGamePk={selectedGamePk}
           setSelectedGamePk={setSelectedGamePk}
           boxscores={player.boxscores}
