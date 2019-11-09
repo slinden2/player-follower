@@ -148,14 +148,12 @@ const resolvers = {
               title: milestone.highlight.title,
               description: milestone.highlight.description,
               blurb: milestone.highlight.blurb,
-              playback:
-                milestone.highlight.playbacks[
-                  milestone.highlight.playbacks.length - 1
-                ],
+              playback: milestone.highlight.playbacks.find(playback =>
+                playback.name.startsWith('FLASH_1800K')
+              ),
             }))
         )
         .filter(game => game.length)
-
       return goals
     },
     findPlayers: async (root, args) => {
@@ -205,7 +203,6 @@ const resolvers = {
           getSortField(args.sortBy)
         )
       )
-      console.log(goalies[0].player.lastName)
       return goalies
     },
     BestTeams: async (root, args) => {

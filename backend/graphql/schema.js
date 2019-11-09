@@ -322,8 +322,8 @@ const typeDefs = gql`
 
   type Video {
     name: String!
-    height: Int!
-    width: Int!
+    height: Int
+    width: Int
     url: String!
   }
 

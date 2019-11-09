@@ -92,8 +92,8 @@ const PlayerMilestones = ({
           <PlayerVideo
             fullName={fullName} // tracking purposes
             date={getDate(milestone.gamePk, boxscores)} // tracking purposes
-            width={milestone.playback.width}
-            height={milestone.playback.height}
+            width={milestone.playback.width || "960px"}
+            height={milestone.playback.height || "540px" }
             url={milestone.playback.url}
           />
           <MilestoneDescription>{milestone.description}</MilestoneDescription>
