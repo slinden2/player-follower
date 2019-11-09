@@ -49,6 +49,10 @@ const goalieBoxscoreSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  evenShotsAgainst: {
+    type: Number,
+    required: true,
+  },
   powerPlayShotsAgainst: {
     type: Number,
     required: true,

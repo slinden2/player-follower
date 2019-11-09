@@ -85,6 +85,7 @@ const typeDefs = gql`
     homeRecord: String!
     losses: Int!
     otLosses: Int!
+    otWins: Int!
     penaltyMinutes: Int!
     pkPct: String!
     pointPct: String!
@@ -229,13 +230,13 @@ const typeDefs = gql`
     shortHandedSaves: Int!
     shortHandedShotsAgainst: Int!
     shotsAgainst: Int!
-    # you can query also timeOnIce
+    shotsAgainstPerGame: Float!
+    savesPerGame: Float!
 
     # Group for goalie boxscore-only related stats
     decision: String!
     powerPlayShotsAgainst: Int!
-    # available also:
-    # assists, goals, gamePk, penaltyMinutes, gameDate
+    winPct: Float!
 
     # Group for goalie cumulative-stats-only related stats
     evenShotsAgainst: Int!
@@ -363,31 +364,48 @@ const typeDefs = gql`
   }
 
   enum SortBy {
-    PLAYER
-    TEAM
-    POSITION
-    GP
-    GOALS
     ASSISTS
-    POINTS
+    BLOCKED
+    EVEN_SAVES
+    FO_PCT
+    FOT
+    GA
+    GAA
+    GOALS
+    GOALS_AGAINST
+    GP
+    HITS
+    LOSSES
+    PLAYER
     PLUSMINUS
     PM
+    POINTS
     POINTS_PER_GAME
+    POSITION
+    PP_SAVE_PCT
+    PP_SAVES
+    PP_SHOTS_AGAINST
     PPG
     PPP
-    SHG
-    SHP
-    SHOTS
-    SHOT_PCT
-    HITS
-    FOT
-    FO_PCT
-    TA
-    GA
-    TON_PER_GAME
-    SHTON_PER_GAME
     PPTON_PER_GAME
-    BLOCKED
+    SA
+    SA_PER_GAME
+    SAVE_PCT
+    SAVES
+    SAVES_PER_GAME
+    SH_SAVE_PCT
+    SH_SAVES
+    SH_SHOTS_AGAINST
+    SHG
+    SHOT_PCT
+    SHOTS
+    SHP
+    SHTON_PER_GAME
+    TA
+    TEAM
+    TON_PER_GAME
+    WIN_PCT
+    WINS
   }
 
   enum SortDir {
@@ -402,6 +420,7 @@ const typeDefs = gql`
     RIGHT
     FORWARD
     DEFENCE
+    GOALIE
   }
 
   enum TeamFilter {
@@ -470,6 +489,16 @@ const typeDefs = gql`
     Returns best players for the last 1, 5 and 10 games.
     """
     BestPlayers(
+      numOfGames: Int!
+      positionFilter: PositionFilter!
+      teamFilter: TeamFilter!
+      nationalityFilter: NationalityFilter!
+      sortBy: SortBy
+    ): [PlayerCard!]!
+    """
+    Returns best players for the last 1, 5 and 10 games.
+    """
+    BestGoalies(
       numOfGames: Int!
       positionFilter: PositionFilter!
       teamFilter: TeamFilter!
