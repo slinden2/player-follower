@@ -148,6 +148,25 @@ const calculateGoalieStats = idString => [
           ],
         },
       },
+      shutouts: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                {
+                  $subtract: [
+                    '$populatedBoxscores.shotsAgainst',
+                    '$populatedBoxscores.saves',
+                  ],
+                },
+                0,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
     },
   },
   {
@@ -380,6 +399,7 @@ const playerCardSortGoalie = sortBy => {
         'player.lastName': 1,
       },
     },
+    { $limit: 20 },
   ]
 }
 
