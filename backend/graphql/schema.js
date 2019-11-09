@@ -85,6 +85,7 @@ const typeDefs = gql`
     homeRecord: String!
     losses: Int!
     otLosses: Int!
+    otWins: Int!
     penaltyMinutes: Int!
     pkPct: String!
     pointPct: String!

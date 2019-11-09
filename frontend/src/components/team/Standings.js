@@ -15,10 +15,10 @@ const headers = [
   'losses',
   'otLosses',
   'points',
-  'regPlusOtWins',
   'pointPct',
   'goalsFor',
   'goalsAgainst',
+  'otWins',
   'shootOutWins',
   'goalsForPerGame',
   'goalsAgainstPerGame',
@@ -107,7 +107,7 @@ const Standings = () => {
   const cleanStandings = cleanUpStandings(standings)
 
   return (
-    <PageContainer title="Standings">
+    <PageContainer title='Standings'>
       <DropdownMenu
         items={standingsTypes}
         state={standingsType}
