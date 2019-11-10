@@ -151,7 +151,7 @@ const typeDefs = gql`
     An array of the boxcores of all the games that the player
     has played. Scratched games are not included.
     """
-    boxscores: [Stats!]!
+    boxscores: [String]!
     stats: [Stats!]!
     goals: [Goal]
     id: ID!
@@ -249,6 +249,12 @@ const typeDefs = gql`
     shutouts: Int!
     wins: Int!
     # you can query only gamesPlayed
+  }
+
+  type ProfileStats {
+    id: ID!
+    stats: [Stats]!
+    goals: [Goal]!
   }
 
   type Position {
@@ -520,6 +526,10 @@ const typeDefs = gql`
     Single player by playerId
     """
     findPlayer(playerId: Int, siteLink: String): Player!
+    """
+    Get player game-by-game stats
+    """
+    GetGameStats(idArray: [String!]!, isGoalie: Boolean!): ProfileStats!
     """
     Array of players by arbitrary search terms
     """

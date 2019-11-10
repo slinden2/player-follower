@@ -155,8 +155,17 @@ const PLAYER_PROFILE = gql`
         description
       }
       playerId
-      boxscores {
-        id
+      boxscores
+    }
+  }
+`
+
+const GET_SKATER_STATS = gql`
+  query getSkaterStats($idArray: [String!]!, $isGoalie: Boolean!) {
+    GetGameStats(idArray: $idArray, isGoalie: $isGoalie) {
+      id
+      stats {
+        id  
         assists
         blocked
         faceOffsTaken
@@ -201,6 +210,36 @@ const PLAYER_PROFILE = gql`
         coordinates {
           x
           y
+        }
+      }
+    }
+  }
+`
+
+const GET_GOALIE_STATS = gql`
+  query getGoalieStats($idArray: [String!]!, $isGoalie: Boolean!) {
+    GetGameStats(idArray: $idArray, isGoalie: $isGoalie) {
+      id
+      stats {
+        id
+        gamePk
+        gameDate
+        decision
+        savePct
+        saves
+        goalsAgainst
+        shotsAgainst
+        powerPlaySaves
+        powerPlayShotsAgainst
+        shortHandedSaves
+        shortHandedShotsAgainst
+        penaltyMinutes
+        timeOnIce
+        homeTeam {
+          abbreviation
+        }
+        awayTeam {
+          abbreviation
         }
       }
     }
@@ -450,4 +489,6 @@ export {
   GET_TEAMS_BY_NAME,
   TEAM_PROFILE,
   LAST_UPDATE,
+  GET_SKATER_STATS,
+  GET_GOALIE_STATS,
 }

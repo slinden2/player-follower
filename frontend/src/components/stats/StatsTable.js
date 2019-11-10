@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { statHeaders, teamStatHeaders, formatDate } from '../../utils'
+import { statHeaders, teamStatHeaders, formatDate, goalieStatHeaders } from '../../utils'
 import Title from '../elements/Title'
 import TableRow from './TableRow'
 import HeaderCell from './HeaderCell'
@@ -28,12 +28,13 @@ const StatsTable = ({
   setSortVariables,
   handleRowClick,
   isTeamStats,
+  isGoalie,
   sortOnClient,
 }) => {
   const sortProp = sortOnClient ? 'id' : 'sortString'
 
-  // Team related stats use different dataset for headers
-  const headersToUse = isTeamStats ? teamStatHeaders : statHeaders
+  // Team and goalie related stats use different dataset for headers
+  const headersToUse = isTeamStats ? teamStatHeaders : isGoalie ? goalieStatHeaders : statHeaders
 
   const highlightColumn = header =>
     sortVariables && sortVariables.sortBy === headersToUse[header][sortProp]

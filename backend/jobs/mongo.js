@@ -146,7 +146,7 @@ const deleteAllStarGames = async () => {
 }
 
 const addTeamsToBoxscores = async () => {
-  const gamePks = await SkaterBoxscore.find().distinct('gamePk')
+  const gamePks = await GoalieBoxscore.find().distinct('gamePk')
   for (const gamePk of gamePks) {
     const response = await axios.get(
       `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/boxscore`
@@ -186,7 +186,7 @@ const addPointsToBoxscores = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 2019020247 // gamePk greater than this will be deleted
+  const gamePk = 2019020251 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })

@@ -364,91 +364,142 @@ const statHeaders = {
 }
 
 const goalieStatHeaders = {
-  wins: {
-    headerText: 'W',
-    id: 'wins',
-    title: 'Wins',
+  assists: {
+    headerText: 'A',
+    id: 'assists',
+    title: 'Assists'
+  },
+  decision: {
+    headerText: 'D',
+    id: 'decision',
     showOnMobile: true,
+    title: 'Decision'
   },
-  losses: {
-    headerText: 'L',
-    id: 'losses',
-    title: 'Losses',
+  gameDate: {
+    headerText: 'Date',
+    id: 'gameDate',
     showOnMobile: true,
-  },
-  shutouts: {
-    headerText: 'SO',
-    id: 'shutouts',
-    title: 'Shutouts',
-    showOnMobile: true,
-  },
-  savePct: {
-    headerText: 'S%',
-    id: 'savePct',
-    title: 'Save Percentage',
-    showOnMobile: true,
-  },
-  goalsAgainstAverage: {
-    headerText: 'GAA',
-    id: 'goalsAgainstAverage',
-    title: 'Goals Against Average',
-    showOnMobile: true,
-  },
-  powerPlaySavePct: {
-    headerText: 'PPS%',
-    id: 'powerPlaySavePct',
-    title: 'Powerplay Save Percentage',
-  },
-  powerPlayShotsAgainst: {
-    headerText: 'PPSA',
-    id: 'powerPlayShotsAgainst',
-    title: 'Powerplay Shots Against',
-  },
-  shortHandedSavePct: {
-    headerText: 'SHS%',
-    id: 'shortHandedSavePct',
-    title: 'Shorthanded Save Percentage',
-  },
-  shortHandedShotsAgainst: {
-    headerText: 'SHSA',
-    id: 'shortHandedShotsAgainst',
-    title: 'Shorthanded Shots Against',
-  },
-  savesPerGame: {
-    headerText: 'S/G',
-    id: 'savesPerGame',
-    title: 'Saves per Game',
-  },
-  shotsAgainstPerGame: {
-    headerText: 'SA/G',
-    id: 'shotsAgainstPerGame',
-    title: 'Shots Against per Game',
-  },
-  winPct: {
-    headerText: 'W%',
-    id: 'winPct',
-    title: 'Win Percentage',
+    title: 'Game Date'
   },
   goals: {
     headerText: 'G',
     id: 'goals',
-    title: 'Goals',
+    title: 'Goals'
   },
-  assists: {
-    headerText: 'A',
-    id: 'assists',
-    title: 'Assists',
+  goalsAgainst: {
+    headerText: 'GA',
+    id: 'goalsAgainst',
+    showOnMobile: true,
+    title: 'Goals Against'
   },
-  points: {
-    headerText: 'P',
-    id: 'points',
-    title: 'Points',
+  goalsAgainstAverage: {
+    headerText: 'GAA',
+    id: 'goalsAgainstAverage',
+    showOnMobile: true,
+    title: 'Goals Against Average'
+  },
+  losses: {
+    headerText: 'L',
+    id: 'losses',
+    showOnMobile: true,
+    title: 'Losses'
   },
   penaltyMinutes: {
     headerText: 'PM',
     id: 'penaltyMinutes',
-    title: 'Penalty Minutes',
+    title: 'Penalty Minutes'
   },
+  points: {
+    headerText: 'P',
+    id: 'points',
+    title: 'Points'
+  },
+  powerPlaySavePct: {
+    headerText: 'PPS%',
+    id: 'powerPlaySavePct',
+    title: 'Powerplay Save Percentage'
+  },
+  powerPlaySaves: {
+    headerText: 'PPS',
+    id: 'powerPlaySaves',
+    title: 'Powerplay Saves'
+  },
+  powerPlayShotsAgainst: {
+    headerText: 'PPSA',
+    id: 'powerPlayShotsAgainst',
+    title: 'Powerplay Shots Against'
+  },
+  savePct: {
+    headerText: 'S%',
+    id: 'savePct',
+    showOnMobile: true,
+    title: 'Save Percentage'
+  },
+  saves: {
+    headerText: 'Saves',
+    id: 'saves',
+    showOnMobile: true,
+    title: 'Saves'
+  },
+  savesPerGame: {
+    headerText: 'S/G',
+    id: 'savesPerGame',
+    title: 'Saves per Game'
+  },
+  shortHandedSavePct: {
+    headerText: 'SHS%',
+    id: 'shortHandedSavePct',
+    title: 'Shorthanded Save Percentage'
+  },
+  shortHandedSaves: {
+    headerText: 'SHS',
+    id: 'shortHandedSaves',
+    title: 'Shorthanded Saves'
+  },
+  shortHandedShotsAgainst: {
+    headerText: 'SHSA',
+    id: 'shortHandedShotsAgainst',
+    title: 'Shorthanded Shots Against'
+  },
+  shotsAgainst: {
+    headerText: 'SA',
+    id: 'shotsAgainst',
+    showOnMobile: true,
+    title: 'Shots Against'
+  },
+  shotsAgainstPerGame: {
+    headerText: 'SA/G',
+    id: 'shotsAgainstPerGame',
+    title: 'Shots Against per Game'
+  },
+  shutouts: {
+    headerText: 'SO',
+    id: 'shutouts',
+    showOnMobile: true,
+    title: 'Shutouts'
+  },
+  teams: {
+    headerText: 'Teams',
+    id: 'teams',
+    showOnMobile: true,
+    title: 'Teams'
+  },
+  timeOnIce: {
+    headerText: 'TON',
+    id: 'timeOnIce',
+    title: 'Time on Ice'
+  },
+  winPct: {
+    headerText: 'W%',
+    id: 'winPct',
+    title: 'Win Percentage'
+  },
+  wins: {
+    headerText: 'W',
+    id: 'wins',
+    showOnMobile: true,
+    title: 'Wins'
+  }
 }
 
 const teamStatHeaders = {

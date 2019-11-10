@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
-import Media from 'react-media'
 import { useQuery } from 'react-apollo-hooks'
-import { PLAYER_PROFILE } from '../../graphql/queries'
+import { PLAYER_PROFILE, GET_SKATER_STATS, GET_GOALIE_STATS } from '../../graphql/queries'
 import PlayerBioTable from './PlayerBioTable'
-import StatsTable from '../stats/StatsTable'
-import PlayerMilestones from './PlayerMilestones'
 import PageContainer from '../elements/PageContainer'
 import breakpoints from '../../styles/breakpoints'
 import Loader from '../elements/Loader'
-import Rink from './rink/Rink'
+import { PlayerGameStats } from './PlayerGameStats'
 
 const Container = styled.div`
   display: flex;
@@ -22,28 +19,6 @@ const Container = styled.div`
     margin: 0 auto;
   }
 `
-
-const headers = [
-  'gameDate',
-  'teams',
-  'goals',
-  'assists',
-  'points',
-  'plusMinus',
-  'penaltyMinutes',
-  'powerPlayGoals',
-  'powerPlayAssists',
-  'shortHandedGoals',
-  'shortHandedAssists',
-  'timeOnIce',
-  'powerPlayTimeOnIce',
-  'shortHandedTimeOnIce',
-  'shots',
-  'blocked',
-  'hits',
-  'giveaways',
-  'takeaways',
-]
 
 const PlayerProfile = ({ siteLink }) => {
   const [selectedGamePk, setSelectedGamePk] = useState(null)
@@ -61,49 +36,18 @@ const PlayerProfile = ({ siteLink }) => {
     return <Redirect to="/404" />
   }
 
-  player.boxscores = player.boxscores.sort((a, b) => b.gamePk - a.gamePk)
-  player.boxscores = player.boxscores.map(boxscore => ({
-    ...boxscore,
-    teams:
-      boxscore.awayTeam.abbreviation + '@' + boxscore.homeTeam.abbreviation,
-  }))
-  const gamePks = player.boxscores.map(boxscore => boxscore.gamePk)
-
-  const handleRowClick = rowData => {
-    setSelectedGamePk([rowData.gamePk])
-  }
+  const isGoalie = player.primaryPosition.code === 'G'
 
   return (
     <PageContainer title="Player Profile">
       <Container>
         <PlayerBioTable player={player} />
-        <Media query={breakpoints.showDesktopNavi}>
-          {matches =>
-            matches ? (
-              <StatsTable
-                title="Performance Game-by-Game"
-                headers={headers}
-                data={player.boxscores}
-                handleRowClick={handleRowClick}
-              />
-            ) : (
-              <StatsTable
-                title="Performance Game-by-Game"
-                headers={headers.slice(0, 7)}
-                data={player.boxscores}
-                handleRowClick={handleRowClick}
-              />
-            )
-          }
-        </Media>
-        <Rink data={player.goals} />
-        <PlayerMilestones
+        <PlayerGameStats
+          query={isGoalie ? GET_GOALIE_STATS : GET_SKATER_STATS}
+          idArray={player.boxscores}
+          isGoalie={isGoalie}
           playerId={player.playerId}
           fullName={player.fullName}
-          gamePks={gamePks.slice(0, 5)}
-          selectedGamePk={selectedGamePk}
-          setSelectedGamePk={setSelectedGamePk}
-          boxscores={player.boxscores}
         />
       </Container>
     </PageContainer>

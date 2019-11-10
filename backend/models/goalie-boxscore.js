@@ -13,6 +13,16 @@ const goalieBoxscoreSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player',
   },
+  homeTeam: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
+    required: true,
+  },
+  awayTeam: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
+    required: true,
+  },
   timeOnIce: {
     type: Number,
     required: true,
