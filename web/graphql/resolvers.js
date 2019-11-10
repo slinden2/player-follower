@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
 const { format } = require('date-fns')
 const Player = require('../models/player')
-require('../models/skater-boxscore') // needed for field population
-require('../models/goalie-boxscore') // needed for field population
 require('../models/team-stats') // needed for field population
 require('../models/conference') // needed for field population
 require('../models/division') // needed for field population
@@ -14,6 +12,7 @@ const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
 const SkaterBoxscore = require('../models/skater-boxscore')
+const GoalieBoxscore = require('../models/goalie-boxscore')
 const Goal = require('../models/goal')
 const validateRecaptcha = require('../utils/validate-recaptcha')
 const {
@@ -57,15 +56,15 @@ const resolvers = {
     },
     findPlayer: async (root, args) => {
       const player = await Player.findOne(args).populate([
-        {
-          path: 'boxscores',
-          model: 'SkaterBoxscore', // TODO how to work with goalies?
-          populate: {
-            path: 'homeTeam awayTeam',
-            model: 'Team',
-            select: 'abbreviation',
-          },
-        },
+        // {
+        //   path: 'boxscores',
+        //   model: 'SkaterBoxscore', // TODO how to work with goalies?
+        //   populate: {
+        //     path: 'homeTeam awayTeam',
+        //     model: 'Team',
+        //     select: 'abbreviation',
+        //   },
+        // },
         {
           path: 'currentTeam',
           model: 'Team',
@@ -75,44 +74,109 @@ const resolvers = {
 
       const playerJSON = player.toJSON()
 
-      const goals = await Goal.find(
-        { player: playerJSON.id },
-        { game: 1, strength: 1, periodNumber: 1, periodTime: 1, coordinates: 1 }
-      ).populate([
+      // const goals = await Goal.find(
+      //   { player: playerJSON.id },
+      //   { game: 1, strength: 1, periodNumber: 1, periodTime: 1, coordinates: 1 }
+      // ).populate([
+      //   {
+      //     path: 'game',
+      //     model: 'Game',
+      //     select: 'awayTeam homeTeam gameDate',
+      //     populate: [
+      //       {
+      //         path: 'awayTeam.team',
+      //         model: 'Team',
+      //         select: 'abbreviation',
+      //       },
+      //       {
+      //         path: 'homeTeam.team',
+      //         model: 'Team',
+      //         select: 'abbreviation',
+      //       },
+      //     ],
+      //   },
+      // ])
+
+      // const goalsJSON = goals.map(goal => goal.toJSON())
+
+      // const goalObjects = goalsJSON.map(goal => {
+      //   const { game, ...props } = goal
+      //   return {
+      //     ...props,
+      //     gameDate: format(game.gameDate, 'YYYY/MM/DD'),
+      //     awayTeam: game.awayTeam.team,
+      //     homeTeam: game.homeTeam.team,
+      //   }
+      // })
+
+      // playerJSON.goals = goalObjects
+
+      return playerJSON
+    },
+    GetGameStats: async (root, args) => {
+      const schema = args.isGoalie ? GoalieBoxscore : SkaterBoxscore
+
+      const stats = await schema.find({ _id: { $in: args.idArray } }).populate([
         {
-          path: 'game',
-          model: 'Game',
-          select: 'awayTeam homeTeam gameDate',
-          populate: [
-            {
-              path: 'awayTeam.team',
-              model: 'Team',
-              select: 'abbreviation',
-            },
-            {
-              path: 'homeTeam.team',
-              model: 'Team',
-              select: 'abbreviation',
-            },
-          ],
+          path: 'awayTeam',
+          model: 'Team',
+          select: 'abbreviation',
+        },
+        {
+          path: 'homeTeam',
+          model: 'Team',
+          select: 'abbreviation',
         },
       ])
 
-      const goalsJSON = goals.map(goal => goal.toJSON())
+      const playerId = stats[0].player
+      let goals = []
+      if (!args.isGoalie && playerId) {
+        goals = await Goal.find(
+          { player: playerId },
+          {
+            game: 1,
+            strength: 1,
+            periodNumber: 1,
+            periodTime: 1,
+            coordinates: 1,
+          }
+        ).populate([
+          {
+            path: 'game',
+            model: 'Game',
+            select: 'awayTeam homeTeam gameDate',
+            populate: [
+              {
+                path: 'awayTeam.team',
+                model: 'Team',
+                select: 'abbreviation',
+              },
+              {
+                path: 'homeTeam.team',
+                model: 'Team',
+                select: 'abbreviation',
+              },
+            ],
+          },
+        ])
 
-      const goalObjects = goalsJSON.map(goal => {
-        const { game, ...props } = goal
-        return {
-          ...props,
-          gameDate: format(game.gameDate, 'YYYY/MM/DD'),
-          awayTeam: game.awayTeam.team,
-          homeTeam: game.homeTeam.team,
-        }
-      })
+        goals = goals
+          .map(goal => goal.toJSON())
+          .map(goal => {
+            const { game, ...props } = goal
+            return {
+              ...props,
+              gameDate: format(game.gameDate, 'YYYY/MM/DD'),
+              awayTeam: game.awayTeam.team,
+              homeTeam: game.homeTeam.team,
+            }
+          })
+      }
 
-      playerJSON.goals = goalObjects
+      console.log(goals[0])
 
-      return playerJSON
+      return { id: playerId, stats, goals }
     },
     GetMilestones: async (root, args) => {
       const contentUrl = gamePk =>
@@ -509,6 +573,7 @@ const resolvers = {
     savesPerGame: root => roundToDecimal(root.savesPerGame),
     shotsAgainstPerGame: root => roundToDecimal(root.shotsAgainstPerGame),
     winPct: root => roundToDecimal(root.winPct),
+    goalsAgainst: root => root.shotsAgainst - root.saves,
   },
   CumulativeStats: {
     fullName: root => `${root.firstName} ${root.lastName}`,
