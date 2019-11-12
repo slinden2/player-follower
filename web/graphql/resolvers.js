@@ -174,8 +174,6 @@ const resolvers = {
           })
       }
 
-      console.log(goals[0])
-
       return { id: playerId, stats, goals }
     },
     GetMilestones: async (root, args) => {
