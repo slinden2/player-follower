@@ -64,4 +64,5 @@ typings/
 .vscode
 
 scribble.js
-backend/jobs/mongo.js
+*/mongo.js
+backend/jobs/mongo-scripts.js
