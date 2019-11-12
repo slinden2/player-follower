@@ -137,6 +137,7 @@ const App = () => {
                 path='/favorites'
                 render={() => (
                   <PlayerCardPage
+                    context='player'
                     queryName='FavoritePlayers'
                     header='Favorite Players'
                   />

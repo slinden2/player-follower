@@ -45,20 +45,24 @@ const goalieHeaders = [
   'timeOnIce',
 ]
 
-export const PlayerGameStats = ({ query, idArray, isGoalie, playerId, fullName }) => {
+export const PlayerGameStats = ({
+  query,
+  idArray,
+  isGoalie,
+  playerId,
+  fullName,
+}) => {
   const [selectedGamePk, setSelectedGamePk] = useState(null)
   const { data, loading } = useQuery(query, {
     variables: {
       idArray,
-      isGoalie
-    }
+      isGoalie,
+    },
   })
 
   if (loading) {
     return <Loader />
   }
-
-  console.log(data)
 
   const statArray = data.GetGameStats.stats
     .sort((a, b) => b.gamePk - a.gamePk)
@@ -81,7 +85,7 @@ export const PlayerGameStats = ({ query, idArray, isGoalie, playerId, fullName }
         {matches =>
           matches ? (
             <StatsTable
-              title="Performance Game-by-Game"
+              title='Performance Game-by-Game'
               headers={headers}
               data={statArray}
               handleRowClick={handleRowClick}
@@ -89,7 +93,7 @@ export const PlayerGameStats = ({ query, idArray, isGoalie, playerId, fullName }
             />
           ) : (
             <StatsTable
-              title="Performance Game-by-Game"
+              title='Performance Game-by-Game'
               headers={headers.slice(0, 7)}
               data={statArray}
               handleRowClick={handleRowClick}
@@ -98,10 +102,10 @@ export const PlayerGameStats = ({ query, idArray, isGoalie, playerId, fullName }
           )
         }
       </Media>
-      {!isGoalie && 
+      {!isGoalie && (
         <>
           <Rink data={data.GetGameStats.goals} />
-          <PlayerMilestones 
+          <PlayerMilestones
             playerId={playerId}
             fullName={fullName}
             gamePks={gamePks.slice(0, 5)}
@@ -110,7 +114,7 @@ export const PlayerGameStats = ({ query, idArray, isGoalie, playerId, fullName }
             boxscores={statArray}
           />
         </>
-      }
+      )}
     </>
   )
 }
