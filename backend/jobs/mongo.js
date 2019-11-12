@@ -185,50 +185,6 @@ const addPointsToBoxscores = async () => {
   )
 }
 
-const deleteLatestGames = async () => {
-  const gamePk = 2019020251 // gamePk greater than this will be deleted
-
-  await Game.deleteMany({ gamePk: { $gt: gamePk } })
-  await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
-  await Goal.deleteMany({ gamePk: { $gt: gamePk } })
-
-  const boxscores = await SkaterBoxscore.find(
-    { gamePk: { $gt: gamePk } },
-    { _id: 1 }
-  )
-  const bsIds = boxscores.map(bs => bs._id)
-
-  const goalieBoxscores = await GoalieBoxscore.find(
-    { gamePk: { $gt: gamePk } },
-    { _id: 1 }
-  )
-  const gBsIds = goalieBoxscores.map(bs => bs._id)
-
-  // const linescores = await Linescore.find(
-  //   { gamePk: { $gt: gamePk } },
-  //   { _id: 1 }
-  // )
-  // const lsIds = linescores.map(ls => ls._id)
-
-  await Player.updateMany({}, { boxscore: { $in: [...bsIds, ...gBsIds] } })
-  await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
-  await GoalieBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
-  // await Team.updateMany({})
-  // await Linescore.deleteMany({ gamePk: { $gt: gamePk } })
-  await ScriptState.updateOne(
-    {},
-    {
-      $set: {
-        fetchGames: false,
-        fetchGoals: false,
-        fetchBoxscores: false,
-        fetchTeamStats: false,
-        fetchLinescores: false,
-      },
-    }
-  )
-}
-
 const addLinescoreArrays = async () => {
   // await Team.updateMany({}, { $set: { linescores: [] } })
   // await Game.updateMany(
@@ -300,6 +256,50 @@ const fetchTweets = async () => {
   for (const tweet of filteredTweets) {
     console.log(tweet.text)
   }
+}
+
+const deleteLatestGames = async () => {
+  const gamePk = 2019020262 // gamePk greater than this will be deleted
+
+  await Game.deleteMany({ gamePk: { $gt: gamePk } })
+  await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
+  await Goal.deleteMany({ gamePk: { $gt: gamePk } })
+
+  const boxscores = await SkaterBoxscore.find(
+    { gamePk: { $gt: gamePk } },
+    { _id: 1 }
+  )
+  const bsIds = boxscores.map(bs => bs._id)
+
+  const goalieBoxscores = await GoalieBoxscore.find(
+    { gamePk: { $gt: gamePk } },
+    { _id: 1 }
+  )
+  const gBsIds = goalieBoxscores.map(bs => bs._id)
+
+  // const linescores = await Linescore.find(
+  //   { gamePk: { $gt: gamePk } },
+  //   { _id: 1 }
+  // )
+  // const lsIds = linescores.map(ls => ls._id)
+
+  await Player.updateMany({}, { boxscore: { $in: [...bsIds, ...gBsIds] } })
+  await SkaterBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+  await GoalieBoxscore.deleteMany({ gamePk: { $gt: gamePk } })
+  // await Team.updateMany({})
+  // await Linescore.deleteMany({ gamePk: { $gt: gamePk } })
+  await ScriptState.updateOne(
+    {},
+    {
+      $set: {
+        fetchGames: false,
+        fetchGoals: false,
+        fetchBoxscores: false,
+        fetchTeamStats: false,
+        fetchLinescores: false,
+      },
+    }
+  )
 }
 
 // deleteLeague().then(() => mongoose.connection.close())
