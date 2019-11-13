@@ -39,9 +39,9 @@
     "post_tweet_prod": "node jobs/post-tweet",
     "daily_fetch": "cross-env NODE_ENV=development node jobs/daily-fetch",
     "daily_fetch_prod": "node jobs/daily-fetch",
-    "clock_process": "cross-env NODE_ENV=development node clock/",
+    "clock_process": "cross-env NODE_ENV=development node clock.js",
     "worker_process": "cross-env NODE_ENV=development node worker.js",
-    "mongo": "cross-env NODE_ENV=development node jobs/mongo.js",
+    "mongo": "cross-env NODE_ENV=development node jobs/mongo-scripts.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json"
   },
