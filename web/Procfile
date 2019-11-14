@@ -1,3 +1,2 @@
 web: node server.js
-clock: node clock/
-worker: node worker.js
+worker: node services/worker.js

@@ -36,7 +36,7 @@ def push_to_heroku():
     os.system('git add web')
     os.system(f'git commit -m "{COMMIT_MSG}"')
     os.system('git push origin master')
-    os.system('git subtree push --prefix web staging master')
+    os.system('git subtree push --prefix web dokku master')
 
 
 def main():
