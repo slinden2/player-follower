@@ -24,13 +24,23 @@ const jobSchema = mongoose.Schema({
     required: true,
   },
   message: messageSchema,
-  cronTime: {
-    type: String,
+  execTime: {
+    type: Date,
     required: true,
   },
-  repeat: {
+  attempts: {
     type: Number,
-    required: true,
+    default: 0,
+  },
+  isDone: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+jobSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    delete returnedObject.__v
   },
 })
 

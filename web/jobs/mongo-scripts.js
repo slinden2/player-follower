@@ -259,7 +259,7 @@ const fetchTweets = async () => {
 }
 
 const deleteLatestGames = async () => {
-  const gamePk = 2019020262 // gamePk greater than this will be deleted
+  const gamePk = 2019020271 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })

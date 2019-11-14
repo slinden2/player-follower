@@ -19,6 +19,10 @@ const tweetSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: 'Team',
   },
+  isSent: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 tweetSchema.plugin(uniqueValidator)
