@@ -52,7 +52,7 @@ const main = async () => {
     console.log('clock - No jobs to send')
     return
   }
-  await sendMessages(txChannelWrapper, TX_QUEUE, jobs)
+  sendMessages(txChannelWrapper, TX_QUEUE, jobs)
 }
 
 main()
@@ -61,5 +61,4 @@ main()
     mongoose.connection.close()
     txChannelWrapper.close()
     connection.close()
-    process.exit(0)
   })

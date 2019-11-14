@@ -1,10 +1,10 @@
-const sendMessages = async (channel, queue, messages) => {
+const sendMessages = (channel, queue, messages) => {
   if (!Array.isArray(messages)) {
     messages = [messages]
   }
   try {
     for (const message of messages) {
-      await channel.sendToQueue(queue, message, {
+      channel.sendToQueue(queue, message, {
         contentType: 'application/json',
         persistent: true,
       })
