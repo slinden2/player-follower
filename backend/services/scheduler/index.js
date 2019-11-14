@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const config = require('../../utils/config')
 const getJobs = require('./get-jobs')
 const { sendMessages } = require('./send-messages')
-// const sendJobs = require('./send-jobs')
 
 try {
   mongoose.connect(config.MONGODB_URI, {
@@ -26,4 +25,7 @@ const main = async () => {
 
 main()
   .catch(err => console.error('clock.main ', err.stack))
-  .then(() => mongoose.connection.close())
+  .then(() => {
+    mongoose.connection.close()
+    process.exit(0)
+  })

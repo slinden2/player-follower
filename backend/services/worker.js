@@ -1,10 +1,24 @@
+const mongoose = require('mongoose')
 const amqp = require('amqp-connection-manager')
 const { exec } = require('child_process')
+const Job = require('../models/job')
+const config = require('../utils/config')
 
 let processExt = ''
 
 if (process.env.NODE_ENV === 'production') {
   processExt = '_prod'
+}
+
+try {
+  mongoose.connect(config.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  console.log('worker.connected-to-db')
+} catch (err) {
+  console.error('worker.db-connection-error ', err.stack)
+  return
 }
 
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost'
@@ -19,6 +33,7 @@ console.log('[AMQP] - Connecting...')
 connection.on('connect', () => {
   process.once('SIGINT', () => {
     // Close conn on exit
+    mongoose.connection.close()
     connection.close()
   })
   return console.log('[AMQP] - Connected!')
@@ -83,6 +98,7 @@ const onMessage = async data => {
           console.log('[AMQP] - postTweet completed')
         }
       )
+      await Job.updateOne({ _id: job._id }, { isDone: true })
       await sleep(1000)
       channelWrapper.ack(data)
       break
