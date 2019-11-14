@@ -1,6 +1,6 @@
 const amqp = require('amqp-connection-manager')
 
-const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost'
+const AMQP_URL = process.env.RABBITMQ_URL || 'amqp://localhost'
 if (!AMQP_URL) process.exit(1)
 
 const TX_QUEUE = 'worker'
