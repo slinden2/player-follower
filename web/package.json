@@ -41,6 +41,7 @@
     "daily_fetch_prod": "node jobs/daily-fetch",
     "worker": "cross-env NODE_ENV=development node services/worker.js",
     "scheduler": "cross-env NODE_ENV=development node services/scheduler/",
+    "scheduler_prod": "node services/scheduler/",
     "create_tweets": "cross-env NODE_ENV=development node jobs/create-tweets.js",
     "create_tweets_prod": "node jobs/create-tweets.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo-scripts.js",
