@@ -49,28 +49,32 @@ channelWrapper
     console.error('[AMQP] - Error! ', err)
   })
 
+const sleep = ms =>
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
+      resolve()
+    }, ms)
+  )
+
 // Process message from AMQP
-const onMessage = data => {
-  let message
+const onMessage = async data => {
+  let job
   try {
-    message = JSON.parse(data.content.toString())
+    job = JSON.parse(data.content.toString())
   } catch (err) {
     console.error(`[AMQP] - Error parsing message... ${data}`)
   }
 
-  console.log(
-    `[AMQP] - Receiving message... ${JSON.stringify(message, null, 2)}`
-  )
-  channelWrapper.ack(data)
-  if (!message) {
+  console.log(`[AMQP] - Receiving message... ${JSON.stringify(job, null, 2)}`)
+  if (!job) {
     return
   }
 
-  switch (message.taskName) {
+  switch (job.message.taskName) {
     case 'postTweet': {
       console.log('[AMQP] - Running postTweet')
       exec(
-        `npm run post_tweet${processExt} ${message.dataId}`,
+        `npm run post_tweet${processExt} ${job.message.dataId}`,
         (err, stdout, stderr) => {
           console.log('stdout\n', stdout)
           if (stderr) {
@@ -79,10 +83,12 @@ const onMessage = data => {
           console.log('[AMQP] - postTweet completed')
         }
       )
+      await sleep(1000)
+      channelWrapper.ack(data)
       break
     }
 
     default:
-      console.error('No task was found with name => ' + message.taskName)
+      console.error('No task was found with name => ' + job.message.taskName)
   }
 }
