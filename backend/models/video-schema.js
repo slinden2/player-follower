@@ -17,6 +17,7 @@ const playbackSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      sparse: true,
     },
   },
   { id_: false }
@@ -29,6 +30,7 @@ const videoSchema = mongoose.Schema({
     type: Number,
     required: true,
     unique: true,
+    sparse: true,
   },
   title: {
     type: String,
