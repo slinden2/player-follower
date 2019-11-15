@@ -16,7 +16,8 @@ const byConference = (team, comp) =>
 
 const getValueFromRecord = record => {
   const [a, b, c] = record.split('-')
-  return parseInt([a, c, b].join(''))
+  // a: wins, b: losses, c: ot | return points
+  return a * 2 + c
 }
 
 const defineOrder = (stat, a, b) => {
