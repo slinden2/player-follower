@@ -258,8 +258,52 @@ const fetchTweets = async () => {
   }
 }
 
+const verifyBoxscores = async () => {
+  const gamePk = 2019020244
+  const boxscoreUrl = gamePk =>
+    `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`
+  const url = boxscoreUrl(gamePk)
+
+  const scoresInDb = await SkaterBoxscore.find({ gamePk }).populate('player', {
+    playerId: 1,
+  })
+
+  const {
+    data: {
+      liveData: {
+        boxscore: { teams },
+      },
+    },
+  } = await axios.get(url)
+  const playerArray = { ...teams.away.players, ...teams.home.players }
+
+  for (const player in playerArray) {
+    const fetchedPlayer = playerArray[player]
+    const scoreInDb = scoresInDb.find(
+      score => score.player.playerId === fetchedPlayer.person.id
+    )
+    if (
+      fetchedPlayer.stats.skaterStats.assists !== scoreInDb.assists ||
+      fetchedPlayer.stats.skaterStats.goals !== scoreInDb.goals
+    ) {
+      console.log(
+        'fetchedPlayer.person.fullName',
+        fetchedPlayer.person.fullName
+      )
+      console.log('fetchedPlayer.person.id', fetchedPlayer.person.id)
+      console.log('fetchedPlayer.goals', fetchedPlayer.stats.skaterStats.goals)
+      console.log('scoreInDb.goals', scoreInDb.goals)
+      console.log(
+        'fetchedPlayer.assists',
+        fetchedPlayer.stats.skaterStats.assists
+      )
+      console.log('scoreInDb.assists', scoreInDb.assists)
+    }
+  }
+}
+
 const deleteLatestGames = async () => {
-  const gamePk = 2019020271 // gamePk greater than this will be deleted
+  const gamePk = 2019020285 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -322,4 +366,5 @@ const deleteLatestGames = async () => {
 // getDate().then(() => mongoose.connection.close())
 // updatePlayerTeam().then(() => mongoose.connection.close())
 // fetchTweets().then(() => mongoose.connection.close())
-// deleteLatestGames().then(() => mongoose.connection.close())
+// verifyBoxscores().then(() => mongoose.connection.close())
+deleteLatestGames().then(() => mongoose.connection.close())
