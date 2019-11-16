@@ -38,4 +38,7 @@ const runProcesses = async () => {
   }
 }
 
-runProcesses(() => console.log('All tasks completed.'))
+runProcesses().then(() => {
+  console.log('All tasks completed.')
+  process.exit(0)
+})
