@@ -36,6 +36,11 @@ const runProcesses = async () => {
   for (const task of tasks) {
     await loadProcess(task)
   }
+  console.log('All tasks completed.')
+  process.exit(0)
 }
 
-runProcesses(() => console.log('All tasks completed.'))
+runProcesses().then(() => {
+  console.log('All tasks completed.')
+  process.exit(0)
+})

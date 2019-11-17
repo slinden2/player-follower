@@ -248,7 +248,13 @@ const fetchTweets = async () => {
     access_token_secret: process.env.TW_ACCESS_TOKEN_SECRET,
   })
 
-  const params = { screen_name: 'PR_NHL' }
+  const params = {
+    user_id: 1360098198,
+    count: 200,
+    exclude_replies: true,
+    max_id: 1185908655964725200,
+  }
+
   const tweets = await client.get('statuses/user_timeline', params)
   const filteredTweets = tweets.filter(tweet =>
     tweet.text.startsWith('OFFICIAL')
@@ -259,45 +265,83 @@ const fetchTweets = async () => {
 }
 
 const verifyBoxscores = async () => {
-  const gamePk = 2019020244
-  const boxscoreUrl = gamePk =>
-    `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`
-  const url = boxscoreUrl(gamePk)
+  const gamePks = [
+    2019020032,
+    2019020051,
+    2019020112,
+    2019020116,
+    2019020123,
+    2019020130,
+    2019020138,
+    2019020144,
+    2019020145,
+    2019020147,
+    2019020174,
+    2019020182,
+    2019020189,
+    2019020195,
+    2019020202,
+    2019020209,
+    2019020224,
+    2019020226,
+    2019020241,
+    2019020244,
+    2019020247,
+    2019020248,
+    2019020268,
+  ]
 
-  const scoresInDb = await SkaterBoxscore.find({ gamePk }).populate('player', {
-    playerId: 1,
-  })
-
-  const {
-    data: {
-      liveData: {
-        boxscore: { teams },
-      },
-    },
-  } = await axios.get(url)
-  const playerArray = { ...teams.away.players, ...teams.home.players }
-
-  for (const player in playerArray) {
-    const fetchedPlayer = playerArray[player]
-    const scoreInDb = scoresInDb.find(
-      score => score.player.playerId === fetchedPlayer.person.id
+  for (const gamePk of gamePks) {
+    const boxscoreUrl = gamePk =>
+      `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`
+    const url = boxscoreUrl(gamePk)
+    const scoresInDb = await SkaterBoxscore.find({ gamePk }).populate(
+      'player',
+      {
+        playerId: 1,
+      }
     )
-    if (
-      fetchedPlayer.stats.skaterStats.assists !== scoreInDb.assists ||
-      fetchedPlayer.stats.skaterStats.goals !== scoreInDb.goals
-    ) {
-      console.log(
-        'fetchedPlayer.person.fullName',
-        fetchedPlayer.person.fullName
+    const {
+      data: {
+        liveData: {
+          boxscore: { teams },
+        },
+      },
+    } = await axios.get(url)
+    const playerArray = { ...teams.away.players, ...teams.home.players }
+
+    for (const player in playerArray) {
+      const fetchedPlayer = playerArray[player]
+      if (fetchedPlayer.position.code === 'G' || !fetchedPlayer.stats.length)
+        continue
+      const scoreInDb = scoresInDb.find(
+        score => score.player.playerId === fetchedPlayer.person.id
       )
       console.log('fetchedPlayer.person.id', fetchedPlayer.person.id)
-      console.log('fetchedPlayer.goals', fetchedPlayer.stats.skaterStats.goals)
-      console.log('scoreInDb.goals', scoreInDb.goals)
-      console.log(
-        'fetchedPlayer.assists',
-        fetchedPlayer.stats.skaterStats.assists
-      )
-      console.log('scoreInDb.assists', scoreInDb.assists)
+      if (fetchedPlayer.person.id === 8477810) {
+        console.log(fetchedPlayer)
+      }
+      console.log('scoreInDb.player.playerId', scoreInDb.player.playerId)
+      if (
+        fetchedPlayer.stats.skaterStats.assists !== scoreInDb.assists ||
+        fetchedPlayer.stats.skaterStats.goals !== scoreInDb.goals
+      ) {
+        console.log(
+          'fetchedPlayer.person.fullName',
+          fetchedPlayer.person.fullName
+        )
+        console.log('fetchedPlayer.person.id', fetchedPlayer.person.id)
+        console.log(
+          'fetchedPlayer.goals',
+          fetchedPlayer.stats.skaterStats.goals
+        )
+        console.log('scoreInDb.goals', scoreInDb.goals)
+        console.log(
+          'fetchedPlayer.assists',
+          fetchedPlayer.stats.skaterStats.assists
+        )
+        console.log('scoreInDb.assists', scoreInDb.assists)
+      }
     }
   }
 }
@@ -366,5 +410,5 @@ const deleteLatestGames = async () => {
 // getDate().then(() => mongoose.connection.close())
 // updatePlayerTeam().then(() => mongoose.connection.close())
 // fetchTweets().then(() => mongoose.connection.close())
-// verifyBoxscores().then(() => mongoose.connection.close())
-deleteLatestGames().then(() => mongoose.connection.close())
+verifyBoxscores().then(() => mongoose.connection.close())
+// deleteLatestGames().then(() => mongoose.connection.close())
