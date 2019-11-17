@@ -3,6 +3,7 @@ import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
 import StatsTable from '../stats/StatsTable'
+import NewStatsTable from '../stats/NewStatsTable'
 import Button from '../elements/Button'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
@@ -50,15 +51,16 @@ const PlayerStats = () => {
   }))
 
   return (
-    <PageContainer title="Player Stats">
-      <StatsTable
+    <PageContainer title='Player Stats'>
+      <NewStatsTable
         headers={playerStatsHeaders}
-        stats="Stats"
+        stats='Stats'
         data={playersWithLink}
-        sortVariables={variables}
-        setSortVariables={setVariables}
+        dataType='skater'
+        // sortVariables={variables}
+        // setSortVariables={setVariables}
       />
-      <Button onClick={loadMore} content="Load more" />
+      <Button onClick={loadMore} content='Load more' />
     </PageContainer>
   )
 }
