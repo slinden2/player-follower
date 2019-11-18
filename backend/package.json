@@ -44,6 +44,7 @@
     "scheduler_prod": "node services/scheduler/",
     "create_tweets": "cross-env NODE_ENV=development node jobs/create-tweets.js",
     "create_tweets_prod": "node jobs/create-tweets.js",
+    "fetch_scoring_changes": "cross-env NODE_ENV=development node jobs/fetch-scoring-changes.js",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo-scripts.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json"
