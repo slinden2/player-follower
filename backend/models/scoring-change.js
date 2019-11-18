@@ -31,6 +31,11 @@ const scoringChangeSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  isVerified: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 })
 
 scoringChangeSchema.plugin(uniqueValidator)

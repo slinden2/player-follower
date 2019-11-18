@@ -25,30 +25,6 @@ const client = new Twitter({
   access_token_secret: process.env.TW_ACCESS_TOKEN_SECRET,
 })
 
-const params = {
-  user_id: 1360098198,
-  count: 200,
-  exclude_replies: true,
-  // max_id: 1185908655964725200,
-}
-
-client.get(
-  'statuses/user_timeline',
-  params,
-  async (error, tweets, response) => {
-    const tweetArray = []
-    for (const tweet of tweets) {
-      if (tweet.text.toLowerCase().startsWith('official scoring')) {
-        const tweetObj = getTweetObject(tweet)
-        tweetArray.push(tweetObj)
-      }
-    }
-    console.log(tweetArray)
-    mongoose.connection.close()
-    process.exit(0)
-  }
-)
-
 const getTweetObject = tweet => {
   // Create gamePk
   const gameIndex = tweet.text.toLowerCase().indexOf('game ')
@@ -61,6 +37,7 @@ const getTweetObject = tweet => {
   const urlIndex = tweet.text.toLowerCase().indexOf('http')
   const link = tweet.text.slice(urlIndex)
 
+  // Create object to be saved in DB
   const tweetObj = {
     tweetId: tweet.id,
     createdAt: new Date(tweet.created_at),
@@ -73,3 +50,57 @@ const getTweetObject = tweet => {
 
   return tweetObj
 }
+
+// Twitter library uses old callback API.
+// Convert it to use promises.
+const fetchTweets = async params =>
+  new Promise((resolve, reject) => {
+    client.get(
+      'statuses/user_timeline',
+      params,
+      async (error, tweets, response) => {
+        if (error) {
+          reject(error)
+        }
+
+        const tweetArray = []
+        for (const tweet of tweets) {
+          // The scoring change tweets all start with "official scoring"
+          if (tweet.text.toLowerCase().startsWith('official scoring')) {
+            const tweetObj = getTweetObject(tweet)
+            tweetArray.push(tweetObj)
+          }
+        }
+
+        const scoringChanges = await ScoringChange.insertMany(tweetArray, {
+          ordered: false,
+        })
+        resolve(scoringChanges)
+      }
+    )
+  })
+
+const fetchScoringChanges = async () => {
+  const mostRecentTweet = await ScoringChange.find({})
+    .sort({ tweetId: -1 })
+    .limit(1)
+  const sinceId = mostRecentTweet[0].tweetId
+
+  const params = {
+    user_id: 1360098198,
+    count: 200,
+    exclude_replies: true,
+    since_id: sinceId,
+  }
+
+  await fetchTweets(params)
+}
+
+fetchScoringChanges()
+  .then(() => {
+    mongoose.connection.close()
+    process.exit(0)
+  })
+  .catch(err =>
+    console.error('fetch-scoring-changes.fetchScoringChanges', err.stack)
+  )
