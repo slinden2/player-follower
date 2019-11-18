@@ -55,13 +55,12 @@ const getHeaders = type => {
 
 const NewStatsTable = ({ headers, stats, data, dataType }) => {
   const [cellHeights, setCellHeights] = useState([])
-  const scrollRef = useRef(null)
   const tableRef = useRef(null)
 
   useLayoutEffect(() => {
     handleCellHeightResize()
     window.addEventListener('resize', handleCellHeightResize)
-    // return window.removeEventListener('resize', handleCellHeightResize)
+    return () => window.removeEventListener('resize', handleCellHeightResize)
   }, [])
 
   const headersToUse = getHeaders(dataType)
@@ -129,7 +128,7 @@ const NewStatsTable = ({ headers, stats, data, dataType }) => {
 
   return (
     <Container>
-      <ScrollContainer ref={scrollRef}>
+      <ScrollContainer>
         <Table ref={tableRef}>
           <TableHead>{headerMarkup()}</TableHead>
           <TableBody>{cellMarkup()}</TableBody>
