@@ -35,7 +35,12 @@ const resetScriptStates = async () => {
 }
 
 resetScriptStates()
-  .catch(err =>
+  .catch(err => {
     console.error('reset-script-states.resetScriptStates\n', err.stack)
-  )
-  .then(() => mongoose.connection.close())
+    mongoose.connection.close()
+    process.exit(1)
+  })
+  .then(() => {
+    mongoose.connection.close()
+    process.exit(0)
+  })

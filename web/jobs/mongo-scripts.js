@@ -1,6 +1,7 @@
 const axios = require('axios')
 const mongoose = require('mongoose')
 const Twitter = require('twitter')
+const _ = require('lodash')
 const Conference = require('../models/conference')
 const Division = require('../models/division')
 const Team = require('../models/team')
@@ -10,6 +11,7 @@ const GoalieBoxscore = require('../models/goalie-boxscore')
 const TeamStats = require('../models/team-stats')
 const Linescore = require('../models/linescore')
 const ScriptState = require('../models/script-state')
+const ScoringChange = require('../models/scoring-change')
 const User = require('../models/user')
 const Game = require('../models/game')
 const Goal = require('../models/goal')
@@ -265,42 +267,17 @@ const fetchTweets = async () => {
 }
 
 const verifyBoxscores = async () => {
-  const gamePks = [
-    2019020032,
-    2019020051,
-    2019020112,
-    2019020116,
-    2019020123,
-    2019020130,
-    2019020138,
-    2019020144,
-    2019020145,
-    2019020147,
-    2019020174,
-    2019020182,
-    2019020189,
-    2019020195,
-    2019020202,
-    2019020209,
-    2019020224,
-    2019020226,
-    2019020241,
-    2019020244,
-    2019020247,
-    2019020248,
-    2019020268,
-  ]
+  const scoringChanges = await ScoringChange.find({ isVerified: false })
 
-  for (const gamePk of gamePks) {
+  for (const scoringChange of scoringChanges) {
     const boxscoreUrl = gamePk =>
       `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`
-    const url = boxscoreUrl(gamePk)
-    const scoresInDb = await SkaterBoxscore.find({ gamePk }).populate(
-      'player',
-      {
-        playerId: 1,
-      }
-    )
+    const url = boxscoreUrl(scoringChange.gamePk)
+    const scoresInDb = await SkaterBoxscore.find({
+      gamePk: scoringChange.gamePk,
+    }).populate('player', {
+      playerId: 1,
+    })
     const {
       data: {
         liveData: {
@@ -308,39 +285,134 @@ const verifyBoxscores = async () => {
         },
       },
     } = await axios.get(url)
-    const playerArray = { ...teams.away.players, ...teams.home.players }
+    const playersObject = { ...teams.away.players, ...teams.home.players }
 
-    for (const player in playerArray) {
-      const fetchedPlayer = playerArray[player]
-      if (fetchedPlayer.position.code === 'G' || !fetchedPlayer.stats.length)
+    // Convert player objects into an array
+    const playerArray = []
+    for (const playerObjId in playersObject) {
+      const playerData = playersObject[playerObjId]
+      // Exclude goalies and players with empty stats objects to avoid errors
+      if (playerData.position.code === 'G' || _.isEmpty(playerData.stats)) {
         continue
+      }
+      playerArray.push(playerData)
+    }
+
+    for (const fetchedPlayer of playerArray) {
       const scoreInDb = scoresInDb.find(
         score => score.player.playerId === fetchedPlayer.person.id
       )
-      console.log('fetchedPlayer.person.id', fetchedPlayer.person.id)
-      if (fetchedPlayer.person.id === 8477810) {
-        console.log(fetchedPlayer)
-      }
-      console.log('scoreInDb.player.playerId', scoreInDb.player.playerId)
+
+      // Compare scores between newly fetched boxscore and
+      // the corresponding one in the DB
       if (
         fetchedPlayer.stats.skaterStats.assists !== scoreInDb.assists ||
-        fetchedPlayer.stats.skaterStats.goals !== scoreInDb.goals
+        fetchedPlayer.stats.skaterStats.goals !== scoreInDb.goals ||
+        fetchedPlayer.stats.skaterStats.penaltyMinutes !==
+          scoreInDb.penaltyMinutes ||
+        fetchedPlayer.stats.skaterStats.shots !== scoreInDb.shots ||
+        fetchedPlayer.stats.skaterStats.faceOffWins !== scoreInDb.faceOffWins ||
+        fetchedPlayer.stats.skaterStats.faceoffTaken !==
+          scoreInDb.faceOffsTaken ||
+        fetchedPlayer.stats.skaterStats.takeaways !== scoreInDb.takeaways ||
+        fetchedPlayer.stats.skaterStats.giveaways !== scoreInDb.giveaways ||
+        fetchedPlayer.stats.skaterStats.shortHandedGoals !==
+          scoreInDb.shortHandedGoals ||
+        fetchedPlayer.stats.skaterStats.shortHandedAssists !==
+          scoreInDb.shortHandedAssists ||
+        fetchedPlayer.stats.skaterStats.powerPlayGoals !==
+          scoreInDb.powerPlayGoals ||
+        fetchedPlayer.stats.skaterStats.powerPlayAssists !==
+          scoreInDb.powerPlayAssists ||
+        fetchedPlayer.stats.skaterStats.blocked !== scoreInDb.blocked ||
+        fetchedPlayer.stats.skaterStats.plusMinus !== scoreInDb.plusMinus ||
+        fetchedPlayer.stats.skaterStats.hits !== scoreInDb.hits
       ) {
+        console.log('gamePk', scoringChange.gamePk)
+        console.log('fetchedPlayer.id', fetchedPlayer.person.id)
+        console.log('fetchedPlayer.fullName', fetchedPlayer.person.fullName)
         console.log(
-          'fetchedPlayer.person.fullName',
-          fetchedPlayer.person.fullName
+          'goals',
+          fetchedPlayer.stats.skaterStats.goals !== scoreInDb.goals
         )
-        console.log('fetchedPlayer.person.id', fetchedPlayer.person.id)
         console.log(
-          'fetchedPlayer.goals',
-          fetchedPlayer.stats.skaterStats.goals
+          'assists',
+          fetchedPlayer.stats.skaterStats.assists !== scoreInDb.assists
         )
-        console.log('scoreInDb.goals', scoreInDb.goals)
         console.log(
-          'fetchedPlayer.assists',
-          fetchedPlayer.stats.skaterStats.assists
+          'penaltyMinutes',
+          fetchedPlayer.stats.skaterStats.penaltyMinutes !==
+            scoreInDb.penaltyMinutes
         )
-        console.log('scoreInDb.assists', scoreInDb.assists)
+        console.log(
+          'shots',
+          fetchedPlayer.stats.skaterStats.shots !== scoreInDb.shots
+        )
+        console.log(
+          'faceOffWins',
+          fetchedPlayer.stats.skaterStats.faceOffWins !== scoreInDb.faceOffWins
+        )
+        console.log(
+          'faceOffsTaken',
+          fetchedPlayer.stats.skaterStats.faceoffTaken !==
+            scoreInDb.faceOffsTaken
+        )
+        console.log(
+          'takeaways',
+          fetchedPlayer.stats.skaterStats.takeaways !== scoreInDb.takeaways
+        )
+        console.log(
+          'giveaways',
+          fetchedPlayer.stats.skaterStats.giveaways !== scoreInDb.giveaways
+        )
+        console.log(
+          'shortHandedGoals',
+          fetchedPlayer.stats.skaterStats.shortHandedGoals !==
+            scoreInDb.shortHandedGoals
+        )
+        console.log(
+          'shortHandedAssists',
+          fetchedPlayer.stats.skaterStats.shortHandedAssists !==
+            scoreInDb.shortHandedAssists
+        )
+        console.log(
+          'powerPlayGoals',
+          fetchedPlayer.stats.skaterStats.powerPlayGoals !==
+            scoreInDb.powerPlayGoals
+        )
+        console.log(
+          'powerPlayAssists',
+          fetchedPlayer.stats.skaterStats.powerPlayAssists !==
+            scoreInDb.powerPlayAssists
+        )
+        console.log(
+          'blocked',
+          fetchedPlayer.stats.skaterStats.blocked !== scoreInDb.blocked
+        )
+        console.log(
+          'plusMinus',
+          fetchedPlayer.stats.skaterStats.plusMinus !== scoreInDb.plusMinus
+        )
+        console.log(
+          'hits',
+          fetchedPlayer.stats.skaterStats.hits !== scoreInDb.hits
+        )
+        console.log('')
+        // console.log(
+        //   'fetchedPlayer.person.fullName',
+        //   fetchedPlayer.person.fullName
+        // )
+        // console.log('fetchedPlayer.person.id', fetchedPlayer.person.id)
+        // console.log(
+        //   'fetchedPlayer.goals',
+        //   fetchedPlayer.stats.skaterStats.goals
+        // )
+        // console.log('scoreInDb.goals', scoreInDb.goals)
+        // console.log(
+        //   'fetchedPlayer.assists',
+        //   fetchedPlayer.stats.skaterStats.assists
+        // )
+        // console.log('scoreInDb.assists', scoreInDb.assists)
       }
     }
   }

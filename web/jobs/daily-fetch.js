@@ -36,11 +36,14 @@ const runProcesses = async () => {
   for (const task of tasks) {
     await loadProcess(task)
   }
-  console.log('All tasks completed.')
-  process.exit(0)
 }
 
-runProcesses().then(() => {
-  console.log('All tasks completed.')
-  process.exit(0)
-})
+runProcesses()
+  .then(() => {
+    console.log('All tasks completed.')
+    process.exit(0)
+  })
+  .catch(err => {
+    console.error('daily-fetch.runProcesses', err.stack)
+    process.exit(1)
+  })
