@@ -70,5 +70,11 @@ const fetchTeamStats = async () => {
 }
 
 fetchTeamStats()
-  .catch(err => console.error('fetch-team-stats.fetchTeamStats\n', err.stack))
-  .then(() => mongoose.connection.close())
+  .then(() => {
+    mongoose.connection.close()
+    process.exit(0)
+  })
+  .catch(err => {
+    console.error('fetch-team-stats.fetchTeamStats\n', err.stack)
+    process.exit(1)
+  })

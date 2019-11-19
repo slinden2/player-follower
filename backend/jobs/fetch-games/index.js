@@ -66,9 +66,14 @@ const date = process.argv[2] || UTC_DATE
 console.log(`fetch-games.index.fetch-started-${date}`)
 
 fetchGames(date)
+  .then(() => {
+    mongoose.connection.close()
+    process.exit(0)
+  })
   .catch(err => {
     console.error(
       `fetch-games.fetchGames: ${err.name}: ${err.message}\n${err.stack}`
     )
+    mongoose.connection.close()
+    process.exit(1)
   })
-  .then(() => mongoose.connection.close())

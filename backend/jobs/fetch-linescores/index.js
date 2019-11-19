@@ -47,11 +47,11 @@ const runFetchLinescores = async gameData => {
   const gamePks = gameData.map(game => game.gamePk)
   try {
     await fetchLinescores(gameData, gamePks)
-  } catch (err) {
-    console.error(`fetch-linescores.fetchLinescores - ${gamePks}\n`, err.stack)
-    process.exit(1)
-  } finally {
     mongoose.connection.close()
     process.exit(0)
+  } catch (err) {
+    console.error(`fetch-linescores.fetchLinescores - ${gamePks}\n`, err.stack)
+    mongoose.connection.close()
+    process.exit(1)
   }
 }
