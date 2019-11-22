@@ -20,7 +20,19 @@ const goalSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Game',
   },
-  player: {
+  scorer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Player',
+  },
+  assist1: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Player',
+  },
+  assist2: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Player',
+  },
+  goalie: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player',
   },
@@ -34,6 +46,10 @@ const goalSchema = mongoose.Schema({
   },
   gamePk: {
     type: Number,
+    required: true,
+  },
+  apiDate: {
+    type: Date,
     required: true,
   },
   type: {
@@ -53,6 +69,14 @@ const goalSchema = mongoose.Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  eventIdx: {
+    type: Number,
+    required: true,
+  },
+  eventId: {
+    type: Number,
+    required: true,
   },
   periodType: {
     type: String,
