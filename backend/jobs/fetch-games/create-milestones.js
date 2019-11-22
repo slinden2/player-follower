@@ -26,6 +26,7 @@ const createMilestones = async (data, game, awayTeam, homeTeam) => {
       teamId: parseInt(milestone.teamId),
       opponentId,
       playerId: parseInt(milestone.playerId),
+      eventId: parseInt(milestone.statsEventId),
       type: milestone.type,
       periodTime: convertMMSStoSec(milestone.periodTime),
       periodNumber: parseInt(milestone.period),

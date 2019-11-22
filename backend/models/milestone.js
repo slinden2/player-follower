@@ -52,6 +52,10 @@ const milestoneSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  eventId: {
+    type: Number,
+    required: true,
+  },
   type: {
     type: String,
     required: true,
