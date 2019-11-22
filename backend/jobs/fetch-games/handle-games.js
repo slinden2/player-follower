@@ -36,11 +36,14 @@ const handleGames = async (date, games) => {
     const hasCondensedVideo = condensedGame.items.length
     const hasRecapVideo = gameRecap.items.length
 
+    const apiDate = new Date(date).toISOString()
+
     const createdMilestones = await createMilestones(
       media,
       game,
       awayTeam,
-      homeTeam
+      homeTeam,
+      apiDate
     )
 
     const milestoneIds = createdMilestones.map(milestone => milestone._id)
@@ -50,7 +53,7 @@ const handleGames = async (date, games) => {
       liveLink: game.link,
       contentLink: game.content.link,
       gameDate: game.gameDate,
-      apiDate: new Date(date).toISOString(),
+      apiDate,
       gameType: game.gameType,
       awayTeam: {
         team: awayTeam._id,

@@ -40,6 +40,10 @@ const milestoneSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  apiDate: {
+    type: Date,
+    required: true,
+  },
   teamId: {
     type: Number,
     required: true,

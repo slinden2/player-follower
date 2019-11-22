@@ -3,7 +3,7 @@ const Milestone = require('../../models/milestone')
 const createVideoData = require('./create-video-data')
 const { convertMMSStoSec } = require('../fetch-helpers')
 
-const createMilestones = async (data, game, awayTeam, homeTeam) => {
+const createMilestones = async (data, game, awayTeam, homeTeam, apiDate) => {
   const rawMilestones = data.milestones.items.filter(
     item =>
       (item.type === 'SHOT' || item.type === 'GOAL') &&
@@ -23,6 +23,7 @@ const createMilestones = async (data, game, awayTeam, homeTeam) => {
     const newMilestone = {
       gamePk: game.gamePk,
       gameDate: game.gameDate,
+      apiDate,
       teamId: parseInt(milestone.teamId),
       opponentId,
       playerId: parseInt(milestone.playerId),
