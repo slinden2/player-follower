@@ -14,10 +14,6 @@ const fixedCellStyling = css`
   left: 0;
   border-right: 2px solid ${colors.grey1};
   background-color: inherit;
-
-  @media ${breakpoints.narrowStatsTable} {
-    min-width: 150px;
-  }
 `
 
 const highlightStyling = css`
@@ -28,10 +24,18 @@ const TableHeader = styled.th`
   ${cellStyling}
   font-size: 1rem;
 
-  ${({ fixed, showPointer, isHighlighted }) => css`
+  ${({ fixed, showPointer, isHighlighted, narrow }) => css`
     ${fixed && fixedCellStyling}
     ${showPointer && 'cursor: pointer;'}
     ${isHighlighted && highlightStyling}
+    ${!fixed && 'min-width: 30px;'}
+    ${!narrow &&
+      fixed &&
+      css`
+        @media ${breakpoints.narrowStatsTable} {
+          min-width: 150px;
+        }
+      `}
   `}
 `
 const TableCell = styled.td`
@@ -53,7 +57,8 @@ const getCellType = type => {
 
 export const TCell = ({
   type,
-  colIndex,
+  fixed,
+  narrowFixedCol,
   text,
   title,
   onClick,
@@ -63,7 +68,8 @@ export const TCell = ({
 
   return (
     <Cell
-      fixed={colIndex === 0}
+      fixed={fixed}
+      narrow={narrowFixedCol}
       title={title}
       onClick={onClick}
       showPointer={onClick}

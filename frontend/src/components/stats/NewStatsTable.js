@@ -95,6 +95,9 @@ const NewStatsTable = ({
     const sortBy = headersToUse[header][sortProp]
     const sortEnabled = !disabledSortVariables.includes(sortBy)
     const isHighlighted = highlightColumn(header)
+    const fixed = colIndex === 0
+    // PlayerProfile stats table must have narrower first column
+    const narrowFixedCol = fixed && text === 'Date'
 
     const handleSort = sortBy => {
       sortDispatch({ type: 'SORT_BY', sortBy })
@@ -106,7 +109,8 @@ const NewStatsTable = ({
         type='th'
         text={text}
         title={title}
-        colIndex={colIndex}
+        fixed={fixed}
+        narrowFixedCol={narrowFixedCol}
         onClick={sortEnabled ? () => handleSort(sortBy) : undefined}
         isHighlighted={isHighlighted}
       />
@@ -122,6 +126,7 @@ const NewStatsTable = ({
 
   const renderRow = (header, row, colIndex) => {
     const text = getData(row, header)
+    const fixed = colIndex === 0
     const isHighlighted = highlightColumn(header)
 
     return (
@@ -129,7 +134,7 @@ const NewStatsTable = ({
         key={header}
         type='td'
         text={text}
-        colIndex={colIndex}
+        fixed={fixed}
         isHighlighted={isHighlighted}
       />
     )
