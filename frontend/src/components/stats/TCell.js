@@ -4,21 +4,19 @@ import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
 
 const cellStyling = css`
-  /* border: 3px solid ${colors.grey1}; */
   padding: 8px;
   text-align: center;
 `
 
 const fixedCellStyling = css`
   text-align: left;
-  position: absolute;
-  top: auto;
+  position: sticky;
   left: 0;
-  width: 100px;
-  white-space: unset;
+  border-right: 2px solid ${colors.grey1};
+  background-color: inherit;
 
   @media ${breakpoints.narrowStatsTable} {
-    width: 175px;
+    min-width: 175px;
   }
 `
 

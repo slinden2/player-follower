@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef, useCallback } from 'react'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import {
   statHeaders,
@@ -16,11 +16,11 @@ const Container = styled.div`
 
 const ScrollContainer = styled.div`
   overflow-x: auto;
-  margin-left: 175px;
+  /* margin-left: 175px; */
 `
 
 const Table = styled.table`
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
   border-spacing: 0;
   font-size: 0.875rem;
   width: 100%;
@@ -54,33 +54,11 @@ const getHeaders = type => {
 }
 
 const NewStatsTable = ({ headers, stats, data, dataType }) => {
-  const [cellHeights, setCellHeights] = useState([])
-  const tableRef = useRef(null)
-
-  useLayoutEffect(() => {
-    handleCellHeightResize()
-    window.addEventListener('resize', handleCellHeightResize)
-    return () => window.removeEventListener('resize', handleCellHeightResize)
-  }, [])
-
   const headersToUse = getHeaders(dataType)
 
   const getData = (item, header) => {
     if (header === 'gameDate') return formatDate(item[headersToUse[header].id])
     return item[headersToUse[header].id]
-  }
-
-  const getTallestCellHeights = () => {
-    const rows = Array.from(tableRef.current.getElementsByTagName('tr'))
-
-    return rows.map(row => {
-      const fixedCell = row.childNodes[0]
-      return Math.max(row.clientHeight, fixedCell.clientHeight)
-    })
-  }
-
-  const handleCellHeightResize = () => {
-    setCellHeights(getTallestCellHeights)
   }
 
   const headerMarkup = () => (
@@ -89,17 +67,8 @@ const NewStatsTable = ({ headers, stats, data, dataType }) => {
 
   const renderHeaderRow = (header, colIndex) => {
     const text = headersToUse[header].headerText
-    const height = cellHeights[0]
 
-    return (
-      <TCell
-        key={header}
-        type='th'
-        data={text}
-        colIndex={colIndex}
-        cellHeight={height}
-      />
-    )
+    return <TCell key={header} type='th' data={text} colIndex={colIndex} />
   }
 
   const cellMarkup = () =>
@@ -113,23 +82,14 @@ const NewStatsTable = ({ headers, stats, data, dataType }) => {
 
   const renderRow = (header, row, rowIndex, colIndex) => {
     const text = getData(row, header)
-    const height = cellHeights[rowIndex + 1]
 
-    return (
-      <TCell
-        key={header}
-        type='td'
-        data={text}
-        colIndex={colIndex}
-        cellHeight={height}
-      />
-    )
+    return <TCell key={header} type='td' data={text} colIndex={colIndex} />
   }
 
   return (
     <Container>
       <ScrollContainer>
-        <Table ref={tableRef}>
+        <Table>
           <TableHead>{headerMarkup()}</TableHead>
           <TableBody>{cellMarkup()}</TableBody>
         </Table>
