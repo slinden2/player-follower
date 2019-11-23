@@ -23,10 +23,13 @@ const fetchGoals = async gamePks => {
   const contentPromises = gamePks.map(gamePk => axios.get(contentUrl(gamePk)))
   const gameArray = await Promise.all(contentPromises)
 
-  const games = await Game.find({ gamePk: { $in: gamePks } }, { gamePk: 1 })
+  const games = await Game.find(
+    { gamePk: { $in: gamePks } },
+    { gamePk: 1, apiDate: 1 }
+  )
 
-  let goalArray = []
   for (const gameData of gameArray) {
+    let goalArray = []
     const {
       data: {
         liveData: {
@@ -34,6 +37,10 @@ const fetchGoals = async gamePks => {
         },
       },
     } = gameData
+
+    console.log(
+      `fetch-goals.fetchGoals - Fetching goals for gamePk: ${gameData.data.gamePk}`
+    )
 
     const gameInDb = games.find(game => {
       return game.gamePk === gameData.data.gamePk
@@ -47,6 +54,7 @@ const fetchGoals = async gamePks => {
         const newGoal = await handleGoal(
           gameData.data.gamePk,
           gameInDb._id,
+          gameInDb.apiDate,
           goal
         )
         goalObjects = [...goalObjects, newGoal]
