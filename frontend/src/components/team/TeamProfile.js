@@ -1,19 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { TEAM_PROFILE } from '../../graphql/queries'
 import PageContainer from '../elements/PageContainer'
-import StatsTable from '../stats/StatsTable'
+import NewStatsTable from '../stats/NewStatsTable'
 import { playerStatsHeaders } from '../../utils'
 import Loader from '../elements/Loader'
+import sortReducer from '../../reducers/sortReducer'
+
+const initialSortState = {
+  positionFilter: 'ALL', // not in use
+  teamFilter: 'ALL', // not in use
+  nationalityFilter: 'ALL', // not in use
+  offset: 0,
+  sortBy: 'points',
+  sortDir: 'DESC',
+}
 
 const TeamProfile = ({ siteLink }) => {
-  const [sortVariables, setSortVariables] = useState({
-    offset: 0,
-    sortBy: 'points',
-    sortDir: 'DESC',
-  })
+  const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
   const { data, loading } = useQuery(TEAM_PROFILE, {
     variables: { siteLink },
   })
@@ -23,15 +29,15 @@ const TeamProfile = ({ siteLink }) => {
   }
 
   if (!data.GetTeam) {
-    return <Redirect to="/404" />
+    return <Redirect to='/404' />
   }
 
   const sortPlayers = players => {
     const sortedPlayers = players.sort((a, b) => {
       let sort
-      sortVariables.sortDir === 'DESC'
-        ? (sort = b[sortVariables.sortBy] - a[sortVariables.sortBy])
-        : (sort = a[sortVariables.sortBy] - b[sortVariables.sortBy])
+      sortVars.sortDir === 'DESC'
+        ? (sort = b[sortVars.sortBy] - a[sortVars.sortBy])
+        : (sort = a[sortVars.sortBy] - b[sortVars.sortBy])
       return sort
     })
     return sortedPlayers
@@ -49,13 +55,13 @@ const TeamProfile = ({ siteLink }) => {
 
   return (
     <PageContainer title={data.GetTeam.name}>
-      <StatsTable
-        title="Player performance"
+      <NewStatsTable
+        title='Player Stats'
         headers={headers}
         data={sortPlayers(playersWithLink)}
-        sortVariables={sortVariables}
-        setSortVariables={setSortVariables}
-        sortOnClient={true}
+        dataType='skater'
+        sortVars={sortVars}
+        sortDispatch={dispatch}
       />
     </PageContainer>
   )

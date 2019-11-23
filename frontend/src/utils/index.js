@@ -40,6 +40,11 @@ const convertSecsToMMSS = secs => {
   )}`
 }
 
+const convertMMSStoSec = time => {
+  const [mins, secs] = time.split(':')
+  return parseInt(mins * 60) + parseInt(secs)
+}
+
 const formatDate = ISODate => {
   return new Date(ISODate).toLocaleDateString(navigator.language, {
     timeZone: 'America/New_York',
@@ -338,7 +343,7 @@ const statHeaders = {
     sortString: 'TA',
   },
   team: {
-    headerText: 'Team',
+    headerText: 'T',
     id: 'team',
     title: 'Team',
     sortString: 'TEAM',
@@ -367,139 +372,139 @@ const goalieStatHeaders = {
   assists: {
     headerText: 'A',
     id: 'assists',
-    title: 'Assists'
+    title: 'Assists',
   },
   decision: {
     headerText: 'D',
     id: 'decision',
     showOnMobile: true,
-    title: 'Decision'
+    title: 'Decision',
   },
   gameDate: {
     headerText: 'Date',
     id: 'gameDate',
     showOnMobile: true,
-    title: 'Game Date'
+    title: 'Game Date',
   },
   goals: {
     headerText: 'G',
     id: 'goals',
-    title: 'Goals'
+    title: 'Goals',
   },
   goalsAgainst: {
     headerText: 'GA',
     id: 'goalsAgainst',
     showOnMobile: true,
-    title: 'Goals Against'
+    title: 'Goals Against',
   },
   goalsAgainstAverage: {
     headerText: 'GAA',
     id: 'goalsAgainstAverage',
     showOnMobile: true,
-    title: 'Goals Against Average'
+    title: 'Goals Against Average',
   },
   losses: {
     headerText: 'L',
     id: 'losses',
     showOnMobile: true,
-    title: 'Losses'
+    title: 'Losses',
   },
   penaltyMinutes: {
     headerText: 'PM',
     id: 'penaltyMinutes',
-    title: 'Penalty Minutes'
+    title: 'Penalty Minutes',
   },
   points: {
     headerText: 'P',
     id: 'points',
-    title: 'Points'
+    title: 'Points',
   },
   powerPlaySavePct: {
     headerText: 'PPS%',
     id: 'powerPlaySavePct',
-    title: 'Powerplay Save Percentage'
+    title: 'Powerplay Save Percentage',
   },
   powerPlaySaves: {
     headerText: 'PPS',
     id: 'powerPlaySaves',
-    title: 'Powerplay Saves'
+    title: 'Powerplay Saves',
   },
   powerPlayShotsAgainst: {
     headerText: 'PPSA',
     id: 'powerPlayShotsAgainst',
-    title: 'Powerplay Shots Against'
+    title: 'Powerplay Shots Against',
   },
   savePct: {
     headerText: 'S%',
     id: 'savePct',
     showOnMobile: true,
-    title: 'Save Percentage'
+    title: 'Save Percentage',
   },
   saves: {
     headerText: 'Saves',
     id: 'saves',
     showOnMobile: true,
-    title: 'Saves'
+    title: 'Saves',
   },
   savesPerGame: {
     headerText: 'S/G',
     id: 'savesPerGame',
-    title: 'Saves per Game'
+    title: 'Saves per Game',
   },
   shortHandedSavePct: {
     headerText: 'SHS%',
     id: 'shortHandedSavePct',
-    title: 'Shorthanded Save Percentage'
+    title: 'Shorthanded Save Percentage',
   },
   shortHandedSaves: {
     headerText: 'SHS',
     id: 'shortHandedSaves',
-    title: 'Shorthanded Saves'
+    title: 'Shorthanded Saves',
   },
   shortHandedShotsAgainst: {
     headerText: 'SHSA',
     id: 'shortHandedShotsAgainst',
-    title: 'Shorthanded Shots Against'
+    title: 'Shorthanded Shots Against',
   },
   shotsAgainst: {
     headerText: 'SA',
     id: 'shotsAgainst',
     showOnMobile: true,
-    title: 'Shots Against'
+    title: 'Shots Against',
   },
   shotsAgainstPerGame: {
     headerText: 'SA/G',
     id: 'shotsAgainstPerGame',
-    title: 'Shots Against per Game'
+    title: 'Shots Against per Game',
   },
   shutouts: {
     headerText: 'SO',
     id: 'shutouts',
     showOnMobile: true,
-    title: 'Shutouts'
+    title: 'Shutouts',
   },
   teams: {
     headerText: 'Teams',
     id: 'teams',
     showOnMobile: true,
-    title: 'Teams'
+    title: 'Teams',
   },
   timeOnIce: {
     headerText: 'TON',
     id: 'timeOnIce',
-    title: 'Time on Ice'
+    title: 'Time on Ice',
   },
   winPct: {
     headerText: 'W%',
     id: 'winPct',
-    title: 'Win Percentage'
+    title: 'Win Percentage',
   },
   wins: {
     headerText: 'W',
     id: 'wins',
     showOnMobile: true,
-    title: 'Wins'
-  }
+    title: 'Wins',
+  },
 }
 
 const teamStatHeaders = {
@@ -1336,6 +1341,7 @@ export {
   cardImgUrl,
   profileImgUrl,
   convertSecsToMMSS,
+  convertMMSStoSec,
   naviItems,
   statHeaders,
   teamStatHeaders,

@@ -165,7 +165,7 @@ const GET_SKATER_STATS = gql`
     GetGameStats(idArray: $idArray, isGoalie: $isGoalie) {
       id
       stats {
-        id  
+        id
         assists
         blocked
         faceOffsTaken

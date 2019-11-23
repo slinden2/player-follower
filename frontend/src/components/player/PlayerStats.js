@@ -1,24 +1,27 @@
-import React, { useState } from 'react'
+import React, { useReducer } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
-import StatsTable from '../stats/StatsTable'
+import NewStatsTable from '../stats/NewStatsTable'
 import Button from '../elements/Button'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
 import { playerStatsHeaders } from '../../utils'
+import sortReducer from '../../reducers/sortReducer'
+
+const initialSortState = {
+  positionFilter: 'ALL', // not in use
+  teamFilter: 'ALL', // not in use
+  nationalityFilter: 'ALL', // not in use
+  offset: 0,
+  sortBy: 'POINTS',
+  sortDir: 'DESC',
+}
 
 const PlayerStats = () => {
-  const [variables, setVariables] = useState({
-    positionFilter: 'ALL', // not in use
-    teamFilter: 'ALL', // not in use
-    nationalityFilter: 'ALL', // not in use
-    offset: 0,
-    sortBy: 'POINTS',
-    sortDir: 'DESC',
-  })
+  const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
   const { data, loading, fetchMore } = useQuery(CUMULATIVE_STATS, {
-    variables,
+    variables: sortVars,
   })
 
   if (loading) {
@@ -50,15 +53,21 @@ const PlayerStats = () => {
   }))
 
   return (
-    <PageContainer title="Player Stats">
-      <StatsTable
+    <PageContainer title='Player Stats'>
+      <NewStatsTable
         headers={playerStatsHeaders}
-        stats="Stats"
         data={playersWithLink}
-        sortVariables={variables}
-        setSortVariables={setVariables}
+        dataType='skater'
+        sortVars={sortVars}
+        sortDispatch={dispatch}
+        apiSort={true}
       />
-      <Button onClick={loadMore} content="Load more" />
+      <Button
+        onClick={loadMore}
+        content='Load More'
+        size='medium'
+        style={{ marginTop: '10px' }}
+      />
     </PageContainer>
   )
 }
