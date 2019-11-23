@@ -12,6 +12,7 @@ import colors from '../../styles/colors'
 const Container = styled.div`
   max-width: 100%;
   position: relative;
+  border-top: 3px solid ${colors.grey1};
 `
 
 const ScrollContainer = styled.div`
@@ -62,7 +63,6 @@ const disabledSortVariables = [
 
 const NewStatsTable = ({
   headers,
-  stats,
   data,
   dataType,
   sortVars,
@@ -79,6 +79,9 @@ const NewStatsTable = ({
     return item[headersToUse[header].id]
   }
 
+  const highlightColumn = header =>
+    sortVars && sortVars.sortBy === headersToUse[header][sortProp]
+
   const headerMarkup = () => (
     <TableRow header>{headers.map(renderHeaderRow)}</TableRow>
   )
@@ -88,6 +91,7 @@ const NewStatsTable = ({
     const title = headersToUse[header].title
     const sortBy = headersToUse[header][sortProp]
     const sortEnabled = !disabledSortVariables.includes(sortBy)
+    const isHighlighted = highlightColumn(header)
 
     const handleSort = sortBy => {
       sortDispatch({ type: 'SORT_BY', sortBy })
@@ -101,6 +105,7 @@ const NewStatsTable = ({
         title={title}
         colIndex={colIndex}
         onClick={sortEnabled ? () => handleSort(sortBy) : undefined}
+        isHighlighted={isHighlighted}
       />
     )
   }
@@ -108,16 +113,23 @@ const NewStatsTable = ({
   const cellMarkup = () =>
     data.map((row, rowIndex) => (
       <TableRow key={row._id}>
-        {headers.map((header, colIndex) =>
-          renderRow(header, row, rowIndex, colIndex)
-        )}
+        {headers.map((header, colIndex) => renderRow(header, row, colIndex))}
       </TableRow>
     ))
 
-  const renderRow = (header, row, rowIndex, colIndex) => {
+  const renderRow = (header, row, colIndex) => {
     const text = getData(row, header)
+    const isHighlighted = highlightColumn(header)
 
-    return <TCell key={header} type='td' text={text} colIndex={colIndex} />
+    return (
+      <TCell
+        key={header}
+        type='td'
+        text={text}
+        colIndex={colIndex}
+        isHighlighted={isHighlighted}
+      />
+    )
   }
 
   return (

@@ -20,20 +20,26 @@ const fixedCellStyling = css`
   }
 `
 
+const highlightStyling = css`
+  background-color: ${colors.grey2};
+`
+
 const TableHeader = styled.th`
   ${cellStyling}
   font-size: 1rem;
 
-  ${({ fixed, showPointer }) => css`
+  ${({ fixed, showPointer, isHighlighted }) => css`
     ${fixed && fixedCellStyling}
     ${showPointer && 'cursor: pointer;'}
+    ${isHighlighted && highlightStyling}
   `}
 `
 const TableCell = styled.td`
   ${cellStyling}
 
-  ${({ fixed }) => css`
+  ${({ fixed, isHighlighted }) => css`
     ${fixed && fixedCellStyling}
+    ${isHighlighted && highlightStyling}
   `}
 `
 
@@ -45,7 +51,14 @@ const getCellType = type => {
   return cellTypeMap[type]
 }
 
-export const TCell = ({ type, colIndex, text, title, onClick }) => {
+export const TCell = ({
+  type,
+  colIndex,
+  text,
+  title,
+  onClick,
+  isHighlighted,
+}) => {
   const Cell = getCellType(type)
 
   return (
@@ -54,6 +67,7 @@ export const TCell = ({ type, colIndex, text, title, onClick }) => {
       title={title}
       onClick={onClick}
       showPointer={onClick}
+      isHighlighted={isHighlighted}
     >
       {text}
     </Cell>
