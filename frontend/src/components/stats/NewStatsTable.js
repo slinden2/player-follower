@@ -7,12 +7,12 @@ import {
   goalieStatHeaders,
 } from '../../utils'
 import { TCell } from './TCell'
+import Title from '../elements/Title'
 import colors from '../../styles/colors'
 
 const Container = styled.div`
   max-width: 100%;
   position: relative;
-  border-top: 3px solid ${colors.grey1};
 `
 
 const ScrollContainer = styled.div`
@@ -23,6 +23,8 @@ const Table = styled.table`
   border-spacing: 0;
   font-size: 0.875rem;
   width: 100%;
+  border-top: 3px solid ${colors.grey1};
+  border-bottom: 3px solid ${colors.grey1};
 `
 
 const TableHead = styled.thead``
@@ -62,6 +64,7 @@ const disabledSortVariables = [
 ]
 
 const NewStatsTable = ({
+  title,
   headers,
   data,
   dataType,
@@ -134,6 +137,7 @@ const NewStatsTable = ({
 
   return (
     <Container>
+      {title && <Title>{title}</Title>}
       <ScrollContainer>
         <Table>
           <TableHead>{headerMarkup()}</TableHead>

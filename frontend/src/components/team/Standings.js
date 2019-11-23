@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { STANDINGS } from '../../graphql/queries'
 import _ from 'lodash'
-import StatsTable from '../stats/StatsTable'
+import NewStatsTable from '../stats/NewStatsTable'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
 import DropdownMenu from '../elements/dropdown/DropdownMenu'
+import sortReducer from '../../reducers/sortReducer'
 
 const headers = [
   'teamName',
@@ -47,13 +48,22 @@ const standingsTypes = [
   },
 ]
 
+const initialSortState = {
+  positionFilter: 'ALL', // not in use
+  teamFilter: 'ALL', // not in use
+  nationalityFilter: 'ALL', // not in use
+  offset: 0,
+  sortBy: 'points',
+  sortDir: 'DESC',
+}
+
 // group standings by conference or division
 const groupBy = (array, property) => {
   if (property === 'league') return { League: array }
   return _.groupBy(array, team => team[property].name)
 }
 
-// used to clean up league, conference and division objects from the
+// clean up league, conference and division objects from the
 // standing arrays so that they can be used as react children.
 const cleanUpStandings = standings => {
   Object.keys(standings).forEach(conference => {
@@ -70,11 +80,7 @@ const cleanUpStandings = standings => {
 
 const Standings = () => {
   const [standingsType, setStandingsType] = useState('LEAGUE')
-  const [sortVariables, setSortVariables] = useState({
-    offset: 0,
-    sortBy: 'points',
-    sortDir: 'DESC',
-  })
+  const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
   const { loading, data } = useQuery(STANDINGS)
 
   if (loading) {
@@ -84,9 +90,9 @@ const Standings = () => {
   const sortTeams = teams => {
     const sortedTeams = teams.sort((a, b) => {
       let sort
-      sortVariables.sortDir === 'DESC'
-        ? (sort = b[sortVariables.sortBy] - a[sortVariables.sortBy])
-        : (sort = a[sortVariables.sortBy] - b[sortVariables.sortBy])
+      sortVars.sortDir === 'DESC'
+        ? (sort = b[sortVars.sortBy] - a[sortVars.sortBy])
+        : (sort = a[sortVars.sortBy] - b[sortVars.sortBy])
       return sort
     })
     return sortedTeams
@@ -114,15 +120,14 @@ const Standings = () => {
         setState={setStandingsType}
       />
       {Object.keys(standings).map(conference => (
-        <StatsTable
+        <NewStatsTable
           key={conference}
           headers={headers}
           data={sortTeams(cleanStandings[conference])}
+          dataType='team'
           title={conference}
-          sortVariables={sortVariables}
-          setSortVariables={setSortVariables}
-          isTeamStats={true}
-          sortOnClient={true}
+          sortVars={sortVars}
+          sortDispatch={dispatch}
         />
       ))}
     </PageContainer>
