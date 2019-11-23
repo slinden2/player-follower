@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import Media from 'react-media'
 import Loader from '../elements/Loader'
-import StatsTable from '../stats/StatsTable'
+import NewStatsTable from '../stats/NewStatsTable'
 import breakpoints from '../../styles/breakpoints'
 import Rink from './rink/Rink'
 import PlayerMilestones from './PlayerMilestones'
+import sortReducer from '../../reducers/sortReducer'
+import { convertMMSStoSec } from '../../utils'
 
 const skaterHeaders = [
   'gameDate',
@@ -45,6 +46,15 @@ const goalieHeaders = [
   'timeOnIce',
 ]
 
+const initialSortState = {
+  positionFilter: 'ALL', // not in use
+  teamFilter: 'ALL', // not in use
+  nationalityFilter: 'ALL', // not in use
+  offset: 0,
+  sortBy: 'date',
+  sortDir: 'DESC',
+}
+
 export const PlayerGameStats = ({
   query,
   idArray,
@@ -53,6 +63,7 @@ export const PlayerGameStats = ({
   fullName,
 }) => {
   const [selectedGamePk, setSelectedGamePk] = useState(null)
+  const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
   const { data, loading } = useQuery(query, {
     variables: {
       idArray,
@@ -64,6 +75,29 @@ export const PlayerGameStats = ({
     return <Loader />
   }
 
+  const convertStrsToSecs = obj => {
+    return {
+      ...obj,
+      gameDate: new Date(obj.gameDate),
+      timeOnIce: convertMMSStoSec(obj.timeOnIce),
+      powerPlayTimeOnIce: convertMMSStoSec(obj.powerPlayTimeOnIce),
+      shortHandedTimeOnIce: convertMMSStoSec(obj.shortHandedTimeOnIce),
+    }
+  }
+
+  const sortGames = games => {
+    const sortedGames = games.sort((a, b) => {
+      const aNew = convertStrsToSecs(a)
+      const bNew = convertStrsToSecs(b)
+      let sort
+      sortVars.sortDir === 'DESC'
+        ? (sort = bNew[sortVars.sortBy] - aNew[sortVars.sortBy])
+        : (sort = aNew[sortVars.sortBy] - bNew[sortVars.sortBy])
+      return sort
+    })
+    return sortedGames
+  }
+
   const statArray = data.GetGameStats.stats
     .sort((a, b) => b.gamePk - a.gamePk)
     .map(boxscore => ({
@@ -71,6 +105,7 @@ export const PlayerGameStats = ({
       teams:
         boxscore.awayTeam.abbreviation + '@' + boxscore.homeTeam.abbreviation,
     }))
+
   const gamePks = statArray.map(boxscore => boxscore.gamePk)
 
   const handleRowClick = rowData => {
@@ -81,27 +116,16 @@ export const PlayerGameStats = ({
 
   return (
     <>
-      <Media query={breakpoints.showDesktopNavi}>
-        {matches =>
-          matches ? (
-            <StatsTable
-              title='Performance Game-by-Game'
-              headers={headers}
-              data={statArray}
-              handleRowClick={handleRowClick}
-              isGoalie={isGoalie}
-            />
-          ) : (
-            <StatsTable
-              title='Performance Game-by-Game'
-              headers={headers.slice(0, 7)}
-              data={statArray}
-              handleRowClick={handleRowClick}
-              isGoalie={isGoalie}
-            />
-          )
-        }
-      </Media>
+      <NewStatsTable
+        title='Game-by-Game Log'
+        headers={headers}
+        data={sortGames(statArray)}
+        dataType={isGoalie ? 'goalie' : 'skater'}
+        sortVars={sortVars}
+        sortDispatch={dispatch}
+        onRowClick={handleRowClick}
+      />
+
       {!isGoalie && (
         <>
           <Rink data={data.GetGameStats.goals} />

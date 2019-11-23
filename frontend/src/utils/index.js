@@ -40,6 +40,11 @@ const convertSecsToMMSS = secs => {
   )}`
 }
 
+const convertMMSStoSec = time => {
+  const [mins, secs] = time.split(':')
+  return parseInt(mins * 60) + parseInt(secs)
+}
+
 const formatDate = ISODate => {
   return new Date(ISODate).toLocaleDateString(navigator.language, {
     timeZone: 'America/New_York',
@@ -1336,6 +1341,7 @@ export {
   cardImgUrl,
   profileImgUrl,
   convertSecsToMMSS,
+  convertMMSStoSec,
   naviItems,
   statHeaders,
   teamStatHeaders,
