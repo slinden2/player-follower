@@ -16,11 +16,9 @@ const Container = styled.div`
 
 const ScrollContainer = styled.div`
   overflow-x: auto;
-  /* margin-left: 175px; */
 `
 
 const Table = styled.table`
-  /* border-collapse: collapse; */
   border-spacing: 0;
   font-size: 0.875rem;
   width: 100%;
