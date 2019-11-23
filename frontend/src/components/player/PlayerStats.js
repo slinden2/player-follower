@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
@@ -9,17 +9,33 @@ import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
 import { playerStatsHeaders } from '../../utils'
 
+const initialSortState = {
+  positionFilter: 'ALL', // not in use
+  teamFilter: 'ALL', // not in use
+  nationalityFilter: 'ALL', // not in use
+  offset: 0,
+  sortBy: 'POINTS',
+  sortDir: 'DESC',
+}
+
+const sortReducer = (state, action) => {
+  switch (action.type) {
+    case 'SORT_BY':
+      if (state.sortBy === action.sortBy) {
+        return { ...state, sortDir: state.sortDir === 'ASC' ? 'DESC' : 'ASC' }
+      }
+      return { ...state, sortBy: action.sortBy, sortDir: 'DESC' }
+    case 'LOAD_MORE':
+      return { ...state, offset: action.offset }
+    default:
+      return state
+  }
+}
+
 const PlayerStats = () => {
-  const [variables, setVariables] = useState({
-    positionFilter: 'ALL', // not in use
-    teamFilter: 'ALL', // not in use
-    nationalityFilter: 'ALL', // not in use
-    offset: 0,
-    sortBy: 'POINTS',
-    sortDir: 'DESC',
-  })
+  const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
   const { data, loading, fetchMore } = useQuery(CUMULATIVE_STATS, {
-    variables,
+    variables: sortVars,
   })
 
   if (loading) {
@@ -57,8 +73,9 @@ const PlayerStats = () => {
         stats='Stats'
         data={playersWithLink}
         dataType='skater'
-        // sortVariables={variables}
-        // setSortVariables={setVariables}
+        sortVars={sortVars}
+        sortDispatch={dispatch}
+        apiSort={true}
       />
       <Button onClick={loadMore} content='Load more' />
     </PageContainer>

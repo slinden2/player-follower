@@ -51,8 +51,28 @@ const getHeaders = type => {
   return headerTypeMap[type]
 }
 
-const NewStatsTable = ({ headers, stats, data, dataType }) => {
+const disabledSortVariables = [
+  'TEAM',
+  'POSITION',
+  'fullName',
+  'team',
+  'position',
+  'teamName',
+]
+
+const NewStatsTable = ({
+  headers,
+  stats,
+  data,
+  dataType,
+  sortVars,
+  sortDispatch,
+  apiSort,
+}) => {
   const headersToUse = getHeaders(dataType)
+
+  // If the sort is done in the back end the sort prop is different
+  const sortProp = apiSort ? 'sortString' : 'id'
 
   const getData = (item, header) => {
     if (header === 'gameDate') return formatDate(item[headersToUse[header].id])
@@ -65,8 +85,24 @@ const NewStatsTable = ({ headers, stats, data, dataType }) => {
 
   const renderHeaderRow = (header, colIndex) => {
     const text = headersToUse[header].headerText
+    const title = headersToUse[header].title
+    const sortBy = headersToUse[header][sortProp]
+    const sortEnabled = !disabledSortVariables.includes(sortBy)
 
-    return <TCell key={header} type='th' data={text} colIndex={colIndex} />
+    const handleSort = sortBy => {
+      sortDispatch({ type: 'SORT_BY', sortBy })
+    }
+
+    return (
+      <TCell
+        key={header}
+        type='th'
+        text={text}
+        title={title}
+        colIndex={colIndex}
+        onClick={sortEnabled ? () => handleSort(sortBy) : undefined}
+      />
+    )
   }
 
   const cellMarkup = () =>
@@ -81,7 +117,7 @@ const NewStatsTable = ({ headers, stats, data, dataType }) => {
   const renderRow = (header, row, rowIndex, colIndex) => {
     const text = getData(row, header)
 
-    return <TCell key={header} type='td' data={text} colIndex={colIndex} />
+    return <TCell key={header} type='td' text={text} colIndex={colIndex} />
   }
 
   return (
