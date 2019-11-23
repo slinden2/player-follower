@@ -50,6 +50,7 @@ const runFetchGoals = async gamePks => {
     process.exit(0)
   } catch (err) {
     console.error(`fetch-goals.fetchGoals - ${gamePks}\n`, err.stack)
+    mongoose.connection.close()
     process.exit(1)
   }
 }
