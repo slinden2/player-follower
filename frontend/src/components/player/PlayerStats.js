@@ -62,7 +62,12 @@ const PlayerStats = () => {
         sortDispatch={dispatch}
         apiSort={true}
       />
-      <Button onClick={loadMore} content='Load more' />
+      <Button
+        onClick={loadMore}
+        content='Load More'
+        size='medium'
+        style={{ marginTop: '10px' }}
+      />
     </PageContainer>
   )
 }
