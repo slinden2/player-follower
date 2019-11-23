@@ -22,7 +22,6 @@ const {
   teamProfileAggregate,
   teamStandingsAggregate,
   bestTeamsAggregate,
-  bestGoaliesAggregate,
 } = require('./pipelines')
 const {
   convertSecsToMin,
@@ -56,15 +55,6 @@ const resolvers = {
     },
     findPlayer: async (root, args) => {
       const player = await Player.findOne(args).populate([
-        // {
-        //   path: 'boxscores',
-        //   model: 'SkaterBoxscore', // TODO how to work with goalies?
-        //   populate: {
-        //     path: 'homeTeam awayTeam',
-        //     model: 'Team',
-        //     select: 'abbreviation',
-        //   },
-        // },
         {
           path: 'currentTeam',
           model: 'Team',
@@ -73,43 +63,6 @@ const resolvers = {
       ])
 
       const playerJSON = player.toJSON()
-
-      // const goals = await Goal.find(
-      //   { player: playerJSON.id },
-      //   { game: 1, strength: 1, periodNumber: 1, periodTime: 1, coordinates: 1 }
-      // ).populate([
-      //   {
-      //     path: 'game',
-      //     model: 'Game',
-      //     select: 'awayTeam homeTeam gameDate',
-      //     populate: [
-      //       {
-      //         path: 'awayTeam.team',
-      //         model: 'Team',
-      //         select: 'abbreviation',
-      //       },
-      //       {
-      //         path: 'homeTeam.team',
-      //         model: 'Team',
-      //         select: 'abbreviation',
-      //       },
-      //     ],
-      //   },
-      // ])
-
-      // const goalsJSON = goals.map(goal => goal.toJSON())
-
-      // const goalObjects = goalsJSON.map(goal => {
-      //   const { game, ...props } = goal
-      //   return {
-      //     ...props,
-      //     gameDate: format(game.gameDate, 'YYYY/MM/DD'),
-      //     awayTeam: game.awayTeam.team,
-      //     homeTeam: game.homeTeam.team,
-      //   }
-      // })
-
-      // playerJSON.goals = goalObjects
 
       return playerJSON
     },
@@ -133,7 +86,7 @@ const resolvers = {
       let goals = []
       if (!args.isGoalie && playerId) {
         goals = await Goal.find(
-          { player: playerId },
+          { scorer: playerId },
           {
             game: 1,
             strength: 1,
