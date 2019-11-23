@@ -80,8 +80,10 @@ export const PlayerGameStats = ({
       ...obj,
       gameDate: new Date(obj.gameDate),
       timeOnIce: convertMMSStoSec(obj.timeOnIce),
-      powerPlayTimeOnIce: convertMMSStoSec(obj.powerPlayTimeOnIce),
-      shortHandedTimeOnIce: convertMMSStoSec(obj.shortHandedTimeOnIce),
+      powerPlayTimeOnIce: !isGoalie && convertMMSStoSec(obj.powerPlayTimeOnIce),
+      shortHandedTimeOnIce:
+        !isGoalie && convertMMSStoSec(obj.shortHandedTimeOnIce),
+      decision: isGoalie && obj.decision === 'W' ? 1 : 0,
     }
   }
 
