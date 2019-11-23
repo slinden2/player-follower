@@ -58,6 +58,7 @@ const handleGoal = async (gamePk, gameId, apiDate, goal) => {
     gamePk,
     apiDate,
     type: goal.result.eventTypeId,
+    shotType: goal.result.secondaryType,
     strength: goal.result.strength.code,
     gameWinningGoal: goal.result.gameWinningGoal,
     emptyNet: goal.result.emptyNet,

@@ -56,6 +56,10 @@ const goalSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  shotType: {
+    type: String,
+    required: true,
+  },
   strength: {
     type: String,
     required: true,
@@ -96,6 +100,8 @@ const goalSchema = mongoose.Schema({
   },
   coordinates: coordinateSchema,
 })
+
+goalSchema.index({ gamePk: 1, eventIdx: 1 }, { unique: true })
 
 goalSchema.set('toJSON', {
   transform: (document, returnedObject) => {

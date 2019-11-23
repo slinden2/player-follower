@@ -28,8 +28,8 @@ const fetchGoals = async gamePks => {
     { gamePk: 1, apiDate: 1 }
   )
 
-  let goalArray = []
   for (const gameData of gameArray) {
+    let goalArray = []
     const {
       data: {
         liveData: {
@@ -37,6 +37,10 @@ const fetchGoals = async gamePks => {
         },
       },
     } = gameData
+
+    console.log(
+      `fetch-goals.fetchGoals - Fetching goals for gamePk: ${gameData.data.gamePk}`
+    )
 
     const gameInDb = games.find(game => {
       return game.gamePk === gameData.data.gamePk
