@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react'
+import React, { useReducer } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
@@ -7,6 +7,7 @@ import Button from '../elements/Button'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
 import { playerStatsHeaders } from '../../utils'
+import sortReducer from '../../reducers/sortReducer'
 
 const initialSortState = {
   positionFilter: 'ALL', // not in use
@@ -15,20 +16,6 @@ const initialSortState = {
   offset: 0,
   sortBy: 'POINTS',
   sortDir: 'DESC',
-}
-
-const sortReducer = (state, action) => {
-  switch (action.type) {
-    case 'SORT_BY':
-      if (state.sortBy === action.sortBy) {
-        return { ...state, sortDir: state.sortDir === 'ASC' ? 'DESC' : 'ASC' }
-      }
-      return { ...state, sortBy: action.sortBy, sortDir: 'DESC' }
-    case 'LOAD_MORE':
-      return { ...state, offset: action.offset }
-    default:
-      return state
-  }
 }
 
 const PlayerStats = () => {
