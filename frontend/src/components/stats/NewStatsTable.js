@@ -32,10 +32,15 @@ const TableBody = styled.tbody``
 
 const TableRow = styled.tr`
   background-color: ${colors.grey3};
-  ${({ header }) => css`
+  ${({ header, onClick }) => css`
     ${header &&
       css`
         background-color: ${colors.grey1};
+      `}
+
+    ${onClick &&
+      css`
+        cursor: pointer;
       `}
 
     &:nth-child(even) {
@@ -59,6 +64,7 @@ const disabledSortVariables = [
   'POSITION',
   'fullName',
   'team',
+  'teams',
   'position',
   'teamName',
 ]
@@ -71,6 +77,7 @@ const NewStatsTable = ({
   sortVars,
   sortDispatch,
   apiSort,
+  onRowClick,
 }) => {
   const headersToUse = getHeaders(dataType)
 
@@ -94,8 +101,8 @@ const NewStatsTable = ({
     const title = headersToUse[header].title
     const sortBy = headersToUse[header][sortProp]
     const sortEnabled = !disabledSortVariables.includes(sortBy)
-    const isHighlighted = highlightColumn(header)
     const fixed = colIndex === 0
+    const isHighlighted = highlightColumn(header) && !fixed
     // PlayerProfile stats table must have narrower first column
     const narrowFixedCol = fixed && text === 'Date'
 
@@ -118,8 +125,11 @@ const NewStatsTable = ({
   }
 
   const cellMarkup = () =>
-    data.map((row, rowIndex) => (
-      <TableRow key={row._id}>
+    data.map(row => (
+      <TableRow
+        key={row._id || row.id}
+        onClick={onRowClick ? () => onRowClick(row) : undefined}
+      >
         {headers.map((header, colIndex) => renderRow(header, row, colIndex))}
       </TableRow>
     ))
@@ -127,7 +137,7 @@ const NewStatsTable = ({
   const renderRow = (header, row, colIndex) => {
     const text = getData(row, header)
     const fixed = colIndex === 0
-    const isHighlighted = highlightColumn(header)
+    const isHighlighted = highlightColumn(header) && !fixed
 
     return (
       <TCell
