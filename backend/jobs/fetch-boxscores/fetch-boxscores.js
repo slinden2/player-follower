@@ -5,7 +5,7 @@ require('../../models/skater-boxscore')
 require('../../models/goalie-boxscore')
 const Team = require('../../models/team')
 const getPlayers = require('./get-players')
-const createPlayers = require('./create-players')
+const createPlayers = require('../create-players')
 const handlePlayer = require('./handle-player')
 
 const boxscoreUrl = gamePk =>
