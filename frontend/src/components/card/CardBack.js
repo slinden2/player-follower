@@ -63,15 +63,6 @@ const StatItem = styled.div`
   }
 `
 
-const statArray = [
-  ['powerPlayGoals', 'powerPlayPoints'],
-  ['shortHandedGoals', 'shortHandedPoints'],
-  ['timeOnIcePerGame', 'faceOffsTaken'],
-  ['shots', 'hits'],
-  ['takeaways', 'giveaways'],
-  ['blocked'],
-]
-
 const PlayerCardBack = ({
   context,
   data,

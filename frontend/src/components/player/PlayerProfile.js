@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
-import { PLAYER_PROFILE, GET_SKATER_STATS, GET_GOALIE_STATS } from '../../graphql/queries'
+import {
+  PLAYER_PROFILE,
+  GET_SKATER_STATS,
+  GET_GOALIE_STATS,
+} from '../../graphql/queries'
 import PlayerBioTable from './PlayerBioTable'
 import PageContainer from '../elements/PageContainer'
 import breakpoints from '../../styles/breakpoints'
@@ -21,7 +25,6 @@ const Container = styled.div`
 `
 
 const PlayerProfile = ({ siteLink }) => {
-  const [selectedGamePk, setSelectedGamePk] = useState(null)
   const { data, loading } = useQuery(PLAYER_PROFILE, {
     variables: { siteLink },
   })
@@ -33,13 +36,13 @@ const PlayerProfile = ({ siteLink }) => {
   const player = data.findPlayer
 
   if (!player) {
-    return <Redirect to="/404" />
+    return <Redirect to='/404' />
   }
 
   const isGoalie = player.primaryPosition.code === 'G'
 
   return (
-    <PageContainer title="Player Profile">
+    <PageContainer title='Player Profile'>
       <Container>
         <PlayerBioTable player={player} />
         <PlayerGameStats

@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React, { useReducer } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'

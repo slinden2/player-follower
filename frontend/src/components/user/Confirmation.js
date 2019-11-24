@@ -7,7 +7,7 @@ import Loader from '../elements/Loader'
 import { TextRow } from '../../styles/forms'
 import colors from '../../styles/colors'
 
-const Confirmation = ({ history, token }) => {
+const Confirmation = ({ token }) => {
   const [user, setUser] = useState(null)
   const [error, setError] = useState(null)
   const verifyUser = useMutation(VERIFY_USER, { variables: { token } })
@@ -32,7 +32,7 @@ const Confirmation = ({ history, token }) => {
   }
 
   return (
-    <PageContainer title="Account Confirmation">
+    <PageContainer title='Account Confirmation'>
       <ContentWrapper>
         {error && (
           <TextRow color={colors.red1}>

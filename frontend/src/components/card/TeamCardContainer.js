@@ -15,7 +15,7 @@ const byConference = (team, comp) =>
     : false
 
 const getValueFromRecord = record => {
-  const [a, b, c] = record.split('-')
+  const [a, _, c] = record.split('-')
   // a: wins, b: losses, c: ot | return points
   return a * 2 + c
 }

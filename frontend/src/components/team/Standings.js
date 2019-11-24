@@ -69,6 +69,7 @@ const cleanUpStandings = standings => {
   Object.keys(standings).forEach(conference => {
     standings[conference] = [
       ...standings[conference].map(team => {
+        // eslint-disable-next-line
         const { __typename, division, conference, ...teamData } = team
         return teamData
       }),
