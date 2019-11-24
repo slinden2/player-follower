@@ -1,4 +1,3 @@
-const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { UserInputError, AuthenticationError } = require('apollo-server')
@@ -23,6 +22,7 @@ const {
   teamStandingsAggregate,
   bestTeamsAggregate,
 } = require('./pipelines')
+const milestonePipeline = require('../pipelines/milestonePipeline')
 const {
   convertSecsToMin,
   roundToDecimal,
@@ -130,45 +130,8 @@ const resolvers = {
       return { id: playerId, stats, goals }
     },
     GetMilestones: async (root, args) => {
-      const contentUrl = gamePk =>
-        `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/content`
-
-      const { gamePks, playerId } = args
-
-      const contentByGame = []
-
-      gamePks
-        .slice(0, 10)
-        .forEach(gamePk => contentByGame.push(axios.get(contentUrl(gamePk))))
-
-      const responseArray = await Promise.all(contentByGame)
-
-      // Extract goal highlights from the response array and
-      // generate milestone objects
-      const goals = responseArray
-        .map(response =>
-          response.data.media.milestones.items
-            .map(item => ({
-              ...item,
-              gamePk: Number(response.data.link.split('/')[4]),
-            }))
-            .filter(
-              milestone =>
-                milestone.type === 'GOAL' &&
-                Number(milestone.playerId) === playerId &&
-                Object.keys(milestone.highlight).length
-            )
-            .map(milestone => ({
-              gamePk: milestone.gamePk,
-              title: milestone.highlight.title,
-              description: milestone.highlight.description,
-              blurb: milestone.highlight.blurb,
-              playback: milestone.highlight.playbacks.find(playback =>
-                playback.name.startsWith('FLASH_1800K')
-              ),
-            }))
-        )
-        .filter(game => game.length)
+      const { playerId, gamePks } = args
+      const goals = await Goal.aggregate(milestonePipeline(playerId, gamePks))
       return goals
     },
     findPlayers: async (root, args) => {

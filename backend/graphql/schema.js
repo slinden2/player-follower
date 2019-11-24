@@ -319,11 +319,22 @@ const typeDefs = gql`
   }
 
   type PlayerMilestone {
+    _id: ID!
+    assist1: Player
+    assist2: Player
+    emptyNet: Boolean!
+    gameDate: String!
     gamePk: Int!
-    title: String!
-    description: String!
-    blurb: String!
+    gameWinningGoal: Boolean!
+    goalie: Player
+    opponent: Team!
+    periodNumber: Int!
+    periodTime: String!
     playback: Video!
+    scorer: Player!
+    shotType: String!
+    strength: String!
+    team: Team!
   }
 
   type Video {
@@ -576,7 +587,7 @@ const typeDefs = gql`
     """
     Fetches game related milestones from the API
     """
-    GetMilestones(playerId: Int!, gamePks: [Int!]!): [[PlayerMilestone]!]!
+    GetMilestones(playerId: String!, gamePks: [Int!]!): [PlayerMilestone!]!
     """
     Fetches teams by name
     """
