@@ -8,7 +8,7 @@ const contentUrl = playerId =>
 
 const createPlayers = async (newPlayers, gamePk) => {
   console.log(
-    `fetch-games.fetchGames.fetchBoxscore.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
+    `create-players.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
   )
 
   let playerArray = []
@@ -37,7 +37,7 @@ const createPlayers = async (newPlayers, gamePk) => {
       await teamInDb.save()
     } catch (err) {
       console.error(
-        `fetch-boxscores.fetchBoxscores.createPlayers.playerLoop - playerId: ${player.id} | ${gamePk}\n`,
+        `create-players.createPlayers.playerLoop - playerId: ${player.id} | ${gamePk}\n`,
         err.stack
       )
       continue
