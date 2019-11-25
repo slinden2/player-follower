@@ -5,15 +5,15 @@ import { event } from '../../utils/tracking'
 const VideoContainer = styled.div``
 
 const Video = styled.video`
-  height: 100%;
+  max-height: ${({ height }) => height}px;
   max-width: 100%;
   display: block;
   margin: 5px auto;
 `
 
-const PlayerVideo = ({ fullName, date, width, height, url }) => {
+const PlayerVideo = ({ lastName, date, width, height, url }) => {
   const handleOnPlay = () => {
-    event('VIDEO', 'Play Video', `${fullName} | ${date} | ${url}`)
+    event('VIDEO', 'Play Video', `${lastName} | ${date} | ${url}`)
   }
 
   return (

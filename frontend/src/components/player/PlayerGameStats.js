@@ -3,7 +3,7 @@ import { useQuery } from 'react-apollo-hooks'
 import Loader from '../elements/Loader'
 import NewStatsTable from '../stats/NewStatsTable'
 import Rink from './rink/Rink'
-import PlayerMilestones from './PlayerMilestones'
+import PlayerMilestones from './PlayerMilestoneContainer'
 import sortReducer from '../../reducers/sortReducer'
 import { convertMMSStoSec } from '../../utils'
 

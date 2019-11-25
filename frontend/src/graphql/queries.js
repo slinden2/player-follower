@@ -406,16 +406,46 @@ const STANDINGS = gql`
 `
 
 const PLAYER_MILESTONES = gql`
-  query getPlayerMilestones($playerId: Int!, $gamePks: [Int!]!) {
+  query getPlayerMilestones($playerId: String!, $gamePks: [Int!]!) {
     GetMilestones(playerId: $playerId, gamePks: $gamePks) {
+      _id
       gamePk
-      title
-      description
-      blurb
+      assist1 {
+        lastName
+        siteLink
+      }
+      assist2 {
+        lastName
+        siteLink
+      }
+      emptyNet
+      gameDate
+      gamePk
+      gameWinningGoal
+      goalie {
+        lastName
+        siteLink
+      }
+      opponent {
+        abbreviation
+        siteLink
+      }
+      periodNumber
+      periodTime
       playback {
         width
         height
         url
+      }
+      scorer {
+        lastName
+        siteLink
+      }
+      shotType
+      strength
+      team {
+        abbreviation
+        siteLink
       }
     }
   }

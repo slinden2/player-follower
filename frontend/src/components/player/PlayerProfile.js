@@ -49,7 +49,7 @@ const PlayerProfile = ({ siteLink }) => {
           query={isGoalie ? GET_GOALIE_STATS : GET_SKATER_STATS}
           idArray={player.boxscores}
           isGoalie={isGoalie}
-          playerId={player.playerId}
+          playerId={player.id}
           fullName={player.fullName}
         />
       </Container>
