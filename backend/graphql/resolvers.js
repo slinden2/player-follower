@@ -526,6 +526,11 @@ const resolvers = {
     periodNumber: root => periodNumberToString(root.periodNumber),
     periodTime: root => convertSecsToMin(root.periodTime),
   },
+  PlayerMilestone: {
+    gameDate: root => root.gameDate.toISOString(),
+    periodNumber: root => periodNumberToString(root.periodNumber),
+    periodTime: root => convertSecsToMin(root.periodTime),
+  },
 }
 
 module.exports = resolvers

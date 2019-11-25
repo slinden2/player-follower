@@ -328,7 +328,7 @@ const typeDefs = gql`
     gameWinningGoal: Boolean!
     goalie: Player
     opponent: Team!
-    periodNumber: Int!
+    periodNumber: String!
     periodTime: String!
     playback: Video!
     scorer: Player!
