@@ -44,16 +44,19 @@ const milestoneSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  teamId: {
-    type: Number,
+  team: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
     required: true,
   },
-  opponentId: {
-    type: Number,
+  opponent: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
     required: true,
   },
-  playerId: {
-    type: Number,
+  player: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'player',
     required: true,
   },
   eventId: {

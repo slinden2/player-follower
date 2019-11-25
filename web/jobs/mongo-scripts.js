@@ -1,7 +1,6 @@
 const axios = require('axios')
 const mongoose = require('mongoose')
 const Twitter = require('twitter')
-const _ = require('lodash')
 const Conference = require('../models/conference')
 const Division = require('../models/division')
 const Team = require('../models/team')
@@ -11,7 +10,6 @@ const GoalieBoxscore = require('../models/goalie-boxscore')
 const TeamStats = require('../models/team-stats')
 const Linescore = require('../models/linescore')
 const ScriptState = require('../models/script-state')
-const ScoringChange = require('../models/scoring-change')
 const User = require('../models/user')
 const Game = require('../models/game')
 const Goal = require('../models/goal')
@@ -266,8 +264,35 @@ const fetchTweets = async () => {
   }
 }
 
+const updateMilestoneData = async () => {
+  const milestones = await Milestone.find({})
+
+  for (const milestone of milestones) {
+    const milestoneJSON = milestone.toJSON()
+    const player = await Player.findOne(
+      { playerId: milestoneJSON.playerId },
+      { _id: 1 }
+    )
+    const team = await Team.findOne(
+      { teamId: milestoneJSON.teamId },
+      { _id: 1 }
+    )
+    const opponent = await Team.findOne(
+      { teamId: milestoneJSON.opponentId },
+      { _id: 1 }
+    )
+
+    const test = await Milestone.updateOne(
+      { _id: milestoneJSON.id },
+      {
+        $set: { player, team, opponent },
+      }
+    )
+  }
+}
+
 const deleteLatestGames = async () => {
-  const gamePk = 2019020332 // gamePk greater than this will be deleted
+  const gamePk = 2019020345 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -330,4 +355,5 @@ const deleteLatestGames = async () => {
 // getDate().then(() => mongoose.connection.close())
 // updatePlayerTeam().then(() => mongoose.connection.close())
 // fetchTweets().then(() => mongoose.connection.close())
+updateMilestoneData().then(() => mongoose.connection.close())
 // deleteLatestGames().then(() => mongoose.connection.close())

@@ -1,14 +1,14 @@
 const axios = require('axios')
-const Team = require('../../models/team')
-const Player = require('../../models/player')
-const { createPlayerObject } = require('../fetch-helpers')
+const Team = require('../models/team')
+const Player = require('../models/player')
+const { createPlayerObject } = require('./fetch-helpers')
 
 const contentUrl = playerId =>
   `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
 
 const createPlayers = async (newPlayers, gamePk) => {
   console.log(
-    `fetch-games.fetchGames.fetchBoxscore.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
+    `create-players.createPlayers - playersToAdd: ${newPlayers} | gamePk: ${gamePk}`
   )
 
   let playerArray = []
@@ -37,7 +37,7 @@ const createPlayers = async (newPlayers, gamePk) => {
       await teamInDb.save()
     } catch (err) {
       console.error(
-        `fetch-boxscores.fetchBoxscores.createPlayers.playerLoop - playerId: ${player.id} | ${gamePk}\n`,
+        `create-players.createPlayers.playerLoop - playerId: ${player.id} | ${gamePk}\n`,
         err.stack
       )
       continue
