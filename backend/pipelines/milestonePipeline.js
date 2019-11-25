@@ -129,7 +129,7 @@ const milestonePipeline = (playerId, gamePks) => [
       // is not allowed.
       assist1: { $cond: [{ $eq: ['$tempAssist1', {}] }, null, '$tempAssist1'] },
       assist2: { $cond: [{ $eq: ['$tempAssist2', {}] }, null, '$tempAssist2'] },
-      goalie: '$tempGoalie',
+      goalie: { $cond: [{ $eq: ['$tempGoalie', {}] }, null, '$tempGoalie'] },
     },
   },
   {

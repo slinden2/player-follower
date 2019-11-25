@@ -58,7 +58,7 @@ const PlayerMilestones = ({
       const title = (
         <>
           {`${formatDate(milestone.gameDate)} - vs `}
-          <Link to={milestone.opponent.siteLink}>
+          <Link to={`/teams/${milestone.opponent.siteLink}`}>
             {milestone.opponent.abbreviation}
           </Link>
         </>
@@ -97,6 +97,15 @@ const PlayerMilestones = ({
         </>
       )
 
+      const goalieString = milestone.goalie && (
+        <>
+          {' on '}
+          <Link to={milestone.goalie.siteLink}>
+            {milestone.goalie.lastName}
+          </Link>
+        </>
+      )
+
       const scoreString = (
         <>
           <Link to={milestone.scorer.siteLink}>
@@ -104,10 +113,7 @@ const PlayerMilestones = ({
           </Link>
           {assist1String}
           {assist2String}
-          {' on '}
-          <Link to={milestone.goalie.siteLink}>
-            {milestone.goalie.lastName}
-          </Link>
+          {goalieString}
         </>
       )
 
