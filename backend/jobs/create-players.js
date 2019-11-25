@@ -1,7 +1,7 @@
 const axios = require('axios')
-const Team = require('../../models/team')
-const Player = require('../../models/player')
-const { createPlayerObject } = require('../fetch-helpers')
+const Team = require('../models/team')
+const Player = require('../models/player')
+const { createPlayerObject } = require('./fetch-helpers')
 
 const contentUrl = playerId =>
   `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
