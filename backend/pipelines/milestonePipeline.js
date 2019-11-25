@@ -122,8 +122,13 @@ const milestonePipeline = (playerId, gamePks) => [
   {
     $addFields: {
       scorer: '$tempScorer',
-      assist1: '$tempAssist1',
-      assist2: '$tempAssist2',
+      // Return null instead of an empty object, because if for example
+      // assist2.lastName is queried and the assist is an empty object
+      // the query results in an error. An empty object is still considered
+      // to follow the Player schema (graphql) and returning null for lastName
+      // is not allowed.
+      assist1: { $cond: [{ $eq: ['$tempAssist1', {}] }, null, '$tempAssist1'] },
+      assist2: { $cond: [{ $eq: ['$tempAssist2', {}] }, null, '$tempAssist2'] },
       goalie: '$tempGoalie',
     },
   },
