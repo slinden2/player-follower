@@ -37,7 +37,7 @@ const getGoalType = strength => {
   return strengths[strength]
 }
 
-const PlayerMilestones = ({
+const PlayerMilestoneContainer = ({
   playerId,
   gamePks,
   selectedGamePk,
@@ -117,6 +117,17 @@ const PlayerMilestones = ({
         </>
       )
 
+      const sourceLink = `https://www.nhl.com/video/c-${milestone.highlight.playbackId}`
+
+      const source = (
+        <>
+          {'Source: '}
+          <a href={sourceLink} target='_blank'>
+            {sourceLink}
+          </a>
+        </>
+      )
+
       return (
         <PlayerMilestone
           key={milestone._id}
@@ -124,6 +135,7 @@ const PlayerMilestones = ({
           title={title}
           description={description}
           scoreText={scoreString}
+          source={source}
         />
       )
     })
@@ -147,4 +159,4 @@ const PlayerMilestones = ({
   )
 }
 
-export default PlayerMilestones
+export default PlayerMilestoneContainer

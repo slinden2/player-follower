@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PlayerVideo from './PlayerVideo'
+import colors from '../../styles/colors'
 
 const Container = styled.div``
 
@@ -20,7 +21,23 @@ const ScoreData = styled.div`
   line-height: 1rem;
 `
 
-export const PlayerMilestone = ({ data, title, description, scoreText }) => {
+const Source = styled.p`
+  font-size: 0.875rem;
+  margin-top: -5px;
+  color: ${colors.grey5};
+
+  & a {
+    color: ${colors.grey5};
+  }
+`
+
+export const PlayerMilestone = ({
+  data,
+  title,
+  description,
+  scoreText,
+  source,
+}) => {
   return (
     <Container>
       <Title>{title}</Title>
@@ -29,10 +46,11 @@ export const PlayerMilestone = ({ data, title, description, scoreText }) => {
       <PlayerVideo
         lastName={data.scorer.lastName}
         date={data.gameDate}
-        width={data.playback.width}
-        height={data.playback.height}
-        url={data.playback.url}
+        width={data.highlight.width}
+        height={data.highlight.height}
+        url={data.highlight.url}
       />
+      <Source>{source}</Source>
     </Container>
   )
 }

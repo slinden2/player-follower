@@ -432,7 +432,8 @@ const PLAYER_MILESTONES = gql`
       }
       periodNumber
       periodTime
-      playback {
+      highlight {
+        playbackId
         width
         height
         url
