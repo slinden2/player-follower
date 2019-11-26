@@ -1,6 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { event } from '../../utils/tracking'
 import NavContainer from './NavContainer'
 import HamburgerToggle from './HamburgerToggle'
 import SocialIcons from '../SocialIcons'
@@ -47,18 +47,16 @@ const LogoContainer = styled.div`
 const Logo = styled.img``
 
 const Navigation = () => {
-  const handleLogoClick = () => {
-    event('NAVIGATION', 'Logo clicked', 'No link')
-  }
-
   return (
     <Container>
       <LogoContainer>
-        <Logo onClick={handleLogoClick} src={Img} />
+        <Link to='/'>
+          <Logo src={Img} />
+        </Link>
       </LogoContainer>
       <HamburgerToggle />
       <NavContainer />
-      <SocialIcons position="navi" />
+      <SocialIcons position='navi' />
     </Container>
   )
 }
