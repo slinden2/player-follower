@@ -98,7 +98,7 @@ const playerBioData = {
 const naviItems = {
   players: {
     exact: true,
-    to: '/',
+    to: '/players/top-players',
     name: 'players',
   },
   favorites: {

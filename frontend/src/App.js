@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Router, Route, Switch } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
+import styled from 'styled-components'
 import { initGA, pageView } from './utils/tracking'
 import { NotificationContext } from './contexts/NotificationContext'
+import HomePage from './components/HomePage'
 import ProtectedRoute from './components/route/ProtectedRoute'
 import NoTokenRoute from './components/route/NoTokenRoute'
 import Navigation from './components/navigation/Navigation'
@@ -21,7 +23,6 @@ import Standings from './components/team/Standings'
 import PlayerProfile from './components/player/PlayerProfile'
 import About from './components/About'
 import ContactForm from './components/ContactForm'
-import styled from 'styled-components'
 import colors from './styles/colors'
 import variables from './styles/variables'
 import { SearchContext } from './contexts/SearchContext'
@@ -86,9 +87,10 @@ const App = () => {
             <Notification notification={notification} position='site' />
             {searchValue && <div>Search value present</div>}
             <Switch>
+              <Route exact path='/' render={() => <HomePage />} />
               <Route
                 exact
-                path='/'
+                path='/players/top-players'
                 render={() => (
                   <PlayerCardPage
                     context='player'
