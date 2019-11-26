@@ -182,7 +182,8 @@ const PlayerCardFront = ({
       isHighlighted: stat => stat === sortByHighlight[sortBy],
     }),
     team: () => ({
-      isLongName: data.team.locationName > 8 || data.team.teamName,
+      isLongName:
+        data.team.locationName.length > 11 || data.team.teamName.length > 11,
       imageData: {
         number: data.team.abbreviation,
         team: data.team.abbreviation,
@@ -214,6 +215,7 @@ const PlayerCardFront = ({
     }),
   }
 
+  console.log(data)
   const curContext = contextSelector[context]()
 
   const handleFollow = async () => {
