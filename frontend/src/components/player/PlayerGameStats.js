@@ -3,7 +3,7 @@ import { useQuery } from 'react-apollo-hooks'
 import Loader from '../elements/Loader'
 import NewStatsTable from '../stats/NewStatsTable'
 import Rink from './rink/Rink'
-import PlayerMilestones from './PlayerMilestoneContainer'
+import PlayerMilestoneContainer from './PlayerMilestoneContainer'
 import sortReducer from '../../reducers/sortReducer'
 import { convertMMSStoSec } from '../../utils'
 
@@ -130,7 +130,7 @@ export const PlayerGameStats = ({
       {!isGoalie && (
         <>
           <Rink data={data.GetGameStats.goals} />
-          <PlayerMilestones
+          <PlayerMilestoneContainer
             playerId={playerId}
             fullName={fullName}
             gamePks={gamePks.slice(0, 5)}
