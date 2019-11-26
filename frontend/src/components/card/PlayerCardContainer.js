@@ -9,7 +9,7 @@ const Container = styled.div`
   grid-gap: 15px;
 `
 
-const PlayerCardContainer = ({ query, queryName }) => {
+const PlayerCardContainer = ({ query, queryName, numOfCards }) => {
   if (query.loading) {
     return <Loader offset />
   }
@@ -18,6 +18,7 @@ const PlayerCardContainer = ({ query, queryName }) => {
 
   const createRow = playerResults => {
     if (!playerResults.length) return <div>No results</div>
+    playerResults = playerResults.slice(0, numOfCards)
     return playerResults.map((player, i) => (
       <Card key={player._id} context={context} data={player} i={i + 1} />
     ))
