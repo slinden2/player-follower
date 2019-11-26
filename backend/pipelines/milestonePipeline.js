@@ -84,7 +84,7 @@ const milestonePipeline = (playerId, gamePks) => [
       gameDate: '$milestone.gameDate',
       periodTime: '$milestone.periodTime',
       periodNumber: '$milestone.periodNumber',
-      playback: '$milestone.highlight.playbacks',
+      highlight: '$milestone.highlight.playbacks',
       tempScorer: {
         lastName: { $arrayElemAt: ['$scorer.lastName', 0] },
         siteLink: { $arrayElemAt: ['$scorer.siteLink', 0] },

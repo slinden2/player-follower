@@ -29,9 +29,9 @@ export const PlayerMilestone = ({ data, title, description, scoreText }) => {
       <PlayerVideo
         lastName={data.scorer.lastName}
         date={data.gameDate}
-        width={data.playback.width}
-        height={data.playback.height}
-        url={data.playback.url}
+        width={data.highlight.width}
+        height={data.highlight.height}
+        url={data.highlight.url}
       />
     </Container>
   )
