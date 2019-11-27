@@ -26,7 +26,7 @@ const Title = styled.h2``
 const LastUpdated = styled.div`
   position: absolute;
   right: 1rem;
-  top: 1rem;
+  top: 0rem;
   font-size: 0.875rem;
   text-align: center;
   line-height: 0.5rem;
