@@ -21,33 +21,6 @@ const Container = styled.div`
   position: relative;
 `
 
-const LastUpdated = styled.div`
-  position: absolute;
-  right: 10px;
-  top: -60px;
-  font-size: 0.875rem;
-  text-align: center;
-
-  @media (max-width: 500px) {
-    display: none;
-  }
-`
-
-const formatDate = UTCIsoString => {
-  const UTCDate = new Date(UTCIsoString)
-
-  const options = {
-    weekday: 'short',
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  }
-
-  return UTCDate.toLocaleDateString(navigator.language, options)
-}
-
 const PlayerCardPage = ({ context, queryName, header }) => {
   const {
     bestPlayers,
@@ -116,16 +89,9 @@ const PlayerCardPage = ({ context, queryName, header }) => {
 
   const curContext = contextSelector[context]()
 
-  const date = formatDate(data.GetLastUpdate.date)
-
   return (
     <PageContainer title={header}>
       <Container>
-        <LastUpdated>
-          Last update
-          <br />
-          {date}
-        </LastUpdated>
         <PlayerViewSelector
           currentView={numOfGames}
           setCurrentView={setNumOfGames}
