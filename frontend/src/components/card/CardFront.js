@@ -215,7 +215,6 @@ const PlayerCardFront = ({
     }),
   }
 
-  console.log(data)
   const curContext = contextSelector[context]()
 
   const handleFollow = async () => {
