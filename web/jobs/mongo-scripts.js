@@ -282,7 +282,7 @@ const updateMilestoneData = async () => {
       { _id: 1 }
     )
 
-    const test = await Milestone.updateOne(
+    await Milestone.updateOne(
       { _id: milestoneJSON.id },
       {
         $set: { player, team, opponent },
@@ -355,5 +355,5 @@ const deleteLatestGames = async () => {
 // getDate().then(() => mongoose.connection.close())
 // updatePlayerTeam().then(() => mongoose.connection.close())
 // fetchTweets().then(() => mongoose.connection.close())
-updateMilestoneData().then(() => mongoose.connection.close())
+// updateMilestoneData().then(() => mongoose.connection.close())
 // deleteLatestGames().then(() => mongoose.connection.close())

@@ -330,14 +330,16 @@ const typeDefs = gql`
     opponent: Team!
     periodNumber: String!
     periodTime: String!
-    playback: Video!
+    highlight: Highlight!
     scorer: Player!
     shotType: String!
     strength: String!
     team: Team!
   }
 
-  type Video {
+  type Highlight {
+    _id: ID!
+    playbackId: Int!
     name: String!
     height: Int
     width: Int
