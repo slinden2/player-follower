@@ -35,7 +35,7 @@ const defineOrder = (stat, a, b) => {
   return b - a || bSecondary - aSecondary
 }
 
-const TeamCardContainer = ({ numOfGames, sortBy, confFilter }) => {
+const TeamCardContainer = ({ numOfGames, sortBy, confFilter, numOfCards }) => {
   const { data, loading } = useQuery(BEST_TEAMS, {
     variables: { numOfGames },
   })
@@ -50,6 +50,7 @@ const TeamCardContainer = ({ numOfGames, sortBy, confFilter }) => {
 
   const createRow = data => {
     if (!data.length) return <div>No results</div>
+    data = data.slice(0, numOfCards)
     return data.map((team, i) => (
       <Card
         key={team._id}

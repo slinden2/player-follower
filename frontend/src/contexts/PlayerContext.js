@@ -16,7 +16,7 @@ const PlayerContextProvider = props => {
   const [nationalityFilter, setNationalityFilter] = useState('ALL')
   const [sortBy, setSortBy] = useState('POINTS')
   const [goalieSortBy, setGoalieSortBy] = useState('WINS')
-  const [numOfGames, setNumOfGames] = useState(1)
+  const [numOfGames, setNumOfGames] = useState(5)
 
   const variables = {
     numOfGames,
