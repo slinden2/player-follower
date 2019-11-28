@@ -23,7 +23,7 @@ const ToggleLabel = styled.label`
   top: 0;
   left: 0;
   margin-left: 1em;
-  width: 50px;
+  width: 40px;
   height: 100%;
 
   @media ${breakpoints.showDesktopNavi} {
