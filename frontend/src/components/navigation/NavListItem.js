@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
+import { NavContext } from '../../contexts/NavContext'
 
 const activeNavHighlight = css`
   content: '';
@@ -102,6 +103,32 @@ const NavListItem = ({
   hideOnDesktop,
   onClick,
 }) => {
+  const { dropdownBg } = useContext(NavContext)
+
+  const handleEnter = event => {
+    dropdownBg.classList.add('open')
+
+    const liElement = event.currentTarget
+
+    const coords = {
+      width: liElement.getBoundingClientRect().width,
+      height: liElement.getBoundingClientRect().height,
+      left: liElement.getBoundingClientRect().left,
+      top: liElement.getBoundingClientRect().bottom,
+    }
+
+    dropdownBg.style.setProperty('width', `${coords.width}px`)
+    dropdownBg.style.setProperty('height', `${coords.height}px`)
+    dropdownBg.style.setProperty(
+      'transform',
+      `translate(${coords.left}px, ${coords.top}px`
+    )
+  }
+
+  const handleLeave = event => {
+    dropdownBg.classList.remove('open')
+  }
+
   const linkProps = { exact, to }
 
   const nameToShow = name !== 'profile' ? name : username
@@ -115,6 +142,8 @@ const NavListItem = ({
       hideWithSearch={hideWithSearch}
       hideOnMobile={hideOnMobile}
       hideOnDesktop={hideOnDesktop}
+      onMouseEnter={dropdownBg && handleEnter}
+      onMouseLeave={dropdownBg && handleLeave}
     >
       {to ? (
         <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>

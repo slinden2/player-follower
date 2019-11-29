@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import NavContainer from './NavContainer'
 import HamburgerToggle from './HamburgerToggle'
+import DropdownBackground from './DropdownBackground'
 import SocialIcons from '../SocialIcons'
 import Img from '../../assets/logo.png'
 import colors from '../../styles/colors'
@@ -56,6 +57,7 @@ const Navigation = () => {
       </LogoContainer>
       <HamburgerToggle />
       <NavContainer />
+      <DropdownBackground />
       <SocialIcons position='navi' />
     </Container>
   )
