@@ -30,9 +30,8 @@ if (process.argv[2]) {
     runFetchBoxscores(gamePks.map(game => game.gamePk))
   })
 } else {
-  Game.find({}, { apiDate: 1, _id: 0 })
+  Game.find({}, { apiDate: 1, gamePk: 1, _id: 0 })
     .sort({ apiDate: -1 })
-    .skip(1)
     .limit(1)
     .then(([date]) =>
       Game.find({ apiDate: date.apiDate }, { gamePk: 1, _id: 0 }).then(

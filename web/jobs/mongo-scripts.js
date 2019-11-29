@@ -291,8 +291,15 @@ const updateMilestoneData = async () => {
   }
 }
 
+const getNewestGame = async () => {
+  const game = await Game.find()
+    .sort({ apiDate: -1 })
+    .limit(1)
+  console.log(game)
+}
+
 const deleteLatestGames = async () => {
-  const gamePk = 2019020345 // gamePk greater than this will be deleted
+  const gamePk = 2019020389 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -356,4 +363,5 @@ const deleteLatestGames = async () => {
 // updatePlayerTeam().then(() => mongoose.connection.close())
 // fetchTweets().then(() => mongoose.connection.close())
 // updateMilestoneData().then(() => mongoose.connection.close())
-// deleteLatestGames().then(() => mongoose.connection.close())
+// getNewestGame().then(() => mongoose.connection.close())
+deleteLatestGames().then(() => mongoose.connection.close())
