@@ -85,6 +85,7 @@ const NavList = ({ items, right }) => {
         showNavItem(item) && (
           <NavListItem
             key={i}
+            ordinal={i}
             {...item}
             // This must be before function map otherwise it overrides that.
             onClick={closeNavi}

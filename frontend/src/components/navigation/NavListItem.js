@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
+import DropdownList from './DropdownList'
 import colors from '../../styles/colors'
 import breakpoints from '../../styles/breakpoints'
 import { NavContext } from '../../contexts/NavContext'
@@ -34,6 +35,7 @@ const StyledNavListItem = styled.li`
     display: none;
     display: ${props => (!props.hideOnDesktop ? 'flex' : 'none')};
     align-items: center;
+    justify-content: center;
     font-size: 1rem;
     border-left: 1px solid ${colors.grey2};
     border-right: 1px solid ${colors.grey2};
@@ -97,24 +99,48 @@ const NavListItem = ({
   exact,
   to,
   name,
+  dropdown,
   username,
   hideWithSearch,
   hideOnMobile,
   hideOnDesktop,
   onClick,
+  ordinal,
 }) => {
-  const { dropdownBg } = useContext(NavContext)
+  const [dropdownList, setDropdownList] = useState(null)
+  const dropdownRef = useRef(null)
+  const liRef = useRef(null)
+  const { dropdownBg, setInitialPos } = useContext(NavContext)
 
-  const handleEnter = event => {
+  useEffect(() => {
+    setDropdownList(dropdownRef.current)
+    // Only set initialPos with the first link of the nav
+    if (ordinal === 0 && liRef.current.getBoundingClientRect().left !== 0) {
+      setInitialPos({
+        left: liRef.current.getBoundingClientRect().left,
+        top: liRef.current.getBoundingClientRect().bottom,
+      })
+    }
+  }, [])
+
+  const hoverIsActive = dropdownList && dropdownBg
+
+  const handleEnter = () => {
+    dropdownList.classList.add('trigger-enter')
+    setTimeout(
+      () =>
+        dropdownList.classList.contains('trigger-enter') &&
+        dropdownList.classList.add('trigger-enter-active'),
+      150
+    )
+
     dropdownBg.classList.add('open')
 
-    const liElement = event.currentTarget
-
     const coords = {
-      width: liElement.getBoundingClientRect().width,
-      height: liElement.getBoundingClientRect().height,
-      left: liElement.getBoundingClientRect().left,
-      top: liElement.getBoundingClientRect().bottom,
+      width: dropdownList.getBoundingClientRect().width,
+      height: dropdownList.getBoundingClientRect().height,
+      left: dropdownList.getBoundingClientRect().left,
+      top: dropdownList.getBoundingClientRect().top + 10,
     }
 
     dropdownBg.style.setProperty('width', `${coords.width}px`)
@@ -125,7 +151,8 @@ const NavListItem = ({
     )
   }
 
-  const handleLeave = event => {
+  const handleLeave = () => {
+    dropdownList.classList.remove('trigger-enter', 'trigger-enter-active')
     dropdownBg.classList.remove('open')
   }
 
@@ -138,18 +165,21 @@ const NavListItem = ({
 
   return (
     <StyledNavListItem
+      ref={liRef}
       onClick={newOnClick}
       hideWithSearch={hideWithSearch}
       hideOnMobile={hideOnMobile}
       hideOnDesktop={hideOnDesktop}
-      onMouseEnter={dropdownBg && handleEnter}
-      onMouseLeave={dropdownBg && handleLeave}
+      onMouseEnter={hoverIsActive && handleEnter}
+      onMouseLeave={hoverIsActive && handleLeave}
     >
       {to ? (
         <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
       ) : (
         <NavItemNoLink>{nameToShow}</NavItemNoLink>
       )}
+
+      {dropdown && <DropdownList ref={dropdownRef} items={dropdown} />}
     </StyledNavListItem>
   )
 }

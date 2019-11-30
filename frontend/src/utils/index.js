@@ -100,6 +100,7 @@ const naviItems = {
     exact: true,
     to: '/players/top-players',
     name: 'players',
+    dropdown: ['players', 'favorites', 'stats'],
   },
   favorites: {
     to: '/favorites',
@@ -113,6 +114,7 @@ const naviItems = {
   teams: {
     to: '/teams/top-teams',
     name: 'teams',
+    dropdown: ['teams', 'standings'],
   },
   standings: {
     to: '/teams/standings',
