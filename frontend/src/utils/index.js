@@ -104,8 +104,12 @@ const naviItems = {
     exact: true,
     to: '/players/top-players',
     name: 'players',
-    dropdownName: 'top players',
-    dropdown: ['players', 'favorites', 'stats'],
+    dropdownName: 'top skaters',
+    dropdown: ['players', 'goalies', 'favorites', 'stats'],
+  },
+  goalies: {
+    to: '/players/top-goalies',
+    name: 'top goalies',
   },
   favorites: {
     to: '/favorites',
