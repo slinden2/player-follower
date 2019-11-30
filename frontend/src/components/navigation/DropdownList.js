@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { naviItems } from '../../utils'
+import { naviItems, showNavItem } from '../../utils'
 import DropdownItem from './DropdownItem'
 import { NavContext } from '../../contexts/NavContext'
+import { AuthContext } from '../../contexts/AuthContext'
 
 const Container = styled.ul`
   list-style: none;
@@ -11,11 +12,12 @@ const Container = styled.ul`
   opacity: 0;
   position: absolute;
   overflow: hidden;
-  padding: 20px 20px 20px 10px;
+  padding: 20px;
   transition: all 0.2s;
   will-change: opacity;
   display: none;
   cursor: initial;
+  white-space: nowrap;
 
   ${({ initialPos }) => initialPos && `top: ${initialPos.top - 5}px`}
 
@@ -29,12 +31,21 @@ const Container = styled.ul`
 `
 
 const DropdownList = React.forwardRef(({ items }, ref) => {
+  const { token } = useContext(AuthContext)
   const { initialPos } = useContext(NavContext)
 
-  const links = items.map(item => naviItems[item])
+  const dropdownItems = items.map(item => naviItems[item])
   return (
     <Container ref={ref} initialPos={initialPos}>
-      {links && links.map(link => <DropdownItem key={link.name} data={link} />)}
+      {dropdownItems &&
+        dropdownItems.map(item => {
+          // If user is not logged in don't show certain items
+          if (!showNavItem(item, token)) return null
+          const name = item.dropdownName ? item.dropdownName : item.name
+          const link = item.to
+
+          return <DropdownItem key={item.name} name={name} link={link} />
+        })}
     </Container>
   )
 })

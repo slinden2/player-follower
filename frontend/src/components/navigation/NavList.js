@@ -4,6 +4,7 @@ import NavListItem from './NavListItem'
 import breakpoints from '../../styles/breakpoints'
 import { AuthContext } from '../../contexts/AuthContext'
 import { ModalContext } from '../../contexts/ModalContext'
+import { showNavItem } from '../../utils'
 import colors from '../../styles/colors'
 import { HamburgerContext } from '../../contexts/HamburgerContext'
 
@@ -75,14 +76,14 @@ const NavList = ({ items, right }) => {
 
   if (user.data.me) username = user.data.me.username
 
-  const showNavItem = item =>
-    (!(item.noToken && token) && !item.tokenRequired) ||
-    (item.tokenRequired && token)
+  // const showNavItem = item =>
+  //   (!(item.noToken && token) && !item.tokenRequired) ||
+  //   (item.tokenRequired && token)
 
   const createItems = () => {
     const navItems = items.map(
       (item, i) =>
-        showNavItem(item) && (
+        showNavItem(item, token) && (
           <NavListItem
             key={i}
             ordinal={i}
