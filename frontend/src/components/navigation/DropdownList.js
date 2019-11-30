@@ -4,29 +4,33 @@ import { naviItems, showNavItem } from '../../utils'
 import DropdownItem from './DropdownItem'
 import { NavContext } from '../../contexts/NavContext'
 import { AuthContext } from '../../contexts/AuthContext'
+import breakpoints from '../../styles/breakpoints'
 
 const Container = styled.ul`
   list-style: none;
   padding-left: 0;
-  z-index: 1005;
-  opacity: 0;
-  position: absolute;
-  overflow: hidden;
-  padding: 20px;
-  transition: all 0.2s;
-  will-change: opacity;
-  display: none;
-  cursor: initial;
-  white-space: nowrap;
 
-  ${({ initialPos }) => initialPos && `top: ${initialPos.top - 5}px`}
+  @media ${breakpoints.showDesktopNavi} {
+    z-index: 1005;
+    opacity: 0;
+    position: absolute;
+    overflow: hidden;
+    padding: 20px;
+    transition: all 0.2s;
+    will-change: opacity;
+    display: none;
+    cursor: initial;
+    white-space: nowrap;
 
-  &.trigger-enter {
-    display: block;
-  }
+    ${({ initialPos }) => initialPos && `top: ${initialPos.top - 5}px`}
 
-  &.trigger-enter-active {
-    opacity: 1;
+    &.trigger-enter {
+      display: block;
+    }
+
+    &.trigger-enter-active {
+      opacity: 1;
+    }
   }
 `
 
