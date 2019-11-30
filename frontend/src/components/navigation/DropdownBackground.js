@@ -1,7 +1,9 @@
 import React, { useContext, useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import Media from 'react-media'
 import { NavContext } from '../../contexts/NavContext'
 import colors from '../../styles/colors'
+import breakpoints from '../../styles/breakpoints'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -48,10 +50,12 @@ const DropdownBackground = () => {
   }, [])
 
   return (
-    <Wrapper ref={bgRef} initialPos={initialPos}>
-      <Container />
-      <Arrow />
-    </Wrapper>
+    <Media query={breakpoints.showDesktopNavi}>
+      <Wrapper ref={bgRef} initialPos={initialPos}>
+        <Container />
+        <Arrow />
+      </Wrapper>
+    </Media>
   )
 }
 

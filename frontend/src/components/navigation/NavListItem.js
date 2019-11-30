@@ -173,7 +173,7 @@ const NavListItem = ({
       onMouseEnter={hoverIsActive && handleEnter}
       onMouseLeave={hoverIsActive && handleLeave}
     >
-      {to ? (
+      {to && !dropdown ? (
         <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
       ) : (
         <NavItemNoLink>{nameToShow}</NavItemNoLink>
