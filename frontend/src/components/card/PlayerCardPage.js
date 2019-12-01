@@ -39,12 +39,7 @@ const PlayerCardPage = ({ context, queryName, header }) => {
     goalieSortBy,
     setGoalieSortBy,
   } = useContext(PlayerContext)
-  const { data, loading } = useQuery(LAST_UPDATE)
   const [filtersAreVisible, setFiltersAreVisible] = useState(false)
-
-  if (loading) {
-    return <Loader offset />
-  }
 
   const filterDropdownData = [
     {

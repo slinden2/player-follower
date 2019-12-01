@@ -122,7 +122,7 @@ const PlayerMilestoneContainer = ({
       const source = (
         <>
           {'Source: '}
-          <a href={sourceLink} target='_blank'>
+          <a href={sourceLink} target='_blank' rel='noopener noreferrer'>
             {sourceLink}
           </a>
         </>
