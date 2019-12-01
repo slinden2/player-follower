@@ -106,6 +106,8 @@ const NavListItem = ({
   hideOnDesktop,
   onClick,
   ordinal,
+  openedElement,
+  setOpenedElement,
 }) => {
   const [dropdownList, setDropdownList] = useState(null)
   const dropdownRef = useRef(null)
@@ -121,11 +123,11 @@ const NavListItem = ({
         top: liRef.current.getBoundingClientRect().bottom,
       })
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const hoverIsActive = dropdownList && dropdownBg
 
-  const handleEnter = () => {
+  const openDropdown = () => {
     dropdownList.classList.add('trigger-enter')
     setTimeout(
       () =>
@@ -133,6 +135,10 @@ const NavListItem = ({
         dropdownList.classList.add('trigger-enter-active'),
       150
     )
+  }
+
+  const handleEnter = () => {
+    openDropdown()
 
     dropdownBg.classList.add('open')
 
@@ -156,6 +162,24 @@ const NavListItem = ({
     dropdownBg.classList.remove('open')
   }
 
+  const handleOpenDropdown = () => {
+    // If a dropdown is already open, close it before opening the new one
+    if (openedElement) {
+      openedElement.classList.remove('trigger-enter', 'trigger-enter-active')
+    }
+
+    // Set newly opened dropdown ref in the state
+    setOpenedElement(dropdownRef.current)
+    openDropdown()
+  }
+
+  const closeDropdown = event => {
+    if (event) {
+      event.stopPropagation()
+    }
+    dropdownList.classList.remove('trigger-enter', 'trigger-enter-active')
+  }
+
   const linkProps = { exact, to }
 
   const nameToShow = name !== 'profile' ? name : username
@@ -166,7 +190,7 @@ const NavListItem = ({
   return (
     <StyledNavListItem
       ref={liRef}
-      onClick={newOnClick}
+      onClick={dropdown ? handleOpenDropdown : newOnClick}
       hideWithSearch={hideWithSearch}
       hideOnMobile={hideOnMobile}
       hideOnDesktop={hideOnDesktop}
@@ -179,7 +203,13 @@ const NavListItem = ({
         <NavItemNoLink>{nameToShow}</NavItemNoLink>
       )}
 
-      {dropdown && <DropdownList ref={dropdownRef} items={dropdown} />}
+      {dropdown && (
+        <DropdownList
+          ref={dropdownRef}
+          items={dropdown}
+          closeDropdown={closeDropdown}
+        />
+      )}
     </StyledNavListItem>
   )
 }

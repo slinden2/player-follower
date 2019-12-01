@@ -9,32 +9,34 @@ import breakpoints from '../../styles/breakpoints'
 const Container = styled.ul`
   list-style: none;
   padding-left: 0;
+  display: none;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+  will-change: opacity;
+  white-space: nowrap;
+  margin-left: 1rem;
+
+  &.trigger-enter {
+    display: block;
+  }
+
+  &.trigger-enter-active {
+    opacity: 1;
+  }
 
   @media ${breakpoints.showDesktopNavi} {
     z-index: 1005;
-    opacity: 0;
-    position: absolute;
-    overflow: hidden;
     padding: 20px;
-    transition: all 0.2s;
-    will-change: opacity;
-    display: none;
     cursor: initial;
-    white-space: nowrap;
+    margin-left: 0;
 
+    position: absolute;
     ${({ initialPos }) => initialPos && `top: ${initialPos.top - 5}px`}
-
-    &.trigger-enter {
-      display: block;
-    }
-
-    &.trigger-enter-active {
-      opacity: 1;
-    }
   }
 `
 
-const DropdownList = React.forwardRef(({ items }, ref) => {
+const DropdownList = React.forwardRef(({ items, closeDropdown }, ref) => {
   const { token } = useContext(AuthContext)
   const { initialPos } = useContext(NavContext)
 
@@ -48,7 +50,14 @@ const DropdownList = React.forwardRef(({ items }, ref) => {
           const name = item.dropdownName ? item.dropdownName : item.name
           const link = item.to
 
-          return <DropdownItem key={item.name} name={name} link={link} />
+          return (
+            <DropdownItem
+              key={item.name}
+              name={name}
+              link={link}
+              closeDropdown={closeDropdown}
+            />
+          )
         })}
     </Container>
   )

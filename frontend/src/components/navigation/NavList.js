@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled, { css } from 'styled-components'
 import NavListItem from './NavListItem'
 import breakpoints from '../../styles/breakpoints'
@@ -59,6 +59,7 @@ const NavList = ({ items, right }) => {
   const { token, logoutUser, user } = useContext(AuthContext)
   const { openModal } = useContext(ModalContext)
   const { closeNavi } = useContext(HamburgerContext)
+  const [openedElement, setOpenedElement] = useState(null)
 
   const functionMap = {
     handleLogout: {
@@ -76,10 +77,6 @@ const NavList = ({ items, right }) => {
 
   if (user.data.me) username = user.data.me.username
 
-  // const showNavItem = item =>
-  //   (!(item.noToken && token) && !item.tokenRequired) ||
-  //   (item.tokenRequired && token)
-
   const createItems = () => {
     const navItems = items.map(
       (item, i) =>
@@ -92,6 +89,8 @@ const NavList = ({ items, right }) => {
             onClick={closeNavi}
             {...functionMap[item.bindTo]}
             username={username}
+            openedElement={openedElement}
+            setOpenedElement={setOpenedElement}
           />
         )
     )

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from 'react'
+import React, { useContext, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import Media from 'react-media'
 import { NavContext } from '../../contexts/NavContext'
@@ -47,7 +47,7 @@ const DropdownBackground = () => {
 
   useEffect(() => {
     setDropdownBg(bgRef.current)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Media query={breakpoints.showDesktopNavi}>
