@@ -12,10 +12,12 @@ const Container = styled.ul`
   display: none;
   opacity: 0;
   overflow: hidden;
-  transition: all 0.2s;
-  will-change: opacity;
+  transition: all 0.2s, opacity 0.2s ease-in-out 0.1s;
+  will-change: opacity, transform;
   white-space: nowrap;
   margin-left: 1rem;
+  transform-origin: top;
+  transform: scale(1, 0);
 
   &.trigger-enter {
     display: block;
@@ -23,9 +25,12 @@ const Container = styled.ul`
 
   &.trigger-enter-active {
     opacity: 1;
+    transform: scale(1, 1);
   }
 
   @media ${breakpoints.showDesktopNavi} {
+    transition: all 0.2s, opacity 0.2s ease-in-out;
+    transform: scale(1, 1);
     z-index: 1005;
     padding: 20px;
     cursor: initial;

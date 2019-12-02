@@ -174,6 +174,7 @@ const NavListItem = ({
     if (openedElement) {
       openedElement.classList.remove('trigger-enter', 'trigger-enter-active')
       setOpenedLiElement(false)
+      setOpenedElement(false)
     }
 
     // Set newly opened dropdown ref in the state
