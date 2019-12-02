@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import { useQuery } from 'react-apollo-hooks'
 import styled from 'styled-components'
 import PageContainer from '../elements/PageContainer'
 import PlayerViewSelector from './ViewSelector'
@@ -12,9 +11,7 @@ import {
   goalieSortByItems,
 } from '../../utils'
 import PlayerCardContainer from './PlayerCardContainer'
-import Loader from '../elements/Loader'
 import { ShowFiltersButton, FilterContainer } from './styles'
-import { LAST_UPDATE } from '../../graphql/queries'
 import FramedDropdown from '../elements/dropdown/FramedDropdown'
 
 const Container = styled.div`
