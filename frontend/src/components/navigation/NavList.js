@@ -60,6 +60,7 @@ const NavList = ({ items, right }) => {
   const { openModal } = useContext(ModalContext)
   const { closeNavi } = useContext(HamburgerContext)
   const [openedElement, setOpenedElement] = useState(null)
+  const [openedLiElement, setOpenedLiElement] = useState(null)
 
   const functionMap = {
     handleLogout: {
@@ -91,6 +92,8 @@ const NavList = ({ items, right }) => {
             username={username}
             openedElement={openedElement}
             setOpenedElement={setOpenedElement}
+            openedLiElement={openedLiElement}
+            setOpenedLiElement={setOpenedLiElement}
           />
         )
     )

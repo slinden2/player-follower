@@ -108,11 +108,15 @@ const NavListItem = ({
   ordinal,
   openedElement,
   setOpenedElement,
+  openedLiElement,
+  setOpenedLiElement,
 }) => {
   const [dropdownList, setDropdownList] = useState(null)
   const dropdownRef = useRef(null)
   const liRef = useRef(null)
   const { dropdownBg, setInitialPos } = useContext(NavContext)
+
+  const isOpen = liRef && liRef.current === openedLiElement
 
   useEffect(() => {
     setDropdownList(dropdownRef.current)
@@ -163,13 +167,18 @@ const NavListItem = ({
   }
 
   const handleOpenDropdown = () => {
+    // Inhibit functionality when desktop navigation is shown
+    if (window.matchMedia(breakpoints.showDesktopNavi).matches) return
+
     // If a dropdown is already open, close it before opening the new one
     if (openedElement) {
       openedElement.classList.remove('trigger-enter', 'trigger-enter-active')
+      setOpenedLiElement(false)
     }
 
     // Set newly opened dropdown ref in the state
     setOpenedElement(dropdownRef.current)
+    setOpenedLiElement(liRef.current)
     openDropdown()
   }
 
@@ -178,6 +187,7 @@ const NavListItem = ({
       event.stopPropagation()
     }
     dropdownList.classList.remove('trigger-enter', 'trigger-enter-active')
+    setOpenedLiElement(false)
   }
 
   const linkProps = { exact, to }
@@ -190,7 +200,9 @@ const NavListItem = ({
   return (
     <StyledNavListItem
       ref={liRef}
-      onClick={dropdown ? handleOpenDropdown : newOnClick}
+      onClick={
+        dropdown ? (isOpen ? closeDropdown : handleOpenDropdown) : newOnClick
+      }
       hideWithSearch={hideWithSearch}
       hideOnMobile={hideOnMobile}
       hideOnDesktop={hideOnDesktop}
