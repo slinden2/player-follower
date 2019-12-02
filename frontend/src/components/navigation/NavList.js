@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled, { css } from 'styled-components'
 import NavListItem from './NavListItem'
 import breakpoints from '../../styles/breakpoints'
 import { AuthContext } from '../../contexts/AuthContext'
 import { ModalContext } from '../../contexts/ModalContext'
+import { showNavItem } from '../../utils'
 import colors from '../../styles/colors'
 import { HamburgerContext } from '../../contexts/HamburgerContext'
 
@@ -58,6 +59,8 @@ const NavList = ({ items, right }) => {
   const { token, logoutUser, user } = useContext(AuthContext)
   const { openModal } = useContext(ModalContext)
   const { closeNavi } = useContext(HamburgerContext)
+  const [openedElement, setOpenedElement] = useState(null)
+  const [openedLiElement, setOpenedLiElement] = useState(null)
 
   const functionMap = {
     handleLogout: {
@@ -75,21 +78,22 @@ const NavList = ({ items, right }) => {
 
   if (user.data.me) username = user.data.me.username
 
-  const showNavItem = item =>
-    (!(item.noToken && token) && !item.tokenRequired) ||
-    (item.tokenRequired && token)
-
   const createItems = () => {
     const navItems = items.map(
       (item, i) =>
-        showNavItem(item) && (
+        showNavItem(item, token) && (
           <NavListItem
             key={i}
+            ordinal={i}
             {...item}
             // This must be before function map otherwise it overrides that.
             onClick={closeNavi}
             {...functionMap[item.bindTo]}
             username={username}
+            openedElement={openedElement}
+            setOpenedElement={setOpenedElement}
+            openedLiElement={openedLiElement}
+            setOpenedLiElement={setOpenedLiElement}
           />
         )
     )

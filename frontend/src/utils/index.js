@@ -51,6 +51,10 @@ const formatDate = ISODate => {
   })
 }
 
+const showNavItem = (item, token) =>
+  (!(item.noToken && token) && !item.tokenRequired) ||
+  (item.tokenRequired && token)
+
 const playerBioData = {
   primaryPosition: {
     id: 'primaryPosition.description',
@@ -100,6 +104,12 @@ const naviItems = {
     exact: true,
     to: '/players/top-players',
     name: 'players',
+    dropdownName: 'top skaters',
+    dropdown: ['players', 'goalies', 'favorites', 'stats'],
+  },
+  goalies: {
+    to: '/players/top-goalies',
+    name: 'top goalies',
   },
   favorites: {
     to: '/favorites',
@@ -113,6 +123,8 @@ const naviItems = {
   teams: {
     to: '/teams/top-teams',
     name: 'teams',
+    dropdownName: 'top teams',
+    dropdown: ['teams', 'standings'],
   },
   standings: {
     to: '/teams/standings',
@@ -1342,6 +1354,7 @@ export {
   profileImgUrl,
   convertSecsToMMSS,
   convertMMSStoSec,
+  showNavItem,
   naviItems,
   statHeaders,
   teamStatHeaders,

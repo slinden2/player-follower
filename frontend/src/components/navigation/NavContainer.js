@@ -25,15 +25,7 @@ const Container = styled.div`
   }
 `
 
-const mainNaviItems = [
-  'players',
-  'favorites',
-  'stats',
-  'teams',
-  'standings',
-  'contact',
-  'search',
-]
+const mainNaviItems = ['players', 'teams', 'contact', 'search']
 
 const userActionItems = [
   'login',
