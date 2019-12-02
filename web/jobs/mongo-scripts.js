@@ -298,8 +298,14 @@ const getNewestGame = async () => {
   console.log(game)
 }
 
+// db.milestones.updateOne(
+//   { 'highlight.playbacks._id': ObjectId('5de3975166713950d4dde4e4') },
+//   { $set: { 'highlight.playbacks.$[el].urlMissing': true } },
+//   { arrayFilters: [{ 'el.name': 'FLASH_1800K_896x504' }] }
+// )
+
 const deleteLatestGames = async () => {
-  const gamePk = 2019020389 // gamePk greater than this will be deleted
+  const gamePk = 2019020402 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -364,4 +370,4 @@ const deleteLatestGames = async () => {
 // fetchTweets().then(() => mongoose.connection.close())
 // updateMilestoneData().then(() => mongoose.connection.close())
 // getNewestGame().then(() => mongoose.connection.close())
-deleteLatestGames().then(() => mongoose.connection.close())
+// deleteLatestGames().then(() => mongoose.connection.close())
