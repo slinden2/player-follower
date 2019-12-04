@@ -59,7 +59,7 @@ const typeDefs = gql`
     firstYearOfPlay: Int!
     officialSiteUrl: String!
     active: Boolean!
-    linescores: [Standings]!
+    linescores: [Linescore]!
   }
 
   type Standings {
@@ -107,6 +107,34 @@ const typeDefs = gql`
     teamName: String!
     teamSiteLink: String!
     wins: Int!
+  }
+
+  type Linescore {
+    opponentId: Team!
+    gamePk: Int!
+    isHomeGame: Boolean!
+    points: Int!
+    win: Boolean!
+    otWin: Boolean!
+    shootOutWin: Boolean!
+    loss: Boolean!
+    ot: Boolean!
+    goalsFor: Int!
+    goalsAgainst: Int!
+    penaltyMinutes: Int!
+    shotsFor: Int!
+    shotsAgainst: Int!
+    powerPlayGoals: Int!
+    powerPlayOpportunities: Int!
+    powerPlayOpportunitiesAllowed: Int!
+    powerPlayGoalsAllowed: Int!
+    faceOffsTaken: Int!
+    faceOffWins: Int!
+    blocked: Int!
+    takeaways: Int!
+    giveaways: Int!
+    hitsFor: Int!
+    hitsAgainst: Int!
   }
 
   """
