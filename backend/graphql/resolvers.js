@@ -245,6 +245,16 @@ const resolvers = {
 
       const team = await Team.findOne({ siteLink }).populate([
         {
+          path: 'conference',
+          model: 'Conference',
+          select: 'name',
+        },
+        {
+          path: 'division',
+          model: 'Division',
+          select: 'name',
+        },
+        {
           path: 'linescores',
           model: 'Linescore',
           populate: {
