@@ -59,7 +59,7 @@ const typeDefs = gql`
     firstYearOfPlay: Int!
     officialSiteUrl: String!
     active: Boolean!
-    players: [CumulativeStats!]!
+    linescores: [Standings]!
   }
 
   type Standings {

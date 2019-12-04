@@ -7,6 +7,7 @@ require('../models/team-stats') // needed for field population
 require('../models/conference') // needed for field population
 require('../models/division') // needed for field population
 require('../models/game') // needed for field population
+require('../models/linescore') // needed for field population
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
@@ -18,7 +19,6 @@ const {
   bestPlayersAggregate,
   favoritePlayersAggregate,
   seasonStatsAggregate,
-  teamProfileAggregate,
   teamStandingsAggregate,
   bestTeamsAggregate,
 } = require('./pipelines')
@@ -243,9 +243,18 @@ const resolvers = {
     GetTeam: async (root, args) => {
       const { siteLink } = args
 
-      const team = await Team.aggregate(teamProfileAggregate(siteLink))
-
-      return team[0]
+      const team = await Team.findOne({ siteLink }).populate([
+        {
+          path: 'linescores',
+          model: 'Linescore',
+          populate: {
+            path: 'opponentId',
+            model: 'Team',
+            select: 'abbreviation siteLink',
+          },
+        },
+      ])
+      return team
     },
     GetLastUpdate: async () => {
       const score = await SkaterBoxscore.find({}, { _id: 1 })
