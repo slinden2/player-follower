@@ -1,4 +1,4 @@
-const formatPlayerStatsPipeline = (numOfGames, type) => {
+const formatPlayerStatsPipeline = type => {
   const bsField = type === 'skater' ? 'skaterboxscores' : 'goalieboxscores'
 
   return [
