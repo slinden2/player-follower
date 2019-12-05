@@ -41,7 +41,8 @@ const typeDefs = gql`
     officialSiteUrl: String!
     active: Boolean!
     players: [Player!]!
-    rosterStats: [CumulativeStats]
+    linescores: [Standings]!
+    stats: Standings!
   }
 
   type TeamProfile {
@@ -107,6 +108,10 @@ const typeDefs = gql`
     teamName: String!
     teamSiteLink: String!
     wins: Int!
+
+    gamePk: Int
+    gameDate: String
+    opponentId: Team
   }
 
   type Linescore {
@@ -179,8 +184,8 @@ const typeDefs = gql`
     An array of the boxcores of all the games that the player
     has played. Scratched games are not included.
     """
-    boxscores: [String]!
-    stats: [Stats!]!
+    boxscores: [Stats]!
+    stats: Stats!
     goals: [Goal]
     id: ID!
     numOfGamesId: Int!
@@ -566,7 +571,7 @@ const typeDefs = gql`
     """
     Single player by playerId
     """
-    findPlayer(playerId: Int, siteLink: String): Player!
+    GetPlayer(siteLink: String!, type: String!): Player
     """
     Get player game-by-game stats
     """
@@ -625,7 +630,7 @@ const typeDefs = gql`
     """
     Returns a team and its roster
     """
-    GetTeam(siteLink: String!): TeamProfile!
+    GetTeam(siteLink: String!): Team!
     """
     Returns the logged user
     """

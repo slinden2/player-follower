@@ -19,7 +19,7 @@ const profileAggregate = (siteLink, type) => {
 
   const pipeline = [
     ...statAccumulatorPipeline(numOfGames, type, { siteLink }),
-    ...formatStatsPipeline(numOfGames, type),
+    ...formatStatsPipeline(type),
   ]
 
   return pipeline

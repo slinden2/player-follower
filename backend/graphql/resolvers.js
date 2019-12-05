@@ -22,6 +22,7 @@ const {
   teamStandingsAggregate,
   bestTeamsAggregate,
 } = require('./pipelines')
+const profileAggregate = require('./profile-aggregate')
 const milestonePipeline = require('../pipelines/milestonePipeline')
 const {
   convertSecsToMin,
@@ -53,18 +54,12 @@ const resolvers = {
       const players = await Player.find({})
       return players
     },
-    findPlayer: async (root, args) => {
-      const player = await Player.findOne(args).populate([
-        {
-          path: 'currentTeam',
-          model: 'Team',
-          select: 'name abbreviation locationName siteLink',
-        },
-      ])
+    GetPlayer: async (root, args) => {
+      const player = await Player.aggregate(
+        profileAggregate(args.siteLink, args.type)
+      )
 
-      const playerJSON = player.toJSON()
-
-      return playerJSON
+      return player[0]
     },
     GetGameStats: async (root, args) => {
       const schema = args.isGoalie ? GoalieBoxscore : SkaterBoxscore
@@ -241,30 +236,8 @@ const resolvers = {
       return teams.map(team => team.toJSON())
     },
     GetTeam: async (root, args) => {
-      const { siteLink } = args
-
-      const team = await Team.findOne({ siteLink }).populate([
-        {
-          path: 'conference',
-          model: 'Conference',
-          select: 'name',
-        },
-        {
-          path: 'division',
-          model: 'Division',
-          select: 'name',
-        },
-        {
-          path: 'linescores',
-          model: 'Linescore',
-          populate: {
-            path: 'opponentId',
-            model: 'Team',
-            select: 'abbreviation siteLink',
-          },
-        },
-      ])
-      return team
+      const team = await Team.aggregate(profileAggregate(args.siteLink, 'team'))
+      return team[0]
     },
     GetLastUpdate: async () => {
       const score = await SkaterBoxscore.find({}, { _id: 1 })
