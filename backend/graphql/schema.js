@@ -138,6 +138,7 @@ const typeDefs = gql`
     hitsAgainst: Int!
 
     # Needed in team profile
+    gamesPlayed: Int!
     wins: Int!
     losses: Int!
     otLosses: Int!

@@ -3,6 +3,7 @@ const calculateSkaterStatsPipeline = idString => [
     $group: {
       _id: `$${idString}`,
       gamePks: { $push: '$boxscores.gamePk' },
+      gamesPlayed: { $sum: 1 },
       timeOnIce: { $sum: '$boxscores.timeOnIce' },
       assists: { $sum: '$boxscores.assists' },
       goals: { $sum: '$boxscores.goals' },
@@ -33,7 +34,6 @@ const calculateSkaterStatsPipeline = idString => [
   },
   {
     $addFields: {
-      gamesPlayed: { $size: '$gamePks' },
       powerPlayPoints: { $add: ['$powerPlayGoals', '$powerPlayAssists'] },
       shortHandedPoints: {
         $add: ['$shortHandedGoals', '$shortHandedAssists'],
