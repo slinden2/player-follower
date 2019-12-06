@@ -42,7 +42,7 @@ const typeDefs = gql`
     active: Boolean!
     players: [Player!]!
     linescores: [Linescore]!
-    stats: Standings!
+    stats: Linescore!
   }
 
   type TeamProfile {
@@ -108,11 +108,6 @@ const typeDefs = gql`
     teamName: String!
     teamSiteLink: String!
     wins: Int!
-
-    gamePk: Int
-    gameDate: String
-    opponentId: Team
-    isHomeGame: Boolean
   }
 
   type Linescore {
@@ -141,6 +136,12 @@ const typeDefs = gql`
     giveaways: Int!
     hitsFor: Int!
     hitsAgainst: Int!
+
+    # Needed in team profile
+    wins: Int!
+    losses: Int!
+    otLosses: Int!
+    record: String!
   }
 
   """

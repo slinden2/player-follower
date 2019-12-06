@@ -58,7 +58,6 @@ const resolvers = {
       const player = await Player.aggregate(
         profileAggregate(args.siteLink, args.type)
       )
-
       return player[0]
     },
     GetGameStats: async (root, args) => {
@@ -513,6 +512,9 @@ const resolvers = {
       `${root.winsHome}-${root.lossesHome}-${root.otLossesHome}`,
     awayRecord: root =>
       `${root.winsAway}-${root.lossesAway}-${root.otLossesAway}`,
+  },
+  Linescore: {
+    record: root => `${root.wins}-${root.losses}-${root.otLosses}`,
   },
   Goal: {
     periodNumber: root => periodNumberToString(root.periodNumber),
