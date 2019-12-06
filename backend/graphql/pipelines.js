@@ -1,4 +1,9 @@
-const matchPlayers = (positionFilter, teamFilter, nationalityFilter) => {
+const matchPlayers = (
+  positionFilter,
+  teamFilter,
+  nationalityFilter,
+  siteLink
+) => {
   const getPosition = posEnum => {
     const positions = {
       GOALIE: ['G'],
@@ -26,6 +31,16 @@ const matchPlayers = (positionFilter, teamFilter, nationalityFilter) => {
   const handleNationalityFilter = () => {
     if (nationalityFilter === 'ALL') return {}
     return { nationality: nationalityFilter }
+  }
+
+  // If sitelink is provided, no other filters are needed
+  // Every player has a unique siteLink
+  if (siteLink) {
+    return {
+      $match: {
+        siteLink,
+      },
+    }
   }
 
   return {
@@ -226,7 +241,8 @@ const bestPlayersPipeline = (
   numOfGames,
   positionFilter,
   teamFilter,
-  nationalityFilter
+  nationalityFilter,
+  siteLink
 ) => {
   const bsField =
     positionFilter === 'GOALIE' ? 'goalieboxscores' : 'skaterboxscores'
@@ -241,7 +257,7 @@ const bestPlayersPipeline = (
         as: 'team',
       },
     },
-    matchPlayers(positionFilter, teamFilter, nationalityFilter),
+    matchPlayers(positionFilter, teamFilter, nationalityFilter, siteLink),
     {
       $lookup: {
         from: bsField,
@@ -460,10 +476,13 @@ const seasonStatsAggregate = (
   nationalityFilter,
   sortBy,
   sortDir,
-  offset
+  offset,
+  siteLink
 ) => {
   const numOfGames = 100
 
+  // Default sort direction must be inverted for last name, because
+  // otherwise the first sortDir would be from Z to A.
   const sortOperation =
     sortBy === 'lastName'
       ? {
@@ -500,7 +519,8 @@ const seasonStatsAggregate = (
       numOfGames,
       positionFilter,
       teamFilter,
-      nationalityFilter
+      nationalityFilter,
+      siteLink
     ),
     ...reformatSeasonStatsData(numOfGames),
     ...seasonStatsSort,
