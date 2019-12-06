@@ -199,7 +199,7 @@ const typeDefs = gql`
   type Stats {
     # Group for all the base stats relative to
     # all different queryable stats
-    id: ID!
+    _id: ID!
     assists: Int!
     blocked: Int!
     evenTimeOnIce: String!

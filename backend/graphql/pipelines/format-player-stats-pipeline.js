@@ -63,6 +63,7 @@ const formatPlayerStatsPipeline = type => {
         player: 1,
         team: 1,
         stats: 1,
+        'boxscores._id': 1,
         'boxscores.gamePk': 1,
         'boxscores.gameDate': 1,
         'boxscores.homeTeam': { $arrayElemAt: ['$boxscores.homeTeam', 0] },
