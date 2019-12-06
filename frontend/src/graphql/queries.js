@@ -128,36 +128,129 @@ const FAVORITE_PLAYERS = gql`
   ${PLAYER_DETAILS}
 `
 
-const PLAYER_PROFILE = gql`
-  query getPlayerProfile($siteLink: String!) {
-    findPlayer(siteLink: $siteLink) {
-      id
-      fullName
-      primaryNumber
-      birthDate
-      birthCity
-      birthStateProvince
-      nationality
-      height
-      weight
-      alternateCaptain
-      captain
-      rookie
-      shootsCatches
-      currentTeam {
-        name
-        abbreviation
-        locationName
-        siteLink
+const PLAYER_PROFILE_BIO = gql`
+  fragment PlayerProfileBio on Player {
+    _id
+    firstName
+    lastName
+    fullName
+    primaryNumber
+    birthDate
+    birthCity
+    birthStateProvince
+    nationality
+    height
+    weight
+    alternateCaptain
+    captain
+    rookie
+    shootsCatches
+    currentTeam {
+      name
+      abbreviation
+      locationName
+      siteLink
+    }
+    primaryPosition {
+      code
+      abbreviation
+      description
+    }
+    playerId
+  }
+`
+
+const SKATER_PROFILE_STATS = gql`
+  fragment SkaterStats on Stats {
+    assists
+    blocked
+    faceOffsTaken
+    faceOffWins
+    giveaways
+    goals
+    hits
+    penaltyMinutes
+    plusMinus
+    points
+    powerPlayAssists
+    powerPlayGoals
+    powerPlayTimeOnIce
+    shortHandedAssists
+    shortHandedGoals
+    shortHandedTimeOnIce
+    shotPct
+    shots
+    takeaways
+    timeOnIce
+  }
+`
+
+const SKATER_PROFILE = gql`
+  query getPlayerProfile($siteLink: String!, $type: String!) {
+    GetPlayer(siteLink: $siteLink, type: $type) {
+      ...PlayerProfileBio
+      boxscores {
+        _id
+        gameDate
+        gamePk
+        homeTeam {
+          abbreviation
+        }
+        awayTeam {
+          abbreviation
+        }
+        ...SkaterStats
       }
-      primaryPosition {
-        code
-        description
+      stats {
+        ...SkaterStats
       }
-      playerId
-      boxscores
     }
   }
+  ${PLAYER_PROFILE_BIO}
+  ${SKATER_PROFILE_STATS}
+`
+
+const GOALIE_PROFILE_STATS = gql`
+  fragment GoalieStats on Stats {
+    savePct
+    saves
+    goalsAgainst
+    shotsAgainst
+    powerPlaySaves
+    powerPlayShotsAgainst
+    shortHandedSaves
+    shortHandedShotsAgainst
+    penaltyMinutes
+    timeOnIce
+  }
+`
+
+const GOALIE_PROFILE = gql`
+  query getPlayerProfile($siteLink: String!, $type: String!) {
+    GetPlayer(siteLink: $siteLink, type: $type) {
+      ...PlayerProfileBio
+      boxscores {
+        _id
+        gameDate
+        gamePk
+        decision
+        homeTeam {
+          abbreviation
+        }
+        awayTeam {
+          abbreviation
+        }
+        ...GoalieStats
+      }
+      stats {
+        wins
+        losses
+        ...GoalieStats
+      }
+    }
+  }
+  ${PLAYER_PROFILE_BIO}
+  ${GOALIE_PROFILE_STATS}
 `
 
 const GET_SKATER_STATS = gql`
@@ -461,41 +554,69 @@ const GET_TEAMS_BY_NAME = gql`
   }
 `
 
+const TEAM_PROFILE_STATS = gql`
+  fragment TeamProfileStats on Linescore {
+    points
+    goalsFor
+    goalsAgainst
+    penaltyMinutes
+    shotsFor
+    shotsAgainst
+    powerPlayGoals
+    powerPlayOpportunities
+    powerPlayOpportunitiesAllowed
+    powerPlayGoalsAllowed
+    faceOffsTaken
+    faceOffWins
+    blocked
+    takeaways
+    giveaways
+    hitsFor
+    hitsAgainst
+  }
+`
+
 const TEAM_PROFILE = gql`
   query getTeamByName($siteLink: String!) {
     GetTeam(siteLink: $siteLink) {
+      conference {
+        name
+      }
+      division {
+        name
+      }
+      link
+      siteLink
       name
+      teamName
       abbreviation
-      players {
-        _id
-        fullName
-        siteLink
-        gamesPlayed
-        position
-        goals
-        assists
-        points
-        plusMinus
-        penaltyMinutes
-        pointsPerGame
-        timeOnIcePerGame
-        powerPlayTimeOnIcePerGame
-        shortHandedTimeOnIcePerGame
-        shots
-        shotPct
-        powerPlayGoals
-        powerPlayPoints
-        shortHandedGoals
-        shortHandedPoints
-        faceOffsTaken
-        faceOffPct
-        hits
-        blocked
-        giveaways
-        takeaways
+      locationName
+      firstYearOfPlay
+      officialSiteUrl
+      linescores {
+        opponentId {
+          abbreviation
+          siteLink
+        }
+        gamePk
+        isHomeGame
+        win
+        otWin
+        shootOutWin
+        loss
+        ot
+        ...TeamProfileStats
+      }
+      stats {
+        wins
+        losses
+        otLosses
+        record
+        ...TeamProfileStats
       }
     }
   }
+  ${TEAM_PROFILE_STATS}
 `
 
 const LAST_UPDATE = gql`
@@ -515,7 +636,8 @@ export {
   STANDINGS,
   BEST_TEAMS,
   BEST_GOALIES,
-  PLAYER_PROFILE,
+  SKATER_PROFILE,
+  GOALIE_PROFILE,
   PLAYER_MILESTONES,
   GET_TEAMS_BY_NAME,
   TEAM_PROFILE,
