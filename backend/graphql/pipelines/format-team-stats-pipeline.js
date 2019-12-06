@@ -15,6 +15,24 @@ const formatTeamStatsPipeline = () => {
         as: 'team',
       },
     },
+    // Get conference
+    {
+      $lookup: {
+        from: 'conferences',
+        localField: 'team.conference',
+        foreignField: '_id',
+        as: 'conference',
+      },
+    },
+    // Get division
+    {
+      $lookup: {
+        from: 'divisions',
+        localField: 'team.division',
+        foreignField: '_id',
+        as: 'division',
+      },
+    },
     // Populate each individual linescore
     {
       $lookup: {
@@ -42,6 +60,8 @@ const formatTeamStatsPipeline = () => {
       $project: {
         team: 1,
         stats: 1,
+        conference: 1,
+        division: 1,
         'linescores.win': 1,
         'linescores.otWin': 1,
         'linescores.shootOutWin': 1,
@@ -76,6 +96,8 @@ const formatTeamStatsPipeline = () => {
       $group: {
         _id: '$team._id',
         team: { $first: '$team' },
+        conference: { $first: '$conference' },
+        division: { $first: '$division' },
         stats: { $first: '$stats' },
         linescores: { $push: '$linescores' },
       },
@@ -95,10 +117,10 @@ const formatTeamStatsPipeline = () => {
         locationName: { $arrayElemAt: ['$team.locationName', 0] },
         firstYearOfPlay: { $arrayElemAt: ['$team.firstYearOfPlay', 0] },
         officialSiteUrl: { $arrayElemAt: ['$team.officialSiteUrl', 0] },
-        conference: { $arrayElemAt: ['$team.conference', 0] },
-        division: { $arrayElemAt: ['$team.division', 0] },
         active: { $arrayElemAt: ['$team.active', 0] },
         twitterHashtag: { $arrayElemAt: ['$team.twitterHashtag', 0] },
+        division: { $arrayElemAt: ['$division', 0] },
+        conference: { $arrayElemAt: ['$conference', 0] },
         linescores: 1,
         stats: 1,
       },

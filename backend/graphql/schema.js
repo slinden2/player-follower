@@ -41,7 +41,7 @@ const typeDefs = gql`
     officialSiteUrl: String!
     active: Boolean!
     players: [Player!]!
-    linescores: [Standings]!
+    linescores: [Linescore]!
     stats: Standings!
   }
 
@@ -112,6 +112,7 @@ const typeDefs = gql`
     gamePk: Int
     gameDate: String
     opponentId: Team
+    isHomeGame: Boolean
   }
 
   type Linescore {
@@ -146,6 +147,7 @@ const typeDefs = gql`
   Player bio
   """
   type Player {
+    _id: ID!
     """
     Link that leads to the player details in the API
     """
@@ -187,7 +189,6 @@ const typeDefs = gql`
     boxscores: [Stats]!
     stats: Stats!
     goals: [Goal]
-    id: ID!
     numOfGamesId: Int!
   }
 
