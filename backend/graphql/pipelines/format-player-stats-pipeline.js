@@ -2,11 +2,13 @@ const formatPlayerStatsPipeline = type => {
   const bsField = type === 'skater' ? 'skaterboxscores' : 'goalieboxscores'
 
   return [
+    // Create embedded document for stats
     {
       $project: {
         stats: '$$ROOT',
       },
     },
+    // Get player
     {
       $lookup: {
         from: 'players',
@@ -15,6 +17,7 @@ const formatPlayerStatsPipeline = type => {
         as: 'player',
       },
     },
+    // Get players team
     {
       $lookup: {
         from: 'teams',
@@ -23,6 +26,7 @@ const formatPlayerStatsPipeline = type => {
         as: 'team',
       },
     },
+    // Populate each individual boxscore
     {
       $lookup: {
         from: bsField,
@@ -31,9 +35,11 @@ const formatPlayerStatsPipeline = type => {
         as: 'boxscores',
       },
     },
+    // Unwind by boxscores so that we can populate homeTeam and awayTeam fields
     {
       $unwind: '$boxscores',
     },
+    // Get home team
     {
       $lookup: {
         from: 'teams',
@@ -42,6 +48,7 @@ const formatPlayerStatsPipeline = type => {
         as: 'boxscores.homeTeam',
       },
     },
+    // Get away team
     {
       $lookup: {
         from: 'teams',
@@ -50,6 +57,39 @@ const formatPlayerStatsPipeline = type => {
         as: 'boxscores.awayTeam',
       },
     },
+    // Take team documents out of arrays
+    {
+      $project: {
+        player: 1,
+        team: 1,
+        stats: 1,
+        'boxscores.gamePk': 1,
+        'boxscores.gameDate': 1,
+        'boxscores.homeTeam': { $arrayElemAt: ['$boxscores.homeTeam', 0] },
+        'boxscores.awayTeam': { $arrayElemAt: ['$boxscores.awayTeam', 0] },
+        'boxscores.timeOnIce': 1,
+        'boxscores.assists': 1,
+        'boxscores.goals': 1,
+        'boxscores.shots': 1,
+        'boxscores.hits': 1,
+        'boxscores.powerPlayGoals': 1,
+        'boxscores.powerPlayAssists': 1,
+        'boxscores.penaltyMinutes': 1,
+        'boxscores.faceOffWins': 1,
+        'boxscores.takeaways': 1,
+        'boxscores.giveaways': 1,
+        'boxscores.shortHandedGoals': 1,
+        'boxscores.shortHandedAssists': 1,
+        'boxscores.blocked': 1,
+        'boxscores.plusMinus': 1,
+        'boxscores.evenTimeOnIce': 1,
+        'boxscores.powerPlayTimeOnIce': 1,
+        'boxscores.shortHandedTimeOnIce': 1,
+        'boxscores.points': 1,
+        'boxscores.faceOffsTaken': 1,
+      },
+    },
+    // Group boxscores into one document
     {
       $group: {
         _id: '$player._id',
@@ -59,6 +99,7 @@ const formatPlayerStatsPipeline = type => {
         boxscores: { $push: '$boxscores' },
       },
     },
+    // Perform final formatting
     {
       $project: {
         _id: { $arrayElemAt: ['$_id', 0] },
