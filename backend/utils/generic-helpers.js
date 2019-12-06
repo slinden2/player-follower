@@ -1,11 +1,11 @@
-const dateFns = require('date-fns')
-
 const convertSecsToMin = secs => {
-  const secLimit = 5999 // 99min 59sec
-  const format = secs >= secLimit ? 'hh:mm:ss' : 'mm:ss'
+  const hours = String(Math.floor(secs / 3600)).padStart(2, '0')
+  const mins = String(Math.floor((secs % 3600) / 60)).padStart(2, '0')
+  const s = String(Math.floor((secs % 3600) % 60)).padStart(2, '0')
 
-  const helperDate = dateFns.addSeconds(new Date(0), secs)
-  return dateFns.format(helperDate, format)
+  // Include hours only if secs are more than 60 min
+  const formatted = secs > 3599 ? `${hours}:${mins}:${s}` : `${mins}:${s}`
+  return formatted
 }
 
 const roundToDecimal = num => {
