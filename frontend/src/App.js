@@ -126,13 +126,19 @@ const App = () => {
               <Route
                 path='/players/:siteLink'
                 render={({ match }) => (
-                  <PlayerProfile siteLink={match.params.siteLink} />
+                  <PlayerProfile
+                    siteLink={match.params.siteLink}
+                    context='skater'
+                  />
                 )}
               />
               <Route
                 path='/teams/:siteLink'
                 render={({ match }) => (
-                  <TeamProfile siteLink={match.params.siteLink} />
+                  <PlayerProfile
+                    siteLink={match.params.siteLink}
+                    context='team'
+                  />
                 )}
               />
               <ProtectedRoute

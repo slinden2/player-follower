@@ -6,4 +6,6 @@ export default {
   narrowStatsTable: `(min-width: 500px)`,
   narrowBioTable: `(max-width: 550px)`,
   cookiePolicyWide: `(min-width: 800px)`,
+  profileWide: `(min-width: 650px)`,
+  profileNarrow: `(max-width: 650px)`,
 }
