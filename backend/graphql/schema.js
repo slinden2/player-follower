@@ -143,6 +143,8 @@ const typeDefs = gql`
     losses: Int!
     otLosses: Int!
     record: String!
+    ppPct: String!
+    pkPct: String!
   }
 
   """

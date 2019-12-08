@@ -515,6 +515,8 @@ const resolvers = {
   },
   Linescore: {
     record: root => `${root.wins}-${root.losses}-${root.otLosses}`,
+    ppPct: root => roundToDecimal(root.ppPct),
+    pkPct: root => roundToDecimal(root.pkPct),
   },
   Goal: {
     periodNumber: root => periodNumberToString(root.periodNumber),
