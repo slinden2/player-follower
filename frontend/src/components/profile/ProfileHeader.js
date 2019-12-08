@@ -14,51 +14,14 @@ const Container = styled.div`
   border-radius: 10px;
 `
 
-const ProfileHeader = ({
-  primaryTitle,
-  secondaryTitle,
-  additionalInfo1,
-  headers,
-  stats,
-}) => {
-  // const contextSelector = {
-  //   skater: () => ({
-  //     primaryTitle: data.lastName,
-  //     secondaryTitle: data.firstName,
-  //     additionalInfo1: `#${data.primaryNumber}, ${data.primaryPosition.abbreviation}`,
-  //     headers: statHeaders,
-  //     stats: [
-  //       { id: 'gamesPlayed', value: data.stats.gamesPlayed },
-  //       { id: 'goals', value: data.stats.goals },
-  //       { id: 'points', value: data.stats.points },
-  //     ],
-  //   }),
-  //   goalie: () => ({
-  //     primaryTitle: data.lastName,
-  //     secondaryTitle: data.firstName,
-  //     additionalInfo1: `#${data.primaryNumber}, ${data.primaryPosition.abbreviation}`,
-  //     headers: goalieStatHeaders,
-  //     stats: [
-  //       { id: 'gamesPlayed', value: data.stats.gamesPlayed },
-  //       { id: 'goalsAgainstAverage', value: data.stats.goalsAgainstAverage },
-  //       { id: 'savePct', value: data.stats.savePct },
-  //     ],
-  //   }),
-  //   team: () => ({
-  //     primaryTitle: data.teamName,
-  //     secondaryTitle: data.locationName,
-  //     additionalInfo1: `${data.conference.name}, ${data.division.name}`,
-  //     headers: teamStatHeaders,
-  //     stats: [
-  //       { id: 'goalsFor', value: data.stats.goalsFor },
-  //       { id: 'goalsAgainst', value: data.stats.goalsAgainst },
-  //       { id: 'ppPct', value: data.stats.ppPct },
-  //       { id: 'pkPct', value: data.stats.pkPct },
-  //     ],
-  //   }),
-  // }
-
-  // const curContext = contextSelector[context]()
+const ProfileHeader = props => {
+  const {
+    primaryTitle,
+    secondaryTitle,
+    additionalInfo1,
+    headers,
+    stats,
+  } = props
 
   return (
     <Container>
