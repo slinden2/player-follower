@@ -202,6 +202,7 @@ const SKATER_PROFILE = gql`
         ...SkaterStats
       }
       stats {
+        gamesPlayed
         ...SkaterStats
       }
     }
@@ -243,6 +244,7 @@ const GOALIE_PROFILE = gql`
         ...GoalieStats
       }
       stats {
+        gamesPlayed
         wins
         losses
         ...GoalieStats
@@ -608,10 +610,9 @@ const TEAM_PROFILE = gql`
         ...TeamProfileStats
       }
       stats {
-        wins
-        losses
-        otLosses
         record
+        ppPct
+        pkPct
         ...TeamProfileStats
       }
     }
