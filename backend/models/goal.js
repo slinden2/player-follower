@@ -58,7 +58,6 @@ const goalSchema = mongoose.Schema({
   },
   shotType: {
     type: String,
-    required: true,
   },
   strength: {
     type: String,
