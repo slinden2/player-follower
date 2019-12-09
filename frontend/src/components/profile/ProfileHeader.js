@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import colors from '../../styles/colors'
-import GeneralData from './GeneralData'
-import { MainStats } from './MainStats'
-import { statHeaders, goalieStatHeaders, teamStatHeaders } from '../../utils'
+import ProfilePrimaryBio from './ProfilePrimaryBio'
+import ProfilePrimaryStats from './ProfilePrimaryStats'
 import Media from 'react-media'
 import breakpoints from '../../styles/breakpoints'
 
@@ -18,20 +17,20 @@ const ProfileHeader = props => {
   const {
     primaryTitle,
     secondaryTitle,
-    additionalInfo1,
+    primaryInfoString,
     headers,
     stats,
   } = props
 
   return (
     <Container>
-      <GeneralData
+      <ProfilePrimaryBio
         primaryTitle={primaryTitle}
         secondaryTitle={secondaryTitle}
-        additionalInfo1={additionalInfo1}
+        primaryInfoString={primaryInfoString}
       />
       <Media query={breakpoints.profileWide}>
-        <MainStats headers={headers} stats={stats} />
+        <ProfilePrimaryStats headers={headers} stats={stats} />
       </Media>
     </Container>
   )

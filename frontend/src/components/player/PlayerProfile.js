@@ -16,8 +16,10 @@ import breakpoints from '../../styles/breakpoints'
 import Loader from '../elements/Loader'
 import { PlayerGameStats } from './PlayerGameStats'
 import ProfileHeader from '../profile/ProfileHeader'
-import { MainStats } from '../profile/MainStats'
+import ProfilePrimaryStats from '../profile/ProfilePrimaryStats'
 import { statHeaders, goalieStatHeaders, teamStatHeaders } from '../../utils'
+import ProfileSecondaryBio from '../profile/ProfileSecondaryBio'
+import { getFlag } from '../../utils/flags'
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +30,13 @@ const Container = styled.div`
     width: 1000px;
     margin: 0 auto;
   }
+`
+
+const Flag = styled.img`
+  width: 20px;
+  margin-left: 5px;
+  margin-right: 2px;
+  vertical-align: middle;
 `
 
 const PlayerProfile = ({ siteLink, context }) => {
@@ -60,7 +69,27 @@ const PlayerProfile = ({ siteLink, context }) => {
         data: root,
         primaryTitle: root.lastName,
         secondaryTitle: root.firstName,
-        additionalInfo1: `#${root.primaryNumber}, ${root.primaryPosition.abbreviation}`,
+        primaryInfoString: () => {
+          const flag = getFlag(root.nationality)
+          const baseInfoString = `#${root.primaryNumber}, ${root.primaryPosition.abbreviation}`
+          const pob = root.birthStateProvince ? (
+            <>
+              <Flag src={flag} />
+              <span>{` ${root.birthCity}, ${root.birthStateProvince}, ${root.nationality}`}</span>
+            </>
+          ) : (
+            <>
+              <Flag src={flag} />
+              <span>{`${root.birthCity}, ${root.nationality}`}</span>
+            </>
+          )
+          return (
+            <>
+              {baseInfoString}
+              <Media query={breakpoints.profileWide}>{pob}</Media>
+            </>
+          )
+        },
         headers: statHeaders,
         stats: [
           { id: 'gamesPlayed', value: root.stats.gamesPlayed },
@@ -94,7 +123,8 @@ const PlayerProfile = ({ siteLink, context }) => {
         type: 'team',
         primaryTitle: root.teamName,
         secondaryTitle: root.locationName,
-        additionalInfo1: `${root.conference.name}, ${root.division.name}`,
+        primaryInfoString: () =>
+          `${root.conference.name}, ${root.division.name}`,
         headers: teamStatHeaders,
         stats: [
           { id: 'goalsFor', value: root.stats.goalsFor },
@@ -114,13 +144,17 @@ const PlayerProfile = ({ siteLink, context }) => {
         <ProfileHeader
           primaryTitle={curContext.primaryTitle}
           secondaryTitle={curContext.secondaryTitle}
-          additionalInfo1={curContext.additionalInfo1}
+          primaryInfoString={curContext.primaryInfoString}
           headers={curContext.headers}
           stats={curContext.stats}
         />
         <Media query={breakpoints.profileNarrow}>
-          <MainStats headers={curContext.headers} stats={curContext.stats} />
+          <ProfilePrimaryStats
+            headers={curContext.headers}
+            stats={curContext.stats}
+          />
         </Media>
+        <ProfileSecondaryBio />
         {/* <PlayerBioTable player={curContext.data} /> */}
         {/* <PlayerGameStats
           query={isGoalie ? GET_GOALIE_STATS : GET_SKATER_STATS}
