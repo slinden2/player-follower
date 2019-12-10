@@ -138,6 +138,7 @@ const PLAYER_PROFILE_BIO = gql`
     birthDate
     birthCity
     birthStateProvince
+    birthCountry
     nationality
     height
     weight
@@ -147,6 +148,7 @@ const PLAYER_PROFILE_BIO = gql`
     shootsCatches
     currentTeam {
       name
+      teamName
       abbreviation
       locationName
       siteLink

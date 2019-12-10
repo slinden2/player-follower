@@ -45,10 +45,34 @@ const convertMMSStoSec = time => {
   return parseInt(mins * 60) + parseInt(secs)
 }
 
+const convertKgToLbs = weight => Math.round(weight * 2.20462262)
+
+const convertCmToFeet = height => {
+  let inches = (height * 0.393700787).toFixed(0)
+  const feet = Math.floor(inches / 12)
+  inches %= 12
+  return `${feet}-${inches}`
+}
+
 const formatDate = ISODate => {
   return new Date(ISODate).toLocaleDateString(navigator.language, {
     timeZone: 'America/New_York',
   })
+}
+
+const getAge = birthDate =>
+  Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10) // considers leap year
+
+const formatDateYYYYMMDD = date => {
+  const dateObj = new Date(date)
+  const year = dateObj.getFullYear().toString()
+  const month = (dateObj.getMonth() + 1).toString().padStart(2, 0)
+  const days = dateObj
+    .getDate()
+    .toString()
+    .padStart(2, 0)
+
+  return `${year}/${month}/${days}`
 }
 
 const showNavItem = (item, token) =>
@@ -1346,6 +1370,33 @@ const teamColors = {
   WSH: { primary: '#bd1f32', secondary: '#fff', tertiary: '#333e50' },
 }
 
+const playerBioHeaders = {
+  team: {
+    text: '',
+  },
+  pob: {
+    text: 'P.O.B.',
+  },
+  age: {
+    text: 'Age',
+  },
+  height: {
+    text: 'Height',
+  },
+  weight: {
+    text: 'Weight',
+  },
+  shoots: {
+    text: 'Shoots',
+  },
+  catches: {
+    text: 'Catches',
+  },
+  captain: {
+    text: 'Captain',
+  },
+}
+
 export {
   getCookie,
   removeCookie,
@@ -1354,6 +1405,9 @@ export {
   profileImgUrl,
   convertSecsToMMSS,
   convertMMSStoSec,
+  convertKgToLbs,
+  convertCmToFeet,
+  getAge,
   showNavItem,
   naviItems,
   statHeaders,
@@ -1369,8 +1423,10 @@ export {
   teamColors,
   sortByHighlight,
   formatDate,
+  formatDateYYYYMMDD,
   teamFilterItems,
   teamSortByItems,
   goalieSortByItems,
   goalieStatHeaders,
+  playerBioHeaders,
 }

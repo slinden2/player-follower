@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Media from 'react-media'
 import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
@@ -17,9 +17,23 @@ import Loader from '../elements/Loader'
 import { PlayerGameStats } from './PlayerGameStats'
 import ProfileHeader from '../profile/ProfileHeader'
 import ProfilePrimaryStats from '../profile/ProfilePrimaryStats'
-import { statHeaders, goalieStatHeaders, teamStatHeaders } from '../../utils'
-import ProfileSecondaryBio from '../profile/ProfileSecondaryBio'
+import {
+  statHeaders,
+  goalieStatHeaders,
+  teamStatHeaders,
+  getAge,
+  playerBioHeaders,
+  formatDateYYYYMMDD,
+  convertCmToFeet,
+  convertKgToLbs,
+} from '../../utils'
+import ProfileSecondaryBioMobile, {
+  Age,
+  BirthDate,
+} from '../profile/ProfileSecondaryBioMobile'
 import { getFlag } from '../../utils/flags'
+import ProfileSecondaryBioDesktop from '../profile/ProfileSecondaryBioDesktop'
+import colors from '../../styles/colors'
 
 const Container = styled.div`
   display: flex;
@@ -63,6 +77,32 @@ const PlayerProfile = ({ siteLink, context }) => {
   const contextSelector = {
     skater: () => {
       const root = data.GetPlayer
+      const pob = root.birthStateProvince ? (
+        <>
+          <Flag src={getFlag(root.birthCountry)} />
+          <span>{`${root.birthCity}, ${root.birthStateProvince}, ${root.birthCountry}`}</span>
+        </>
+      ) : (
+        <>
+          <Flag src={getFlag(root.birthCountry)} />
+          <span>{`${root.birthCity}, ${root.birthCountry}`}</span>
+        </>
+      )
+
+      // Common between mobile and desktop
+      const commonSecondaryData = {
+        headers: playerBioHeaders,
+        height: convertCmToFeet(root.height),
+        weight: (
+          <>
+            <span>{convertKgToLbs(root.weight)}</span>
+            <span style={{ fontSize: '0.875rem' }}>lbs</span>
+          </>
+        ),
+        shoots: root.shootsCatches,
+        captain: root.captain ? 'C' : root.alternateCaptain ? 'A' : '-',
+      }
+
       return {
         title: root.fullName,
         type: 'skater',
@@ -70,19 +110,7 @@ const PlayerProfile = ({ siteLink, context }) => {
         primaryTitle: root.lastName,
         secondaryTitle: root.firstName,
         primaryInfoString: () => {
-          const flag = getFlag(root.nationality)
           const baseInfoString = `#${root.primaryNumber}, ${root.primaryPosition.abbreviation}`
-          const pob = root.birthStateProvince ? (
-            <>
-              <Flag src={flag} />
-              <span>{` ${root.birthCity}, ${root.birthStateProvince}, ${root.nationality}`}</span>
-            </>
-          ) : (
-            <>
-              <Flag src={flag} />
-              <span>{`${root.birthCity}, ${root.nationality}`}</span>
-            </>
-          )
           return (
             <>
               {baseInfoString}
@@ -96,6 +124,58 @@ const PlayerProfile = ({ siteLink, context }) => {
           { id: 'goals', value: root.stats.goals },
           { id: 'points', value: root.stats.points },
         ],
+        secondaryBioMobile: {
+          ...commonSecondaryData,
+          titleArray: [
+            'team',
+            'pob',
+            'age',
+            ['height', 'weight'],
+            ['shoots', 'captain'],
+          ],
+          team: (
+            <Link to={`/teams/${root.currentTeam.siteLink}`}>
+              {root.currentTeam.name}
+            </Link>
+          ),
+          pob,
+          age: (
+            <>
+              <Age>{getAge(root.birthDate)}</Age>
+              <BirthDate>{formatDateYYYYMMDD(root.birthDate)}</BirthDate>
+            </>
+          ),
+        },
+        secondaryBioDesktop: {
+          ...commonSecondaryData,
+          titleArray: ['team', 'age', 'height', 'weight', 'shoots', 'captain'],
+          team: (
+            <Link to={`/teams/${root.currentTeam.siteLink}`}>
+              <div style={{ fontSize: '0.875rem' }}>
+                {root.currentTeam.locationName}
+              </div>
+              <div style={{ fontSize: '0.875rem' }}>
+                {root.currentTeam.teamName}
+              </div>
+            </Link>
+          ),
+          age: (
+            <>
+              <div style={{ textAlign: 'center' }}>
+                {getAge(root.birthDate)}
+              </div>
+              <div
+                style={{
+                  textAlign: 'center',
+                  fontSize: '0.875rem',
+                  color: colors.grey5,
+                }}
+              >
+                {formatDateYYYYMMDD(root.birthDate)}
+              </div>
+            </>
+          ),
+        },
       }
     },
     goalie: () => {
@@ -154,7 +234,21 @@ const PlayerProfile = ({ siteLink, context }) => {
             stats={curContext.stats}
           />
         </Media>
-        <ProfileSecondaryBio />
+        {context !== 'team' && (
+          <Media query={breakpoints.profileNarrow}>
+            {matches =>
+              matches ? (
+                <ProfileSecondaryBioMobile
+                  data={curContext.secondaryBioMobile}
+                />
+              ) : (
+                <ProfileSecondaryBioDesktop
+                  data={curContext.secondaryBioDesktop}
+                />
+              )
+            }
+          </Media>
+        )}
         {/* <PlayerBioTable player={curContext.data} /> */}
         {/* <PlayerGameStats
           query={isGoalie ? GET_GOALIE_STATS : GET_SKATER_STATS}

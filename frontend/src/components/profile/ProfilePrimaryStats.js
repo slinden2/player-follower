@@ -35,8 +35,12 @@ const StatTitle = styled.span`
 
 const Stat = styled.span`
   ${commonStyles}
-  font-size: 2rem;
   font-weight: bold;
+  font-size: ${({ smallFont }) => (smallFont ? '1.375rem' : '2rem')};
+
+  @media ${breakpoints.profileWide} {
+    font-size: 2rem;
+  }
 `
 
 const ProfilePrimaryStats = ({ headers, stats }) => {
@@ -47,7 +51,7 @@ const ProfilePrimaryStats = ({ headers, stats }) => {
       {stats.map((stat, i) => (
         <ListItem key={stat.id} isLast={i === numOfStats - 1}>
           <StatTitle>{headers[stat.id].headerText}</StatTitle>
-          <Stat>{stat.value}</Stat>
+          <Stat smallFont={numOfStats > 3}>{stat.value}</Stat>
         </ListItem>
       ))}
     </List>
