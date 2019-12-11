@@ -36,7 +36,7 @@ const StatTitle = styled.span`
 const Stat = styled.span`
   ${commonStyles}
   font-weight: bold;
-  font-size: ${({ smallFont }) => (smallFont ? '1.375rem' : '2rem')};
+  font-size: ${({ smallFont }) => (smallFont ? '1.25rem' : '2rem')};
 
   @media ${breakpoints.profileWide} {
     font-size: 2rem;
