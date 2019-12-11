@@ -422,6 +422,13 @@ const goalieStatHeaders = {
     showOnMobile: true,
     title: 'Game Date',
   },
+  gamesPlayed: {
+    headerText: 'GP',
+    id: 'gamesPlayed',
+    title: 'Games Played',
+    sortString: 'GP',
+    showOnMobile: true,
+  },
   goals: {
     headerText: 'G',
     id: 'goals',

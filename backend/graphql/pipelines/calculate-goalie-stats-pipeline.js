@@ -50,7 +50,13 @@ const calculateGoalieStatsPipeline = idString => [
   },
   {
     $addFields: {
-      goalsAgainstAverage: { $divide: ['$goalsAgainst', '$gamesPlayed'] },
+      goalsAgainstAverage: {
+        $cond: [
+          '$gamesPlayed',
+          { $divide: ['$goalsAgainst', '$gamesPlayed'] },
+          0,
+        ],
+      },
       savePct: {
         $cond: [
           '$shotsAgainst',

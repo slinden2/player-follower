@@ -249,6 +249,7 @@ const GOALIE_PROFILE = gql`
         gamesPlayed
         wins
         losses
+        goalsAgainstAverage
         ...GoalieStats
       }
     }
