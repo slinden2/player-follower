@@ -53,6 +53,111 @@ const Flag = styled.img`
   vertical-align: middle;
 `
 
+const getCommonPlayerVars = data => {
+  const root = data.GetPlayer
+  const pob = root.birthStateProvince ? (
+    <>
+      <Flag src={getFlag(root.birthCountry)} />
+      <span>{`${root.birthCity}, ${root.birthStateProvince}, ${root.birthCountry}`}</span>
+    </>
+  ) : (
+    <>
+      <Flag src={getFlag(root.birthCountry)} />
+      <span>{`${root.birthCity}, ${root.birthCountry}`}</span>
+    </>
+  )
+
+  // Common between mobile and desktop
+  const commonSecondaryData = {
+    headers: playerBioHeaders,
+    height: convertCmToFeet(root.height),
+    weight: (
+      <>
+        <span>{convertKgToLbs(root.weight)}</span>
+        <span style={{ fontSize: '0.875rem' }}>lbs</span>
+      </>
+    ),
+    shoots: root.shootsCatches,
+    catches: root.shootsCatches,
+    captain: root.captain ? 'C' : root.alternateCaptain ? 'A' : '-',
+  }
+
+  return { root, pob, commonSecondaryData }
+}
+
+const getPlayerProps = (commonVars, typeSpecificVars) => {
+  const { root, pob, commonSecondaryData } = commonVars
+  const {
+    type,
+    headers,
+    stats,
+    mobileTitleArray,
+    desktopTitleArray,
+  } = typeSpecificVars
+  return {
+    title: root.fullName,
+    type,
+    data: root,
+    primaryTitle: root.lastName,
+    secondaryTitle: root.firstName,
+    primaryInfoString: () => {
+      const baseInfoString = `#${root.primaryNumber}, ${root.primaryPosition.abbreviation}`
+      return (
+        <>
+          {baseInfoString}
+          <Media query={breakpoints.profileWide}>{pob}</Media>
+        </>
+      )
+    },
+    headers,
+    stats,
+    secondaryBioMobile: {
+      ...commonSecondaryData,
+      titleArray: mobileTitleArray,
+      team: (
+        <Link to={`/teams/${root.currentTeam.siteLink}`}>
+          {root.currentTeam.name}
+        </Link>
+      ),
+      pob,
+      age: (
+        <>
+          <Age>{getAge(root.birthDate)}</Age>
+          <BirthDate>{formatDateYYYYMMDD(root.birthDate)}</BirthDate>
+        </>
+      ),
+    },
+    secondaryBioDesktop: {
+      ...commonSecondaryData,
+      titleArray: desktopTitleArray,
+      team: (
+        <Link to={`/teams/${root.currentTeam.siteLink}`}>
+          <div style={{ fontSize: '0.875rem' }}>
+            {root.currentTeam.locationName}
+          </div>
+          <div style={{ fontSize: '0.875rem' }}>
+            {root.currentTeam.teamName}
+          </div>
+        </Link>
+      ),
+      age: (
+        <>
+          <div style={{ textAlign: 'center' }}>{getAge(root.birthDate)}</div>
+          <div
+            style={{
+              textAlign: 'center',
+              fontSize: '0.875rem',
+              color: colors.grey5,
+            }}
+          >
+            {formatDateYYYYMMDD(root.birthDate)}
+          </div>
+        </>
+      ),
+    },
+  }
+}
+
 const PlayerProfile = ({ siteLink, context }) => {
   const querySelector = {
     skater: SKATER_PROFILE,
@@ -76,124 +181,67 @@ const PlayerProfile = ({ siteLink, context }) => {
 
   const contextSelector = {
     skater: () => {
-      const root = data.GetPlayer
-      const pob = root.birthStateProvince ? (
-        <>
-          <Flag src={getFlag(root.birthCountry)} />
-          <span>{`${root.birthCity}, ${root.birthStateProvince}, ${root.birthCountry}`}</span>
-        </>
-      ) : (
-        <>
-          <Flag src={getFlag(root.birthCountry)} />
-          <span>{`${root.birthCity}, ${root.birthCountry}`}</span>
-        </>
-      )
+      const commonVars = getCommonPlayerVars(data)
 
-      // Common between mobile and desktop
-      const commonSecondaryData = {
-        headers: playerBioHeaders,
-        height: convertCmToFeet(root.height),
-        weight: (
-          <>
-            <span>{convertKgToLbs(root.weight)}</span>
-            <span style={{ fontSize: '0.875rem' }}>lbs</span>
-          </>
-        ),
-        shoots: root.shootsCatches,
-        captain: root.captain ? 'C' : root.alternateCaptain ? 'A' : '-',
-      }
-
-      return {
-        title: root.fullName,
+      const skaterSpecificVars = {
         type: 'skater',
-        data: root,
-        primaryTitle: root.lastName,
-        secondaryTitle: root.firstName,
-        primaryInfoString: () => {
-          const baseInfoString = `#${root.primaryNumber}, ${root.primaryPosition.abbreviation}`
-          return (
-            <>
-              {baseInfoString}
-              <Media query={breakpoints.profileWide}>{pob}</Media>
-            </>
-          )
-        },
         headers: statHeaders,
         stats: [
-          { id: 'gamesPlayed', value: root.stats.gamesPlayed },
-          { id: 'goals', value: root.stats.goals },
-          { id: 'points', value: root.stats.points },
+          { id: 'gamesPlayed', value: commonVars.root.stats.gamesPlayed },
+          { id: 'goals', value: commonVars.root.stats.goals },
+          { id: 'points', value: commonVars.root.stats.points },
         ],
-        secondaryBioMobile: {
-          ...commonSecondaryData,
-          titleArray: [
-            'team',
-            'pob',
-            'age',
-            ['height', 'weight'],
-            ['shoots', 'captain'],
-          ],
-          team: (
-            <Link to={`/teams/${root.currentTeam.siteLink}`}>
-              {root.currentTeam.name}
-            </Link>
-          ),
-          pob,
-          age: (
-            <>
-              <Age>{getAge(root.birthDate)}</Age>
-              <BirthDate>{formatDateYYYYMMDD(root.birthDate)}</BirthDate>
-            </>
-          ),
-        },
-        secondaryBioDesktop: {
-          ...commonSecondaryData,
-          titleArray: ['team', 'age', 'height', 'weight', 'shoots', 'captain'],
-          team: (
-            <Link to={`/teams/${root.currentTeam.siteLink}`}>
-              <div style={{ fontSize: '0.875rem' }}>
-                {root.currentTeam.locationName}
-              </div>
-              <div style={{ fontSize: '0.875rem' }}>
-                {root.currentTeam.teamName}
-              </div>
-            </Link>
-          ),
-          age: (
-            <>
-              <div style={{ textAlign: 'center' }}>
-                {getAge(root.birthDate)}
-              </div>
-              <div
-                style={{
-                  textAlign: 'center',
-                  fontSize: '0.875rem',
-                  color: colors.grey5,
-                }}
-              >
-                {formatDateYYYYMMDD(root.birthDate)}
-              </div>
-            </>
-          ),
-        },
+        mobileTitleArray: [
+          'team',
+          'pob',
+          'age',
+          ['height', 'weight'],
+          ['shoots', 'captain'],
+        ],
+        desktopTitleArray: [
+          'team',
+          'age',
+          'height',
+          'weight',
+          'shoots',
+          'captain',
+        ],
       }
+
+      return getPlayerProps(commonVars, skaterSpecificVars)
     },
     goalie: () => {
-      const root = data.GetPlayer
-      return {
-        title: root.fullName,
+      const commonVars = getCommonPlayerVars(data)
+
+      const goalieSpecificVars = {
         type: 'goalie',
-        data: root,
-        primaryTitle: root.lastName,
-        secondaryTitle: root.firstName,
-        additionalInfo1: `#${root.primaryNumber}, ${root.primaryPosition.abbreviation}`,
         headers: goalieStatHeaders,
         stats: [
-          { id: 'gamesPlayed', value: root.stats.gamesPlayed },
-          { id: 'goalsAgainstAverage', value: root.stats.goalsAgainstAverage },
-          { id: 'savePct', value: root.stats.savePct },
+          { id: 'gamesPlayed', value: commonVars.root.stats.gamesPlayed },
+          {
+            id: 'goalsAgainstAverage',
+            value: commonVars.root.stats.goalsAgainstAverage,
+          },
+          { id: 'savePct', value: commonVars.root.stats.savePct },
+        ],
+        mobileTitleArray: [
+          'team',
+          'pob',
+          'age',
+          ['height', 'weight'],
+          ['catches', 'captain'],
+        ],
+        desktopTitleArray: [
+          'team',
+          'age',
+          'height',
+          'weight',
+          'catches',
+          'captain',
         ],
       }
+
+      return getPlayerProps(commonVars, goalieSpecificVars)
     },
     team: () => {
       const root = data.GetTeam
