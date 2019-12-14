@@ -197,9 +197,11 @@ const SKATER_PROFILE = gql`
         gamePk
         homeTeam {
           abbreviation
+          siteLink
         }
         awayTeam {
           abbreviation
+          siteLink
         }
         ...SkaterStats
       }
@@ -239,9 +241,11 @@ const GOALIE_PROFILE = gql`
         decision
         homeTeam {
           abbreviation
+          siteLink
         }
         awayTeam {
           abbreviation
+          siteLink
         }
         ...GoalieStats
       }

@@ -34,6 +34,7 @@ import ProfileSecondaryBioMobile, {
 import { getFlag } from '../../utils/flags'
 import ProfileSecondaryBioDesktop from '../profile/ProfileSecondaryBioDesktop'
 import colors from '../../styles/colors'
+import ProfileGameStats from '../profile/ProfileGameStats'
 
 const Container = styled.div`
   display: flex;
@@ -93,9 +94,10 @@ const getPlayerProps = (commonVars, typeSpecificVars) => {
     stats,
     mobileTitleArray,
     desktopTitleArray,
+    gameStats,
   } = typeSpecificVars
   return {
-    title: root.fullName,
+    title: 'Player Profile',
     type,
     data: root,
     primaryTitle: root.lastName,
@@ -155,6 +157,7 @@ const getPlayerProps = (commonVars, typeSpecificVars) => {
         </>
       ),
     },
+    gameStats,
   }
 }
 
@@ -206,6 +209,30 @@ const PlayerProfile = ({ siteLink, context }) => {
           'shoots',
           'captain',
         ],
+        gameStats: {
+          boxscores: commonVars.root.boxscores,
+          headers: [
+            'gameDate',
+            'teams',
+            'goals',
+            'assists',
+            'points',
+            'plusMinus',
+            'penaltyMinutes',
+            'powerPlayGoals',
+            'powerPlayAssists',
+            'shortHandedGoals',
+            'shortHandedAssists',
+            'timeOnIce',
+            'powerPlayTimeOnIce',
+            'shortHandedTimeOnIce',
+            'shots',
+            'blocked',
+            'hits',
+            'giveaways',
+            'takeaways',
+          ],
+        },
       }
 
       return getPlayerProps(commonVars, skaterSpecificVars)
@@ -239,6 +266,24 @@ const PlayerProfile = ({ siteLink, context }) => {
           'catches',
           'captain',
         ],
+        gameStats: {
+          boxscores: commonVars.root.boxscores,
+          headers: [
+            'gameDate',
+            'teams',
+            'decision',
+            'savePct',
+            'saves',
+            'goalsAgainst',
+            'shotsAgainst',
+            'powerPlaySaves',
+            'powerPlayShotsAgainst',
+            'shortHandedSaves',
+            'shortHandedShotsAgainst',
+            'penaltyMinutes',
+            'timeOnIce',
+          ],
+        },
       }
 
       return getPlayerProps(commonVars, goalieSpecificVars)
@@ -246,7 +291,7 @@ const PlayerProfile = ({ siteLink, context }) => {
     team: () => {
       const root = data.GetTeam
       return {
-        title: root.name,
+        title: 'Team Profile',
         data: root,
         type: 'team',
         primaryTitle: root.teamName,
@@ -260,6 +305,9 @@ const PlayerProfile = ({ siteLink, context }) => {
           { id: 'ppPct', value: root.stats.ppPct },
           { id: 'pkPct', value: root.stats.pkPct },
         ],
+        gameStats: {
+          boxscores: root.linescores,
+        },
       }
     },
   }
@@ -297,7 +345,10 @@ const PlayerProfile = ({ siteLink, context }) => {
             }
           </Media>
         )}
-        {/* <PlayerBioTable player={curContext.data} /> */}
+        <ProfileGameStats
+          data={curContext.gameStats}
+          context={curContext.type}
+        />
         {/* <PlayerGameStats
           query={isGoalie ? GET_GOALIE_STATS : GET_SKATER_STATS}
           idArray={player.boxscores}

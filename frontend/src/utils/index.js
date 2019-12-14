@@ -41,7 +41,17 @@ const convertSecsToMMSS = secs => {
 }
 
 const convertMMSStoSec = time => {
-  const [mins, secs] = time.split(':')
+  let hours
+  let mins
+  let secs
+
+  const timeArray = time.split(':')
+  if (timeArray.length === 3) {
+    ;[hours, mins, secs] = timeArray
+    return parseInt(hours * 60 * 60) + parseInt(mins * 60) + parseInt(secs)
+  }
+
+  ;[mins, secs] = timeArray
   return parseInt(mins * 60) + parseInt(secs)
 }
 

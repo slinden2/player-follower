@@ -50,7 +50,9 @@ const ProfilePrimaryStats = ({ headers, stats }) => {
     <List>
       {stats.map((stat, i) => (
         <ListItem key={stat.id} isLast={i === numOfStats - 1}>
-          <StatTitle>{headers[stat.id].headerText}</StatTitle>
+          <StatTitle title={headers[stat.id].title}>
+            {headers[stat.id].headerText}
+          </StatTitle>
           <Stat smallFont={numOfStats > 3}>{stat.value}</Stat>
         </ListItem>
       ))}
