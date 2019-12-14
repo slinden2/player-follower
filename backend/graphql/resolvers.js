@@ -514,9 +514,11 @@ const resolvers = {
       `${root.winsAway}-${root.lossesAway}-${root.otLossesAway}`,
   },
   Linescore: {
+    gameDate: root => root.gameDate.toISOString(),
     record: root => `${root.wins}-${root.losses}-${root.otLosses}`,
     ppPct: root => roundToDecimal(root.ppPct),
     pkPct: root => roundToDecimal(root.pkPct),
+    goalDiff: root => root.goalsFor - root.goalsAgainst,
   },
   Goal: {
     periodNumber: root => periodNumberToString(root.periodNumber),

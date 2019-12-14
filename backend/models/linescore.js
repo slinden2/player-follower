@@ -17,6 +17,10 @@ const linescoreSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  gameDate: {
+    type: Date,
+    required: true,
+  },
   isHomeGame: {
     type: Boolean,
     required: true,

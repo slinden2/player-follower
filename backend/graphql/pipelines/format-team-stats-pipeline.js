@@ -71,6 +71,7 @@ const formatTeamStatsPipeline = () => {
           $arrayElemAt: ['$linescores.opponentId', 0],
         },
         'linescores.gamePk': 1,
+        'linescores.gameDate': 1,
         'linescores.isHomeGame': 1,
         'linescores.points': 1,
         'linescores.goalsFor': 1,

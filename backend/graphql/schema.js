@@ -113,6 +113,7 @@ const typeDefs = gql`
   type Linescore {
     opponentId: Team!
     gamePk: Int!
+    gameDate: String!
     isHomeGame: Boolean!
     points: Int!
     win: Boolean!
@@ -122,6 +123,7 @@ const typeDefs = gql`
     ot: Boolean!
     goalsFor: Int!
     goalsAgainst: Int!
+    goalDiff: Int!
     penaltyMinutes: Int!
     shotsFor: Int!
     shotsAgainst: Int!

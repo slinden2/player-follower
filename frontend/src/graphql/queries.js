@@ -568,6 +568,7 @@ const TEAM_PROFILE_STATS = gql`
     points
     goalsFor
     goalsAgainst
+    goalDiff
     penaltyMinutes
     shotsFor
     shotsAgainst
@@ -608,6 +609,7 @@ const TEAM_PROFILE = gql`
           siteLink
         }
         gamePk
+        gameDate
         isHomeGame
         win
         otWin
