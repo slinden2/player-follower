@@ -19,20 +19,30 @@ const ProfileGameStats = ({ data, context }) => {
 
   const { headers } = data
 
-  const boxscores = data.boxscores.map(boxscore => ({
-    ...boxscore,
-    teams: (
-      <>
-        <Link to={boxscore.awayTeam.siteLink}>
-          {boxscore.awayTeam.abbreviation}
-        </Link>
-        {'@'}
-        <Link to={boxscore.homeTeam.siteLink}>
-          {boxscore.homeTeam.abbreviation}
-        </Link>
-      </>
-    ),
-  }))
+  const boxscores = data.boxscores.map(boxscore => {
+    const isTeam = context === 'team'
+
+    return {
+      ...boxscore,
+      teams: !isTeam && (
+        <>
+          <Link to={boxscore.awayTeam.siteLink}>
+            {boxscore.awayTeam.abbreviation}
+          </Link>
+          {'@'}
+          <Link to={boxscore.homeTeam.siteLink}>
+            {boxscore.homeTeam.abbreviation}
+          </Link>
+        </>
+      ),
+      win: isTeam && boxscore.win ? 'X' : '-',
+      loss: isTeam && boxscore.loss ? 'X' : '-',
+      ot: isTeam && boxscore.ot ? 'X' : '-',
+      otWin: isTeam && boxscore.otWin ? 'X' : '-',
+      shootOutWin: isTeam && boxscore.shootOutWin ? 'X' : '-',
+      vs: isTeam && boxscore.opponentId.abbreviation,
+    }
+  })
 
   const handleRowClick = rowData => {
     setSelectedGamePk([rowData.gamePk])
@@ -40,15 +50,22 @@ const ProfileGameStats = ({ data, context }) => {
 
   const convertStrsToSecs = obj => {
     const isGoalie = context === 'goalie'
+    const isTeam = context === 'team'
 
     return {
       ...obj,
       gameDate: new Date(obj.gameDate),
-      timeOnIce: convertMMSStoSec(obj.timeOnIce),
-      powerPlayTimeOnIce: !isGoalie && convertMMSStoSec(obj.powerPlayTimeOnIce),
+      timeOnIce: !isTeam && convertMMSStoSec(obj.timeOnIce),
+      powerPlayTimeOnIce:
+        !isTeam && !isGoalie && convertMMSStoSec(obj.powerPlayTimeOnIce),
       shortHandedTimeOnIce:
-        !isGoalie && convertMMSStoSec(obj.shortHandedTimeOnIce),
+        !isTeam && !isGoalie && convertMMSStoSec(obj.shortHandedTimeOnIce),
       decision: isGoalie && obj.decision === 'W' ? 1 : 0,
+      win: isTeam && obj.win === 'X' ? 1 : 0,
+      loss: isTeam && obj.loss === 'X' ? 1 : 0,
+      ot: isTeam && obj.ot === 'X' ? 1 : 0,
+      otWin: isTeam && obj.otWin === 'X' ? 1 : 0,
+      shootOutWin: isTeam && obj.shootOutWin === 'X' ? 1 : 0,
     }
   }
 
@@ -59,7 +76,9 @@ const ProfileGameStats = ({ data, context }) => {
 
       let sort
       sortVars.sortDir === 'DESC'
-        ? (sort = bNew[sortVars.sortBy] - aNew[sortVars.sortBy])
+        ? (sort =
+            bNew[sortVars.sortBy] - aNew[sortVars.sortBy] ||
+            bNew.gameDate - aNew.gameDate)
         : (sort = aNew[sortVars.sortBy] - bNew[sortVars.sortBy])
       return sort
     })

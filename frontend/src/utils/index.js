@@ -574,6 +574,11 @@ const teamStatHeaders = {
     title: 'Games Played',
     showOnMobile: true,
   },
+  vs: {
+    headerText: 'VS.',
+    id: 'vs',
+    title: 'Opponent',
+  },
   wins: {
     headerText: 'W',
     id: 'wins',
@@ -632,6 +637,11 @@ const teamStatHeaders = {
     headerText: 'GA',
     id: 'goalsAgainst',
     title: 'Goals Against',
+  },
+  goalDiff: {
+    headerText: 'Diff',
+    id: 'goalDiff',
+    title: 'Goal Difference',
   },
   shootOutWins: {
     headerText: 'SOW',
@@ -698,10 +708,101 @@ const teamStatHeaders = {
     id: 'hitsAgainstPerGame',
     title: 'Hits Against Per Game',
   },
+  powerPlayGoalsAllowed: {
+    headerText: 'PPA',
+    id: 'powerPlayGoalsAllowed',
+    title: 'Powerplay Goals Allowed',
+  },
+  powerPlayGoals: {
+    headerText: 'PPG',
+    id: 'powerPlayGoals',
+    title: 'Powerplay Goals',
+  },
   powerPlayOpportunitiesAllowed: {
     headerText: 'SHT',
     id: 'powerPlayOpportunitiesAllowed',
     title: 'Shorthanded Times',
+  },
+  powerPlayOpportunities: {
+    headerText: 'PPT',
+    id: 'powerPlayOpportunities',
+    title: 'Powerplay Times',
+  },
+  blocked: {
+    headerText: 'BLK',
+    id: 'blocked',
+    title: 'Blocked shots',
+  },
+  faceOffsTaken: {
+    headerText: 'FOT',
+    id: 'faceOffsTaken',
+    title: 'Faceoffs Taken',
+    sortString: 'FOT',
+  },
+  faceOffWins: {
+    headerText: 'FOW',
+    id: 'faceOffWins',
+    title: 'Faceoff Wins',
+  },
+  hitsFor: {
+    headerText: 'HF',
+    id: 'hitsFor',
+    title: 'Hits For',
+  },
+  hitsAgainst: {
+    headerText: 'HA',
+    id: 'hitsAgainst',
+    title: 'Hits Against',
+  },
+  ot: {
+    headerText: 'OT',
+    id: 'ot',
+    title: 'Overtime Loss',
+  },
+  otWin: {
+    headerText: 'OTW',
+    id: 'otWin',
+    title: 'Overtime Win',
+  },
+  shootOutWin: {
+    headerText: 'SOW',
+    id: 'shootOutWin',
+    title: 'Shootout Win',
+  },
+  win: {
+    headerText: 'W',
+    id: 'win',
+    title: 'Win',
+  },
+  loss: {
+    headerText: 'L',
+    id: 'loss',
+    title: 'Loss',
+  },
+  penaltyMinutes: {
+    headerText: 'PM',
+    id: 'penaltyMinutes',
+    title: 'Penalty Minutes',
+  },
+  penaltyMinutes: {
+    headerText: 'PM',
+    id: 'penaltyMinutes',
+    title: 'Penalty Minutes',
+  },
+  shotsFor: {
+    headerText: 'SF',
+    id: 'shotsFor',
+    title: 'Shots For',
+  },
+  shotsAgainst: {
+    headerText: 'SA',
+    id: 'shotsAgainst',
+    title: 'Shots Against',
+  },
+  gameDate: {
+    headerText: 'Date',
+    id: 'gameDate',
+    title: 'Game Date',
   },
 }
 
