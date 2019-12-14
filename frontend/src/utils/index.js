@@ -713,11 +713,6 @@ const teamStatHeaders = {
     id: 'powerPlayGoalsAllowed',
     title: 'Powerplay Goals Allowed',
   },
-  powerPlayGoals: {
-    headerText: 'PPG',
-    id: 'powerPlayGoals',
-    title: 'Powerplay Goals',
-  },
   powerPlayOpportunitiesAllowed: {
     headerText: 'SHT',
     id: 'powerPlayOpportunitiesAllowed',
@@ -778,11 +773,6 @@ const teamStatHeaders = {
     headerText: 'L',
     id: 'loss',
     title: 'Loss',
-  },
-  penaltyMinutes: {
-    headerText: 'PM',
-    id: 'penaltyMinutes',
-    title: 'Penalty Minutes',
   },
   penaltyMinutes: {
     headerText: 'PM',

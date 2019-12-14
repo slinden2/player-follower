@@ -40,7 +40,13 @@ const ProfileGameStats = ({ data, context }) => {
       ot: isTeam && boxscore.ot ? 'X' : '-',
       otWin: isTeam && boxscore.otWin ? 'X' : '-',
       shootOutWin: isTeam && boxscore.shootOutWin ? 'X' : '-',
-      vs: isTeam && boxscore.opponentId.abbreviation,
+      vs: isTeam && (
+        <>
+          <Link to={boxscore.opponentId.siteLink}>
+            {boxscore.opponentId.abbreviation}
+          </Link>
+        </>
+      ),
     }
   })
 
@@ -71,15 +77,32 @@ const ProfileGameStats = ({ data, context }) => {
 
   const sortGames = games => {
     const sortedGames = games.sort((a, b) => {
-      const aNew = convertStrsToSecs(a)
-      const bNew = convertStrsToSecs(b)
+      let aNew
+      let bNew
+      let sortDirA = -1
+      let sortDirB = 1
+
+      if (sortVars.sortBy === 'vs') {
+        aNew = { ...a, vs: a.vs.props.children.props.children }
+        bNew = { ...b, vs: b.vs.props.children.props.children }
+
+        // Invert sort direction for team abbreviation so that
+        // the first sort order is ascending (ANA first)
+        const tmp = sortDirA
+        sortDirA = sortDirB
+        sortDirB = tmp
+      } else {
+        aNew = convertStrsToSecs(a)
+        bNew = convertStrsToSecs(b)
+      }
+
+      const varA = aNew[sortVars.sortBy]
+      const varB = bNew[sortVars.sortBy]
 
       let sort
       sortVars.sortDir === 'DESC'
-        ? (sort =
-            bNew[sortVars.sortBy] - aNew[sortVars.sortBy] ||
-            bNew.gameDate - aNew.gameDate)
-        : (sort = aNew[sortVars.sortBy] - bNew[sortVars.sortBy])
+        ? (sort = varA > varB ? sortDirA : sortDirB)
+        : (sort = varA < varB ? sortDirA : sortDirB)
       return sort
     })
     return sortedGames
