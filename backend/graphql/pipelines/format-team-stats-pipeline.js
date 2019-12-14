@@ -62,6 +62,7 @@ const formatTeamStatsPipeline = () => {
         stats: 1,
         conference: 1,
         division: 1,
+        'linescores._id': 1,
         'linescores.win': 1,
         'linescores.otWin': 1,
         'linescores.shootOutWin': 1,

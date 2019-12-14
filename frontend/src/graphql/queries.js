@@ -589,6 +589,7 @@ const TEAM_PROFILE_STATS = gql`
 const TEAM_PROFILE = gql`
   query getTeamByName($siteLink: String!) {
     GetTeam(siteLink: $siteLink) {
+      _id
       conference {
         name
       }
@@ -604,6 +605,7 @@ const TEAM_PROFILE = gql`
       firstYearOfPlay
       officialSiteUrl
       linescores {
+        _id
         opponentId {
           abbreviation
           siteLink

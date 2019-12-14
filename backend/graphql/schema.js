@@ -26,7 +26,7 @@ const typeDefs = gql`
   }
 
   type Team {
-    id: ID!
+    _id: ID!
     conference: Conference!
     division: Division!
     teamId: Int!
@@ -111,6 +111,7 @@ const typeDefs = gql`
   }
 
   type Linescore {
+    _id: ID!
     opponentId: Team!
     gamePk: Int!
     gameDate: String!
