@@ -64,7 +64,6 @@ const disabledSortVariables = [
   'POSITION',
   'fullName',
   'team',
-  'teams',
   'position',
   'teamName',
 ]

@@ -77,32 +77,55 @@ const ProfileGameStats = ({ data, context }) => {
 
   const sortGames = games => {
     const sortedGames = games.sort((a, b) => {
-      let aNew
-      let bNew
       let sortDirA = -1
       let sortDirB = 1
 
       if (sortVars.sortBy === 'vs') {
-        aNew = { ...a, vs: a.vs.props.children.props.children }
-        bNew = { ...b, vs: b.vs.props.children.props.children }
+        a = { ...a, vs: a.vs.props.children.props.children }
+        b = { ...b, vs: b.vs.props.children.props.children }
+      } else if (sortVars.sortBy === 'teams') {
+        a = { ...a, teams: a.teams.props.children[0].props.children }
+        b = { ...b, teams: b.teams.props.children[0].props.children }
+      }
 
-        // Invert sort direction for team abbreviation so that
-        // the first sort order is ascending (ANA first)
+      a = convertStrsToSecs(a)
+      b = convertStrsToSecs(b)
+
+      const isTextField =
+        sortVars.sortBy === 'vs' || sortVars.sortBy === 'teams'
+
+      // Invert sorting for text fields
+      if (isTextField) {
         const tmp = sortDirA
         sortDirA = sortDirB
         sortDirB = tmp
-      } else {
-        aNew = convertStrsToSecs(a)
-        bNew = convertStrsToSecs(b)
       }
 
-      const varA = aNew[sortVars.sortBy]
-      const varB = bNew[sortVars.sortBy]
+      const varA = a[sortVars.sortBy]
+      const varB = b[sortVars.sortBy]
+      const dateA = a.gameDate.getTime()
+      const dateB = b.gameDate.getTime()
 
+      // Sort by defined variable primarily and date as secondary parameter.
+      // Secondary date always in descending order
       let sort
       sortVars.sortDir === 'DESC'
-        ? (sort = varA > varB ? sortDirA : sortDirB)
-        : (sort = varA < varB ? sortDirA : sortDirB)
+        ? (sort =
+            varA === varB
+              ? dateA > dateB
+                ? -1
+                : 1
+              : varA > varB
+              ? sortDirA
+              : sortDirB)
+        : (sort =
+            varA === varB
+              ? dateA > dateB
+                ? -1
+                : 1
+              : varA < varB
+              ? sortDirA
+              : sortDirB)
       return sort
     })
     return sortedGames
