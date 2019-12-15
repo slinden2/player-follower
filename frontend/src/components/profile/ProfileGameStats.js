@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import NewStatsTable from '../stats/NewStatsTable'
 import sortReducer from '../../reducers/sortReducer'
@@ -13,8 +13,7 @@ const initialSortState = {
   sortDir: 'DESC',
 }
 
-const ProfileGameStats = ({ data, context }) => {
-  const [selectedGamePk, setSelectedGamePk] = useState(null)
+const ProfileGameStats = ({ data, context, setMilestoneGamePk }) => {
   const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
 
   const { headers } = data
@@ -51,7 +50,7 @@ const ProfileGameStats = ({ data, context }) => {
   })
 
   const handleRowClick = rowData => {
-    setSelectedGamePk([rowData.gamePk])
+    setMilestoneGamePk([rowData.gamePk])
   }
 
   const convertStrsToSecs = obj => {

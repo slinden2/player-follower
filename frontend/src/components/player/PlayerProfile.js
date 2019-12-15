@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Media from 'react-media'
 import styled from 'styled-components'
@@ -6,15 +6,12 @@ import { useQuery } from 'react-apollo-hooks'
 import {
   SKATER_PROFILE,
   GOALIE_PROFILE,
-  GET_SKATER_STATS,
-  GET_GOALIE_STATS,
   TEAM_PROFILE,
+  PLAYER_MILESTONES,
 } from '../../graphql/queries'
-import PlayerBioTable from './PlayerBioTable'
 import PageContainer from '../elements/PageContainer'
 import breakpoints from '../../styles/breakpoints'
 import Loader from '../elements/Loader'
-import { PlayerGameStats } from './PlayerGameStats'
 import ProfileHeader from '../profile/ProfileHeader'
 import ProfilePrimaryStats from '../profile/ProfilePrimaryStats'
 import {
@@ -35,6 +32,7 @@ import { getFlag } from '../../utils/flags'
 import ProfileSecondaryBioDesktop from '../profile/ProfileSecondaryBioDesktop'
 import colors from '../../styles/colors'
 import ProfileGameStats from '../profile/ProfileGameStats'
+import ProfileMilestones from '../profile/ProfileMilestones'
 
 const Container = styled.div`
   display: flex;
@@ -53,6 +51,15 @@ const Flag = styled.img`
   margin-right: 2px;
   vertical-align: middle;
 `
+
+const getLatestGamePk = boxscores => {
+  const latestBoxscore = boxscores.reduce((acc, cur) => {
+    if (acc.gamePk < cur.gamePk && cur.goals > 0) return cur
+    else return acc
+  })
+
+  return latestBoxscore.gamePk
+}
 
 const getCommonPlayerVars = data => {
   const root = data.GetPlayer
@@ -95,6 +102,7 @@ const getPlayerProps = (commonVars, typeSpecificVars) => {
     mobileTitleArray,
     desktopTitleArray,
     gameStats,
+    milestones,
   } = typeSpecificVars
   return {
     title: 'Player Profile',
@@ -158,10 +166,13 @@ const getPlayerProps = (commonVars, typeSpecificVars) => {
       ),
     },
     gameStats,
+    milestones,
   }
 }
 
 const PlayerProfile = ({ siteLink, context }) => {
+  const [milestoneGamePk, setMilestoneGamePk] = useState(null)
+
   const querySelector = {
     skater: SKATER_PROFILE,
     goalie: GOALIE_PROFILE,
@@ -232,6 +243,14 @@ const PlayerProfile = ({ siteLink, context }) => {
             'giveaways',
             'takeaways',
           ],
+        },
+        milestones: {
+          query: PLAYER_MILESTONES,
+          variables: {
+            playerId: commonVars.root._id,
+            gamePks:
+              milestoneGamePk || getLatestGamePk(commonVars.root.boxscores),
+          },
         },
       }
 
@@ -375,7 +394,14 @@ const PlayerProfile = ({ siteLink, context }) => {
         <ProfileGameStats
           data={curContext.gameStats}
           context={curContext.type}
+          setMilestoneGamePk={setMilestoneGamePk}
         />
+        {curContext.milestones && (
+          <ProfileMilestones
+            query={curContext.milestones.query}
+            variables={curContext.milestones.variables}
+          />
+        )}
         {/* <PlayerGameStats
           query={isGoalie ? GET_GOALIE_STATS : GET_SKATER_STATS}
           idArray={player.boxscores}
