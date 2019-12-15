@@ -24,7 +24,7 @@ if (process.argv[2]) {
   isValidDate(date)
   Game.find(
     { apiDate: new Date(date).toISOString() },
-    { gamePk: 1, apiDate: 1, awayTeam: 1, homeTeam: 1 }
+    { gamePk: 1, apiDate: 1, awayTeam: 1, homeTeam: 1, gameDate: 1 }
   ).then(gameData => {
     runFetchLinescores(gameData)
   })
@@ -35,7 +35,7 @@ if (process.argv[2]) {
     .then(([date]) =>
       Game.find(
         { apiDate: date.apiDate },
-        { gamePk: 1, apiDate: 1, awayTeam: 1, homeTeam: 1 }
+        { gamePk: 1, apiDate: 1, awayTeam: 1, homeTeam: 1, gameDate: 1 }
       ).then(gameData => {
         runFetchLinescores(gameData)
       })

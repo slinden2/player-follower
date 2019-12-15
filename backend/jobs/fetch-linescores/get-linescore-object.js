@@ -34,18 +34,19 @@ const getLinescoreObject = (
     team: isHomeGame ? homeTeam._id : awayTeam._id,
     opponentId: isHomeGame ? awayTeam._id : homeTeam._id,
     gamePk: game.gamePk,
+    gameDate: game.gameDate,
     isHomeGame,
     points: isHomeGame
       ? homeWins
         ? 2
         : finalPeriod > 3
-          ? 1
-          : 0
+        ? 1
+        : 0
       : !homeWins
-        ? 2
-        : finalPeriod > 3
-          ? 1
-          : 0,
+      ? 2
+      : finalPeriod > 3
+      ? 1
+      : 0,
     win: isHomeGame ? homeWins : !homeWins,
     otWin: isHomeGame
       ? homeWins && finalPeriod === 4
