@@ -50,7 +50,7 @@ const ProfileGameStats = ({ data, context, setMilestoneGamePk }) => {
   })
 
   const handleRowClick = rowData => {
-    setMilestoneGamePk([rowData.gamePk])
+    setMilestoneGamePk(rowData.gamePk)
   }
 
   const convertStrsToSecs = obj => {
