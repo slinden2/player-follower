@@ -8,12 +8,13 @@ import {
   GOALIE_PROFILE,
   TEAM_PROFILE,
   PLAYER_MILESTONES,
+  GET_GAME_RECAPS,
 } from '../../graphql/queries'
 import PageContainer from '../elements/PageContainer'
 import breakpoints from '../../styles/breakpoints'
 import Loader from '../elements/Loader'
-import ProfileHeader from '../profile/ProfileHeader'
-import ProfilePrimaryStats from '../profile/ProfilePrimaryStats'
+import ProfileHeader from './ProfileHeader'
+import ProfilePrimaryStats from './ProfilePrimaryStats'
 import {
   statHeaders,
   goalieStatHeaders,
@@ -27,12 +28,13 @@ import {
 import ProfileSecondaryBioMobile, {
   Age,
   BirthDate,
-} from '../profile/ProfileSecondaryBioMobile'
+} from './ProfileSecondaryBioMobile'
 import { getFlag } from '../../utils/flags'
-import ProfileSecondaryBioDesktop from '../profile/ProfileSecondaryBioDesktop'
+import ProfileSecondaryBioDesktop from './ProfileSecondaryBioDesktop'
 import colors from '../../styles/colors'
-import ProfileGameStats from '../profile/ProfileGameStats'
-import ProfileMilestones from '../profile/ProfileMilestones'
+import ProfileGameStats from './ProfileGameStats'
+import ProfilePlayerMilestones from '../milestone/ProfilePlayerMilestones'
+import ProfileTeamMilestones from '../milestone/ProfileTeamMilestones'
 
 const Container = styled.div`
   display: flex;
@@ -52,9 +54,14 @@ const Flag = styled.img`
   vertical-align: middle;
 `
 
-const getLatestGamePk = boxscores => {
+const getLatestGamePk = (boxscores, ignoreGoals) => {
   const latestBoxscore = boxscores.reduce((acc, cur) => {
-    if (acc.gamePk < cur.gamePk && cur.goals > 0) return cur
+    let cond
+    ignoreGoals
+      ? (cond = acc.gamePk < cur.gamePk)
+      : (cond = acc.gamePk < cur.gamePk && cur.goals > 0)
+
+    if (cond) return cur
     else return acc
   })
 
@@ -170,7 +177,7 @@ const getPlayerProps = (commonVars, typeSpecificVars) => {
   }
 }
 
-const PlayerProfile = ({ siteLink, context }) => {
+const Profile = ({ siteLink, context }) => {
   const [milestoneGamePk, setMilestoneGamePk] = useState(null)
 
   const querySelector = {
@@ -354,6 +361,13 @@ const PlayerProfile = ({ siteLink, context }) => {
           ],
           boxscores: root.linescores,
         },
+        milestones: {
+          query: GET_GAME_RECAPS,
+          variables: {
+            teamId: root._id,
+            gamePk: milestoneGamePk || getLatestGamePk(root.linescores, true),
+          },
+        },
       }
     },
   }
@@ -396,22 +410,21 @@ const PlayerProfile = ({ siteLink, context }) => {
           context={curContext.type}
           setMilestoneGamePk={setMilestoneGamePk}
         />
-        {curContext.milestones && (
-          <ProfileMilestones
+        {context === 'skater' && (
+          <ProfilePlayerMilestones
             query={curContext.milestones.query}
             variables={curContext.milestones.variables}
           />
         )}
-        {/* <PlayerGameStats
-          query={isGoalie ? GET_GOALIE_STATS : GET_SKATER_STATS}
-          idArray={player.boxscores}
-          isGoalie={isGoalie}
-          playerId={player.id}
-          fullName={player.fullName}
-        /> */}
+        {context === 'team' && (
+          <ProfileTeamMilestones
+            query={curContext.milestones.query}
+            variables={curContext.milestones.variables}
+          />
+        )}
       </Container>
     </PageContainer>
   )
 }
 
-export default PlayerProfile
+export default Profile

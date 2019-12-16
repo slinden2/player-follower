@@ -20,13 +20,12 @@ import UserProfile from './components/user/UserProfile'
 import SearchPage from './components/search/SearchPage'
 import PlayerStats from './components/player/PlayerStats'
 import Standings from './components/team/Standings'
-import PlayerProfile from './components/player/PlayerProfile'
+import Profile from './components/profile/Profile'
 import About from './components/About'
 import ContactForm from './components/ContactForm'
 import colors from './styles/colors'
 import variables from './styles/variables'
 import { SearchContext } from './contexts/SearchContext'
-import TeamProfile from './components/team/TeamProfile'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Modal from './components/elements/Modal'
 import TermsAndConditions from './components/TermsAndConditions'
@@ -126,19 +125,13 @@ const App = () => {
               <Route
                 path='/players/:siteLink'
                 render={({ match }) => (
-                  <PlayerProfile
-                    siteLink={match.params.siteLink}
-                    context='skater'
-                  />
+                  <Profile siteLink={match.params.siteLink} context='skater' />
                 )}
               />
               <Route
                 path='/teams/:siteLink'
                 render={({ match }) => (
-                  <PlayerProfile
-                    siteLink={match.params.siteLink}
-                    context='team'
-                  />
+                  <Profile siteLink={match.params.siteLink} context='team' />
                 )}
               />
               <ProtectedRoute

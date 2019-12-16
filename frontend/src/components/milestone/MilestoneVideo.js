@@ -11,9 +11,9 @@ const Video = styled.video`
   margin: 5px auto;
 `
 
-const PlayerVideo = ({ lastName, date, width, height, url }) => {
+const MilestoneVideo = ({ trackingId, date, width, height, url }) => {
   const handleOnPlay = () => {
-    event('VIDEO', 'Play Video', `${lastName} | ${date} | ${url}`)
+    event('VIDEO', 'Play Video', `${trackingId} | ${date} | ${url}`)
   }
 
   return (
@@ -25,4 +25,4 @@ const PlayerVideo = ({ lastName, date, width, height, url }) => {
   )
 }
 
-export default PlayerVideo
+export default MilestoneVideo

@@ -416,7 +416,7 @@ const FIND_BY_NAME = gql`
       currentTeam {
         abbreviation
       }
-      id
+      _id
       playerId
       siteLink
     }
@@ -639,6 +639,51 @@ const LAST_UPDATE = gql`
   }
 `
 
+const HIGHLIGHT_FIELDS = gql`
+  fragment HighlightFields on GameRecap {
+    _id
+    gamePk
+    gameDate
+    awayTeam {
+      name
+      abbreviation
+      siteLink
+    }
+    awayScore
+    homeTeam {
+      name
+      abbreviation
+      siteLink
+    }
+    homeScore
+    title
+    description
+    mediaPlaybackId
+    duration
+    highlight {
+      _id
+      name
+      width
+      height
+      url
+    }
+  }
+`
+
+const GET_GAME_RECAPS = gql`
+  query getGameRecaps($teamId: String, $gamePk: Int) {
+    GetGameRecaps(teamId: $teamId, gamePk: $gamePk) {
+      gameCondensed {
+        ...HighlightFields
+      }
+      gameRecap {
+        ...HighlightFields
+      }
+    }
+  }
+  ${HIGHLIGHT_FIELDS}
+`
+
 export {
   BEST_PLAYERS,
   FAVORITE_PLAYERS,
@@ -656,4 +701,5 @@ export {
   LAST_UPDATE,
   GET_SKATER_STATS,
   GET_GOALIE_STATS,
+  GET_GAME_RECAPS,
 }

@@ -1,20 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-apollo-hooks'
 import Loader from '../elements/Loader'
 import { formatDate } from '../../utils'
-import { PlayerMilestone } from '../player/PlayerMilestone'
-
-const Container = styled.div`
-  max-width: 960px;
-`
-
-const Header = styled.div`
-  font-size: 1.375rem;
-  font-weight: bolder;
-  margin: 1rem 0 1rem 0;
-`
+import { PlayerMilestone } from './PlayerMilestone'
+import { Container, Header } from './milestoneStyles'
 
 const getGoalType = strength => {
   const strengths = {
@@ -25,7 +15,7 @@ const getGoalType = strength => {
   return strengths[strength]
 }
 
-const ProfileMilestones = props => {
+const ProfilePlayerMilestones = props => {
   const { query, variables } = props
 
   const { data, loading } = useQuery(query, { variables })
@@ -100,17 +90,6 @@ const ProfileMilestones = props => {
         </>
       )
 
-      const sourceLink = `https://www.nhl.com/video/c-${milestone.highlight.playbackId}`
-
-      const source = (
-        <>
-          {'Source: '}
-          <a href={sourceLink} target='_blank' rel='noopener noreferrer'>
-            {sourceLink}
-          </a>
-        </>
-      )
-
       return (
         <PlayerMilestone
           key={milestone._id}
@@ -118,7 +97,7 @@ const ProfileMilestones = props => {
           title={title}
           description={description}
           scoreText={scoreString}
-          source={source}
+          videoId={milestone.highlight.playbackId}
         />
       )
     })
@@ -131,4 +110,4 @@ const ProfileMilestones = props => {
   )
 }
 
-export default ProfileMilestones
+export default ProfilePlayerMilestones

@@ -25,11 +25,11 @@ const ProfileGameStats = ({ data, context, setMilestoneGamePk }) => {
       ...boxscore,
       teams: !isTeam && (
         <>
-          <Link to={boxscore.awayTeam.siteLink}>
+          <Link to={`/teams/${boxscore.awayTeam.siteLink}`}>
             {boxscore.awayTeam.abbreviation}
           </Link>
           {'@'}
-          <Link to={boxscore.homeTeam.siteLink}>
+          <Link to={`/teams/${boxscore.homeTeam.siteLink}`}>
             {boxscore.homeTeam.abbreviation}
           </Link>
         </>
