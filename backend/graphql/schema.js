@@ -378,6 +378,25 @@ const typeDefs = gql`
     team: Team!
   }
 
+  type RecapSet {
+    gameCondensed: GameRecap
+    gameRecap: GameRecap
+  }
+
+  type GameRecap {
+    _id: ID!
+    gamePk: Int!
+    gameDate: String!
+    awayTeam: Team!
+    awayScore: Int!
+    homeTeam: Team!
+    homeScore: Int!
+    title: String!
+    description: String!
+    duration: Int!
+    highlight: Highlight!
+  }
+
   type Highlight {
     _id: ID!
     playbackId: Int!
@@ -631,6 +650,10 @@ const typeDefs = gql`
     Fetches game related milestones from the API
     """
     GetMilestones(playerId: String!, gamePks: [Int!]!): [PlayerMilestone!]!
+    """
+    Fetches game related game recaps and extended highlights from the API
+    """
+    GetGameRecaps(teamId: String, gamePk: Int): [RecapSet!]!
     """
     Fetches teams by name
     """
