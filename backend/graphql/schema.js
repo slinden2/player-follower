@@ -393,6 +393,7 @@ const typeDefs = gql`
     homeScore: Int!
     title: String!
     description: String!
+    mediaPlaybackId: Int!
     duration: Int!
     highlight: Highlight!
   }

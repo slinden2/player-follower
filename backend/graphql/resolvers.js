@@ -580,6 +580,9 @@ const resolvers = {
     periodNumber: root => periodNumberToString(root.periodNumber),
     periodTime: root => convertSecsToMin(root.periodTime),
   },
+  GameRecap: {
+    gameDate: root => root.gameDate.toISOString(),
+  },
 }
 
 module.exports = resolvers
