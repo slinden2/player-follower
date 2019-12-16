@@ -131,17 +131,18 @@ const resolvers = {
     GetGameRecaps: async (root, args) => {
       // use gamePk filter only if provided
       const gamePk = args.gamePk ? { gamePk: args.gamePk } : {}
-
-      const games = await Game.find({
-        $or: [
-          { ...gamePk },
-          {
+      const team = args.teamId
+        ? {
             $or: [
               { 'homeTeam.team': args.teamId },
               { 'awayTeam.team': args.teamId },
             ],
-          },
-        ],
+          }
+        : {}
+
+      const games = await Game.find({
+        ...gamePk,
+        ...team,
       }).populate([
         {
           path: 'awayTeam.team',
@@ -170,7 +171,6 @@ const resolvers = {
 
       const gameRecaps = games.map(game => {
         const gameJSON = game.toJSON()
-
         return {
           gameCondensed: getHighLightObj(gameJSON, 'gameCondensed'),
           gameRecap: getHighLightObj(gameJSON, 'gameRecap'),
