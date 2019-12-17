@@ -624,6 +624,11 @@ const TEAM_PROFILE = gql`
         record
         ppPct
         pkPct
+        wins
+        losses
+        otLosses
+        otWins
+        shootOutWins
         ...TeamProfileStats
       }
     }

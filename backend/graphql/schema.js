@@ -145,6 +145,8 @@ const typeDefs = gql`
     wins: Int!
     losses: Int!
     otLosses: Int!
+    otWins: Int!
+    shootOutWins: Int!
     record: String!
     ppPct: String!
     pkPct: String!

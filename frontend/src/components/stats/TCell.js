@@ -20,6 +20,12 @@ const highlightStyling = css`
   background-color: ${colors.grey2};
 `
 
+const totalRowStyling = css`
+  ${cellStyling}
+  background-color: ${colors.grey1};
+  font-size: 1rem;
+`
+
 const TableHeader = styled.th`
   ${cellStyling}
   font-size: 1rem;
@@ -41,9 +47,10 @@ const TableHeader = styled.th`
 const TableCell = styled.td`
   ${cellStyling}
 
-  ${({ fixed, isHighlighted }) => css`
+  ${({ fixed, isHighlighted, isTotalRow }) => css`
     ${fixed && fixedCellStyling}
     ${isHighlighted && highlightStyling}
+    ${isTotalRow && totalRowStyling}
   `}
 `
 
@@ -63,6 +70,8 @@ export const TCell = ({
   title,
   onClick,
   isHighlighted,
+  isTotalRow,
+  colSpan,
 }) => {
   const Cell = getCellType(type)
 
@@ -74,6 +83,8 @@ export const TCell = ({
       onClick={onClick}
       showPointer={onClick}
       isHighlighted={isHighlighted}
+      isTotalRow={isTotalRow}
+      colSpan={colSpan}
     >
       {text}
     </Cell>

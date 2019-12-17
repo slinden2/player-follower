@@ -17,6 +17,7 @@ import ProfileHeader from './ProfileHeader'
 import ProfilePrimaryStats from './ProfilePrimaryStats'
 import {
   statHeaders,
+  playerProfileStatHeaders,
   goalieStatHeaders,
   teamStatHeaders,
   getAge,
@@ -24,6 +25,8 @@ import {
   formatDateYYYYMMDD,
   convertCmToFeet,
   convertKgToLbs,
+  goalieProfileStatHeaders,
+  teamProfileStatHeaders,
 } from '../../utils'
 import ProfileSecondaryBioMobile, {
   Age,
@@ -200,6 +203,8 @@ const Profile = ({ siteLink, context }) => {
     return <Redirect to='/404' />
   }
 
+  console.log(data)
+
   const contextSelector = {
     skater: () => {
       const commonVars = getCommonPlayerVars(data)
@@ -229,27 +234,9 @@ const Profile = ({ siteLink, context }) => {
         ],
         gameStats: {
           boxscores: commonVars.root.boxscores,
-          headers: [
-            'gameDate',
-            'teams',
-            'goals',
-            'assists',
-            'points',
-            'plusMinus',
-            'penaltyMinutes',
-            'powerPlayGoals',
-            'powerPlayAssists',
-            'shortHandedGoals',
-            'shortHandedAssists',
-            'timeOnIce',
-            'powerPlayTimeOnIce',
-            'shortHandedTimeOnIce',
-            'shots',
-            'blocked',
-            'hits',
-            'giveaways',
-            'takeaways',
-          ],
+          stats: commonVars.root.stats,
+          headers: playerProfileStatHeaders,
+          statHeaders: ['total', ...playerProfileStatHeaders.slice(2)],
         },
         milestones: {
           query: PLAYER_MILESTONES,
@@ -294,21 +281,9 @@ const Profile = ({ siteLink, context }) => {
         ],
         gameStats: {
           boxscores: commonVars.root.boxscores,
-          headers: [
-            'gameDate',
-            'teams',
-            'decision',
-            'savePct',
-            'saves',
-            'goalsAgainst',
-            'shotsAgainst',
-            'powerPlaySaves',
-            'powerPlayShotsAgainst',
-            'shortHandedSaves',
-            'shortHandedShotsAgainst',
-            'penaltyMinutes',
-            'timeOnIce',
-          ],
+          headers: goalieProfileStatHeaders,
+          stats: commonVars.root.stats,
+          statHeaders: ['total', ...goalieProfileStatHeaders.slice(2)],
         },
       }
 
@@ -332,34 +307,18 @@ const Profile = ({ siteLink, context }) => {
           { id: 'pkPct', value: root.stats.pkPct },
         ],
         gameStats: {
-          headers: [
-            'gameDate',
-            'vs',
-            'win',
-            'loss',
-            'ot',
-            'otWin',
-            'shootOutWin',
-            'points',
-            'goalsFor',
-            'goalsAgainst',
-            'goalDiff',
-            'penaltyMinutes',
-            'powerPlayGoals',
-            'powerPlayOpportunities',
-            'powerPlayGoalsAllowed',
-            'powerPlayOpportunitiesAllowed',
-            'shotsFor',
-            'shotsAgainst',
-            'faceOffWins',
-            'faceOffsTaken',
-            'hitsFor',
-            'hitsAgainst',
-            'takeaways',
-            'giveaways',
-            'blocked',
-          ],
+          headers: teamProfileStatHeaders,
           boxscores: root.linescores,
+          stats: { ...root.stats },
+          statHeaders: [
+            'total',
+            'wins',
+            'losses',
+            'otLosses',
+            'otWins',
+            'shootOutWins',
+            ...teamProfileStatHeaders.slice(7),
+          ],
         },
         milestones: {
           query: GET_GAME_RECAPS,

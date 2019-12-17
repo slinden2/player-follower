@@ -77,6 +77,8 @@ const NewStatsTable = ({
   sortDispatch,
   apiSort,
   onRowClick,
+  stats, // needed on profile page as column totals
+  statHeaders, // needed on profile page as column totals
 }) => {
   const headersToUse = getHeaders(dataType)
 
@@ -85,6 +87,7 @@ const NewStatsTable = ({
 
   const getData = (item, header) => {
     if (header === 'gameDate') return formatDate(item[headersToUse[header].id])
+    if (header === 'total') return headersToUse[header].headerText
     return item[headersToUse[header].id]
   }
 
@@ -133,10 +136,20 @@ const NewStatsTable = ({
       </TableRow>
     ))
 
-  const renderRow = (header, row, colIndex) => {
+  const statsRowMarkup = () => (
+    <TableRow>
+      {statHeaders.map((header, colIndex) =>
+        renderRow(header, stats, colIndex, true)
+      )}
+    </TableRow>
+  )
+
+  const renderRow = (header, row, colIndex, isTotalRow) => {
     const text = getData(row, header)
     const fixed = colIndex === 0
     const isHighlighted = highlightColumn(header) && !fixed
+    const addColSpan = colIndex === 0 && isTotalRow
+    const colSpan = addColSpan ? 2 : undefined
 
     return (
       <TCell
@@ -145,6 +158,8 @@ const NewStatsTable = ({
         text={text}
         fixed={fixed}
         isHighlighted={isHighlighted}
+        isTotalRow={isTotalRow}
+        colSpan={colSpan}
       />
     )
   }
@@ -155,7 +170,10 @@ const NewStatsTable = ({
       <ScrollContainer>
         <Table>
           <TableHead>{headerMarkup()}</TableHead>
-          <TableBody>{cellMarkup()}</TableBody>
+          <TableBody>
+            {cellMarkup()}
+            {stats && statsRowMarkup()}
+          </TableBody>
         </Table>
       </ScrollContainer>
     </Container>

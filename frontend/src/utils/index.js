@@ -412,6 +412,11 @@ const statHeaders = {
     title: 'Time on Ice per Game',
     sortString: 'TON_PER_GAME',
   },
+  total: {
+    headerText: 'Total',
+    id: 'total',
+    title: 'Total',
+  },
 }
 
 const goalieStatHeaders = {
@@ -547,6 +552,11 @@ const goalieStatHeaders = {
     id: 'timeOnIce',
     title: 'Time on Ice',
   },
+  total: {
+    headerText: 'Total',
+    id: 'total',
+    title: 'Total',
+  },
   winPct: {
     headerText: 'W%',
     id: 'winPct',
@@ -575,9 +585,9 @@ const teamStatHeaders = {
     showOnMobile: true,
   },
   vs: {
-    headerText: 'VS.',
+    headerText: 'vs.',
     id: 'vs',
-    title: 'Opponent',
+    title: 'Versus',
   },
   wins: {
     headerText: 'W',
@@ -794,6 +804,11 @@ const teamStatHeaders = {
     id: 'gameDate',
     title: 'Game Date',
   },
+  total: {
+    headerText: 'Total',
+    id: 'total',
+    title: 'Total',
+  },
 }
 
 const playerStatsHeaders = [
@@ -822,6 +837,72 @@ const playerStatsHeaders = [
   'timeOnIcePerGame',
   'powerPlayTimeOnIcePerGame',
   'shortHandedTimeOnIcePerGame',
+]
+
+const playerProfileStatHeaders = [
+  'gameDate',
+  'teams',
+  'goals',
+  'assists',
+  'points',
+  'plusMinus',
+  'penaltyMinutes',
+  'powerPlayGoals',
+  'powerPlayAssists',
+  'shortHandedGoals',
+  'shortHandedAssists',
+  'timeOnIce',
+  'powerPlayTimeOnIce',
+  'shortHandedTimeOnIce',
+  'shots',
+  'blocked',
+  'hits',
+  'giveaways',
+  'takeaways',
+]
+
+const goalieProfileStatHeaders = [
+  'gameDate',
+  'teams',
+  'decision',
+  'savePct',
+  'saves',
+  'goalsAgainst',
+  'shotsAgainst',
+  'powerPlaySaves',
+  'powerPlayShotsAgainst',
+  'shortHandedSaves',
+  'shortHandedShotsAgainst',
+  'penaltyMinutes',
+  'timeOnIce',
+]
+
+const teamProfileStatHeaders = [
+  'gameDate',
+  'vs',
+  'win',
+  'loss',
+  'ot',
+  'otWin',
+  'shootOutWin',
+  'points',
+  'goalsFor',
+  'goalsAgainst',
+  'goalDiff',
+  'penaltyMinutes',
+  'powerPlayGoals',
+  'powerPlayOpportunities',
+  'powerPlayGoalsAllowed',
+  'powerPlayOpportunitiesAllowed',
+  'shotsFor',
+  'shotsAgainst',
+  'faceOffWins',
+  'faceOffsTaken',
+  'hitsFor',
+  'hitsAgainst',
+  'takeaways',
+  'giveaways',
+  'blocked',
 ]
 
 const userProfileHeaders = {
@@ -1522,6 +1603,9 @@ export {
   teamStatHeaders,
   playerBioData,
   playerStatsHeaders,
+  playerProfileStatHeaders,
+  goalieProfileStatHeaders,
+  teamProfileStatHeaders,
   userProfileHeaders,
   userProfileHeadersToShow,
   playerPosFilterItems,

@@ -16,8 +16,6 @@ const initialSortState = {
 const ProfileGameStats = ({ data, context, setMilestoneGamePk }) => {
   const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
 
-  const { headers } = data
-
   const boxscores = data.boxscores.map(boxscore => {
     const isTeam = context === 'team'
 
@@ -133,12 +131,14 @@ const ProfileGameStats = ({ data, context, setMilestoneGamePk }) => {
   return (
     <NewStatsTable
       title='Game-by-Game Log'
-      headers={headers}
+      headers={data.headers}
       data={sortGames(boxscores)}
       dataType={context}
       sortVars={sortVars}
       sortDispatch={dispatch}
       onRowClick={handleRowClick}
+      stats={data.stats}
+      statHeaders={data.statHeaders}
     />
   )
 }
