@@ -75,7 +75,7 @@ const SearchField = ({ noNav }) => {
           {isLoading ? (
             <Loader small noHeight />
           ) : (
-            <SearchIcon type="image/svg+xml" data={icon} />
+            <SearchIcon type='image/svg+xml' data={icon} />
           )}
         </IconContainer>
         {showDropdown && (
