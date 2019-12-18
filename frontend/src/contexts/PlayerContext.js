@@ -5,6 +5,7 @@ import {
   BEST_PLAYERS,
   FAVORITE_PLAYERS,
   BEST_GOALIES,
+  ALL_PLAYERS,
 } from '../graphql/queries'
 import { FOLLOW_PLAYER, UNFOLLOW_PLAYER } from '../graphql/mutations'
 
@@ -49,6 +50,8 @@ const PlayerContextProvider = props => {
     fetchPolicy: 'network-only',
   })
 
+  const allPlayers = useQuery(ALL_PLAYERS)
+
   const followPlayer = useMutation(FOLLOW_PLAYER, {
     refetchQueries: [{ query: FAVORITE_PLAYERS, variables }],
     update: (store, response) => {
@@ -77,6 +80,7 @@ const PlayerContextProvider = props => {
         bestPlayers,
         bestGoalies,
         favoritePlayers,
+        allPlayers,
         setNumOfGames,
         numOfGames,
         positionFilter,

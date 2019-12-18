@@ -125,7 +125,7 @@ const App = () => {
               <Route
                 path='/players/:siteLink'
                 render={({ match }) => (
-                  <Profile siteLink={match.params.siteLink} context='skater' />
+                  <Profile siteLink={match.params.siteLink} />
                 )}
               />
               <Route

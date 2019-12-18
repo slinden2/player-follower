@@ -567,7 +567,7 @@ const typeDefs = gql`
     """
     All players in db
     """
-    allPlayers: [Player!]!
+    AllPlayers: [Player!]!
     """
     Returns best players for the last 1, 5 and 10 games.
     """

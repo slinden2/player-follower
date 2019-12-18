@@ -423,6 +423,18 @@ const FIND_BY_NAME = gql`
   }
 `
 
+const ALL_PLAYERS = gql`
+  query allPlayers {
+    AllPlayers {
+      fullName
+      siteLink
+      primaryPosition {
+        code
+      }
+    }
+  }
+`
+
 const CUMULATIVE_STATS = gql`
   query GetCumulativeStats(
     $positionFilter: PositionFilter!
@@ -694,6 +706,7 @@ export {
   FAVORITE_PLAYERS,
   USER,
   FIND_BY_NAME,
+  ALL_PLAYERS,
   CUMULATIVE_STATS,
   STANDINGS,
   BEST_TEAMS,

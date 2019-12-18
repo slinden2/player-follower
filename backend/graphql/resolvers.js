@@ -50,7 +50,7 @@ const resolvers = {
       return ctx.currentUser
     },
     playerCount: () => Player.collection.countDocuments(),
-    allPlayers: async () => {
+    AllPlayers: async () => {
       const players = await Player.find({})
       return players
     },
