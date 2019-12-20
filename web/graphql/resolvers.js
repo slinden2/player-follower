@@ -6,7 +6,8 @@ const Player = require('../models/player')
 require('../models/team-stats') // needed for field population
 require('../models/conference') // needed for field population
 require('../models/division') // needed for field population
-require('../models/game') // needed for field population
+require('../models/linescore') // needed for field population
+const Game = require('../models/game')
 const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
@@ -18,10 +19,10 @@ const {
   bestPlayersAggregate,
   favoritePlayersAggregate,
   seasonStatsAggregate,
-  teamProfileAggregate,
   teamStandingsAggregate,
   bestTeamsAggregate,
 } = require('./pipelines')
+const profileAggregate = require('./profile-aggregate')
 const milestonePipeline = require('../pipelines/milestonePipeline')
 const {
   convertSecsToMin,
@@ -49,22 +50,15 @@ const resolvers = {
       return ctx.currentUser
     },
     playerCount: () => Player.collection.countDocuments(),
-    allPlayers: async () => {
+    AllPlayers: async () => {
       const players = await Player.find({})
       return players
     },
-    findPlayer: async (root, args) => {
-      const player = await Player.findOne(args).populate([
-        {
-          path: 'currentTeam',
-          model: 'Team',
-          select: 'name abbreviation locationName siteLink',
-        },
-      ])
-
-      const playerJSON = player.toJSON()
-
-      return playerJSON
+    GetPlayer: async (root, args) => {
+      const player = await Player.aggregate(
+        profileAggregate(args.siteLink, args.type)
+      )
+      return player[0]
     },
     GetGameStats: async (root, args) => {
       const schema = args.isGoalie ? GoalieBoxscore : SkaterBoxscore
@@ -133,6 +127,57 @@ const resolvers = {
       const { playerId, gamePks } = args
       const goals = await Goal.aggregate(milestonePipeline(playerId, gamePks))
       return goals
+    },
+    GetGameRecaps: async (root, args) => {
+      // use gamePk filter only if provided
+      const gamePk = args.gamePk ? { gamePk: args.gamePk } : {}
+      const team = args.teamId
+        ? {
+            $or: [
+              { 'homeTeam.team': args.teamId },
+              { 'awayTeam.team': args.teamId },
+            ],
+          }
+        : {}
+
+      const games = await Game.find({
+        ...gamePk,
+        ...team,
+      }).populate([
+        {
+          path: 'awayTeam.team',
+          model: 'Team',
+          select: 'abbreviation name siteLink',
+        },
+        {
+          path: 'homeTeam.team',
+          model: 'Team',
+          select: 'abbreviation name siteLink',
+        },
+      ])
+
+      const getHighLightObj = (data, type) => ({
+        gamePk: data.gamePk,
+        gameDate: data.gameDate,
+        awayTeam: data.awayTeam.team,
+        awayScore: data.awayTeam.score,
+        homeTeam: data.homeTeam.team,
+        homeScore: data.homeTeam.score,
+        ...data[type],
+        highlight: data[type].playbacks.find(playback =>
+          playback.name.startsWith('FLASH_1800')
+        ),
+      })
+
+      const gameRecaps = games.map(game => {
+        const gameJSON = game.toJSON()
+        return {
+          gameCondensed: getHighLightObj(gameJSON, 'gameCondensed'),
+          gameRecap: getHighLightObj(gameJSON, 'gameRecap'),
+        }
+      })
+
+      return gameRecaps
     },
     findPlayers: async (root, args) => {
       const players = await Player.find(args)
@@ -241,10 +286,7 @@ const resolvers = {
       return teams.map(team => team.toJSON())
     },
     GetTeam: async (root, args) => {
-      const { siteLink } = args
-
-      const team = await Team.aggregate(teamProfileAggregate(siteLink))
-
+      const team = await Team.aggregate(profileAggregate(args.siteLink, 'team'))
       return team[0]
     },
     GetLastUpdate: async () => {
@@ -522,6 +564,13 @@ const resolvers = {
     awayRecord: root =>
       `${root.winsAway}-${root.lossesAway}-${root.otLossesAway}`,
   },
+  Linescore: {
+    gameDate: root => root.gameDate.toISOString(),
+    record: root => `${root.wins}-${root.losses}-${root.otLosses}`,
+    ppPct: root => roundToDecimal(root.ppPct),
+    pkPct: root => roundToDecimal(root.pkPct),
+    goalDiff: root => root.goalsFor - root.goalsAgainst,
+  },
   Goal: {
     periodNumber: root => periodNumberToString(root.periodNumber),
     periodTime: root => convertSecsToMin(root.periodTime),
@@ -530,6 +579,9 @@ const resolvers = {
     gameDate: root => root.gameDate.toISOString(),
     periodNumber: root => periodNumberToString(root.periodNumber),
     periodTime: root => convertSecsToMin(root.periodTime),
+  },
+  GameRecap: {
+    gameDate: root => root.gameDate.toISOString(),
   },
 }
 

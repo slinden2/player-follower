@@ -26,7 +26,7 @@ const typeDefs = gql`
   }
 
   type Team {
-    id: ID!
+    _id: ID!
     conference: Conference!
     division: Division!
     teamId: Int!
@@ -41,7 +41,8 @@ const typeDefs = gql`
     officialSiteUrl: String!
     active: Boolean!
     players: [Player!]!
-    rosterStats: [CumulativeStats]
+    linescores: [Linescore]!
+    stats: Linescore!
   }
 
   type TeamProfile {
@@ -59,7 +60,7 @@ const typeDefs = gql`
     firstYearOfPlay: Int!
     officialSiteUrl: String!
     active: Boolean!
-    players: [CumulativeStats!]!
+    linescores: [Linescore]!
   }
 
   type Standings {
@@ -109,10 +110,53 @@ const typeDefs = gql`
     wins: Int!
   }
 
+  type Linescore {
+    _id: ID!
+    opponentId: Team!
+    gamePk: Int!
+    gameDate: String!
+    isHomeGame: Boolean!
+    points: Int!
+    win: Boolean!
+    otWin: Boolean!
+    shootOutWin: Boolean!
+    loss: Boolean!
+    ot: Boolean!
+    goalsFor: Int!
+    goalsAgainst: Int!
+    goalDiff: Int!
+    penaltyMinutes: Int!
+    shotsFor: Int!
+    shotsAgainst: Int!
+    powerPlayGoals: Int!
+    powerPlayOpportunities: Int!
+    powerPlayOpportunitiesAllowed: Int!
+    powerPlayGoalsAllowed: Int!
+    faceOffsTaken: Int!
+    faceOffWins: Int!
+    blocked: Int!
+    takeaways: Int!
+    giveaways: Int!
+    hitsFor: Int!
+    hitsAgainst: Int!
+
+    # Needed in team profile
+    gamesPlayed: Int!
+    wins: Int!
+    losses: Int!
+    otLosses: Int!
+    otWins: Int!
+    shootOutWins: Int!
+    record: String!
+    ppPct: String!
+    pkPct: String!
+  }
+
   """
   Player bio
   """
   type Player {
+    _id: ID!
     """
     Link that leads to the player details in the API
     """
@@ -151,10 +195,9 @@ const typeDefs = gql`
     An array of the boxcores of all the games that the player
     has played. Scratched games are not included.
     """
-    boxscores: [String]!
-    stats: [Stats!]!
+    boxscores: [Stats]!
+    stats: Stats!
     goals: [Goal]
-    id: ID!
     numOfGamesId: Int!
   }
 
@@ -165,7 +208,7 @@ const typeDefs = gql`
   type Stats {
     # Group for all the base stats relative to
     # all different queryable stats
-    id: ID!
+    _id: ID!
     assists: Int!
     blocked: Int!
     evenTimeOnIce: String!
@@ -337,6 +380,26 @@ const typeDefs = gql`
     team: Team!
   }
 
+  type RecapSet {
+    gameCondensed: GameRecap
+    gameRecap: GameRecap
+  }
+
+  type GameRecap {
+    _id: ID!
+    gamePk: Int!
+    gameDate: String!
+    awayTeam: Team!
+    awayScore: Int!
+    homeTeam: Team!
+    homeScore: Int!
+    title: String!
+    description: String!
+    mediaPlaybackId: Int!
+    duration: Int!
+    highlight: Highlight!
+  }
+
   type Highlight {
     _id: ID!
     playbackId: Int!
@@ -504,7 +567,7 @@ const typeDefs = gql`
     """
     All players in db
     """
-    allPlayers: [Player!]!
+    AllPlayers: [Player!]!
     """
     Returns best players for the last 1, 5 and 10 games.
     """
@@ -538,7 +601,7 @@ const typeDefs = gql`
     """
     Single player by playerId
     """
-    findPlayer(playerId: Int, siteLink: String): Player!
+    GetPlayer(siteLink: String!, type: String!): Player
     """
     Get player game-by-game stats
     """
@@ -591,13 +654,17 @@ const typeDefs = gql`
     """
     GetMilestones(playerId: String!, gamePks: [Int!]!): [PlayerMilestone!]!
     """
+    Fetches game related game recaps and extended highlights from the API
+    """
+    GetGameRecaps(teamId: String, gamePk: Int): [RecapSet!]!
+    """
     Fetches teams by name
     """
     GetTeams(searchString: String!): [Team!]!
     """
     Returns a team and its roster
     """
-    GetTeam(siteLink: String!): TeamProfile!
+    GetTeam(siteLink: String!): Team!
     """
     Returns the logged user
     """

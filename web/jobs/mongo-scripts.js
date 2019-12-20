@@ -209,34 +209,90 @@ const getDate = async () => {
   console.log(record[0]._id.getTimestamp().toISOString())
 }
 
+const createAllRosters = async () => {
+  const teams = await Team.find()
+
+  for (const team of teams) {
+    const players = await Player.find({ currentTeam: team._id })
+    const playerIds = players.map(player => player._id)
+    team.players = playerIds
+    await team.save()
+  }
+}
+
 const updatePlayerTeam = async () => {
   const contentUrl = playerId =>
     `https://statsapi.web.nhl.com/api/v1/people/${playerId}`
 
   const players = await Player.find(
     {},
-    { playerId: 1, currentTeam: 1 }
-  ).populate('currentTeam', { teamId: 1 })
+    { playerId: 1, lastName: 1, currentTeam: 1 }
+  ).populate('currentTeam', { teamId: 1, teamName: 1 })
+
+  // This will be set to true if the currentTeam field of a player
+  // has changed. If changes have taken place, the team rosters
+  // will be recreated.
+  let tradesHappened = false
 
   for (const player of players) {
-    // There is an error here. The old team players get completely deleted.
     const {
       data: { people },
     } = await axios.get(contentUrl(player.playerId))
     const newTeamId = people[0].currentTeam.id
+
+    // Compare currentTeam field in DB to currentTeam in API
     if (player.currentTeam.teamId !== newTeamId) {
-      const oldTeam = await Team.findOne({ teamId: player.currentTeam.teamId })
-      oldTeam.players = oldTeam.players.filter(id => id === player._id)
-      const newTeam = await Team.findOne({ teamId: newTeamId })
-      newTeam.players = [...newTeam.players, player._id]
+      tradesHappened = true
+
+      // Get previous team from DB (where the player will play before trade)
+      const prevTeam = await Team.findOne(
+        { _id: player.currentTeam._id },
+        { teamName: 1 }
+      )
+
+      // Get new team from DB (where the player will play after trade)
+      const newTeam = await Team.findOne({ teamId: newTeamId }, { teamName: 1 })
+
+      console.log('*'.repeat(50))
+      console.log(`Data currently in DB:
+Player data:
+  _id: ${player._id}
+  lastName: ${player.lastName}
+Team data:
+  _id: ${prevTeam._id}
+  teamName: ${prevTeam.teamName}
+`)
+      console.log('='.repeat(25))
+
+      console.log(`New team data:
+Team data:
+  _id: ${newTeam._id}
+  teamName: ${newTeam.teamName}
+`)
+      console.log('='.repeat(25))
+
+      // Update players currentTeam with new id and save the player.
       player.currentTeam = newTeam._id
-      const test = await Promise.all([
-        oldTeam.save(),
-        newTeam.save(),
-        player.save(),
-      ])
-      console.log(test)
+      const savedPlayer = await player.save()
+      console.log(
+        `Player ${savedPlayer._id} saved with new currentTeam: ${savedPlayer.currentTeam}.`
+      )
+      console.log('*'.repeat(50))
+      console.log('')
     }
+  }
+
+  if (tradesHappened) {
+    console.log('Updating team rosters...')
+    const teams = await Team.find()
+
+    for (const team of teams) {
+      const players = await Player.find({ currentTeam: team._id })
+      const playerIds = players.map(player => player._id)
+      team.players = playerIds
+      await team.save()
+    }
+    console.log('Rosters updated.')
   }
 }
 
@@ -291,11 +347,18 @@ const updateMilestoneData = async () => {
   }
 }
 
-const getNewestGame = async () => {
-  const game = await Game.find()
-    .sort({ apiDate: -1 })
-    .limit(1)
-  console.log(game)
+const addDateToLinescores = async () => {
+  const gamePks = await Linescore.distinct('gamePk')
+
+  for (const gamePk of gamePks) {
+    const response = await axios.get(
+      `https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`
+    )
+
+    const gameDate = response.data.gameData.datetime.dateTime
+
+    await Linescore.updateMany({ gamePk }, { $set: { gameDate } })
+  }
 }
 
 // db.milestones.updateOne(
@@ -305,7 +368,7 @@ const getNewestGame = async () => {
 // )
 
 const deleteLatestGames = async () => {
-  const gamePk = 2019020402 // gamePk greater than this will be deleted
+  const gamePk = 2019020446 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -366,8 +429,9 @@ const deleteLatestGames = async () => {
 // addLinescoreArrays().then(() => mongoose.connection.close())
 // deleteLinescores().then(() => mongoose.connection.close())
 // getDate().then(() => mongoose.connection.close())
+// createAllRosters().then(() => mongoose.connection.close())
 // updatePlayerTeam().then(() => mongoose.connection.close())
 // fetchTweets().then(() => mongoose.connection.close())
 // updateMilestoneData().then(() => mongoose.connection.close())
-// getNewestGame().then(() => mongoose.connection.close())
+// addDateToLinescores().then(() => mongoose.connection.close())
 // deleteLatestGames().then(() => mongoose.connection.close())
