@@ -18,9 +18,13 @@ const Profile = ({ siteLink, context }) => {
     return <Loader offset />
   }
 
-  if (context !== 'team' && !playerContext) {
+  if (context !== 'team') {
     const player = data.AllPlayers.find(player => player.siteLink === siteLink)
-    setPlayerContext(player.primaryPosition.code === 'G' ? 'goalie' : 'skater')
+    const newContext = player.primaryPosition.code === 'G' ? 'goalie' : 'skater'
+
+    if (playerContext !== newContext) {
+      setPlayerContext(newContext)
+    }
   }
 
   const querySelector = {
