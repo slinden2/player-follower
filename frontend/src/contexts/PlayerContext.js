@@ -18,6 +18,7 @@ const PlayerContextProvider = props => {
   const [sortBy, setSortBy] = useState('POINTS')
   const [goalieSortBy, setGoalieSortBy] = useState('WINS')
   const [numOfGames, setNumOfGames] = useState(5)
+  const [filterContext, setFilterContext] = useState('skater')
 
   const variables = {
     numOfGames,
@@ -74,6 +75,15 @@ const PlayerContextProvider = props => {
     },
   })
 
+  const resetFilters = () => {
+    setPositionFilter('ALL')
+    setTeamFilter('ALL')
+    setNationalityFilter('ALL')
+    setSortBy('POINTS')
+    setGoalieSortBy('WINS')
+    setNumOfGames(5)
+  }
+
   return (
     <PlayerContext.Provider
       value={{
@@ -95,6 +105,9 @@ const PlayerContextProvider = props => {
         setGoalieSortBy,
         followPlayer,
         unfollowPlayer,
+        filterContext,
+        setFilterContext,
+        resetFilters,
       }}
     >
       {props.children}

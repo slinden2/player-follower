@@ -40,6 +40,8 @@
 - [x] Problem with stat pagination. Duplicate players on load more.
 - [x] Blocked shots needed in cumulative stats
 
+* [x] Reset card filters on page change
+
 * [x] Fix create-milestones. Filter duplicate videoids before db insert.
 
 * [x] Social media icons

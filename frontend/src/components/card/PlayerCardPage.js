@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import PageContainer from '../elements/PageContainer'
 import PlayerViewSelector from './ViewSelector'
@@ -35,8 +35,22 @@ const PlayerCardPage = ({ context, queryName, header }) => {
     setSortBy,
     goalieSortBy,
     setGoalieSortBy,
+    resetFilters,
+    filterContext,
+    setFilterContext,
   } = useContext(PlayerContext)
   const [filtersAreVisible, setFiltersAreVisible] = useState(false)
+
+  if (context !== filterContext) {
+    setFilterContext(context)
+    resetFilters()
+  }
+
+  useEffect(() => {
+    return () => {
+      resetFilters()
+    }
+  }, [context]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const filterDropdownData = [
     {
