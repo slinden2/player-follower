@@ -14,7 +14,7 @@ import {
 } from '../../utils'
 import sortReducer from '../../reducers/sortReducer'
 import FramedDropdown from '../elements/dropdown/FramedDropdown'
-import { FilterContainer } from '../card/styles'
+import { FilterContainer, ShowFiltersButton } from '../card/styles'
 
 const initialSortState = {
   positionFilter: 'ALL',
@@ -30,6 +30,7 @@ const PlayerStats = () => {
   const { data, loading, fetchMore } = useQuery(CUMULATIVE_STATS, {
     variables: sortVars,
   })
+  const [filtersAreVisible, setFiltersAreVisible] = useState(false)
   const [positionFilter, setPositionFilter] = useState('ALL')
   const [teamFilter, setTeamFilter] = useState('ALL')
   const [nationalityFilter, setNationalityFilter] = useState('ALL')
@@ -89,7 +90,11 @@ const PlayerStats = () => {
 
   return (
     <PageContainer title='Player Stats'>
-      <FilterContainer>
+      <ShowFiltersButton
+        content={(filtersAreVisible ? 'Hide' : 'Show') + ' Filters'}
+        onClick={() => setFiltersAreVisible(!filtersAreVisible)}
+      />
+      <FilterContainer isVisible={filtersAreVisible}>
         <FramedDropdown title='Filter' fields={filterDropdownData} />
       </FilterContainer>
       <NewStatsTable
