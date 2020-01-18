@@ -259,8 +259,8 @@ const resolvers = {
 
         const players = await Player.aggregate(
           seasonStatsAggregate(
-            args.teamFilter,
             args.positionFilter,
+            args.teamFilter,
             args.nationalityFilter,
             sortBy,
             sortDir,
