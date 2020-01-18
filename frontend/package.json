@@ -19,7 +19,7 @@
     "react-media": "^1.9.2",
     "react-remove-scroll": "^2.0.4",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^3.3.0",
     "reaptcha": "^1.7.0",
     "semantic-ui-react": "^0.87.2",
     "styled-components": "^4.3.2",
