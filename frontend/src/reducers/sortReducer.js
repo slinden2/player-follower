@@ -7,6 +7,13 @@ const sortReducer = (state, action) => {
       return { ...state, sortBy: action.sortBy, sortDir: 'DESC' }
     case 'LOAD_MORE':
       return { ...state, offset: action.offset }
+    case 'FILTER_CHANGE':
+      return {
+        ...state,
+        positionFilter: action.data.positionFilter,
+        teamFilter: action.data.teamFilter,
+        nationalityFilter: action.data.nationalityFilter,
+      }
     default:
       return state
   }

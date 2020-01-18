@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
@@ -6,13 +6,20 @@ import NewStatsTable from '../stats/NewStatsTable'
 import Button from '../elements/Button'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
-import { playerStatsHeaders } from '../../utils'
+import {
+  playerStatsHeaders,
+  playerPosFilterItems,
+  playerTeamFilterItems,
+  playerNationalityFilterItems,
+} from '../../utils'
 import sortReducer from '../../reducers/sortReducer'
+import FramedDropdown from '../elements/dropdown/FramedDropdown'
+import { FilterContainer } from '../card/styles'
 
 const initialSortState = {
-  positionFilter: 'ALL', // not in use
-  teamFilter: 'ALL', // not in use
-  nationalityFilter: 'ALL', // not in use
+  positionFilter: 'ALL',
+  teamFilter: 'ALL',
+  nationalityFilter: 'ALL',
   offset: 0,
   sortBy: 'POINTS',
   sortDir: 'DESC',
@@ -23,12 +30,40 @@ const PlayerStats = () => {
   const { data, loading, fetchMore } = useQuery(CUMULATIVE_STATS, {
     variables: sortVars,
   })
+  const [positionFilter, setPositionFilter] = useState('ALL')
+  const [teamFilter, setTeamFilter] = useState('ALL')
+  const [nationalityFilter, setNationalityFilter] = useState('ALL')
+
+  useEffect(() => {
+    dispatch({
+      type: 'FILTER_CHANGE',
+      data: { positionFilter, teamFilter, nationalityFilter },
+    })
+  }, [positionFilter, teamFilter, nationalityFilter])
 
   if (loading) {
     return <Loader offset />
   }
 
   const players = data.GetCumulativeStats
+
+  const filterDropdownData = [
+    {
+      items: playerPosFilterItems,
+      state: positionFilter,
+      setState: setPositionFilter,
+    },
+    {
+      items: playerTeamFilterItems,
+      state: teamFilter,
+      setState: setTeamFilter,
+    },
+    {
+      items: playerNationalityFilterItems,
+      state: nationalityFilter,
+      setState: setNationalityFilter,
+    },
+  ]
 
   const loadMore = () => {
     fetchMore({
@@ -54,6 +89,9 @@ const PlayerStats = () => {
 
   return (
     <PageContainer title='Player Stats'>
+      <FilterContainer>
+        <FramedDropdown title='Filter' fields={filterDropdownData} />
+      </FilterContainer>
       <NewStatsTable
         headers={playerStatsHeaders}
         data={playersWithLink}
