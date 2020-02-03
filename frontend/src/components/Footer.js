@@ -40,19 +40,19 @@ const Copyright = styled.div`
 const Footer = () => {
   return (
     <Container>
-      <SocialIcons position="footer" />
+      <SocialIcons position='footer' />
       <List>
         <ListItem>
-          <Link to="/about">About</Link>
+          <Link to='/about'>About</Link>
         </ListItem>
         <ListItem>
-          <Link to="/terms-and-conditions">{'Terms & Conditions'}</Link>
+          <Link to='/terms-and-conditions'>{'Terms & Conditions'}</Link>
         </ListItem>
         <ListItem>
-          <Link to="/privacy-policy">Privacy Policy</Link>
+          <Link to='/privacy-policy'>Privacy Policy</Link>
         </ListItem>
       </List>
-      <Copyright>&copy; Copyright 2019 Player Fan</Copyright>
+      <Copyright>&copy; Copyright 2020 Player Fan</Copyright>
     </Container>
   )
 }
