@@ -368,7 +368,7 @@ const addDateToLinescores = async () => {
 // )
 
 const deleteLatestGames = async () => {
-  const gamePk = 2019020640 // gamePk greater than this will be deleted
+  const gamePk = 2019020754 // gamePk greater than this will be deleted
 
   await Game.deleteMany({ gamePk: { $gt: gamePk } })
   await Milestone.deleteMany({ gamePk: { $gt: gamePk } })
@@ -411,6 +411,18 @@ const deleteLatestGames = async () => {
   )
 }
 
+const deleteErroneousBoxscoresFromPlayers = async () => {
+  const falsyBoxscores = ['arrayofboxscoreids']
+
+  for (const bsId of falsyBoxscores) {
+    const player = await Player.findOne({ boxscores: bsId })
+    player.boxscores = player.boxscores.filter(
+      bs => String(bs) !== String(bsId)
+    )
+    await player.save()
+  }
+}
+
 // deleteLeague().then(() => mongoose.connection.close())
 // deletePlayers().then(() => mongoose.connection.close())
 // deletePlayerBoxscores().then(() => mongoose.connection.close())
@@ -434,4 +446,5 @@ const deleteLatestGames = async () => {
 // fetchTweets().then(() => mongoose.connection.close())
 // updateMilestoneData().then(() => mongoose.connection.close())
 // addDateToLinescores().then(() => mongoose.connection.close())
+// deleteErroneousBoxscoresFromPlayers().then(() => mongoose.connection.close())
 deleteLatestGames().then(() => mongoose.connection.close())
