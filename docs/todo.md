@@ -70,19 +70,18 @@
   - [x] Implement pagination
   - [x] Implement table sorting
 
+* [x] Videos must be saved in db with comments and ranking
+* [x] Check that all milestones are in db. Probably not because of videoId bug.
+
 * [ ] A view to show top performes. For example, most goals / points this month, this season etc.
 * [ ] A top performer view. Link to the "condensed game" video and individual goal videos
 * [ ] Most recent goals on the team page
 * [ ] OAuth
 * [ ] Player card social media sharing functions
 * [ ] Video social media sharing functions
-* [ ] Videos must be saved in db with comments and ranking
 * [ ] Chat? Forum?
 * [ ] Follow button for player profiles
-* [ ] OAuth
-* [ ] Dont fetch team stats but use https://statsapi.web.nhl.com/api/v1/teams/5/stats
 * [ ] Performance issue with sorting the player cards. Rerenders 4 times.
-* [ ] Check that all milestones are in db. Probably not because of videoId bug.
 
 ## Notes
 
