@@ -49,7 +49,6 @@ const resolvers = {
     me: async (root, args, ctx) => {
       return ctx.currentUser
     },
-    playerCount: () => Player.collection.countDocuments(),
     AllPlayers: async () => {
       const players = await Player.find({})
       return players
@@ -59,69 +58,6 @@ const resolvers = {
         profileAggregate(args.siteLink, args.type)
       )
       return player[0]
-    },
-    GetGameStats: async (root, args) => {
-      const schema = args.isGoalie ? GoalieBoxscore : SkaterBoxscore
-
-      const stats = await schema.find({ _id: { $in: args.idArray } }).populate([
-        {
-          path: 'awayTeam',
-          model: 'Team',
-          select: 'abbreviation',
-        },
-        {
-          path: 'homeTeam',
-          model: 'Team',
-          select: 'abbreviation',
-        },
-      ])
-
-      const playerId = stats[0].player
-      let goals = []
-      if (!args.isGoalie && playerId) {
-        goals = await Goal.find(
-          { scorer: playerId },
-          {
-            game: 1,
-            strength: 1,
-            periodNumber: 1,
-            periodTime: 1,
-            coordinates: 1,
-          }
-        ).populate([
-          {
-            path: 'game',
-            model: 'Game',
-            select: 'awayTeam homeTeam gameDate',
-            populate: [
-              {
-                path: 'awayTeam.team',
-                model: 'Team',
-                select: 'abbreviation',
-              },
-              {
-                path: 'homeTeam.team',
-                model: 'Team',
-                select: 'abbreviation',
-              },
-            ],
-          },
-        ])
-
-        goals = goals
-          .map(goal => goal.toJSON())
-          .map(goal => {
-            const { game, ...props } = goal
-            return {
-              ...props,
-              gameDate: format(game.gameDate, 'YYYY/MM/DD'),
-              awayTeam: game.awayTeam.team,
-              homeTeam: game.homeTeam.team,
-            }
-          })
-      }
-
-      return { id: playerId, stats, goals }
     },
     GetMilestones: async (root, args) => {
       const { playerId, gamePks } = args
@@ -179,11 +115,7 @@ const resolvers = {
 
       return gameRecaps
     },
-    findPlayers: async (root, args) => {
-      const players = await Player.find(args)
-      return players
-    },
-    findByName: async (root, args) => {
+    FindByName: async (root, args) => {
       let players
       // match many search strings
       if (args.searchString.split(' ').length > 1) {

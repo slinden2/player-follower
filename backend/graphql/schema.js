@@ -563,7 +563,6 @@ const typeDefs = gql`
   }
 
   type Query {
-    playerCount: Int!
     """
     All players in db
     """
@@ -603,30 +602,6 @@ const typeDefs = gql`
     """
     GetPlayer(siteLink: String!, type: String!): Player
     """
-    Get player game-by-game stats
-    """
-    GetGameStats(idArray: [String!]!, isGoalie: Boolean!): ProfileStats!
-    """
-    Array of players by arbitrary search terms
-    """
-    findPlayers(
-      firstName: String
-      lastName: String
-      primaryNumber: Int
-      birthCity: String
-      birthStateProvince: String
-      birthCountry: String
-      nationality: String
-      height: Int
-      weight: Int
-      active: Boolean
-      alternateCaptain: Boolean
-      captain: Boolean
-      rookie: Boolean
-      shootsCatches: String
-      primaryPosition: String
-    ): [Player!]!
-    """
     Cumulative player stats considering all games of the season.
     """
     GetCumulativeStats(
@@ -648,7 +623,7 @@ const typeDefs = gql`
     """
     Used for player search field.
     """
-    findByName(searchString: String!): [Player]!
+    FindByName(searchString: String!): [Player]!
     """
     Fetches game related milestones from the API
     """

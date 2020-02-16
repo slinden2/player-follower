@@ -262,92 +262,6 @@ const GOALIE_PROFILE = gql`
   ${GOALIE_PROFILE_STATS}
 `
 
-const GET_SKATER_STATS = gql`
-  query getSkaterStats($idArray: [String!]!, $isGoalie: Boolean!) {
-    GetGameStats(idArray: $idArray, isGoalie: $isGoalie) {
-      id
-      stats {
-        id
-        assists
-        blocked
-        faceOffsTaken
-        faceOffWins
-        gameDate
-        gamePk
-        giveaways
-        goals
-        hits
-        penaltyMinutes
-        plusMinus
-        points
-        powerPlayAssists
-        powerPlayGoals
-        powerPlayTimeOnIce
-        shortHandedAssists
-        shortHandedGoals
-        shortHandedTimeOnIce
-        shotPct
-        shots
-        takeaways
-        timeOnIce
-        homeTeam {
-          abbreviation
-        }
-        awayTeam {
-          abbreviation
-        }
-      }
-      goals {
-        id
-        strength
-        homeTeam {
-          abbreviation
-        }
-        awayTeam {
-          abbreviation
-        }
-        gameDate
-        periodNumber
-        periodTime
-        coordinates {
-          x
-          y
-        }
-      }
-    }
-  }
-`
-
-const GET_GOALIE_STATS = gql`
-  query getGoalieStats($idArray: [String!]!, $isGoalie: Boolean!) {
-    GetGameStats(idArray: $idArray, isGoalie: $isGoalie) {
-      id
-      stats {
-        id
-        gamePk
-        gameDate
-        decision
-        savePct
-        saves
-        goalsAgainst
-        shotsAgainst
-        powerPlaySaves
-        powerPlayShotsAgainst
-        shortHandedSaves
-        shortHandedShotsAgainst
-        penaltyMinutes
-        timeOnIce
-        homeTeam {
-          abbreviation
-        }
-        awayTeam {
-          abbreviation
-        }
-      }
-    }
-  }
-`
-
 const BEST_TEAMS = gql`
   query bestTeams($numOfGames: Int!) {
     BestTeams(numOfGames: $numOfGames) {
@@ -410,7 +324,7 @@ const USER = gql`
 
 const FIND_BY_NAME = gql`
   query findByName($searchString: String!) {
-    findByName(searchString: $searchString) {
+    FindByName(searchString: $searchString) {
       fullName
       nationality
       currentTeam {
@@ -717,7 +631,5 @@ export {
   GET_TEAMS_BY_NAME,
   TEAM_PROFILE,
   LAST_UPDATE,
-  GET_SKATER_STATS,
-  GET_GOALIE_STATS,
   GET_GAME_RECAPS,
 }
