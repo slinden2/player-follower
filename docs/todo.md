@@ -82,6 +82,7 @@
 * [ ] Chat? Forum?
 * [ ] Follow button for player profiles
 * [ ] Performance issue with sorting the player cards. Rerenders 4 times.
+* [ ] Cancel user mutation is implemented, but missing UI
 
 ## Notes
 

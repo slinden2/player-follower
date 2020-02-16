@@ -227,10 +227,11 @@ const PlayerCardFront = ({
       const followedPlayer = await followPlayer({
         variables: { id: data._id, followType: 'FOLLOW' },
       })
-      if (followedPlayer.data.followPlayer) {
+      if (followedPlayer.data.FollowPlayer) {
         setNotification(
           'positive',
-          `You started following ${followedPlayer.data.followPlayer.fullName}.`
+          `You started following ${followedPlayer.data.FollowPlayer.fullName}.`,
+          'site'
         )
       }
     } catch (exception) {
@@ -248,10 +249,11 @@ const PlayerCardFront = ({
       const id = await unfollowPlayer({
         variables: { id: data._id, followType: 'UNFOLLOW' },
       })
-      if (id.data.unfollowPlayer) {
+      if (id.data.FollowPlayer) {
         setNotification(
           'positive',
-          `You unfollowed ${id.data.unfollowPlayer.fullName}.`
+          `You unfollowed ${id.data.FollowPlayer.fullName}.`,
+          'site'
         )
       }
     } catch (exception) {

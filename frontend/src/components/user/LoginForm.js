@@ -49,7 +49,7 @@ const LoginForm = ({ history, onModal }) => {
       event('FORM', 'Login Form Submit')
       // If user has set rememberMe the cookie expires in one year.
       // If not, it will be a normal session cookie.
-      loginUser(token.data.login.value, rememberMe ? 365 : 0)
+      loginUser(token.data.Login.value, rememberMe ? 365 : 0)
       setNotification('positive', `${username} successfully logged in.`, 'site')
       if (onModal) closeModal()
       history.push('/')
@@ -78,9 +78,9 @@ const LoginForm = ({ history, onModal }) => {
           return (
             <SForm>
               <SField>
-                <Label htmlFor="username">Username or Email</Label>
+                <Label htmlFor='username'>Username or Email</Label>
                 <Input
-                  name="username"
+                  name='username'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
@@ -91,10 +91,10 @@ const LoginForm = ({ history, onModal }) => {
                 />
               </SField>
               <SField>
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor='password'>Password</Label>
                 <Input
-                  type="password"
-                  name="password"
+                  type='password'
+                  name='password'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
@@ -107,11 +107,11 @@ const LoginForm = ({ history, onModal }) => {
               <TextRow>
                 Don't have an account?{' '}
                 {onModal ? (
-                  <Link name="Register" onClick={() => navigateTo('sign up')}>
+                  <Link name='Register' onClick={() => navigateTo('sign up')}>
                     Register
                   </Link>
                 ) : (
-                  <Link to="/signup" name="Register">
+                  <Link to='/signup' name='Register'>
                     Register
                   </Link>
                 )}
@@ -119,36 +119,36 @@ const LoginForm = ({ history, onModal }) => {
               <TextRow>
                 {onModal ? (
                   <Link
-                    name="Forgot your password?"
+                    name='Forgot your password?'
                     onClick={() => navigateTo('forgot password')}
                   >
                     Forgot your password?
                   </Link>
                 ) : (
-                  <Link to="/forgot-password" name="Forgot your password?">
+                  <Link to='/forgot-password' name='Forgot your password?'>
                     Forgot your password?
                   </Link>
                 )}
               </TextRow>
 
-              <Label htmlFor="rememberMe">
+              <Label htmlFor='rememberMe'>
                 Keep me logged in
                 <Checkbox
-                  type="checkbox"
-                  name="rememberMe"
+                  type='checkbox'
+                  name='rememberMe'
                   checked={values.rememberMe}
                   style={{ marginLeft: '10px' }}
                 />
               </Label>
 
               <br />
-              <Notification position="form" notification={notification} />
+              <Notification position='form' notification={notification} />
               <br />
               <Button
-                type="submit"
-                size="big"
-                fontCase="uppercase"
-                content="Log In"
+                type='submit'
+                size='big'
+                fontCase='uppercase'
+                content='Log In'
                 disabled={isSubmitting}
               />
             </SForm>

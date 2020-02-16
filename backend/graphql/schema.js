@@ -651,19 +651,19 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(
+    CreateUser(
       username: String!
       password: String!
       email: String!
       recaptcha: String!
     ): User!
-    verifyUser(token: String!): User!
-    cancelUser(token: String!): User!
-    login(username: String!, password: String!): Token!
-    forgotPassword(email: String!): User!
+    VerifyUser(token: String!): User!
+    CancelUser(token: String!): User!
+    Login(username: String!, password: String!): Token!
+    ForgotPassword(email: String!): User!
     SetNewPassword(token: String!, password: String!): User!
     ChangePassword(oldPassword: String!, newPassword: String!): User!
-    followPlayer(id: String!, followType: FollowType!): Player!
+    FollowPlayer(id: String!, followType: FollowType!): Player!
     SendContactForm(
       name: String!
       email: String!

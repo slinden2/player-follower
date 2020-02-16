@@ -18,7 +18,7 @@ const Confirmation = ({ token }) => {
     const fetchData = async () => {
       try {
         const newUser = await verifyUser()
-        setUser(newUser.data.verifyUser)
+        setUser(newUser.data.VerifyUser)
       } catch ({ message }) {
         setError(message)
       }

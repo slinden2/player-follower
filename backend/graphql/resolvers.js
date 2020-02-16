@@ -232,29 +232,23 @@ const resolvers = {
     },
   },
   Mutation: {
-    createUser: async (root, args) => {
+    CreateUser: async (root, args) => {
       const { username, password, email, recaptcha } = args
-
       await validateRecaptcha(recaptcha)
-
       const existingUser = await User.findOne({
         $or: [{ usernameLower: username.toLowerCase() }, { email }],
       })
       if (existingUser) {
         throw new UserInputError('Username or email is taken.')
       }
-
       validatePassword(password)
-
       if (!username || !email) {
         throw new UserInputError(
           'You must provide a valid username and an email address.'
         )
       }
-
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(password, saltRounds)
-
       const user = new User({
         username,
         usernameLower: username.toLowerCase(),
@@ -262,83 +256,67 @@ const resolvers = {
         passwordHash,
         isVerified: false,
       })
-
       const verificationToken = new Token({
         userId: user._id,
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
       const savedToken = await verificationToken.save()
-
       const savedUser = await user.save()
-
       sendVerificationEmail(user.email, savedToken.token)
-
       return savedUser
     },
-    verifyUser: async (root, args) => {
+    VerifyUser: async (root, args) => {
       const decodedUser = jwt.verify(args.token, JWT_SECRET)
       const token = await Token.findOne({ userId: decodedUser.userId })
-
       if (!token) {
         throw new AuthenticationError('Invalid or expired token.')
       }
-
       const user = await User.findOneAndUpdate(
         { _id: token.userId },
         { isVerified: true },
         { new: true }
       )
-
       return user
     },
-    cancelUser: async (root, args) => {
+    CancelUser: async (root, args) => {
       const decodedUser = jwt.verify(args.token, JWT_SECRET)
       await Token.deleteOne({ userId: decodedUser.userId })
       const user = await User.findOneAndRemove({ _id: decodedUser.userId })
       return user
     },
-    login: async (root, args) => {
+    Login: async (root, args) => {
       const { password } = args
       const usernameLower = args.username.toLowerCase()
-
       const user = await User.findOne({
         $or: [{ usernameLower }, { email: usernameLower }],
       })
-
       const passwordCorrect =
         user === null
           ? false
           : await bcrypt.compare(password, user.passwordHash)
-
       if (!(user && passwordCorrect)) {
         throw new UserInputError('Invalid username or password')
       }
-
       if (!user.isVerified) {
         throw new AuthenticationError('Account has not been activated.')
       }
-
       const userForToken = {
         username: user.username,
         id: user._id,
       }
-
       const token = jwt.sign(userForToken, JWT_SECRET)
       return { value: token }
     },
-    forgotPassword: async (root, args) => {
+    ForgotPassword: async (root, args) => {
       const { email } = args
       const user = await User.findOne({ email })
-
       if (!user) {
         throw new UserInputError('Invalid email address')
       }
-
       const verificationToken = new Token({
         userId: user._id,
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
-
       const savedToken = await verificationToken.save()
       await sendForgotPasswordEmail(user.email, savedToken.token)
       return user.toJSON()
@@ -349,16 +327,13 @@ const resolvers = {
       if (!token) {
         throw new AuthenticationError('The token is either invalid or expired.')
       }
-
       validatePassword(args.password)
-
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(args.password, saltRounds)
       const newUser = await User.findOneAndUpdate(
         { _id: token.userId },
         { passwordHash }
       )
-
       return newUser
     },
     ChangePassword: async (root, args, ctx) => {
@@ -369,9 +344,7 @@ const resolvers = {
       if (!passwordCorrect) {
         throw new UserInputError('Invalid old password')
       }
-
       validatePassword(args.newPassword)
-
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(args.newPassword, saltRounds)
       const newUser = await User.findOneAndUpdate(
@@ -384,21 +357,16 @@ const resolvers = {
       const { currentUser } = ctx
       const { name, email, subject, message, recaptcha } = args
       const username = currentUser && currentUser.username
-
       await validateRecaptcha(recaptcha)
-
       await sendContactFormEmail(name, email, subject, message, username)
-
       return true
     },
-    followPlayer: async (root, args, ctx) => {
+    FollowPlayer: async (root, args, ctx) => {
       const { currentUser } = ctx
       if (!currentUser) {
         throw new AuthenticationError('You must be logged in')
       }
-
       const { id, followType } = args
-
       const action = {
         FOLLOW: () =>
           (currentUser.favoritePlayers = currentUser.favoritePlayers.concat(
@@ -409,13 +377,10 @@ const resolvers = {
             _id => _id.toString() !== id
           )),
       }
-
       const player = await Player.findOne({ _id: id })
-
       if (!player) {
         throw new UserInputError('Invalid player id')
       }
-
       if (currentUser.favoritePlayers.includes(id)) {
         if (followType === 'FOLLOW') {
           throw new UserInputError('You already follow this player.')
@@ -425,10 +390,8 @@ const resolvers = {
           throw new UserInputError('You are not following this player.')
         }
       }
-
       action[followType]()
       await currentUser.save()
-
       return player.toJSON()
     },
   },

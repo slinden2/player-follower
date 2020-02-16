@@ -9,8 +9,18 @@ const USER_DETAILS = gql`
 `
 
 const CREATE_USER = gql`
-  mutation createUser($username: String!, $email: String!, $password: String!, $recaptcha: String!) {
-    createUser(username: $username, email: $email, password: $password recaptcha: $recaptcha) {
+  mutation createUser(
+    $username: String!
+    $email: String!
+    $password: String!
+    $recaptcha: String!
+  ) {
+    CreateUser(
+      username: $username
+      email: $email
+      password: $password
+      recaptcha: $recaptcha
+    ) {
       ...UserDetails
     }
   }
@@ -19,7 +29,7 @@ const CREATE_USER = gql`
 
 const VERIFY_USER = gql`
   mutation verifyUser($token: String!) {
-    verifyUser(token: $token) {
+    VerifyUser(token: $token) {
       ...UserDetails
     }
   }
@@ -28,7 +38,7 @@ const VERIFY_USER = gql`
 
 const CANCEL_USER = gql`
   mutation cancelUser($token: String!) {
-    cancelUser(token: $token) {
+    CancelUser(token: $token) {
       ...UserDetails
     }
   }
@@ -37,7 +47,7 @@ const CANCEL_USER = gql`
 
 const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+    Login(username: $username, password: $password) {
       value
     }
   }
@@ -45,7 +55,7 @@ const LOGIN = gql`
 
 const FORGOT_PASSWORD = gql`
   mutation forgotPassword($email: String!) {
-    forgotPassword(email: $email) {
+    ForgotPassword(email: $email) {
       ...UserDetails
     }
   }
@@ -72,8 +82,8 @@ const CHANGE_PASSWORD = gql`
 
 const FOLLOW_PLAYER = gql`
   mutation followPlayer($id: String!, $followType: FollowType!) {
-    followPlayer(id: $id, followType: $followType) {
-      id
+    FollowPlayer(id: $id, followType: $followType) {
+      _id
       fullName
     }
   }
@@ -81,8 +91,8 @@ const FOLLOW_PLAYER = gql`
 
 const UNFOLLOW_PLAYER = gql`
   mutation unfollowPlayer($id: String!, $followType: FollowType!) {
-    followPlayer(id: $id, followType: $followType) {
-      id
+    FollowPlayer(id: $id, followType: $followType) {
+      _id
       fullName
     }
   }

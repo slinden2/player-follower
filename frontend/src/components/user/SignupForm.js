@@ -40,12 +40,12 @@ const SignupForm = ({ history, onModal }) => {
           username,
           email,
           password,
-          recaptcha
+          recaptcha,
         },
       })
       setNotification(
         'positive',
-        `An account for ${createdUser.data.createUser.username} has been created. Before logging in, you must activate your account by clicking the activation link sent to ${email}.`,
+        `An account for ${createdUser.data.CreateUser.username} has been created. Before logging in, you must activate your account by clicking the activation link sent to ${email}.`,
         'site'
       )
       event('FORM', 'Signup Form Submit')
@@ -68,7 +68,7 @@ const SignupForm = ({ history, onModal }) => {
           email: '',
           password: '',
           confirmPassword: '',
-          recaptcha: ''
+          recaptcha: '',
         }}
         validationSchema={signupSchema}
         onSubmit={handleSignup}
@@ -80,14 +80,14 @@ const SignupForm = ({ history, onModal }) => {
           isSubmitting,
           handleChange,
           handleBlur,
-          setFieldValue
+          setFieldValue,
         }) => (
           <SForm>
             <SField>
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor='username'>Username</Label>
               <Input
-                type="text"
-                name="username"
+                type='text'
+                name='username'
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.username}
@@ -98,10 +98,10 @@ const SignupForm = ({ history, onModal }) => {
               />
             </SField>
             <SField>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor='email'>Email</Label>
               <Input
-                type="text"
-                name="email"
+                type='text'
+                name='email'
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
@@ -112,10 +112,10 @@ const SignupForm = ({ history, onModal }) => {
               />
             </SField>
             <SField>
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor='password'>Password</Label>
               <Input
-                type="password"
-                name="password"
+                type='password'
+                name='password'
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
@@ -126,10 +126,10 @@ const SignupForm = ({ history, onModal }) => {
               />
             </SField>
             <SField>
-              <Label htmlFor="confirm-password">Confirm Password</Label>
+              <Label htmlFor='confirm-password'>Confirm Password</Label>
               <Input
-                type="password"
-                name="confirmPassword"
+                type='password'
+                name='confirmPassword'
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.confirmPassword}
@@ -142,36 +142,42 @@ const SignupForm = ({ history, onModal }) => {
             <TextRow>
               Already have an account?{' '}
               {onModal ? (
-                <Link name="Log In" onClick={() => navigateTo('log in')}>
+                <Link name='Log In' onClick={() => navigateTo('log in')}>
                   Register
                 </Link>
               ) : (
-                <Link to="/login" name="Log In">
+                <Link to='/login' name='Log In'>
                   Register
                 </Link>
               )}
             </TextRow>
             <br />
-            <Notification position="form" notification={notification} />
+            <Notification position='form' notification={notification} />
             <br />
             <ReCaptchaContainer>
               <Reaptcha
                 ref={recaptchaRef}
                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
-                onVerify={(token) => setFieldValue('recaptcha', token)}
-                theme="dark"
+                onVerify={token => setFieldValue('recaptcha', token)}
+                theme='dark'
               />
             </ReCaptchaContainer>
             <FormError
               message={errors.recaptcha}
-              show={errors.recaptcha && touched.username && touched.password && touched.email && touched.confirmPassword}
+              show={
+                errors.recaptcha &&
+                touched.username &&
+                touched.password &&
+                touched.email &&
+                touched.confirmPassword
+              }
             />
             <br />
             <Button
-              type="submit"
-              size="big"
-              fontCase="uppercase"
-              content="Sign Up"
+              type='submit'
+              size='big'
+              fontCase='uppercase'
+              content='Sign Up'
               disabled={isSubmitting}
             />
           </SForm>

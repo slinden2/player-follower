@@ -38,7 +38,7 @@ const ForgotPassword = ({ history, onModal }) => {
       })
       setNotification(
         'positive',
-        `The password reset link has been set to ${newEmail.data.forgotPassword.email}. Please click the link to change your password.`,
+        `The password reset link has been set to ${newEmail.data.ForgotPassword.email}. Please click the link to change your password.`,
         'site'
       )
       event('FORM', 'Forgot Password Form Submit')
@@ -69,9 +69,9 @@ const ForgotPassword = ({ history, onModal }) => {
           return (
             <SForm>
               <SField>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor='email'>Email</Label>
                 <Input
-                  name="email"
+                  name='email'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
@@ -84,23 +84,23 @@ const ForgotPassword = ({ history, onModal }) => {
               <TextRow>
                 Already have an account?{' '}
                 {onModal ? (
-                  <Link name="Log In" onClick={() => navigateTo('log in')}>
+                  <Link name='Log In' onClick={() => navigateTo('log in')}>
                     Register
                   </Link>
                 ) : (
-                  <Link to="/login" name="Log In">
+                  <Link to='/login' name='Log In'>
                     Register
                   </Link>
                 )}
               </TextRow>
               <br />
-              <Notification position="form" notification={notification} />
+              <Notification position='form' notification={notification} />
               <br />
               <Button
-                type="submit"
-                size="big"
-                fontCase="uppercase"
-                content="Reset Password"
+                type='submit'
+                size='big'
+                fontCase='uppercase'
+                content='Reset Password'
                 disabled={isSubmitting}
               />
             </SForm>
