@@ -1,5 +1,8 @@
+/*
+Deletes tweets daily. Old tweets must be deleted before creating new ones.
+*/
+
 const mongoose = require('mongoose')
-const Job = require('../models/job')
 const Tweet = require('../models/tweet')
 const config = require('../utils/config')
 
@@ -20,7 +23,6 @@ try {
 
 const deleteJobs = async () => {
   await Tweet.deleteMany({})
-  await Job.deleteMany({})
 }
 
 deleteJobs()
