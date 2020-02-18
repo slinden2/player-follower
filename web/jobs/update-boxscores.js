@@ -1,3 +1,11 @@
+/* 
+This is a job that is supposed to be run once a week. The purpose is to check
+if the scores in the NHL API have been updated and update the Player Fan
+DB accordingly.
+
+The script run schedule is set with cron tabs server side.
+*/
+
 const mongoose = require('mongoose')
 const axios = require('axios')
 const _ = require('lodash')

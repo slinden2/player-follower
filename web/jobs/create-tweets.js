@@ -1,6 +1,10 @@
+/*
+This job needs to be run daily. Creates and saves tweets in the DB
+so that they can be published before the games start.
+*/
+
 const mongoose = require('mongoose')
 const axios = require('axios')
-const Job = require('../models/job')
 const Tweet = require('../models/tweet')
 const Team = require('../models/team')
 const config = require('../utils/config')
@@ -28,7 +32,6 @@ const createTweets = async () => {
   const { data } = await axios.get(contentUrl(date))
 
   let tweetArray = []
-  let jobArray = []
   for (const [i, game] of data.dates[0].games.entries()) {
     const awayTeam = await Team.findOne(
       { teamId: game.teams.away.team.id },
@@ -48,23 +51,9 @@ const createTweets = async () => {
         homeTeam: homeTeam._id,
       },
     ]
-
-    jobArray = [
-      ...jobArray,
-      {
-        name: `Tweet #${i}`,
-        message: {
-          taskName: 'postTweet',
-          queue: 'worker-queue',
-          dataId: i,
-        },
-        execTime: new Date(new Date(game.gameDate) - 900000),
-      },
-    ]
   }
 
   await Tweet.insertMany(tweetArray)
-  await Job.insertMany(jobArray)
 }
 
 createTweets()

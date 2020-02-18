@@ -1,3 +1,20 @@
+/*
+This job fetches the published scoring changes directly from
+@PR_NHL (NHL Public Relations) twitter account.
+
+They publish scoring changes always in the same format, for example:
+
+OFFICIAL SCORING CHANGE: Game 896
+@PredsNHL
+ at 
+@StLouisBlues
+
+Goal at 10:50 of the second period now reads Alexander Steen from Jordan Kyrou and Tyler Bozak. #NHLStats
+
+This is not so useful for Player Fan, as the scores will be rechecked weekly, but
+I still save the scoring changes in the DB just in case.
+*/
+
 const mongoose = require('mongoose')
 const Twitter = require('twitter')
 const config = require('../utils/config')
@@ -12,9 +29,9 @@ try {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  console.log('fetch-player.connected-to-db')
+  console.log('fetch-scoring-changes.connected-to-db')
 } catch (err) {
-  console.error('fetch-player.index.db-connection-error\n', err.stack)
+  console.error('fetch-scoring-changes.index.db-connection-error\n', err.stack)
   return
 }
 

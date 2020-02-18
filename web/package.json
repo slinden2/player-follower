@@ -65,8 +65,6 @@
     "nodemon": "^1.19.2"
   },
   "dependencies": {
-    "amqp-connection-manager": "^3.0.0",
-    "amqplib": "^0.5.5",
     "apollo-server": "^2.9.4",
     "apollo-server-express": "^2.9.4",
     "axios": "^0.19.0",
