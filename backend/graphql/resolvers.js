@@ -12,7 +12,6 @@ const Team = require('../models/team')
 const User = require('../models/user')
 const Token = require('../models/token')
 const SkaterBoxscore = require('../models/skater-boxscore')
-const GoalieBoxscore = require('../models/goalie-boxscore')
 const Goal = require('../models/goal')
 const validateRecaptcha = require('../utils/validate-recaptcha')
 const {

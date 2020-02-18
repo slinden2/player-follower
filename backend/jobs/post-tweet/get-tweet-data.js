@@ -1,3 +1,9 @@
+/*
+This script generates the tweet data.
+
+Gets teams and two best players based off of last 3 games.
+*/
+
 const Tweet = require('../../models/tweet')
 const Player = require('../../models/player')
 const { favoritePlayersAggregate } = require('../../graphql/pipelines')

@@ -1,3 +1,13 @@
+/* 
+This is the script that actually posts tweets in Twitter.
+
+The tweets in DB is id'd so that this script can recognize
+the tweet to be published. Obviously the ID is needed as argument
+when running this script.
+
+The run schedule is defined by crontab on server side.
+*/
+
 const mongoose = require('mongoose')
 const config = require('../../utils/config')
 const getTweetData = require('./get-tweet-data')

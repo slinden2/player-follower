@@ -1,3 +1,17 @@
+/*
+This is the core script of the application. Does all major data fetching.
+
+If this fails due to inconsistent data in the API, the fetch scripts can
+be run separately with date argument (YYYY-MM-DD).
+
+It is important to delete any partially fetched data using a utility script
+in mongo-scripts.js.
+
+When running scripts manually, make sure that you are using the correct DB
+in the env file. You probably want to use -prod db if daily_fetch on the
+server has failed.
+*/
+
 const { exec } = require('child_process')
 
 let extension = ''
