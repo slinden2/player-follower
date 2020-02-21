@@ -20,7 +20,7 @@ const favoritePlayersAggregate = require('./favorite-players-aggregate')
 const seasonStatsAggregate = require('./season-stats-aggregate')
 const bestTeamsAggregate = require('./best-teams-aggregate')
 const teamStandingsAggregate = require('./team-standings-aggregate')
-const milestonePipeline = require('../pipelines/milestonePipeline')
+const milestonePipeline = require('./pipelines/milestone-pipeline')
 const {
   convertSecsToMin,
   roundToDecimal,
