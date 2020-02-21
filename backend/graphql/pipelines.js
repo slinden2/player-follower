@@ -419,30 +419,6 @@ const playerCardSortGoalie = sortBy => {
   ]
 }
 
-const bestPlayersAggregate = (
-  numOfGames,
-  positionFilter,
-  teamFilter,
-  nationalityFilter,
-  sortBy
-) => {
-  const getSortStage =
-    positionFilter === 'GOALIE' ? playerCardSortGoalie : playerCardSort
-
-  const pipeline = [
-    ...bestPlayersPipeline(
-      numOfGames,
-      positionFilter,
-      teamFilter,
-      nationalityFilter
-    ),
-    ...reformatPlayerCardData(numOfGames),
-    ...getSortStage(sortBy),
-  ]
-
-  return pipeline
-}
-
 const favoritePlayersAggregate = (
   playerList,
   numOfGames,
@@ -524,93 +500,6 @@ const seasonStatsAggregate = (
     ),
     ...reformatSeasonStatsData(numOfGames),
     ...seasonStatsSort,
-  ]
-
-  return pipeline
-}
-
-const teamProfileAggregate = siteLink => {
-  const pipeline = [
-    {
-      $match: {
-        siteLink,
-      },
-    },
-    {
-      $lookup: {
-        from: 'players',
-        localField: 'players',
-        foreignField: '_id',
-        as: 'populatedPlayers',
-      },
-    },
-    { $unwind: '$populatedPlayers' },
-    {
-      $lookup: {
-        from: 'skaterboxscores',
-        localField: 'populatedPlayers.boxscores',
-        foreignField: '_id',
-        as: 'populatedBoxscores',
-      },
-    },
-    {
-      $project: {
-        playerId: '$populatedPlayers._id',
-        populatedBoxscores: 1,
-      },
-    },
-    {
-      $unwind: '$populatedBoxscores',
-    },
-    ...calculateStats('playerId'),
-    {
-      $project: {
-        players: '$$ROOT',
-      },
-    },
-    {
-      $lookup: {
-        from: 'players',
-        localField: '_id',
-        foreignField: '_id',
-        as: 'player',
-      },
-    },
-    {
-      $lookup: {
-        from: 'teams',
-        localField: 'player.currentTeam',
-        foreignField: '_id',
-        as: 'team',
-      },
-    },
-    {
-      $addFields: {
-        'players.firstName': { $arrayElemAt: ['$player.firstName', 0] },
-        'players.lastName': { $arrayElemAt: ['$player.lastName', 0] },
-        'players.siteLink': { $arrayElemAt: ['$player.siteLink', 0] },
-        'players.position': { $arrayElemAt: ['$player.primaryPosition', 0] },
-      },
-    },
-    {
-      $project: {
-        players: 1,
-        player: { $arrayElemAt: ['$player', 0] },
-        team: { $arrayElemAt: ['$team', 0] },
-      },
-    },
-    {
-      $group: {
-        _id: '$team._id',
-        conference: { $first: '$team.conference' },
-        division: { $first: '$team.division' },
-        teamId: { $first: '$team.teamid' },
-        siteLink: { $first: '$team.siteLink' },
-        name: { $first: '$team.name' },
-        abbreviation: { $first: '$team.abbreviation' },
-        players: { $push: '$players' },
-      },
-    },
   ]
 
   return pipeline
@@ -982,10 +871,8 @@ const bestTeamsAggregate = numOfGames => {
 }
 
 module.exports = {
-  bestPlayersAggregate,
   favoritePlayersAggregate,
   seasonStatsAggregate,
-  teamProfileAggregate,
   teamStandingsAggregate,
   bestTeamsAggregate,
 }
