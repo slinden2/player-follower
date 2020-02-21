@@ -14,12 +14,12 @@ const Token = require('../models/token')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const Goal = require('../models/goal')
 const validateRecaptcha = require('../utils/validate-recaptcha')
-const { teamStandingsAggregate } = require('./pipelines')
 const profileAggregate = require('./profile-aggregate')
 const bestPlayersAggregate = require('./best-players-aggregate')
 const favoritePlayersAggregate = require('./favorite-players-aggregate')
 const seasonStatsAggregate = require('./season-stats-aggregate')
 const bestTeamsAggregate = require('./best-teams-aggregate')
+const teamStandingsAggregate = require('./team-standings-aggregate')
 const milestonePipeline = require('../pipelines/milestonePipeline')
 const {
   convertSecsToMin,
