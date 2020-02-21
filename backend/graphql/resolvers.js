@@ -15,13 +15,13 @@ const SkaterBoxscore = require('../models/skater-boxscore')
 const Goal = require('../models/goal')
 const validateRecaptcha = require('../utils/validate-recaptcha')
 const {
-  favoritePlayersAggregate,
   seasonStatsAggregate,
   teamStandingsAggregate,
   bestTeamsAggregate,
 } = require('./pipelines')
 const profileAggregate = require('./profile-aggregate')
 const bestPlayersAggregate = require('./best-players-aggregate')
+const favoritePlayersAggregate = require('./favorite-players-aggregate')
 const milestonePipeline = require('../pipelines/milestonePipeline')
 const {
   convertSecsToMin,

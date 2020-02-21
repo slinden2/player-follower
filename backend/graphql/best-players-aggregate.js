@@ -1,24 +1,6 @@
 const bestPlayersPipeline = require('./pipelines/best-players-pipeline')
 const reformatPlayerCardData = require('./pipelines/reformat-player-card-data')
-
-const playerCardSort = sortBy => {
-  const sortArg =
-    sortBy === 'points'
-      ? { [`stats.${sortBy}`]: -1 }
-      : { [`stats.${sortBy}`]: -1, 'stats.points': -1 }
-
-  return [
-    {
-      $sort: {
-        ...sortArg,
-        'stats.goals': -1,
-        'stats.plusMinus': -1,
-        'player.lastName': 1,
-      },
-    },
-    { $limit: 50 },
-  ]
-}
+const playerCardSort = require('./pipelines/player-card-sort')
 
 const playerCardSortGoalie = sortBy => {
   const sortArg =

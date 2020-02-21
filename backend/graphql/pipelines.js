@@ -419,33 +419,6 @@ const playerCardSortGoalie = sortBy => {
   ]
 }
 
-const favoritePlayersAggregate = (
-  playerList,
-  numOfGames,
-  positionFilter,
-  teamFilter,
-  nationalityFilter,
-  sortBy
-) => {
-  const pipeline = [
-    {
-      $match: {
-        _id: { $in: playerList },
-      },
-    },
-    ...bestPlayersPipeline(
-      numOfGames,
-      positionFilter,
-      teamFilter,
-      nationalityFilter
-    ),
-    ...reformatPlayerCardData(numOfGames),
-    ...playerCardSort(sortBy),
-  ]
-
-  return pipeline
-}
-
 const seasonStatsAggregate = (
   positionFilter,
   teamFilter,
@@ -871,7 +844,6 @@ const bestTeamsAggregate = numOfGames => {
 }
 
 module.exports = {
-  favoritePlayersAggregate,
   seasonStatsAggregate,
   teamStandingsAggregate,
   bestTeamsAggregate,
