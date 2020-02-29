@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const resetDb = async () => {
+const resetDb = () => {
   mongoose.connect(
     config.MONGODB_URI,
     {
@@ -21,9 +21,14 @@ const resetDb = async () => {
       console.log('reset-db.dropping-database')
       mongoose.connection.db.dropDatabase()
       console.log('reset-db.database-dropped')
-      process.exit(0)
+      mongoose.connection.close()
     }
   )
 }
+
+mongoose.connection.on('disconnected', () => {
+  console.log('reset-db.closing-connection')
+  process.exit(0)
+})
 
 resetDb()
