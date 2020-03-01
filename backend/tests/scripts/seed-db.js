@@ -5,11 +5,13 @@ const User = require('../../models/user')
 const Conference = require('../../models/conference')
 const Division = require('../../models/division')
 const Team = require('../../models/team')
+const Player = require('../../models/player')
 const {
   testUser,
   testConferences,
   testDivisions,
   testTeams,
+  testPlayers,
 } = require('./db-seed-data')
 
 if (process.env.NODE_ENV !== 'test') {
@@ -136,11 +138,45 @@ const createTeams = async () => {
   await Promise.all([...confPromises, ...divPromises])
 }
 
+const createPlayers = async () => {
+  const teams = await Team.find({})
+
+  // Add team id's to players
+  const playerData = testPlayers.map(player => {
+    const teamObj = teams.find(team => team.teamId === player.teamId)
+
+    return {
+      ...player,
+      currentTeam: teamObj._id,
+    }
+  })
+
+  // Add players to the db
+  const newPlayers = await Player.insertMany(playerData)
+
+  // Add players to teams
+  const newTeams = teams.map(team => {
+    const players = newPlayers.filter(
+      player => String(player.currentTeam) === String(team._id)
+    )
+
+    team.players = players.map(team => team._id)
+    return team
+  })
+
+  // Create promises for saving
+  const teamPromises = newTeams.map(team => team.save())
+
+  // Save teams
+  await Promise.all(teamPromises)
+}
+
 const runSeed = async () => {
   await createTestUser()
   await createConferences()
   await createDivisions()
   await createTeams()
+  await createPlayers()
 }
 
 runSeed()
