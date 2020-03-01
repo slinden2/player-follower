@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt')
 const config = require('../../utils/config')
 const User = require('../../models/user')
 const Conference = require('../../models/conference')
-const { testUser, testConferences } = require('./db-seed-data')
+const Division = require('../../models/division')
+const { testUser, testConferences, testDivisions } = require('./db-seed-data')
 
 if (process.env.NODE_ENV !== 'test') {
   throw new Error('This script runs only in testing context.')
@@ -46,9 +47,43 @@ const createConferences = async () => {
   await Conference.insertMany(testConferences)
 }
 
+const createDivisions = async () => {
+  const conferences = await Conference.find({})
+
+  // Add conference id's in the division data
+  const divisionData = testDivisions.map(division => {
+    const conference = conferences.find(
+      conference => conference.conferenceId === division.conferenceId
+    )
+    return {
+      ...division,
+      conference: conference._id,
+    }
+  })
+
+  // Save divisions
+  const divisions = await Division.insertMany(divisionData)
+
+  // Save division id's in the conference data
+  const newConferences = conferences.map(conference => {
+    const confDivisions = divisions.filter(
+      division => String(division.conference) === String(conference._id)
+    )
+
+    conference.divisions = confDivisions
+
+    return conference
+  })
+
+  // Save conferences with division id's in the db
+  const confPromises = newConferences.map(conf => conf.save())
+  await Promise.all(confPromises)
+}
+
 const runSeed = async () => {
   await createTestUser()
   await createConferences()
+  await createDivisions()
 }
 
 runSeed()

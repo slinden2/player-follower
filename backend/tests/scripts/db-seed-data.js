@@ -32,6 +32,7 @@ const testDivisions = [
     shortName: 'ATL',
     abbreviation: 'A',
     active: true,
+    conferenceId: 6,
   },
   {
     divisionId: 16,
@@ -40,6 +41,7 @@ const testDivisions = [
     shortName: 'CEN',
     abbreviation: 'C',
     active: true,
+    conferenceId: 5,
   },
   {
     divisionId: 18,
@@ -48,6 +50,7 @@ const testDivisions = [
     shortName: 'Metro',
     abbreviation: 'M',
     active: true,
+    conferenceId: 6,
   },
   {
     divisionId: 15,
@@ -56,6 +59,7 @@ const testDivisions = [
     shortName: 'PAC',
     abbreviation: 'P',
     active: true,
+    conferenceId: 5,
   },
 ]
 

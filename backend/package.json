@@ -52,7 +52,8 @@
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
     "server": "json-server -p3001 --watch db.json",
     "db:reset": "cross-env NODE_ENV=test node tests/scripts/reset-db.js",
-    "db:seed": "cross-env NODE_ENV=test node tests/scripts/seed-db.js"
+    "db:seed": "cross-env NODE_ENV=test node tests/scripts/seed-db.js",
+    "db:reseed": "cross-env NODE_ENV=test node tests/scripts/reset-db.js && cross-env NODE_ENV=test node tests/scripts/seed-db.js"
   },
   "author": "Samu Linden",
   "license": "MIT",
