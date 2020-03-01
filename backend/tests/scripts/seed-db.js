@@ -4,7 +4,13 @@ const config = require('../../utils/config')
 const User = require('../../models/user')
 const Conference = require('../../models/conference')
 const Division = require('../../models/division')
-const { testUser, testConferences, testDivisions } = require('./db-seed-data')
+const Team = require('../../models/team')
+const {
+  testUser,
+  testConferences,
+  testDivisions,
+  testTeams,
+} = require('./db-seed-data')
 
 if (process.env.NODE_ENV !== 'test') {
   throw new Error('This script runs only in testing context.')
@@ -80,10 +86,61 @@ const createDivisions = async () => {
   await Promise.all(confPromises)
 }
 
+const createTeams = async () => {
+  const conferences = await Conference.find({})
+  const divisions = await Division.find({})
+
+  // Add conference and division id's to team objects
+  const teamData = testTeams.map(team => {
+    const conferenceObj = conferences.find(
+      conference => conference.conferenceId === team.conferenceId
+    )
+    const divisionObj = divisions.find(
+      division => division.divisionId === team.divisionId
+    )
+
+    return {
+      ...team,
+      conference: conferenceObj._id,
+      division: divisionObj._id,
+    }
+  })
+
+  const newTeams = await Team.insertMany(teamData)
+
+  // Add teams to conferences
+  const newConferences = conferences.map(conference => {
+    const teams = newTeams.filter(
+      team => String(team.conference) === String(conference._id)
+    )
+
+    conference.teams = teams.map(team => team._id)
+    return conference
+  })
+
+  // Add teams to divisions
+  const newDivisions = divisions.map(division => {
+    const teams = newTeams.filter(
+      team => String(team.division) === String(division._id)
+    )
+
+    division.teams = teams.map(team => team._id)
+    return division
+  })
+
+  // Create promises for saving
+  const confPromises = newConferences.map(conf => conf.save())
+  const divPromises = newDivisions.map(div => div.save())
+
+  // Save conferences and divisions
+  await Promise.all([...confPromises, ...divPromises])
+}
+
 const runSeed = async () => {
   await createTestUser()
   await createConferences()
   await createDivisions()
+  await createTeams()
 }
 
 runSeed()
