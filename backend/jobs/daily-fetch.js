@@ -14,18 +14,23 @@ server has failed.
 
 const { exec } = require('child_process')
 
-let extension = ''
+let envExt = ''
+let dateExt = ''
+
+if (process.argv.length > 2) {
+  dateExt = ` ${process.argv[2]}`
+}
 
 if (process.env.NODE_ENV === 'production') {
-  extension = '_prod'
+  envExt = '_prod'
 }
 
 const tasks = [
-  `npm run reset_script_states${extension}`,
-  `npm run fetch_games${extension}`,
-  `npm run fetch_boxscores${extension}`,
-  `npm run fetch_goals${extension}`,
-  `npm run fetch_linescores${extension}`,
+  `npm run reset_script_states${envExt}`,
+  `npm run fetch_games${envExt}${dateExt}`,
+  `npm run fetch_boxscores${envExt}${dateExt}`,
+  `npm run fetch_goals${envExt}${dateExt}`,
+  `npm run fetch_linescores${envExt}${dateExt}`,
 ]
 
 const loadProcess = process => {
