@@ -6,6 +6,9 @@ const Conference = require('../../models/conference')
 const Division = require('../../models/division')
 const Team = require('../../models/team')
 const Player = require('../../models/player')
+const Linescore = require('../../models/linescore')
+const SkaterBoxscore = require('../../models/skater-boxscore')
+const GoalieBoxscore = require('../../models/goalie-boxscore')
 const {
   testUser,
   testConferences,
@@ -13,6 +16,8 @@ const {
   testTeams,
   testPlayers,
 } = require('./db-seed-data')
+const testLinescores = require('./db-seed-linescore-data')
+const testBoxscores = require('./db-seed-boxscore-data')
 
 if (process.env.NODE_ENV !== 'test') {
   throw new Error('This script runs only in testing context.')
@@ -171,12 +176,101 @@ const createPlayers = async () => {
   await Promise.all(teamPromises)
 }
 
+const createLinescores = async () => {
+  const teams = await Team.find({}, { teamId: 1 })
+
+  // Replaces team and opponentId fields with MongoDB id's
+  const linescores = testLinescores.map(linescore => {
+    const team = teams.find(team => team.teamId === linescore.team)
+    const opponent = teams.find(team => team.teamId === linescore.opponentId)
+
+    return {
+      ...linescore,
+      team: team._id,
+      opponentId: opponent._id,
+    }
+  })
+
+  const savedLinescores = await Linescore.insertMany(linescores)
+
+  // Save new linescores id's to the teams.
+  let teamPromises = []
+  teams.forEach(team => {
+    const linescores = savedLinescores.filter(
+      linescore => String(linescore.team) === String(team._id)
+    )
+
+    team.linescores = linescores
+
+    teamPromises = [...teamPromises, team.save()]
+  })
+
+  await Promise.all(teamPromises)
+}
+
+const createBoxscores = async () => {
+  const players = await Player.find({})
+  const teams = await Team.find({})
+
+  // Add mongodb id's to the boxscore objects
+  const boxscores = testBoxscores.map(boxscore => {
+    const homeTeam = teams.find(team => team.teamId === boxscore.homeTeam)
+    const awayTeam = teams.find(team => team.teamId === boxscore.awayTeam)
+    const player = players.find(player => player.playerId === boxscore.player)
+
+    return {
+      ...boxscore,
+      homeTeam: homeTeam._id,
+      awayTeam: awayTeam._id,
+      player: player._id,
+    }
+  })
+
+  // Get only skater boxscores
+  const skaterBoxscores = boxscores.filter(
+    boxscore => boxscore.saves === undefined
+  )
+
+  // Get only goalie boxscores
+  const goalieBoxscores = boxscores.filter(
+    boxscore => boxscore.saves !== undefined
+  )
+
+  const newSkaterBoxscores = await SkaterBoxscore.insertMany(skaterBoxscores)
+  const newGoalieBoxscores = await GoalieBoxscore.insertMany(goalieBoxscores)
+
+  let playerPromises = []
+
+  // Add boxscores in an array under every skater and goalie
+  players.forEach(player => {
+    let boxscores = []
+    const isGoalie = player.primaryPosition === 'G'
+
+    if (isGoalie) {
+      boxscores = newGoalieBoxscores.filter(
+        boxscore => String(boxscore.player) === String(player._id)
+      )
+    } else {
+      boxscores = newSkaterBoxscores.filter(
+        boxscore => String(boxscore.player) === String(player._id)
+      )
+    }
+
+    player.boxscores = boxscores
+    playerPromises = [...playerPromises, player.save()]
+  })
+
+  await Promise.all(playerPromises)
+}
+
 const runSeed = async () => {
   await createTestUser()
   await createConferences()
   await createDivisions()
   await createTeams()
   await createPlayers()
+  await createLinescores()
+  await createBoxscores()
 }
 
 runSeed()
