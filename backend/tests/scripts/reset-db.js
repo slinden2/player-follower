@@ -1,3 +1,7 @@
+/*
+Resets the test db completely by dropping it.
+*/
+
 const mongoose = require('mongoose')
 const config = require('../../utils/config')
 

@@ -1,3 +1,10 @@
+/*
+This is the test db seeder script.
+
+After resetting the testing db, this script rebuilds it
+completely.
+*/
+
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const config = require('../../utils/config')
