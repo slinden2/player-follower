@@ -43,3 +43,23 @@ Cypress.Commands.add('login', (credentials, disableCookies) => {
     .get('[type=submit]')
     .click()
 })
+
+Cypress.Commands.add('fastLogin', () => {
+  const query = `
+  mutation {
+    Login(username: "TeroTestaaja", password: "salasana") {
+      value
+      __typename
+    }
+  }
+  `
+
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3000/graphql',
+    body: { query },
+  }).then(res => {
+    cy.setCookie('funcConsent', 'true')
+    cy.setCookie('user', res.body.data.Login.value)
+  })
+})
