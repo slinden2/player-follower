@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (credentials, disableCookies) => {
+  const username = credentials ? credentials.username : 'TeroTestaaja'
+  const password = credentials ? credentials.password : 'salasana'
+
+  // Accept cookies to be able to log in
+  if (!disableCookies) cy.setCookie('funcConsent', 'true')
+
+  cy.get('form')
+    .get('[name=username')
+    .type(username)
+
+  cy.get('form')
+    .get('[name=password')
+    .type(password)
+
+  cy.get('form')
+    .get('[type=submit]')
+    .click()
+})

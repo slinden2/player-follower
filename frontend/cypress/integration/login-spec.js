@@ -44,13 +44,7 @@ describe('/login', () => {
   })
 
   it('requires cookies to be accepted to log in', () => {
-    cy.get('form')
-      .get('[name=username')
-      .type('TeroTestaaja')
-
-    cy.get('form')
-      .get('[name=password')
-      .type('salasana{enter}')
+    cy.login(undefined, true)
 
     cy.get('form')
       .get('[data-cy=form-notification-container]')
@@ -58,16 +52,7 @@ describe('/login', () => {
   })
 
   it('requires valid username and password', () => {
-    // Accept cookies to be able to log in
-    cy.setCookie('funcConsent', 'true')
-
-    cy.get('form')
-      .get('[name=username')
-      .type('test')
-
-    cy.get('form')
-      .get('[name=password')
-      .type('test{enter}')
+    cy.login({ username: 'test', password: 'test' })
 
     cy.get('form')
       .get('[data-cy=form-notification-container]')
@@ -75,17 +60,9 @@ describe('/login', () => {
   })
 
   it("is possible to login without 'remember me'", () => {
-    cy.setCookie('funcConsent', 'true')
-
     cy.get('[name=rememberMe').uncheck()
 
-    cy.get('form')
-      .get('[name=username')
-      .type('TeroTestaaja')
-
-    cy.get('form')
-      .get('[name=password')
-      .type('salasana{enter}')
+    cy.login()
 
     cy.getCookie('user')
       .its('expiry')
@@ -93,22 +70,7 @@ describe('/login', () => {
   })
 
   it('navigates to / after a successfull login', () => {
-    // Accept cookies to be able to log in
-    cy.setCookie('funcConsent', 'true')
-
-    cy.get('form')
-      .get('[name=username')
-      .type('TeroTestaaja')
-
-    cy.get('form')
-      .get('[name=password')
-      .type('salasana')
-
-    // cy.get('[name=rememberMe').uncheck()
-
-    cy.get('form')
-      .get('[type=submit]')
-      .click()
+    cy.login()
 
     // Redirect to home page
     cy.url().should('eq', Cypress.config().baseUrl + '/')
