@@ -61,9 +61,10 @@ const CookiePolicy = ({ setCookieConsent }) => {
     [setCookieConsent]
   )
 
-  useEffect(() => {
-    window.addEventListener('scroll', setCookies)
-  }, [setCookies])
+  // This enables cookie auto-accept when scrolling
+  // useEffect(() => {
+  //   window.addEventListener('scroll', setCookies)
+  // }, [setCookies])
 
   if (getCookie('funcConsent')) {
     window.removeEventListener('scroll', setCookies)
@@ -78,11 +79,12 @@ const CookiePolicy = ({ setCookieConsent }) => {
         scrolling the page or by continuing to browse otherwise.{' '}
       </Text>
       <LinkContainer>
-        <Link to="/privacy-policy" name="Learn more" />
+        <Link to='/privacy-policy' name='Learn more' />
       </LinkContainer>
       <ConsentButton
-        content="Accept"
-        size="medium"
+        content='Accept'
+        size='medium'
+        dataCy='cookie-accept-button'
         onClick={() => setCookies('accept')}
       />
     </Container>

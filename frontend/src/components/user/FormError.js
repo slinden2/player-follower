@@ -20,7 +20,11 @@ const Container = styled.div`
 `
 
 const FormError = ({ message, show }) => {
-  return <Container show={show}>{message}</Container>
+  return (
+    <Container show={show} data-cy='form-error'>
+      {message}
+    </Container>
+  )
 }
 
 export default FormError

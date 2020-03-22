@@ -12,7 +12,6 @@ const Btn = styled.button`
   text-transform: ${({ textTransform }) => textTransform};
   font-size: 1rem;
   letter-spacing: 1px;
-  
 
   &:hover {
     text-shadow: 0 0 1px ${colors.white1}, 0 0 1px ${colors.white1};
@@ -34,6 +33,7 @@ const Button = ({
   disabled,
   style,
   className,
+  dataCy,
 }) => {
   const padding = size === 'big' ? '1em' : size === 'medium' ? '0.875em' : '5px'
   const textTransform = fontCase ? fontCase : 'none'
@@ -50,6 +50,7 @@ const Button = ({
       disabled={disabled}
       style={style}
       className={className}
+      data-cy={dataCy}
     >
       {content}
     </Btn>

@@ -29,9 +29,13 @@ const Notification = ({ position, notification }) => {
   const type = typeSelector[notification.type]
 
   return position === 'form' ? (
-    <FormContainer {...type}>{notification.message}</FormContainer>
+    <FormContainer {...type} data-cy='form-notification-container'>
+      {notification.message}
+    </FormContainer>
   ) : (
-    <GlobalContainer {...type}>{notification.message}</GlobalContainer>
+    <GlobalContainer {...type} data-cy='notification-container'>
+      {notification.message}
+    </GlobalContainer>
   )
 }
 
