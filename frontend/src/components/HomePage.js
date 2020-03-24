@@ -67,11 +67,11 @@ const HomePage = () => {
 
   return (
     <PageContainer title='Welcome to Player Fan'>
-      <LastUpdated>
+      <LastUpdated data-cy='last-updated'>
         <p>Last update</p>
         <p>{date}</p>
       </LastUpdated>
-      <RowContainer>
+      <RowContainer data-cy='top-skater-container'>
         <Title>Top Skaters of the Last 5 Games</Title>
         <PlayerCardContainer
           query={bestPlayers}
@@ -79,7 +79,7 @@ const HomePage = () => {
           numOfCards={5}
         />
       </RowContainer>
-      <RowContainer>
+      <RowContainer data-cy='top-goalie-container'>
         <Title>Top Goalies of the Last 5 Games</Title>
         <PlayerCardContainer
           query={bestGoalies}
@@ -87,7 +87,7 @@ const HomePage = () => {
           numOfCards={5}
         />
       </RowContainer>
-      <RowContainer>
+      <RowContainer data-cy='top-team-container'>
         <Title>Top Teams of the Last 10 Games</Title>
         <TeamCardContainer
           numOfGames={10}
