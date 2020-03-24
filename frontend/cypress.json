@@ -1,3 +1,6 @@
 {
-  "baseUrl": "http://localhost:3000"
+  "baseUrl": "http://localhost:3000",
+  "username": "TeroTestaaja",
+  "password": "salasana1",
+  "email": "tero@testaaja.com"
 }
