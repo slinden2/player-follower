@@ -66,3 +66,5 @@ typings/
 scribble.js
 */mongo.js
 backend/jobs/mongo-scripts.js
+*/cypress/videos/
+*/cypress/screenshots/
