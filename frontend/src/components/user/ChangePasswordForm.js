@@ -35,7 +35,7 @@ const ChangePasswordForm = ({ setShowForm }) => {
   }
 
   return (
-    <Container>
+    <Container data-cy='change-pw-form-container'>
       <Formik
         initialValues={{
           oldPassword: '',
@@ -56,10 +56,10 @@ const ChangePasswordForm = ({ setShowForm }) => {
           return (
             <SForm>
               <SField>
-                <Label htmlFor="oldPassword">Old Password</Label>
+                <Label htmlFor='oldPassword'>Old Password</Label>
                 <Input
-                  name="oldPassword"
-                  type="password"
+                  name='oldPassword'
+                  type='password'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.oldPassword}
@@ -70,10 +70,10 @@ const ChangePasswordForm = ({ setShowForm }) => {
                 />
               </SField>
               <SField>
-                <Label htmlFor="newPassword">New Password</Label>
+                <Label htmlFor='newPassword'>New Password</Label>
                 <Input
-                  name="newPassword"
-                  type="password"
+                  name='newPassword'
+                  type='password'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.newPassword}
@@ -84,10 +84,10 @@ const ChangePasswordForm = ({ setShowForm }) => {
                 />
               </SField>
               <SField>
-                <Label htmlFor="confirmNewPassword">Confirm New Password</Label>
+                <Label htmlFor='confirmNewPassword'>Confirm New Password</Label>
                 <Input
-                  name="confirmNewPassword"
-                  type="password"
+                  name='confirmNewPassword'
+                  type='password'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.confirmNewPassword}
@@ -98,14 +98,15 @@ const ChangePasswordForm = ({ setShowForm }) => {
                 />
               </SField>
               <br />
-              <Notification position="form" notification={notification} />
+              <Notification position='form' notification={notification} />
               <br />
               <Button
-                type="submit"
-                size="big"
-                fontCase="uppercase"
-                content="Change Password"
+                type='submit'
+                size='big'
+                fontCase='uppercase'
+                content='Change Password'
                 disabled={isSubmitting}
+                dataCy='change-pw-form-btn'
               />
             </SForm>
           )

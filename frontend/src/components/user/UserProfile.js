@@ -54,7 +54,7 @@ const UserProfile = () => {
             {userProfileHeadersToShow.map(header => (
               <TableRow key={header}>
                 <HeaderCell>{userProfileHeaders[header].headerText}</HeaderCell>
-                <TableCell>{userData[userProfileHeaders[header].id]}</TableCell>
+                <TableCell data-cy="user-data">{userData[userProfileHeaders[header].id]}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -65,6 +65,7 @@ const UserProfile = () => {
           onClick={() => setShowForm(!showForm)}
           style={{ margin: '0 auto', display: 'block' }}
           color={showForm && colors.red1}
+          dataCy="change-password-btn"
         />
         {showForm && <ChangePasswordForm setShowForm={setShowForm} />}
       </ContentWrapper>
