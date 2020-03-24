@@ -1,7 +1,7 @@
 const testUser = {
   username: 'TeroTestaaja',
   email: 'tero@testaaja.com',
-  password: 'salasana',
+  password: 'salasana1',
   isVerified: true,
 }
 

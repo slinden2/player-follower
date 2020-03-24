@@ -25,8 +25,12 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('login', (credentials, disableCookies) => {
-  const username = credentials ? credentials.username : 'TeroTestaaja'
-  const password = credentials ? credentials.password : 'salasana'
+  const username = credentials
+    ? credentials.username
+    : Cypress.config().username
+  const password = credentials
+    ? credentials.password
+    : Cypress.config().password
 
   // Accept cookies to be able to log in
   if (!disableCookies) cy.setCookie('funcConsent', 'true')
@@ -47,7 +51,9 @@ Cypress.Commands.add('login', (credentials, disableCookies) => {
 Cypress.Commands.add('fastLogin', () => {
   const query = `
   mutation {
-    Login(username: "TeroTestaaja", password: "salasana") {
+    Login(username: "${Cypress.config().username}", password: "${
+    Cypress.config().password
+  }") {
       value
       __typename
     }
@@ -56,7 +62,7 @@ Cypress.Commands.add('fastLogin', () => {
 
   cy.request({
     method: 'POST',
-    url: 'http://localhost:3000/graphql',
+    url: Cypress.config().baseUrl + '/graphql',
     body: { query },
   }).then(res => {
     cy.setCookie('funcConsent', 'true')
