@@ -4,6 +4,7 @@ describe('Player Fan App', () => {
   beforeEach(() => {
     cy.visit('/', {
       onBeforeLoad(win) {
+        // Set browser lang to English for uniform data/time formatting
         Object.defineProperty(win.navigator, 'language', {
           value: 'en',
         })
