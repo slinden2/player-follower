@@ -1,20 +1,15 @@
 import ReactGA from 'react-ga'
 import ReactPixel from 'react-facebook-pixel'
 import { getCookie, setCookie } from '../utils/index'
+import config from '../config'
 
 export const initGA = () => {
   if (getCookie('gaConsent')) {
-    const gaId =
-      process.env.NODE_ENV === 'production'
-        ? process.env.REACT_APP_GA_TRACKING_ID_PROD
-        : process.env.REACT_APP_GA_TRACKING_ID_DEV
+    ReactGA.initialize(config.GA_TRACKING_ID)
 
-    ReactGA.initialize(gaId)
-
-    const fbPixel =
-      process.env.NODE_ENV === 'production' && process.env.REACT_APP_FB_PIXEL_ID
-
-    ReactPixel.init(fbPixel)
+    if (process.env.NODE_ENV === 'production') {
+      ReactPixel.init(config.FB_PIXEL_ID)
+    }
 
     // fl (first load) cookie allows to record the first pageview after accepting cookies
     if (!getCookie('fl')) {

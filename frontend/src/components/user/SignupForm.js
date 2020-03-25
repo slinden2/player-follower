@@ -20,6 +20,7 @@ import Link from '../elements/StyledLink'
 import Button from '../elements/Button'
 import Notification from '../Notification'
 import { ModalContext } from '../../contexts/ModalContext'
+import config from '../../config'
 
 const SignupForm = ({ history, onModal }) => {
   const { closeModal, navigateTo } = useContext(ModalContext)
@@ -157,7 +158,7 @@ const SignupForm = ({ history, onModal }) => {
             <ReCaptchaContainer>
               <Reaptcha
                 ref={recaptchaRef}
-                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
+                sitekey={config.RECAPTCHA_SITE_KEY}
                 onVerify={token => setFieldValue('recaptcha', token)}
                 theme='dark'
               />
