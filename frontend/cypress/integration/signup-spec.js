@@ -9,7 +9,7 @@ describe('/signup', () => {
     cy.contains('h1', 'Sign Up')
   })
 
-  it('links to /login', () => {
+  it('links to /signup', () => {
     cy.contains('Log In').should('have.attr', 'href', '/login')
   })
 
@@ -109,5 +109,39 @@ describe('/signup', () => {
       .type('hattivatti1')
     cy.contains('h1', 'Sign Up').click()
     cy.get('[data-cy=form-error]').should('not.be.visible')
+  })
+
+  it('requires username and email to be unique', () => {
+    cy.fillSignupForm(
+      Cypress.config().username,
+      'new@email.com',
+      Cypress.config().password
+    )
+    cy.get('[data-cy=form-notification-container]').should(
+      'contain',
+      'Username or email is taken'
+    )
+
+    cy.fillSignupForm(
+      'TatuTestaaja',
+      Cypress.config().email,
+      Cypress.config().password
+    )
+    cy.get('[data-cy=form-notification-container]').should(
+      'contain',
+      'Username or email is taken'
+    )
+  })
+
+  it('is possible to create a new user', () => {
+    cy.fillSignupForm(
+      'TatuTestaaja',
+      'tatu@testaaja.com',
+      Cypress.config().password
+    )
+    cy.get('[data-cy=notification-container]').should(
+      'contain',
+      'An account for TatuTestaaja has been created. Before logging in, you must activate your account by clicking the activation link sent to tatu@testaaja.com'
+    )
   })
 })

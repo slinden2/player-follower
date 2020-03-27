@@ -69,3 +69,13 @@ Cypress.Commands.add('fastLogin', () => {
     cy.setCookie('user', res.body.data.Login.value)
   })
 })
+
+Cypress.Commands.add('fillSignupForm', (username, email, password) => {
+  cy.get('input[name=username]').type(username)
+  cy.get('input[name=email]').type(email)
+  cy.get('input[name=password]').type(password)
+  cy.get('input[name=confirmPassword]').type(password)
+  cy.get('form')
+    .contains('button', 'Sign Up')
+    .click()
+})

@@ -262,7 +262,10 @@ const resolvers = {
       })
       const savedToken = await verificationToken.save()
       const savedUser = await user.save()
-      sendVerificationEmail(user.email, savedToken.token)
+      // Omit verification email when testing
+      if (process.env.NODE_ENV !== 'test') {
+        sendVerificationEmail(user.email, savedToken.token)
+      }
       return savedUser
     },
     VerifyUser: async (root, args) => {
