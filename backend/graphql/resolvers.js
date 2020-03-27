@@ -233,6 +233,7 @@ const resolvers = {
   Mutation: {
     CreateUser: async (root, args) => {
       const { username, password, email, recaptcha } = args
+      // Recaptcha returns always success in development and testing envs.
       await validateRecaptcha(recaptcha)
       const existingUser = await User.findOne({
         $or: [{ usernameLower: username.toLowerCase() }, { email }],

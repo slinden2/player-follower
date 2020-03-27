@@ -1,9 +1,10 @@
 const axios = require('axios')
 const querystring = require('querystring')
+const config = require('./config')
 
 const validateRecaptcha = async token => {
   const recaptchaQuery = querystring.stringify({
-    secret: process.env.RECAPTCHA_SECRET_V2,
+    secret: config.RECAPTCHA_SECRET,
     response: token,
   })
 
