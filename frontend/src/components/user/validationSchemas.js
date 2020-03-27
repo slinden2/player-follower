@@ -51,13 +51,22 @@ const password = yup
 
 const recaptcha = yup.string().required('Please select "I\'m not a robot."')
 
-export const signupSchema = yup.object().shape({
-  username,
-  email,
-  password,
-  confirmPassword,
-  recaptcha
-})
+export const signupSchema =
+  // recaptcha required solo in production
+  process.env.NODE_ENV === 'production'
+    ? yup.object().shape({
+        username,
+        email,
+        password,
+        confirmPassword,
+        recaptcha,
+      })
+    : yup.object().shape({
+        username,
+        email,
+        password,
+        confirmPassword,
+      })
 
 export const loginSchema = yup.object().shape({
   username: yup.string().required('Username or email is required.'),
@@ -84,5 +93,5 @@ export const contactSchema = yup.object().shape({
   email,
   subject,
   message,
-  recaptcha
+  recaptcha,
 })
