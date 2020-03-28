@@ -123,7 +123,7 @@ describe('/signup', () => {
     )
 
     cy.fillSignupForm(
-      'TatuTestaaja',
+      Cypress.config().username2,
       Cypress.config().email,
       Cypress.config().password
     )
@@ -135,8 +135,8 @@ describe('/signup', () => {
 
   it('is possible to create a new user', () => {
     cy.fillSignupForm(
-      'TatuTestaaja',
-      'tatu@testaaja.com',
+      Cypress.config().username2,
+      Cypress.config().email2,
       Cypress.config().password
     )
     cy.get('[data-cy=notification-container]').should(

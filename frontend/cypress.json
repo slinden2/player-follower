@@ -2,5 +2,7 @@
   "baseUrl": "http://localhost:3000",
   "username": "TeroTestaaja",
   "password": "salasana1",
-  "email": "tero@testaaja.com"
+  "email": "tero@testaaja.com",
+  "username2": "TatuTestaaja",
+  "email2": "tatu@testaaja.com"
 }
