@@ -3,9 +3,11 @@ const { ApolloServer } = require('apollo-server-express')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const path = require('path')
+const _ = require('lodash')
 const config = require('./utils/config')
 const typeDefs = require('./graphql/schema')
-const resolvers = require('./graphql/resolvers')
+const resolversProd = require('./graphql/resolvers')
+const resolversTest = require('./graphql/resolvers-test')
 const User = require('./models/user')
 
 console.log('connecting to the DB')
@@ -23,6 +25,12 @@ mongoose
   .catch(error => {
     console.log('error connecting to MongoDB: ', error.message)
   })
+
+// Some resolvers are not allowed in production
+const resolvers =
+  process.env.NODE_ENV === 'production'
+    ? resolversProd
+    : _.merge(resolversProd, resolversTest)
 
 const server = new ApolloServer({
   typeDefs,

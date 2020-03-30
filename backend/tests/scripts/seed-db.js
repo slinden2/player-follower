@@ -1,13 +1,11 @@
 /*
 This is the test db seeder script.
 
-After resetting the testing db, this script rebuilds it
+After resetting the testing db, this script can be used to rebuild it
 completely.
 */
 
-const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const config = require('../../utils/config')
 const User = require('../../models/user')
 const Conference = require('../../models/conference')
 const Division = require('../../models/division')
@@ -25,26 +23,6 @@ const {
 } = require('./db-seed-data')
 const testLinescores = require('./db-seed-linescore-data')
 const testBoxscores = require('./db-seed-boxscore-data')
-
-if (process.env.NODE_ENV !== 'test') {
-  throw new Error('This script runs only in testing context.')
-}
-
-console.log('connecting to the DB')
-
-mongoose.set('useFindAndModify', false)
-
-mongoose
-  .connect(config.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('connected to MongoDB')
-  })
-  .catch(error => {
-    console.log('error connecting to MongoDB: ', error.message)
-  })
 
 const createTestUser = async () => {
   const { username, email, password, isVerified } = testUser
@@ -270,23 +248,29 @@ const createBoxscores = async () => {
   await Promise.all(playerPromises)
 }
 
-const runSeed = async () => {
+const seedDb = async () => {
+  if (process.env.NODE_ENV !== 'test') {
+    throw new Error('This script runs only in testing context.')
+  }
+
+  console.log('seed-db.seedDb.starting-to-seed')
+
+  console.log('seed-db.seedDb.createTestuser')
   await createTestUser()
+  console.log('seed-db.seedDb.createConferences')
   await createConferences()
+  console.log('seed-db.seedDb.createDivisions')
   await createDivisions()
+  console.log('seed-db.seedDb.createTeams')
   await createTeams()
+  console.log('seed-db.seedDb.createPlayers')
   await createPlayers()
+  console.log('seed-db.seedDb.createLinescores')
   await createLinescores()
+  console.log('seed-db.seedDb.createBoxscores')
   await createBoxscores()
+
+  console.log('seed-db.seedDb.seed-done')
 }
 
-runSeed()
-  .catch(err => {
-    console.error('seed-db.runSeed\n', err.stack)
-    mongoose.connection.close()
-    process.exit(1)
-  })
-  .then(() => {
-    mongoose.connection.close()
-    process.exit(0)
-  })
+module.exports = seedDb

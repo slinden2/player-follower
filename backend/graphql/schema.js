@@ -440,6 +440,12 @@ const typeDefs = gql`
     date: String!
   }
 
+  type UserToken {
+    userId: ID!
+    token: String!
+    expireAt: String!
+  }
+
   enum FollowType {
     FOLLOW
     UNFOLLOW
@@ -648,6 +654,10 @@ const typeDefs = gql`
     Returns the time of the last update of the db
     """
     GetLastUpdate: LastUpdate!
+    """
+    Return a token from db. Only for testing.
+    """
+    GetToken: UserToken!
   }
 
   type Mutation {
@@ -671,6 +681,10 @@ const typeDefs = gql`
       message: String!
       recaptcha: String!
     ): Boolean!
+
+    # For testing purposes only
+    ResetDB: Boolean!
+    SeedDB: Boolean!
   }
 `
 
