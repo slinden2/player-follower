@@ -88,10 +88,18 @@ export const setNewPasswordSchema = yup.object().shape({
   confirmNewPassword,
 })
 
-export const contactSchema = yup.object().shape({
-  name,
-  email,
-  subject,
-  message,
-  recaptcha,
-})
+export const contactSchema =
+  process.env.NODE_ENV === 'production'
+    ? yup.object().shape({
+        name,
+        email,
+        subject,
+        message,
+        recaptcha,
+      })
+    : yup.object().shape({
+        name,
+        email,
+        subject,
+        message,
+      })

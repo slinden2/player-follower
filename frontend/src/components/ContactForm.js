@@ -21,6 +21,7 @@ import { contactSchema } from './user/validationSchemas'
 import Notification from './Notification'
 import Button from './elements/Button'
 import colors from '../styles/colors'
+import config from '../config'
 
 const ContactForm = ({ history }) => {
   const { notification, setNotification, handleException } = useContext(
@@ -145,7 +146,7 @@ const ContactForm = ({ history }) => {
                   <ReCaptchaContainer>
                     <Reaptcha
                       ref={recaptchaRef}
-                      sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY_V2}
+                      sitekey={config.RECAPTCHA_SITE_KEY}
                       onVerify={token => setFieldValue('recaptcha', token)}
                       theme='dark'
                     />
@@ -168,6 +169,7 @@ const ContactForm = ({ history }) => {
                     content='Send'
                     disabled={isSubmitting}
                     style={{ marginRight: '10px' }}
+                    dataCy='send-button'
                   />
                   <Button
                     type='button'
@@ -177,6 +179,7 @@ const ContactForm = ({ history }) => {
                     color={colors.red1}
                     onClick={handleCancel}
                     style={{ marginLeft: '10px' }}
+                    dataCy='cancel-button'
                   />
                 </SForm>
               )

@@ -321,7 +321,11 @@ const resolvers = {
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
       const savedToken = await verificationToken.save()
-      await sendForgotPasswordEmail(user.email, savedToken.token)
+
+      if (process.env.NODE_ENV !== 'test') {
+        await sendForgotPasswordEmail(user.email, savedToken.token)
+      }
+
       return user.toJSON()
     },
     SetNewPassword: async (root, args) => {
@@ -361,7 +365,11 @@ const resolvers = {
       const { name, email, subject, message, recaptcha } = args
       const username = currentUser && currentUser.username
       await validateRecaptcha(recaptcha)
-      await sendContactFormEmail(name, email, subject, message, username)
+
+      if (process.env.NODE_ENV !== 'test') {
+        await sendContactFormEmail(name, email, subject, message, username)
+      }
+
       return true
     },
     FollowPlayer: async (root, args, ctx) => {

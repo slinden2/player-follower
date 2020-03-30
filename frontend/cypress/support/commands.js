@@ -206,6 +206,19 @@ Cypress.Commands.add('seedDb', () => {
   })
 })
 
+// For filling a textarea fast
+Cypress.Commands.add(
+  'fill',
+  {
+    prevSubject: 'element',
+  },
+  ($subject, value) => {
+    const el = $subject[0]
+    el.value = value
+    return cy.wrap($subject).type('a{backspace}')
+  }
+)
+
 // Password validation checks
 Cypress.Commands.add('checkPasswordLengthValidation', name => {
   cy.get(`input[name=${name}]`).type('1234567')
@@ -250,4 +263,22 @@ Cypress.Commands.add('checkPasswordMatchingValidation', (name, confirmName) => {
     .type('hattivatti1')
   cy.get('h1').click()
   cy.get('[data-cy=form-error]').should('not.be.visible')
+})
+
+// Email validation checks
+Cypress.Commands.add('checkEmailIsRequired', () => {
+  cy.get('input[name=email]').type('a')
+  cy.get('h1').click()
+  cy.get('[data-cy=form-error]')
+    .eq(1)
+    .should('be.visible')
+    .and('contain', 'Invalid email address')
+})
+
+Cypress.Commands.add('checkAcceptsValidEmail', () => {
+  cy.get('input[name=email]').type(Cypress.config().email)
+  cy.get('h1').click()
+  cy.get('[data-cy=form-error]')
+    .eq(1)
+    .should('not.be.visible')
 })
