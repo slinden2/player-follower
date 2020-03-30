@@ -75,6 +75,7 @@ const ForgotPassword = ({ history, onModal }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
+                  data-cy='forgot-password-field'
                 />
                 <FormError
                   message={errors.email}

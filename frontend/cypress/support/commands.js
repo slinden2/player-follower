@@ -48,12 +48,19 @@ Cypress.Commands.add('login', (credentials, disableCookies) => {
     .click()
 })
 
-Cypress.Commands.add('fastLogin', () => {
+Cypress.Commands.add('fastLogin', options => {
+  const opts = options || {}
+  const { passwordType } = opts
+
+  let password = Cypress.config().password
+
+  if (passwordType) {
+    password = passwordType === 'new' ? Cypress.config().newPassword : password
+  }
+
   const query = `
   mutation {
-    Login(username: "${Cypress.config().username}", password: "${
-    Cypress.config().password
-  }") {
+    Login(username: "${Cypress.config().username}", password: "${password}") {
       value
       __typename
     }
@@ -144,6 +151,23 @@ Cypress.Commands.add('getUser', id => {
   })
 })
 
+Cypress.Commands.add('createChangePasswordToken', () => {
+  const query = `
+  mutation {
+    ForgotPassword(email: "${Cypress.config().email}") {
+      id
+      __typename
+    }
+  }
+  `
+
+  cy.request({
+    method: 'POST',
+    url: Cypress.config().baseUrl + '/graphql',
+    body: { query },
+  })
+})
+
 Cypress.Commands.add('fillSignupForm', (username, email, password) => {
   cy.get('input[name=username]').type(username)
   cy.get('input[name=email]').type(email)
@@ -180,4 +204,50 @@ Cypress.Commands.add('seedDb', () => {
     url: Cypress.config().baseUrl + '/graphql',
     body: { query },
   })
+})
+
+// Password validation checks
+Cypress.Commands.add('checkPasswordLengthValidation', name => {
+  cy.get(`input[name=${name}]`).type('1234567')
+  cy.get('h1').click()
+  cy.get('[data-cy=form-error]').should(
+    'contain',
+    'Password must be at least 8 characters long'
+  )
+  cy.get(`input[name=${name}]`)
+    .clear()
+    .type('1'.repeat(51))
+  cy.get('[data-cy=form-error]').should(
+    'contain',
+    "Password can't be longer than 50 characters"
+  )
+})
+
+Cypress.Commands.add('checkPasswordContainNumsAndLetters', name => {
+  cy.get(`input[name=${name}]`).type('LETTERS12345')
+  cy.get('h1').click()
+  cy.get('[data-cy=form-error]').should(
+    'contain',
+    'Password must contain at least one lowercase letter'
+  )
+  cy.get(`input[name=${name}]`)
+    .clear()
+    .type('lettersandnumbers')
+  cy.get('h1').click()
+  cy.get('[data-cy=form-error]').should(
+    'contain',
+    'Password must contain at least one number'
+  )
+})
+
+Cypress.Commands.add('checkPasswordMatchingValidation', (name, confirmName) => {
+  cy.get(`input[name=${name}]`).type('hattivatti1')
+  cy.get(`input[name=${confirmName}]`).type('hattivutti1')
+  cy.get('h1').click()
+  cy.get('[data-cy=form-error]').should('contain', 'Passwords must match')
+  cy.get(`input[name=${confirmName}]`)
+    .clear()
+    .type('hattivatti1')
+  cy.get('h1').click()
+  cy.get('[data-cy=form-error]').should('not.be.visible')
 })

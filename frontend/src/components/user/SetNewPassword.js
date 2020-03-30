@@ -44,7 +44,7 @@ const SetNewPassword = ({ history, token }) => {
   }
 
   return (
-    <PageContainer title="Set New Password">
+    <PageContainer title='Set New Password'>
       <ContentWrapper>
         <Container>
           <Formik
@@ -63,10 +63,10 @@ const SetNewPassword = ({ history, token }) => {
               return (
                 <SForm>
                   <SField>
-                    <Label htmlFor="newPassword">New Password</Label>
+                    <Label htmlFor='newPassword'>New Password</Label>
                     <Input
-                      name="newPassword"
-                      type="password"
+                      name='newPassword'
+                      type='password'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.newPassword}
@@ -77,12 +77,12 @@ const SetNewPassword = ({ history, token }) => {
                     />
                   </SField>
                   <SField>
-                    <Label htmlFor="confirmNewPassword">
+                    <Label htmlFor='confirmNewPassword'>
                       Confirm New Password
                     </Label>
                     <Input
-                      name="confirmNewPassword"
-                      type="password"
+                      name='confirmNewPassword'
+                      type='password'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.confirmNewPassword}
@@ -95,25 +95,27 @@ const SetNewPassword = ({ history, token }) => {
                     />
                   </SField>
                   <br />
-                  <Notification position="form" notification={notification} />
+                  <Notification position='form' notification={notification} />
                   <br />
 
                   <Button
-                    type="submit"
-                    size="big"
-                    fontCase="uppercase"
-                    content="Save Password"
+                    type='submit'
+                    size='big'
+                    fontCase='uppercase'
+                    content='Save Password'
                     disabled={isSubmitting}
                     style={{ marginRight: '10px' }}
+                    dataCy='save-button'
                   />
                   <Button
-                    type="button"
-                    size="big"
-                    fontCase="uppercase"
-                    content="Cancel"
+                    type='button'
+                    size='big'
+                    fontCase='uppercase'
+                    content='Cancel'
                     color={colors.red1}
                     onClick={handleCancel}
                     style={{ marginLeft: '10px' }}
+                    dataCy='cancel-button'
                   />
                 </SForm>
               )
