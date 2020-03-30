@@ -2,6 +2,7 @@
 // Therefore, as a workaround we polyfill `fetch` with traditional XHR which
 // are supported. See: https://github.com/cypress-io/cypress/issues/687
 enableFetchWorkaround()
+reseedDb()
 
 // private helpers
 function enableFetchWorkaround() {
@@ -20,5 +21,14 @@ function enableFetchWorkaround() {
     // load a polyfilled "fetch" from the test
     win.eval(polyfill)
     win.fetch = win.unfetch
+  })
+}
+
+function reseedDb() {
+  before(() => {
+    console.info('Tearing down the DB...')
+    cy.teardownDb()
+    console.info('Reseeding the DB...')
+    cy.seedDb()
   })
 }

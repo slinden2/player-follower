@@ -430,6 +430,7 @@ const typeDefs = gql`
     username: String!
     email: String!
     favoritePlayers: [String]!
+    isVerified: Boolean!
   }
 
   type Token {
@@ -650,6 +651,10 @@ const typeDefs = gql`
     Returns the logged user
     """
     me: User
+    """
+    Return a user by id
+    """
+    GetUser(id: String!): User
     """
     Returns the time of the last update of the db
     """

@@ -70,6 +70,80 @@ Cypress.Commands.add('fastLogin', () => {
   })
 })
 
+Cypress.Commands.add('createUser', () => {
+  const query = `
+  mutation {
+    CreateUser(username: "${Cypress.config().username2}", email: "${
+    Cypress.config().email2
+  }", password: "${Cypress.config().password}", recaptcha: "") {
+      ...UserDetails
+    }
+  }
+  
+  fragment UserDetails on User {
+    id
+    username
+    email
+    __typename
+  }
+  `
+
+  cy.request({
+    method: 'POST',
+    url: Cypress.config().baseUrl + '/graphql',
+    body: { query },
+  })
+})
+
+Cypress.Commands.add('getUserToken', () => {
+  const query = `
+  query {
+    GetToken {
+      userId
+      token
+      expireAt
+      __typename
+    }
+  }
+  `
+
+  cy.request({
+    method: 'POST',
+    url: Cypress.config().baseUrl + '/graphql',
+    body: { query },
+  }).then(res => {
+    const {
+      body: {
+        data: { GetToken },
+      },
+    } = res
+    return {
+      userId: GetToken.userId,
+      token: GetToken.token,
+      expireAt: GetToken.expireAt,
+    }
+  })
+})
+
+Cypress.Commands.add('getUser', id => {
+  const query = `
+  query {
+    GetUser(id: "${id}") {
+      id
+      username
+      isVerified
+      __typename
+    }
+  }
+  `
+
+  cy.request({
+    method: 'POST',
+    url: Cypress.config().baseUrl + '/graphql',
+    body: { query },
+  })
+})
+
 Cypress.Commands.add('fillSignupForm', (username, email, password) => {
   cy.get('input[name=username]').type(username)
   cy.get('input[name=email]').type(email)
@@ -78,4 +152,32 @@ Cypress.Commands.add('fillSignupForm', (username, email, password) => {
   cy.get('form')
     .contains('button', 'Sign Up')
     .click()
+})
+
+Cypress.Commands.add('teardownDb', () => {
+  const query = `
+  mutation {
+    ResetDB
+  }
+  `
+
+  cy.request({
+    method: 'POST',
+    url: Cypress.config().baseUrl + '/graphql',
+    body: { query },
+  })
+})
+
+Cypress.Commands.add('seedDb', () => {
+  const query = `
+  mutation {
+    SeedDB
+  }
+  `
+
+  cy.request({
+    method: 'POST',
+    url: Cypress.config().baseUrl + '/graphql',
+    body: { query },
+  })
 })

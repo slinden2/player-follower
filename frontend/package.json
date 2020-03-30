@@ -60,6 +60,7 @@
   },
   "proxy": "http://localhost:4000",
   "devDependencies": {
+    "chai-colors": "^1.0.1",
     "cypress": "^4.2.0"
   }
 }

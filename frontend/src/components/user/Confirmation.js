@@ -35,7 +35,7 @@ const Confirmation = ({ token }) => {
     <PageContainer title='Account Confirmation'>
       <ContentWrapper>
         {error && (
-          <TextRow color={colors.red1}>
+          <TextRow color={colors.red1} data-cy='confirmation-error'>
             The token is either invalid or already expired. Please check that
             the address in the address bar corresponds to the link sent to you
             via email. If not, please try again with a correct token.
@@ -43,7 +43,7 @@ const Confirmation = ({ token }) => {
         )}
 
         {user && (
-          <TextRow>
+          <TextRow data-cy='confirmation-success'>
             The account for {user.username} ({user.email}) has been successfully
             created. You may now log in and start using the site at its full
             potential.
