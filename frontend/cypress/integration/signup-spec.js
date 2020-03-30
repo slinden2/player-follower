@@ -67,48 +67,15 @@ describe('/signup', () => {
   })
 
   it('requires password to be 8-50 chars long', () => {
-    cy.get('input[name=password]').type('1234567')
-    cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should(
-      'contain',
-      'Password must be at least 8 characters long'
-    )
-    cy.get('input[name=password]')
-      .clear()
-      .type('1'.repeat(51))
-    cy.get('[data-cy=form-error]').should(
-      'contain',
-      "Password can't be longer than 50 characters"
-    )
+    cy.checkPasswordLengthValidation('password')
   })
 
   it('requires password to contain a lowercase char and a number', () => {
-    cy.get('input[name=password]').type('LETTERS12345')
-    cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should(
-      'contain',
-      'Password must contain at least one lowercase letter'
-    )
-    cy.get('input[name=password]')
-      .clear()
-      .type('lettersandnumbers')
-    cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should(
-      'contain',
-      'Password must contain at least one number'
-    )
+    cy.checkPasswordContainNumsAndLetters('password')
   })
 
   it('requires passwords to match', () => {
-    cy.get('input[name=password]').type('hattivatti1')
-    cy.get('input[name=confirmPassword]').type('hattivutti1')
-    cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should('contain', 'Passwords must match')
-    cy.get('input[name=confirmPassword]')
-      .clear()
-      .type('hattivatti1')
-    cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should('not.be.visible')
+    cy.checkPasswordMatchingValidation('password', 'confirmPassword')
   })
 
   it('requires username and email to be unique', () => {
