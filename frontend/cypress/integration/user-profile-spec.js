@@ -38,13 +38,16 @@ describe('/profile', () => {
     cy.get('[data-cy=change-pw-form-btn]').click()
     cy.get('[data-cy=form-error]')
       .eq(0)
-      .should('contain', 'Password is required')
+      .should('be.visible')
+      .and('contain', 'Password is required')
     cy.get('[data-cy=form-error]')
       .eq(1)
-      .should('contain', 'Password is required')
+      .should('be.visible')
+      .and('contain', 'Password is required')
     cy.get('[data-cy=form-error]')
       .eq(2)
-      .should('contain', 'Confirm password is required')
+      .should('be.visible')
+      .and('contain', 'Confirm password is required')
   })
 
   it('requires a valid old password', () => {
@@ -71,7 +74,8 @@ describe('/profile', () => {
 
     cy.get('[data-cy=form-error]')
       .eq(2)
-      .should('contain', 'Passwords must match')
+      .should('be.visible')
+      .and('contain', 'Passwords must match')
   })
 
   it('requires a new password to be at least 8 chars long and to contain a number', () => {
@@ -82,7 +86,8 @@ describe('/profile', () => {
     cy.get('[name=oldPassword]').click()
     cy.get('[data-cy=form-error]')
       .eq(1)
-      .should('contain', 'Password must be at least 8 characters long')
+      .should('be.visible')
+      .and('contain', 'Password must be at least 8 characters long')
 
     cy.get('[name=newPassword]')
       .clear()
@@ -90,13 +95,16 @@ describe('/profile', () => {
     cy.get('[name=oldPassword]').click()
     cy.get('[data-cy=form-error]')
       .eq(1)
-      .should('contain', 'Password must contain at least one number')
+      .should('be.visible')
+      .and('contain', 'Password must contain at least one number')
 
     cy.get('[name=newPassword]')
       .clear()
       .type('validpassword1')
     cy.get('[name=oldPassword]').click()
-    cy.get('[data-cy=form-error]').should('not.be.visible')
+    cy.get('[data-cy=form-error]')
+      .eq(1)
+      .should('not.be.visible')
   })
 
   it('is possible to change password', () => {

@@ -223,41 +223,39 @@ Cypress.Commands.add(
 Cypress.Commands.add('checkPasswordLengthValidation', name => {
   cy.get(`input[name=${name}]`).type('1234567')
   cy.get('h1').click()
-  cy.get('[data-cy=form-error]').should(
-    'contain',
-    'Password must be at least 8 characters long'
-  )
+  cy.get('[data-cy=form-error]')
+    .should('contain', 'Password must be at least 8 characters long')
+    .and('be.visible')
   cy.get(`input[name=${name}]`)
     .clear()
     .type('1'.repeat(51))
-  cy.get('[data-cy=form-error]').should(
-    'contain',
-    "Password can't be longer than 50 characters"
-  )
+  cy.get('[data-cy=form-error]')
+    .should('contain', "Password can't be longer than 50 characters")
+    .and('be.visible')
 })
 
 Cypress.Commands.add('checkPasswordContainNumsAndLetters', name => {
   cy.get(`input[name=${name}]`).type('LETTERS12345')
   cy.get('h1').click()
-  cy.get('[data-cy=form-error]').should(
-    'contain',
-    'Password must contain at least one lowercase letter'
-  )
+  cy.get('[data-cy=form-error]')
+    .should('contain', 'Password must contain at least one lowercase letter')
+    .and('be.visible')
   cy.get(`input[name=${name}]`)
     .clear()
     .type('lettersandnumbers')
   cy.get('h1').click()
-  cy.get('[data-cy=form-error]').should(
-    'contain',
-    'Password must contain at least one number'
-  )
+  cy.get('[data-cy=form-error]')
+    .should('contain', 'Password must contain at least one number')
+    .and('be.visible')
 })
 
 Cypress.Commands.add('checkPasswordMatchingValidation', (name, confirmName) => {
   cy.get(`input[name=${name}]`).type('hattivatti1')
   cy.get(`input[name=${confirmName}]`).type('hattivutti1')
   cy.get('h1').click()
-  cy.get('[data-cy=form-error]').should('contain', 'Passwords must match')
+  cy.get('[data-cy=form-error]')
+    .should('contain', 'Passwords must match')
+    .and('be.visible')
   cy.get(`input[name=${confirmName}]`)
     .clear()
     .type('hattivatti1')

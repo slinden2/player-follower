@@ -19,51 +19,52 @@ describe('/signup', () => {
       .click()
     cy.get('[data-cy=form-error]')
       .eq(0)
-      .should('contain', 'Username is required')
+      .should('be.visible')
+      .and('contain', 'Username is required')
     cy.get('[data-cy=form-error]')
       .eq(1)
-      .should('contain', 'Email is required')
+      .should('be.visible')
+      .and('contain', 'Email is required')
     cy.get('[data-cy=form-error]')
       .eq(2)
-      .should('contain', 'Password is required')
+      .should('be.visible')
+      .and('contain', 'Password is required')
     cy.get('[data-cy=form-error]')
       .eq(3)
-      .should('contain', 'Confirm password is required')
+      .should('be.visible')
+      .and('contain', 'Confirm password is required')
 
     if (process.env.NODE_ENV === 'production') {
       cy.get('[data-cy=form-error]')
         .eq(4)
-        .should('contain', 'Please select "I\'m not a robot."')
+        .should('be.visible')
+        .and('contain', 'Please select "I\'m not a robot."')
     }
   })
 
   it('requires username to be 2-12 chars long', () => {
     cy.get('input[name=username]').type('a')
     cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should(
-      'contain',
-      'Username must be at least 2 characters long'
-    )
+    cy.get('[data-cy=form-error]')
+      .eq(0)
+      .should('be.visible')
+      .and('contain', 'Username must be at least 2 characters long')
     cy.get('input[name=username]')
       .clear()
       .type('1234567890123')
     cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should(
-      'contain',
-      "Username can't be longer than 12 characters"
-    )
+    cy.get('[data-cy=form-error]')
+      .eq(0)
+      .should('be.visible')
+      .and('contain', "Username can't be longer than 12 characters")
   })
 
   it('requires a valid email', () => {
-    cy.get('input[name=email]').type('a')
-    cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should('contain', 'Invalid email address')
+    cy.checkEmailIsRequired()
   })
 
   it('accepts a valid email', () => {
-    cy.get('input[name=email]').type(Cypress.config().email)
-    cy.contains('h1', 'Sign Up').click()
-    cy.get('[data-cy=form-error]').should('not.be.visible')
+    cy.checkAcceptsValidEmail()
   })
 
   it('requires password to be 8-50 chars long', () => {

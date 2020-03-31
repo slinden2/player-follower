@@ -19,15 +19,16 @@ describe('/forgot-password/', () => {
 
   it('requires a valid email address', () => {
     cy.get('[data-cy=forgot-password-field]').type('aaa{enter}')
-    cy.get('[data-cy=form-error]').should('contain', 'Invalid email address')
+    cy.get('[data-cy=form-error]')
+      .should('be.visible')
+      .and('contain', 'Invalid email address')
   })
 
   it('requires an existing email address', () => {
     cy.get('[data-cy=forgot-password-field]').type('notavalid@email.com{enter}')
-    cy.get('[data-cy=form-notification-container]').should(
-      'contain',
-      'Invalid email address'
-    )
+    cy.get('[data-cy=form-notification-container]')
+      .should('be.visible')
+      .and('contain', 'Invalid email address')
   })
 
   it('password can be reset', () => {

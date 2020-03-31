@@ -24,7 +24,12 @@ describe('/login', () => {
       .contains('Log In')
       .click()
     cy.get('[data-cy=form-error')
-      .should('contain', 'Username or email is required')
+      .eq(0)
+      .should('be.visible')
+      .and('contain', 'Username or email is required')
+    cy.get('[data-cy=form-error')
+      .eq(1)
+      .should('be.visible')
       .and('contain', 'Password is required')
   })
 
