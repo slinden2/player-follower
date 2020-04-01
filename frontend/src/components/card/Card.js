@@ -15,7 +15,7 @@ const Container = styled.div`
   perspective: 600px;
 `
 
-const Card = React.memo(({ context, data, i, teamSortBy }) => {
+const Card = React.memo(({ context, data, i, teamSortBy, dataCy }) => {
   const [isFlipped, setIsFlipped] = useState(false)
   const [prevSortBy, setPrevSortBy] = useState(null)
   const { sortBy, goalieSortBy } = useContext(PlayerContext)
@@ -70,7 +70,7 @@ const Card = React.memo(({ context, data, i, teamSortBy }) => {
   }
 
   return (
-    <Container isFlipped={isFlipped}>
+    <Container isFlipped={isFlipped} data-cy={dataCy}>
       <CardFront
         context={context}
         data={data}
@@ -78,6 +78,7 @@ const Card = React.memo(({ context, data, i, teamSortBy }) => {
         handleCardFlip={handleCardFlip}
         i={i}
         sortBy={curContext.sortBy}
+        dataCy='card-front'
       />
       <CardBack
         context={context}
@@ -85,6 +86,7 @@ const Card = React.memo(({ context, data, i, teamSortBy }) => {
         isFlipped={isFlipped}
         handleCardFlip={handleCardFlip}
         sortBy={curContext.sortBy}
+        dataCy='card-back'
       />
     </Container>
   )

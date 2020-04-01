@@ -69,6 +69,7 @@ const PlayerCardBack = ({
   isFlipped,
   handleCardFlip,
   sortBy,
+  dataCy,
 }) => {
   let playerSharedData = {}
   if (context !== 'team') {
@@ -131,7 +132,7 @@ const PlayerCardBack = ({
   const curContext = contextSelector[context]()
 
   return (
-    <BackContainer isFlipped={isFlipped}>
+    <BackContainer isFlipped={isFlipped} data-cy={dataCy}>
       <NameBar>
         <Link to={curContext.link}>{curContext.name}</Link>
       </NameBar>

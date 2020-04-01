@@ -20,7 +20,13 @@ const PlayerCardContainer = ({ query, queryName, numOfCards }) => {
     if (!playerResults.length) return <div>No results</div>
     playerResults = playerResults.slice(0, numOfCards)
     return playerResults.map((player, i) => (
-      <Card key={player._id} context={context} data={player} i={i + 1} />
+      <Card
+        key={player._id}
+        context={context}
+        data={player}
+        i={i + 1}
+        dataCy='data-card'
+      />
     ))
   }
 

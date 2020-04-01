@@ -107,8 +107,12 @@ const PlayerCardPage = ({ context, queryName, header }) => {
         <ShowFiltersButton
           content={(filtersAreVisible ? 'Hide' : 'Show') + ' Filters'}
           onClick={() => setFiltersAreVisible(!filtersAreVisible)}
+          dataCy='filter-button'
         />
-        <FilterContainer isVisible={filtersAreVisible}>
+        <FilterContainer
+          isVisible={filtersAreVisible}
+          data-cy='filter-container'
+        >
           <FramedDropdown title='Sort' fields={curContext.sortData} />
           <FramedDropdown title='Filter' fields={curContext.filterArray} />
         </FilterContainer>

@@ -125,6 +125,7 @@ const PlayerCardFront = ({
   handleCardFlip,
   i,
   sortBy,
+  dataCy,
 }) => {
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
@@ -267,7 +268,7 @@ const PlayerCardFront = ({
   }
 
   return (
-    <FrontContainer isFlipped={isFlipped}>
+    <FrontContainer isFlipped={isFlipped} data-cy={dataCy}>
       <Link to={curContext.link}>
         <ImageCircle {...curContext.imageData} />
       </Link>

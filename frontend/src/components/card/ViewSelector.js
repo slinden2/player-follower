@@ -47,7 +47,7 @@ const ViewSelector = ({ currentView, setCurrentView, numbers, context }) => {
   }
 
   return (
-    <Container>
+    <Container data-cy='card-view-selector'>
       <SelectorItem
         onClick={() => handleViewChange(numbers[0])}
         selected={currentView === numbers[0]}

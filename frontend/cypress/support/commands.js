@@ -280,3 +280,30 @@ Cypress.Commands.add('checkAcceptsValidEmail', () => {
     .eq(1)
     .should('not.be.visible')
 })
+
+// Data cards
+Cypress.Commands.add('cardIsFlipped', cardNum => {
+  cy.get('[data-cy=card-back]')
+    .eq(cardNum)
+    .should('have.css', 'transform', 'matrix(1, 0, 0, 1, 0, 0)')
+    .get('[data-cy=card-front]')
+    .eq(cardNum)
+    .should(
+      'have.css',
+      'transform',
+      'matrix3d(-1, 0, 1.22465e-16, 0, 0, 1, 0, 0, -1.22465e-16, 0, -1, 0, 0, 0, 0, 1)'
+    )
+})
+
+Cypress.Commands.add('cardIsNotFlipped', cardNum => {
+  cy.get('[data-cy=card-back]')
+    .eq(cardNum)
+    .should(
+      'have.css',
+      'transform',
+      'matrix3d(-1, 0, -1.22465e-16, 0, 0, 1, 0, 0, 1.22465e-16, 0, -1, 0, 0, 0, 0, 1)'
+    )
+    .get('[data-cy=card-front]')
+    .eq(cardNum)
+    .should('have.css', 'transform', 'matrix(1, 0, 0, 1, 0, 0)')
+})
