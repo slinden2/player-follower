@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+import skaterStatObject from '../utils/skater-stat-object'
+
 Cypress.Commands.add('login', (credentials, disableCookies) => {
   const username = credentials
     ? credentials.username
@@ -306,4 +308,52 @@ Cypress.Commands.add('cardIsNotFlipped', cardNum => {
     .get('[data-cy=card-front]')
     .eq(cardNum)
     .should('have.css', 'transform', 'matrix(1, 0, 0, 1, 0, 0)')
+})
+
+// Tables
+Cypress.Commands.add('getValuesByColumn', columnName => {
+  let index
+  cy.get('table thead th').each(($el, $index) => {
+    if ($el.text() === columnName) {
+      index = $index
+    }
+  })
+
+  let cellContents = []
+  cy.get('table tbody tr')
+    .each($el => {
+      cellContents.push($el[0].cells[index].innerText)
+    })
+    .then(() => {
+      return cellContents
+    })
+})
+
+Cypress.Commands.add('testSortByColumn', columnName => {
+  cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
+
+  cy.getValuesByColumn(columnName).then(points => {
+    expect(points, columnName).to.have.ordered.members(
+      skaterStatObject[columnName.toLowerCase()]
+    )
+  })
+
+  cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
+
+  cy.getValuesByColumn(columnName).then(points => {
+    expect(points, columnName).not.to.have.ordered.members(
+      skaterStatObject[columnName.toLowerCase()]
+    )
+    expect(points, columnName).to.have.ordered.members(
+      skaterStatObject[columnName.toLowerCase()].slice().reverse()
+    )
+  })
+
+  cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
+
+  cy.getValuesByColumn(columnName).then(points => {
+    expect(points, columnName).to.have.ordered.members(
+      skaterStatObject[columnName.toLowerCase()]
+    )
+  })
 })

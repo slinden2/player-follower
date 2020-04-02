@@ -168,7 +168,7 @@ const NewStatsTable = ({
     <Container>
       {title && <Title>{title}</Title>}
       <ScrollContainer>
-        <Table>
+        <Table data-cy='stat-table'>
           <TableHead>{headerMarkup()}</TableHead>
           <TableBody>
             {cellMarkup()}

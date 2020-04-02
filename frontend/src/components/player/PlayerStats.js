@@ -93,6 +93,7 @@ const PlayerStats = () => {
       <ShowFiltersButton
         content={(filtersAreVisible ? 'Hide' : 'Show') + ' Filters'}
         onClick={() => setFiltersAreVisible(!filtersAreVisible)}
+        dataCy='filter-button'
       />
       <FilterContainer isVisible={filtersAreVisible}>
         <FramedDropdown title='Filter' fields={filterDropdownData} />
@@ -110,6 +111,7 @@ const PlayerStats = () => {
         content='Load More'
         size='medium'
         style={{ marginTop: '10px' }}
+        dataCy='load-more-button'
       />
     </PageContainer>
   )
