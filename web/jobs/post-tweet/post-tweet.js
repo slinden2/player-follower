@@ -18,11 +18,11 @@ const getTweetStr = data => {
 ${data.away.team}@${data.home.team} starting soon!
 
 Hottest players based on the last 3 games:
-#${data.away.hashtag}
+${data.away.hashtag}
 ${data.away.player1.lastName} | ${data.away.player1.goals} + ${data.away.player1.assists} = ${data.away.player1.points}
 ${data.away.player2.lastName} | ${data.away.player2.goals} + ${data.away.player2.assists} = ${data.away.player2.points}
 
-#${data.home.hashtag}
+${data.home.hashtag}
 ${data.home.player1.lastName} | ${data.home.player1.goals} + ${data.home.player1.assists} = ${data.home.player1.points}
 ${data.home.player2.lastName} | ${data.home.player2.goals} + ${data.home.player2.assists} = ${data.home.player2.points}
 

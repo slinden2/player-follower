@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.js": "/static/js/main.c5e25db9.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.fbe98da3.js",
-    "static/js/2.f616e46e.chunk.js": "/static/js/2.f616e46e.chunk.js",
+    "main.js": "/static/js/main.3ed0fd14.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.1c2d59f4.js",
+    "static/js/2.d6112952.chunk.js": "/static/js/2.d6112952.chunk.js",
     "index.html": "/index.html",
-    "precache-manifest.d5f1c5a5bd740320ff3b77d453ec56ad.js": "/precache-manifest.d5f1c5a5bd740320ff3b77d453ec56ad.js",
+    "precache-manifest.d6ae0ed584ce645687d8febad41ed711.js": "/precache-manifest.d6ae0ed584ce645687d8febad41ed711.js",
     "service-worker.js": "/service-worker.js",
+    "static/js/2.d6112952.chunk.js.LICENSE": "/static/js/2.d6112952.chunk.js.LICENSE",
     "static/media/flag-aut-min.svg": "/static/media/flag-aut-min.d8aa5869.svg",
     "static/media/flag-can-min.svg": "/static/media/flag-can-min.bc028814.svg",
     "static/media/flag-che-min.svg": "/static/media/flag-che-min.9a667835.svg",
@@ -23,8 +24,8 @@
     "static/media/magnifying-glass-icon.svg": "/static/media/magnifying-glass-icon.b6a65f37.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.fbe98da3.js",
-    "static/js/2.f616e46e.chunk.js",
-    "static/js/main.c5e25db9.chunk.js"
+    "static/js/runtime-main.1c2d59f4.js",
+    "static/js/2.d6112952.chunk.js",
+    "static/js/main.3ed0fd14.chunk.js"
   ]
 }
