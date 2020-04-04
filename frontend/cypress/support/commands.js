@@ -37,17 +37,11 @@ Cypress.Commands.add('login', (credentials, disableCookies) => {
   // Accept cookies to be able to log in
   if (!disableCookies) cy.setCookie('funcConsent', 'true')
 
-  cy.get('form')
-    .get('[name=username')
-    .type(username)
+  cy.get('form').get('[name=username').type(username)
 
-  cy.get('form')
-    .get('[name=password')
-    .type(password)
+  cy.get('form').get('[name=password').type(password)
 
-  cy.get('form')
-    .get('[type=submit]')
-    .click()
+  cy.get('form').get('[type=submit]').click()
 })
 
 Cypress.Commands.add('fastLogin', options => {
@@ -175,9 +169,7 @@ Cypress.Commands.add('fillSignupForm', (username, email, password) => {
   cy.get('input[name=email]').type(email)
   cy.get('input[name=password]').type(password)
   cy.get('input[name=confirmPassword]').type(password)
-  cy.get('form')
-    .contains('button', 'Sign Up')
-    .click()
+  cy.get('form').contains('button', 'Sign Up').click()
 })
 
 Cypress.Commands.add('teardownDb', () => {
@@ -228,9 +220,7 @@ Cypress.Commands.add('checkPasswordLengthValidation', name => {
   cy.get('[data-cy=form-error]')
     .should('contain', 'Password must be at least 8 characters long')
     .and('be.visible')
-  cy.get(`input[name=${name}]`)
-    .clear()
-    .type('1'.repeat(51))
+  cy.get(`input[name=${name}]`).clear().type('1'.repeat(51))
   cy.get('[data-cy=form-error]')
     .should('contain', "Password can't be longer than 50 characters")
     .and('be.visible')
@@ -242,9 +232,7 @@ Cypress.Commands.add('checkPasswordContainNumsAndLetters', name => {
   cy.get('[data-cy=form-error]')
     .should('contain', 'Password must contain at least one lowercase letter')
     .and('be.visible')
-  cy.get(`input[name=${name}]`)
-    .clear()
-    .type('lettersandnumbers')
+  cy.get(`input[name=${name}]`).clear().type('lettersandnumbers')
   cy.get('h1').click()
   cy.get('[data-cy=form-error]')
     .should('contain', 'Password must contain at least one number')
@@ -258,9 +246,7 @@ Cypress.Commands.add('checkPasswordMatchingValidation', (name, confirmName) => {
   cy.get('[data-cy=form-error]')
     .should('contain', 'Passwords must match')
     .and('be.visible')
-  cy.get(`input[name=${confirmName}]`)
-    .clear()
-    .type('hattivatti1')
+  cy.get(`input[name=${confirmName}]`).clear().type('hattivatti1')
   cy.get('h1').click()
   cy.get('[data-cy=form-error]').should('not.be.visible')
 })
@@ -278,9 +264,7 @@ Cypress.Commands.add('checkEmailIsRequired', () => {
 Cypress.Commands.add('checkAcceptsValidEmail', () => {
   cy.get('input[name=email]').type(Cypress.config().email)
   cy.get('h1').click()
-  cy.get('[data-cy=form-error]')
-    .eq(1)
-    .should('not.be.visible')
+  cy.get('[data-cy=form-error]').eq(1).should('not.be.visible')
 })
 
 // Data cards
@@ -355,5 +339,33 @@ Cypress.Commands.add('testSortByColumn', columnName => {
     expect(points, columnName).to.have.ordered.members(
       skaterStatObject[columnName.toLowerCase()]
     )
+  })
+})
+
+Cypress.Commands.add('testFilterByPosition', (position, numOfPlayers) => {
+  const allEqual = arr => arr.every(v => v === arr[0])
+
+  cy.get('[data-cy=filter-button').click()
+  cy.get('fieldset > select').eq(0).select(position)
+  cy.getValuesByColumn('POS').then(posArray => {
+    expect(posArray, 'Array of positions').to.have.lengthOf(numOfPlayers)
+    if (position !== 'All positions' && position !== 'Forwards')
+      expect(allEqual(posArray), 'All values equal').to.be.true
+  })
+})
+
+Cypress.Commands.add('testFilterByTeam', team => {
+  cy.get('[data-cy=filter-button').click()
+  cy.get('fieldset > select').eq(1).select(team)
+  cy.getValuesByColumn('Player').then(playerArr => {
+    expect(playerArr, 'Array of players').to.have.lengthOf(2)
+  })
+})
+
+Cypress.Commands.add('testFilterByCountry', (country, num) => {
+  cy.get('[data-cy=filter-button').click()
+  cy.get('fieldset > select').eq(2).select(country)
+  cy.getValuesByColumn('Player').then(playerArr => {
+    expect(playerArr, 'Array of players').to.have.lengthOf(num)
   })
 })

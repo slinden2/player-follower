@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 import { waitLoadMoreRequest } from '../utils/networking'
+import teamArray from '../utils/team-array'
+import countryArray from '../utils/country-array'
 
 const statsToSort = [
   'Player',
@@ -27,9 +29,40 @@ const statsToSort = [
   'SHT/G',
 ]
 
+const posFilters = [
+  { pos: 'All positions', num: 16 },
+  { pos: 'Centers', num: 6 },
+  { pos: 'Left Wings', num: 2 },
+  { pos: 'Right Wings', num: 2 },
+  { pos: 'Forwards', num: 10 },
+  { pos: 'Defencemen', num: 6 },
+]
+
 const sortTest = stat => {
   specify(`stats can be sorted by ${stat}`, () => {
     cy.testSortByColumn(stat)
+  })
+}
+
+const posFilterTest = (pos, num) => {
+  it(`can be filtered by ${pos}`, () => {
+    cy.testFilterByPosition(pos, num)
+  })
+}
+
+const teamFilterTest = team => {
+  // Tests only num of players by team. Doesn't test if the team
+  // is actually correct.
+  it(`can be filtered by ${team}`, () => {
+    cy.testFilterByTeam(team)
+  })
+}
+
+const countryFilterTest = data => {
+  // Tests only num of players by country. Doesn't test if the country
+  // is actually correct.
+  it(`can be filtered by ${data.country}`, () => {
+    cy.testFilterByCountry(data.country, data.num)
   })
 }
 
@@ -68,6 +101,24 @@ describe('/players/stats', () => {
     waitLoadMoreRequest(xhr => {
       expect(xhr.requestBody.variables.offset, 'Stat offset').to.equal(16)
     })
+  })
+
+  context('filter by position', () => {
+    for (const filter of posFilters) {
+      posFilterTest(filter.pos, filter.num)
+    }
+  })
+
+  context('filter by team', () => {
+    for (const team of teamArray) {
+      teamFilterTest(team)
+    }
+  })
+
+  context('filter by country', () => {
+    for (const country of countryArray) {
+      countryFilterTest(country)
+    }
   })
 
   context('stat sorting', () => {
