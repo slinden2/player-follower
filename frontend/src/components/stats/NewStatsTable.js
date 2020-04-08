@@ -34,14 +34,14 @@ const TableRow = styled.tr`
   background-color: ${colors.grey3};
   ${({ header, onClick }) => css`
     ${header &&
-      css`
-        background-color: ${colors.grey1};
-      `}
+    css`
+      background-color: ${colors.grey1};
+    `}
 
     ${onClick &&
-      css`
-        cursor: pointer;
-      `}
+    css`
+      cursor: pointer;
+    `}
 
     &:nth-child(even) {
       background-color: ${colors.grey4};
@@ -166,7 +166,7 @@ const NewStatsTable = ({
 
   return (
     <Container>
-      {title && <Title>{title}</Title>}
+      {title && <Title dataCy='table-title'>{title}</Title>}
       <ScrollContainer>
         <Table data-cy='stat-table'>
           <TableHead>{headerMarkup()}</TableHead>

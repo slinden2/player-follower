@@ -8,6 +8,7 @@ import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
 import DropdownMenu from '../elements/dropdown/DropdownMenu'
 import sortReducer from '../../reducers/sortReducer'
+import { standingsTableOrder } from '../../utils'
 
 const headers = [
   'teamName',
@@ -79,6 +80,14 @@ const cleanUpStandings = standings => {
   return standings
 }
 
+// Sorts stat tables by division or conference.
+// Eastern before western, Metropolitan before Central etc...
+const sortConfs = (key1, key2) => {
+  const index1 = standingsTableOrder.indexOf(key1)
+  const index2 = standingsTableOrder.indexOf(key2)
+  return index1 > index2 ? 1 : -1
+}
+
 const Standings = () => {
   const [standingsType, setStandingsType] = useState('LEAGUE')
   const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
@@ -120,17 +129,19 @@ const Standings = () => {
         state={standingsType}
         setState={setStandingsType}
       />
-      {Object.keys(standings).map(conference => (
-        <NewStatsTable
-          key={conference}
-          headers={headers}
-          data={sortTeams(cleanStandings[conference])}
-          dataType='team'
-          title={conference}
-          sortVars={sortVars}
-          sortDispatch={dispatch}
-        />
-      ))}
+      {Object.keys(standings)
+        .sort((key1, key2) => sortConfs(key1, key2))
+        .map(conference => (
+          <NewStatsTable
+            key={conference}
+            headers={headers}
+            data={sortTeams(cleanStandings[conference])}
+            dataType='team'
+            title={conference}
+            sortVars={sortVars}
+            sortDispatch={dispatch}
+          />
+        ))}
     </PageContainer>
   )
 }

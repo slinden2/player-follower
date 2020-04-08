@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import skaterStatObject from '../utils/skater-stat-object'
+import standingsObject from '../utils/standings-object'
 
 Cypress.Commands.add('login', (credentials, disableCookies) => {
   const username = credentials
@@ -313,12 +314,18 @@ Cypress.Commands.add('getValuesByColumn', columnName => {
     })
 })
 
-Cypress.Commands.add('testSortByColumn', columnName => {
+Cypress.Commands.add('testSortByColumn', (columnName, context) => {
+  const statObjects = {
+    1: skaterStatObject,
+    2: standingsObject,
+  }
+  const statObj = statObjects[context]
+
   cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
 
   cy.getValuesByColumn(columnName).then(points => {
     expect(points, columnName).to.have.ordered.members(
-      skaterStatObject[columnName.toLowerCase()]
+      statObj[columnName.toLowerCase()]
     )
   })
 
@@ -326,10 +333,10 @@ Cypress.Commands.add('testSortByColumn', columnName => {
 
   cy.getValuesByColumn(columnName).then(points => {
     expect(points, columnName).not.to.have.ordered.members(
-      skaterStatObject[columnName.toLowerCase()]
+      statObj[columnName.toLowerCase()]
     )
     expect(points, columnName).to.have.ordered.members(
-      skaterStatObject[columnName.toLowerCase()].slice().reverse()
+      statObj[columnName.toLowerCase()].slice().reverse()
     )
   })
 
@@ -337,7 +344,7 @@ Cypress.Commands.add('testSortByColumn', columnName => {
 
   cy.getValuesByColumn(columnName).then(points => {
     expect(points, columnName).to.have.ordered.members(
-      skaterStatObject[columnName.toLowerCase()]
+      statObj[columnName.toLowerCase()]
     )
   })
 })

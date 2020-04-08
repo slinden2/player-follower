@@ -2,10 +2,7 @@ const getCookie = name => {
   const value = '; ' + document.cookie
   const parts = value.split('; ' + name + '=')
   if (parts.length === 2) {
-    return parts
-      .pop()
-      .split(';')
-      .shift()
+    return parts.pop().split(';').shift()
   }
 }
 
@@ -77,10 +74,7 @@ const formatDateYYYYMMDD = date => {
   const dateObj = new Date(date)
   const year = dateObj.getFullYear().toString()
   const month = (dateObj.getMonth() + 1).toString().padStart(2, 0)
-  const days = dateObj
-    .getDate()
-    .toString()
-    .padStart(2, 0)
+  const days = dateObj.getDate().toString().padStart(2, 0)
 
   return `${year}/${month}/${days}`
 }
@@ -1586,6 +1580,15 @@ const playerBioHeaders = {
   },
 }
 
+const standingsTableOrder = [
+  'Eastern',
+  'Western',
+  'Metropolitan',
+  'Atlantic',
+  'Central',
+  'Pacific',
+]
+
 export {
   getCookie,
   removeCookie,
@@ -1621,4 +1624,5 @@ export {
   goalieSortByItems,
   goalieStatHeaders,
   playerBioHeaders,
+  standingsTableOrder,
 }

@@ -40,7 +40,7 @@ const posFilters = [
 
 const sortTest = stat => {
   specify(`stats can be sorted by ${stat}`, () => {
-    cy.testSortByColumn(stat)
+    cy.testSortByColumn(stat, 1)
   })
 }
 
