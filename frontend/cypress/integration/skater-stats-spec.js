@@ -3,6 +3,7 @@
 import { waitLoadMoreRequest } from '../utils/networking'
 import teamArray from '../utils/team-array'
 import countryArray from '../utils/country-array'
+import skaterStatObject from '../utils/skater-stat-object'
 
 const statsToSort = [
   'Player',
@@ -40,7 +41,7 @@ const posFilters = [
 
 const sortTest = stat => {
   specify(`stats can be sorted by ${stat}`, () => {
-    cy.testSortByColumn(stat, 1)
+    cy.testSortByColumn(stat, skaterStatObject)
   })
 }
 

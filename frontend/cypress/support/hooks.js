@@ -2,7 +2,7 @@
 // Therefore, as a workaround we polyfill `fetch` with traditional XHR which
 // are supported. See: https://github.com/cypress-io/cypress/issues/687
 enableFetchWorkaround()
-// reseedDb()
+reseedDb()
 
 // private helpers
 function enableFetchWorkaround() {

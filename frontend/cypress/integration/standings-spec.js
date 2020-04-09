@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
 
 import teamArray from '../utils/team-array'
+import standingsObject from '../utils/standings-object'
 
 // Commented out items excluded from the tets.
 // The input data for those stats is always zero
@@ -28,7 +29,7 @@ const statsToSort = [
 
 const sortTest = stat => {
   specify(`stats can be sorted by ${stat}`, () => {
-    cy.testSortByColumn(stat, 2)
+    cy.testSortByColumn(stat, standingsObject)
   })
 }
 

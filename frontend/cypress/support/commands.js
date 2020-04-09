@@ -24,9 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-import skaterStatObject from '../utils/skater-stat-object'
-import standingsObject from '../utils/standings-object'
-
 Cypress.Commands.add('login', (credentials, disableCookies) => {
   const username = credentials
     ? credentials.username
@@ -318,12 +315,6 @@ Cypress.Commands.add('getValuesByColumn', (columnName, ignoreLastRow) => {
 })
 
 Cypress.Commands.add('testSortByColumn', (columnName, statObj, hasTotalRow) => {
-  // const statObjects = {
-  //   1: skaterStatObject,
-  //   2: standingsObject,
-  // }
-  // const statObj = statObjects[context]
-
   const ignoreLastRow = hasTotalRow ? true : false
 
   cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
