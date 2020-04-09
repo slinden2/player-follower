@@ -118,7 +118,7 @@ const getPlayerProps = (commonVars, typeSpecificVars) => {
       const baseInfoString = `#${root.primaryNumber}, ${root.primaryPosition.abbreviation}`
       return (
         <>
-          {baseInfoString}
+          <span>{baseInfoString}</span>
           <Media query={breakpoints.profileWide}>{pob}</Media>
         </>
       )

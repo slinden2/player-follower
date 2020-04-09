@@ -47,7 +47,7 @@ const ProfilePrimaryStats = ({ headers, stats }) => {
   const numOfStats = stats.length
 
   return (
-    <List>
+    <List data-cy='profile-header-stats'>
       {stats.map((stat, i) => (
         <ListItem key={stat.id} isLast={i === numOfStats - 1}>
           <StatTitle title={headers[stat.id].title}>

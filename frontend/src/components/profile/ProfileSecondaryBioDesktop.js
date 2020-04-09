@@ -42,7 +42,7 @@ const Content = styled.div`
 const ProfileSecondaryBioDesktop = ({ data }) => {
   return (
     <Container>
-      <List>
+      <List data-cy='profile-secondary-stats'>
         {data.titleArray.map(item => (
           <ListItem key={item}>
             <Title>{data.headers[item].text}</Title>

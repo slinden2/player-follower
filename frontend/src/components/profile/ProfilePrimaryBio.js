@@ -29,7 +29,7 @@ const ProfilePrimaryBio = props => {
   const { primaryTitle, secondaryTitle, primaryInfoString } = props
 
   return (
-    <List>
+    <List data-cy='profile-primary-bio'>
       <SecondaryTitle>{secondaryTitle}</SecondaryTitle>
       <PrimaryTitle>{primaryTitle}</PrimaryTitle>
       <AdditionalInfo>{primaryInfoString()}</AdditionalInfo>

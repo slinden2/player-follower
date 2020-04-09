@@ -296,7 +296,7 @@ Cypress.Commands.add('cardIsNotFlipped', cardNum => {
 })
 
 // Tables
-Cypress.Commands.add('getValuesByColumn', columnName => {
+Cypress.Commands.add('getValuesByColumn', (columnName, ignoreLastRow) => {
   let index
   cy.get('table thead th').each(($el, $index) => {
     if ($el.text() === columnName) {
@@ -310,20 +310,25 @@ Cypress.Commands.add('getValuesByColumn', columnName => {
       cellContents.push($el[0].cells[index].innerText)
     })
     .then(() => {
+      if (ignoreLastRow) {
+        cellContents = cellContents.slice(0, -1)
+      }
       return cellContents
     })
 })
 
-Cypress.Commands.add('testSortByColumn', (columnName, context) => {
-  const statObjects = {
-    1: skaterStatObject,
-    2: standingsObject,
-  }
-  const statObj = statObjects[context]
+Cypress.Commands.add('testSortByColumn', (columnName, statObj, hasTotalRow) => {
+  // const statObjects = {
+  //   1: skaterStatObject,
+  //   2: standingsObject,
+  // }
+  // const statObj = statObjects[context]
+
+  const ignoreLastRow = hasTotalRow ? true : false
 
   cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
 
-  cy.getValuesByColumn(columnName).then(points => {
+  cy.getValuesByColumn(columnName, ignoreLastRow).then(points => {
     expect(points, columnName).to.have.ordered.members(
       statObj[columnName.toLowerCase()]
     )
@@ -331,7 +336,7 @@ Cypress.Commands.add('testSortByColumn', (columnName, context) => {
 
   cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
 
-  cy.getValuesByColumn(columnName).then(points => {
+  cy.getValuesByColumn(columnName, ignoreLastRow).then(points => {
     expect(points, columnName).not.to.have.ordered.members(
       statObj[columnName.toLowerCase()]
     )
@@ -342,7 +347,7 @@ Cypress.Commands.add('testSortByColumn', (columnName, context) => {
 
   cy.contains('table thead th', RegExp(`^${columnName}$`)).click()
 
-  cy.getValuesByColumn(columnName).then(points => {
+  cy.getValuesByColumn(columnName, ignoreLastRow).then(points => {
     expect(points, columnName).to.have.ordered.members(
       statObj[columnName.toLowerCase()]
     )
@@ -376,3 +381,5 @@ Cypress.Commands.add('testFilterByCountry', (country, num) => {
     expect(playerArr, 'Array of players').to.have.lengthOf(num)
   })
 })
+
+Cypress.Commands.add('testTableTotalRow', () => {})
