@@ -34,6 +34,22 @@ describe('/players/top-players', () => {
     cy.cardIsFlipped(0)
   })
 
+  specify('cards contain links to player and team profiles', () => {
+    cy.get('[data-cy=card-front]')
+      .eq(0)
+      .within(() => {
+        cy.get('a[href="/players/jack-eichel"]').should('exist')
+        cy.get('a[href="/teams/buffalo-sabres"]').should('exist')
+      })
+
+    cy.get('[data-cy=card-front]')
+      .eq(2)
+      .within(() => {
+        cy.get('a[href="/players/yannick-weber"]').should('exist')
+        cy.get('a[href="/teams/nashville-predators"]').should('exist')
+      })
+  })
+
   it('shows cards in correct order (by points)', () => {
     cy.get('@cards').eq(0).should('contain', 'Jack Eichel')
     cy.get('@cards').eq(1).should('contain', 'TJ Brodie')
