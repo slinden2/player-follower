@@ -31,15 +31,20 @@ const SearchDropdown = ({ results, resetAll, noNav }) => {
   if (results[0].__typename === 'Team') isTeamData = true
 
   return (
-    <Container noNav={noNav}>
+    <Container noNav={noNav} data-cy='search-result-container'>
       <Table>
-        <SearchDropdownRow header isTeamData={isTeamData} />
+        <SearchDropdownRow
+          header
+          isTeamData={isTeamData}
+          dataCy='search-header'
+        />
         {results.map((item, i) => (
           <SearchDropdownRow
             key={i}
             data={item}
             resetAll={resetAll}
             isTeamData={isTeamData}
+            dataCy='search-result'
           />
         ))}
       </Table>

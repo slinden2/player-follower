@@ -62,11 +62,11 @@ const teamItems = object => [
 
 const hasLink = object => _.has(object, 'link')
 
-const SearchDropdownRow = ({ data, header, resetAll, isTeamData }) => {
+const SearchDropdownRow = ({ data, header, resetAll, isTeamData, dataCy }) => {
   const dataArray = isTeamData ? teamItems : playerItems
 
   return (
-    <Container header={header}>
+    <Container header={header} data-cy={dataCy}>
       {dataArray(data).map((item, i) => (
         <DataItem key={i} first={item.first} header={header}>
           {header ? (
