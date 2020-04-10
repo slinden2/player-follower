@@ -78,7 +78,7 @@ const HamburgerToggle = () => {
   const { checked, handleToggle } = useContext(HamburgerContext)
   return (
     <>
-      <ToggleLabel htmlFor='toggle-checkbox'>
+      <ToggleLabel htmlFor='toggle-checkbox' data-cy='hamburger'>
         <Line1 checked={checked} />
         <Line2 checked={checked} />
         <Line3 checked={checked} />

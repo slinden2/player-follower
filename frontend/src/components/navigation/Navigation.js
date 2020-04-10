@@ -49,7 +49,7 @@ const Logo = styled.img``
 
 const Navigation = () => {
   return (
-    <Container>
+    <Container data-cy='nav-header'>
       <LogoContainer>
         <Link to='/'>
           <Logo src={Img} />

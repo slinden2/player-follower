@@ -42,7 +42,7 @@ const NavContainerNoRouter = ({ location }) => {
   const isSearchPage = location.pathname === '/search'
 
   return (
-    <Container>
+    <Container data-cy='nav-container'>
       <NavList items={createNaviItems(mainNaviItems)} />
       <Media query={breakpoints.showSearchField}>
         {matches => matches && !isSearchPage && <SearchField />}

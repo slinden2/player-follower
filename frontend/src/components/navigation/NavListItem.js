@@ -209,6 +209,7 @@ const NavListItem = ({
       hideOnDesktop={hideOnDesktop}
       onMouseEnter={hoverIsActive && handleEnter}
       onMouseLeave={hoverIsActive && handleLeave}
+      data-cy='nav-item'
     >
       {to && !dropdown ? (
         <StyledNavLink {...linkProps}>{nameToShow}</StyledNavLink>
