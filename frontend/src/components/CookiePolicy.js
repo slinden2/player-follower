@@ -72,7 +72,7 @@ const CookiePolicy = ({ setCookieConsent }) => {
   }
 
   return (
-    <Container>
+    <Container data-cy='cookie-consent-container'>
       <Text>
         This website uses cookies to ensure you get the best experience on our
         website. You accept the cookie policy by clicking <i>Accept</i>, by
