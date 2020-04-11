@@ -1,7 +1,7 @@
 const Token = require('../models/token')
 const User = require('../models/user')
-const resetDb = require('../tests/scripts/reset-db')
-const seedDb = require('../tests/scripts/seed-db')
+const resetDb = require('../jobs/db-reseed/reset-db')
+const seedDb = require('../jobs/db-reseed/seed-db')
 
 const resolvers = {
   Query: {
