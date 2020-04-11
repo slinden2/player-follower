@@ -430,6 +430,7 @@ const typeDefs = gql`
     username: String!
     email: String!
     favoritePlayers: [String]!
+    isVerified: Boolean!
   }
 
   type Token {
@@ -438,6 +439,12 @@ const typeDefs = gql`
 
   type LastUpdate {
     date: String!
+  }
+
+  type UserToken {
+    userId: ID!
+    token: String!
+    expireAt: String!
   }
 
   enum FollowType {
@@ -645,9 +652,17 @@ const typeDefs = gql`
     """
     me: User
     """
+    Return a user by id
+    """
+    GetUser(id: String!): User
+    """
     Returns the time of the last update of the db
     """
     GetLastUpdate: LastUpdate!
+    """
+    Return a token from db. Only for testing.
+    """
+    GetToken: UserToken!
   }
 
   type Mutation {
@@ -671,6 +686,10 @@ const typeDefs = gql`
       message: String!
       recaptcha: String!
     ): Boolean!
+
+    # For testing purposes only
+    ResetDB: Boolean!
+    SeedDB: Boolean!
   }
 `
 

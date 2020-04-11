@@ -17,7 +17,9 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "client": "npm start --prefix ../frontend",
     "dev": "concurrently \"npm run watch\" \"npm run client\"",
+    "e2e": "concurrently \"npm run start:test\" \"npm run client\"",
     "lint": "eslint .",
+    "start:test": "cross-env NODE_ENV=test node server.js",
     "fetch_conferences": "cross-env NODE_ENV=development node jobs/fetch-conferences.js",
     "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
     "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
@@ -48,7 +50,10 @@
     "update_boxscores": "cross-env NODE_ENV=development node jobs/update-boxscores",
     "mongo": "cross-env NODE_ENV=development node jobs/mongo-scripts.js",
     "mailgun": "cross-env NODE_ENV=development node utils/mailgun-send-email.js",
-    "server": "json-server -p3001 --watch db.json"
+    "server": "json-server -p3001 --watch db.json",
+    "db:reset": "cross-env NODE_ENV=test node tests/scripts/reset-db.js",
+    "db:seed": "cross-env NODE_ENV=test node tests/scripts/seed-db.js",
+    "db:reseed": "cross-env NODE_ENV=test node tests/scripts/reset-db.js && cross-env NODE_ENV=test node tests/scripts/seed-db.js"
   },
   "author": "Samu Linden",
   "license": "MIT",

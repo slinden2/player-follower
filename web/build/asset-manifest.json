@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/static/js/main.3ed0fd14.chunk.js",
+    "main.js": "/static/js/main.d8211f8e.chunk.js",
     "runtime-main.js": "/static/js/runtime-main.1c2d59f4.js",
-    "static/js/2.d6112952.chunk.js": "/static/js/2.d6112952.chunk.js",
+    "static/js/2.ddf7f81e.chunk.js": "/static/js/2.ddf7f81e.chunk.js",
     "index.html": "/index.html",
-    "precache-manifest.d6ae0ed584ce645687d8febad41ed711.js": "/precache-manifest.d6ae0ed584ce645687d8febad41ed711.js",
+    "precache-manifest.af2910237ffd05a6df8f1c415c18cf25.js": "/precache-manifest.af2910237ffd05a6df8f1c415c18cf25.js",
     "service-worker.js": "/service-worker.js",
-    "static/js/2.d6112952.chunk.js.LICENSE": "/static/js/2.d6112952.chunk.js.LICENSE",
+    "static/js/2.ddf7f81e.chunk.js.LICENSE": "/static/js/2.ddf7f81e.chunk.js.LICENSE",
     "static/media/flag-aut-min.svg": "/static/media/flag-aut-min.d8aa5869.svg",
     "static/media/flag-can-min.svg": "/static/media/flag-can-min.bc028814.svg",
     "static/media/flag-che-min.svg": "/static/media/flag-che-min.9a667835.svg",
@@ -25,7 +25,7 @@
   },
   "entrypoints": [
     "static/js/runtime-main.1c2d59f4.js",
-    "static/js/2.d6112952.chunk.js",
-    "static/js/main.3ed0fd14.chunk.js"
+    "static/js/2.ddf7f81e.chunk.js",
+    "static/js/main.d8211f8e.chunk.js"
   ]
 }

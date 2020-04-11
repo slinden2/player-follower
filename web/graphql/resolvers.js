@@ -14,15 +14,13 @@ const Token = require('../models/token')
 const SkaterBoxscore = require('../models/skater-boxscore')
 const Goal = require('../models/goal')
 const validateRecaptcha = require('../utils/validate-recaptcha')
-const {
-  bestPlayersAggregate,
-  favoritePlayersAggregate,
-  seasonStatsAggregate,
-  teamStandingsAggregate,
-  bestTeamsAggregate,
-} = require('./pipelines')
 const profileAggregate = require('./profile-aggregate')
-const milestonePipeline = require('../pipelines/milestonePipeline')
+const bestPlayersAggregate = require('./best-players-aggregate')
+const favoritePlayersAggregate = require('./favorite-players-aggregate')
+const seasonStatsAggregate = require('./season-stats-aggregate')
+const bestTeamsAggregate = require('./best-teams-aggregate')
+const teamStandingsAggregate = require('./team-standings-aggregate')
+const milestonePipeline = require('./pipelines/milestone-pipeline')
 const {
   convertSecsToMin,
   roundToDecimal,
@@ -233,6 +231,7 @@ const resolvers = {
   Mutation: {
     CreateUser: async (root, args) => {
       const { username, password, email, recaptcha } = args
+      // Recaptcha returns always success in development and testing envs.
       await validateRecaptcha(recaptcha)
       const existingUser = await User.findOne({
         $or: [{ usernameLower: username.toLowerCase() }, { email }],
@@ -261,7 +260,10 @@ const resolvers = {
       })
       const savedToken = await verificationToken.save()
       const savedUser = await user.save()
-      sendVerificationEmail(user.email, savedToken.token)
+      // Omit verification email when testing
+      if (process.env.NODE_ENV !== 'test') {
+        sendVerificationEmail(user.email, savedToken.token)
+      }
       return savedUser
     },
     VerifyUser: async (root, args) => {
@@ -317,7 +319,11 @@ const resolvers = {
         token: jwt.sign({ userId: user._id }, JWT_SECRET),
       })
       const savedToken = await verificationToken.save()
-      await sendForgotPasswordEmail(user.email, savedToken.token)
+
+      if (process.env.NODE_ENV !== 'test') {
+        await sendForgotPasswordEmail(user.email, savedToken.token)
+      }
+
       return user.toJSON()
     },
     SetNewPassword: async (root, args) => {
@@ -357,7 +363,11 @@ const resolvers = {
       const { name, email, subject, message, recaptcha } = args
       const username = currentUser && currentUser.username
       await validateRecaptcha(recaptcha)
-      await sendContactFormEmail(name, email, subject, message, username)
+
+      if (process.env.NODE_ENV !== 'test') {
+        await sendContactFormEmail(name, email, subject, message, username)
+      }
+
       return true
     },
     FollowPlayer: async (root, args, ctx) => {
