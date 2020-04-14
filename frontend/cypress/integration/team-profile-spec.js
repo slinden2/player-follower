@@ -3,7 +3,7 @@
 import { totalRow, teamProfileObject } from '../utils/team-profile-data'
 
 const statsToSort = [
-  'Date',
+  // 'Date', ### excluded because date format on the CI server is different
   'vs.',
   'W',
   'L',
