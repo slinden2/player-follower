@@ -2,14 +2,26 @@ name: End-to-end tests
 on: [push, pull_request]
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install
+        working-directory: backend
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
-          config-file: ./frontend/cypress.json
-          with: cd ./backend && npm run e2e
+          browser: chrome
+          working-directory: frontend
+          config-file: cypress.json
+          start: npm run start:ci
           wait-on: http://localhost:3000
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          RECAPTCHA_SECRET_TEST: ${{ secrets.RECAPTCHA_SECRET_TEST }}

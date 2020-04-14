@@ -1,18 +1,16 @@
 const mailgun = require('mailgun-js')
 const generateAccountConfirmationEmail = require('./templates/account-activation-email')
 const generateForgotPasswordEmail = require('./templates/forgot-password-email')
+const { MG_CONN_OBJECT } = require('./config')
 
 let domain = 'http://www.player.fan'
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
   domain = 'http://localhost:3000'
 }
 
-const MG_CONN = mailgun({
-  apiKey: process.env.MG_API_KEY,
-  domain: process.env.MG_DOMAIN,
-  host: 'api.eu.mailgun.net',
-})
+const MG_CONN = mailgun(MG_CONN_OBJECT)
 
 const sendVerificationEmail = (email, token) => {
   const data = {
@@ -37,7 +35,7 @@ const sendForgotPasswordEmail = async (email, token) => {
     html: generateForgotPasswordEmail(domain, token),
   }
 
-  MG_CONN.messages().send(data, function(error, body) {
+  MG_CONN.messages().send(data, function (error, body) {
     console.log(body)
   })
 }
@@ -56,7 +54,7 @@ const sendContactFormEmail = async (
     text: `Username: ${username}\nName: ${name}\nEmail: ${email}\n\nMessage: ${message}`,
   }
 
-  MG_CONN.messages().send(data, function(error, body) {
+  MG_CONN.messages().send(data, function (error, body) {
     console.log(body)
   })
 }

@@ -20,6 +20,7 @@
     "e2e": "concurrently \"npm run start:test\" \"npm run client\"",
     "lint": "eslint .",
     "start:test": "cross-env NODE_ENV=test node server.js",
+    "start:ci": "NODE_ENV=test node server.js",
     "fetch_conferences": "cross-env NODE_ENV=development node jobs/fetch-conferences.js",
     "fetch_divisions": "cross-env NODE_ENV=development node jobs/fetch-divisions.js",
     "fetch_teams": "cross-env NODE_ENV=development node jobs/fetch-teams.js",
