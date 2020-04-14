@@ -11,8 +11,8 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "start_local": "cross-env NODE_ENV=development node server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "start:local": "cross-env NODE_ENV=development node server.js",
     "watch": "cross-env NODE_ENV=development nodemon server.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "client": "npm start --prefix ../frontend",

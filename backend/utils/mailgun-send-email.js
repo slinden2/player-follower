@@ -1,14 +1,11 @@
 const mailgun = require('mailgun-js')
+const { MG_CONN_OBJECT } = require('./config')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const mg = mailgun({
-  apiKey: process.env.MG_API_KEY,
-  domain: process.env.MG_DOMAIN,
-  host: 'api.eu.mailgun.net',
-})
+const mg = mailgun(MG_CONN_OBJECT)
 
 const data = {
   from: 'Player Fan <norepy@player.fan>',
@@ -17,6 +14,6 @@ const data = {
   text: 'Testing some Mailgun awesomness!',
 }
 
-mg.messages().send(data, function(error, body) {
+mg.messages().send(data, function (error, body) {
   console.log(body)
 })

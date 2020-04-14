@@ -4,13 +4,13 @@ Resets the test db completely by dropping it.
 
 const mongoose = require('mongoose')
 
-const resetDb = async () => {
+const resetDb = () => {
   if (process.env.NODE_ENV !== 'test') {
     throw new Error('This script runs only in testing context.')
   }
 
   console.log('reset-db.dropping-database')
-  await mongoose.connection.db.dropDatabase()
+  mongoose.connection.db.dropDatabase()
   console.log('reset-db.database-dropped')
 }
 

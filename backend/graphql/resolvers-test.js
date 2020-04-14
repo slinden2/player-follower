@@ -15,8 +15,8 @@ const resolvers = {
     },
   },
   Mutation: {
-    ResetDB: async () => {
-      await resetDb()
+    ResetDB: () => {
+      resetDb()
       return true
     },
     SeedDB: async () => {

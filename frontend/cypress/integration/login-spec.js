@@ -20,9 +20,7 @@ describe('/login', () => {
   })
 
   it('requires username/email', () => {
-    cy.get('form')
-      .contains('Log In')
-      .click()
+    cy.get('form').contains('Log In').click()
     cy.get('[data-cy=form-error')
       .eq(0)
       .should('be.visible')
@@ -69,9 +67,7 @@ describe('/login', () => {
 
     cy.login()
 
-    cy.getCookie('user')
-      .its('expiry')
-      .should('not.exist')
+    cy.getCookie('user').its('expiry').should('not.exist')
   })
 
   it('navigates to / after a successfull login', () => {
@@ -86,8 +82,6 @@ describe('/login', () => {
       'successfully logged in'
     )
 
-    cy.getCookie('user')
-      .its('expiry')
-      .should('exist')
+    cy.getCookie('user').its('expiry').should('exist')
   })
 })
