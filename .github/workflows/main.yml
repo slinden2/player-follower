@@ -16,12 +16,13 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
-          browser: chrome
           working-directory: frontend
           config-file: cypress.json
           start: npm run start:ci
           wait-on: http://localhost:3000
+          record: true
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           RECAPTCHA_SECRET_TEST: ${{ secrets.RECAPTCHA_SECRET_TEST }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
