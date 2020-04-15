@@ -6,7 +6,9 @@ The web app allows the used to follow his favorite NHL players and see their sta
 
 The unofficial API documentation can be found [here](https://gitlab.com/dword4/nhlapi).
 
-The repository is structured so that development versions of backend and frontend can be found in their respective directories in the root of the repository. The `web` directory contains the current version of the application deployed in [Heroku](https://nameless-refuge-44259.herokuapp.com/).
+The repository is structured so that development versions of backend and frontend can be found in their respective directories in the root of the repository. The `web` directory contains the current built version of the application deployed to a cloud server running [Dokku](http://dokku.viewdocs.io/dokku/).
+
+The app can be visited at https://player.fan
 
 ## docs
 
