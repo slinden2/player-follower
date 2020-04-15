@@ -1,7 +1,7 @@
-name: End-to-end tests
+name: Test and Deploy
 on: [push, pull_request]
 jobs:
-  cypress-run:
+  test-and-deploy:
     runs-on: ubuntu-16.04
     steps:
       - name: Checkout
@@ -26,3 +26,12 @@ jobs:
           RECAPTCHA_SECRET_TEST: ${{ secrets.RECAPTCHA_SECRET_TEST }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           REACT_APP_RECAPTCHA_SITE_KEY_V2_TEST: ${{ secrets.REACT_APP_RECAPTCHA_SITE_KEY_V2_TEST }}
+      - id: deploy
+        name: Deploy to dokku
+        uses: slinden2/dokku-deploy-github-action@v1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          dokku-ip-address: ${{ secrets.SERVER_IP }}
+          dokku-host: 'player.fan'
+          app-name: 'playerfan'
+          git-subtree-prefix: 'web'

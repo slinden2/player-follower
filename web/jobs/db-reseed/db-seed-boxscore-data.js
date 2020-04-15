@@ -1132,7 +1132,7 @@ team 20 games: 2019020590
     5da7062c3c59dc42c4296b98
 
 team 22 games: 2019020641, 2019020590
-  players: 
+  players:
     5da7056333e8b648b0fea7c7
     5da7056333e8b648b0fea7cb
     5da7056333e8b648b0fea7d9
