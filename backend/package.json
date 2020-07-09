@@ -87,6 +87,7 @@
     "mongoose-unique-validator": "^2.0.3",
     "nodemailer": "^6.3.0",
     "querystring": "^0.2.0",
+    "saslprep": "^1.0.3",
     "twitter": "^1.7.1"
   },
   "jest": {
