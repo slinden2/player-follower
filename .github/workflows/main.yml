@@ -31,5 +31,5 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           dokku-host: ${{ secrets.SERVER_IP }}
-          app-name: 'snw'
+          app-name: 'playerfan'
           git-push-flags: '--force'
