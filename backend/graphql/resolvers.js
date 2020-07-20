@@ -406,7 +406,7 @@ const resolvers = {
   },
   Player: {
     fullName: root => `${root.firstName} ${root.lastName}`,
-    birthDate: root => format(root.birthDate, 'D MMM YYYY'),
+    birthDate: root => format(root.birthDate, 'd MMM yyyy'),
   },
   Stats: {
     shotPct: root => {

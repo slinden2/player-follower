@@ -3,16 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "apollo-boost": "^0.4.9",
-    "apollo-link": "^1.2.14",
-    "apollo-link-context": "^1.0.20",
+    "@apollo/client": "^3.0.2",
     "formik": "^2.1.5",
     "graphql": "^15.3.0",
     "lodash": "^4.17.19",
     "polished": "^3.6.5",
     "react": "^16.13.1",
-    "react-apollo": "^3.1.5",
-    "react-apollo-hooks": "^0.5.0",
     "react-dom": "^16.13.1",
     "react-facebook-pixel": "^1.0.3",
     "react-ga": "^3.1.2",
@@ -37,7 +33,10 @@
     "cypress:run": "cypress run"
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app",
+      "plugin:cypress/recommended"
+    ],
     "rules": {
       "no-unused-vars": [
         "warn",
@@ -62,6 +61,7 @@
   "proxy": "http://localhost:4000",
   "devDependencies": {
     "chai-colors": "^1.0.1",
-    "cypress": "^4.10.0"
+    "cypress": "^4.10.0",
+    "eslint-plugin-cypress": "^2.11.1"
   }
 }

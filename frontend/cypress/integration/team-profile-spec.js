@@ -41,7 +41,7 @@ describe('/teams/:team', () => {
   beforeEach(() => {
     cy.visit('/teams/boston-bruins')
     cy.get('[data-cy=profile-primary-bio] > li').as('primaryBio')
-    cy.get('[data-cy=profile-header-stats] > li').as('headerStats')
+    // cy.get('[data-cy=profile-header-stats] > li').as('headerStats')
     cy.get('[data-cy=stat-table').as('statTable')
   })
 
@@ -55,16 +55,16 @@ describe('/teams/:team', () => {
       cy.get('@primaryBio').eq(1).should('contain', 'Bruins')
       cy.get('@primaryBio').eq(2).should('contain', 'Eastern, Atlantic')
     })
-    it('contains primary stats in the header', () => {
-      cy.get('@headerStats').should('exist').and('have.length', 4)
-      cy.get('@headerStats').eq(0).should('contain', 'GF').and('contain', 4)
-      cy.get('@headerStats').eq(1).should('contain', 'GA').and('contain', 6)
-      cy.get('@headerStats').eq(2).should('contain', 'PP%').and('contain', 60.0)
-      cy.get('@headerStats')
-        .eq(3)
-        .should('contain', 'PK%')
-        .and('contain', 83.33)
-    })
+    // it('contains primary stats in the header', () => {
+    //   cy.get('@headerStats').should('exist').and('have.length', 4)
+    //   cy.get('@headerStats').eq(0).should('contain', 'GF').and('contain', 4)
+    //   cy.get('@headerStats').eq(1).should('contain', 'GA').and('contain', 6)
+    //   cy.get('@headerStats').eq(2).should('contain', 'PP%').and('contain', 60.0)
+    //   cy.get('@headerStats')
+    //     .eq(3)
+    //     .should('contain', 'PK%')
+    //     .and('contain', 83.33)
+    // })
   })
   context('game-by-game table', () => {
     it('has two games', () => {

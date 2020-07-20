@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useApolloClient } from 'react-apollo-hooks'
+import { useApolloClient } from '@apollo/client'
 import _ from 'lodash'
 import { event } from '../utils/tracking'
 

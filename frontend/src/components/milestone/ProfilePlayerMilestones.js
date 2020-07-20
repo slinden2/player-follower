@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import Loader from '../elements/Loader'
 import { formatDate } from '../../utils'
 import { PlayerMilestone } from './PlayerMilestone'

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { Formik } from 'formik'
 import { event } from '../../utils/tracking'
 import { forgotPasswordSchema } from './validationSchemas'
@@ -24,7 +24,7 @@ const ForgotPassword = ({ history, onModal }) => {
   const { notification, setNotification, handleException } = useContext(
     NotificationContext
   )
-  const forgotPassword = useMutation(FORGOT_PASSWORD)
+  const [forgotPassword, { data }] = useMutation(FORGOT_PASSWORD)
 
   const handleForgotPassword = async (
     { email },

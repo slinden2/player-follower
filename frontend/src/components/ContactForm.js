@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { Formik } from 'formik'
 import Reaptcha from 'reaptcha'
 import { event } from '../utils/tracking'
@@ -27,7 +27,7 @@ const ContactForm = ({ history }) => {
   const { notification, setNotification, handleException } = useContext(
     NotificationContext
   )
-  const sendContactForm = useMutation(SEND_CONTACT_FORM)
+  const [sendContactForm, { data }] = useMutation(SEND_CONTACT_FORM)
   const recaptchaRef = useRef(null)
 
   const handleSubmitForm = async (

@@ -41,12 +41,12 @@ const PlayerCardPage = ({ context, queryName, header }) => {
   } = useContext(PlayerContext)
   const [filtersAreVisible, setFiltersAreVisible] = useState(false)
 
-  if (context !== filterContext) {
-    setFilterContext(context)
-    resetFilters()
-  }
-
   useEffect(() => {
+    if (context !== filterContext) {
+      setFilterContext(context)
+      resetFilters()
+    }
+
     return () => {
       resetFilters()
     }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import styled from 'styled-components'
 import PageContainer from './elements/PageContainer'
 import PlayerCardContainer from './card/PlayerCardContainer'

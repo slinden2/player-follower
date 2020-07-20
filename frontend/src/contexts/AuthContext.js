@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react'
-import { useApolloClient, useQuery } from 'react-apollo-hooks'
+import { useApolloClient, useQuery } from '@apollo/client'
 import { setCookie, getCookie, removeCookie } from '../utils'
 import { USER } from '../graphql/queries'
 import { PlayerContext } from './PlayerContext'

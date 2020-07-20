@@ -35,7 +35,11 @@ const Container = styled.nav`
     flex-direction: column;
     height: 100%;
     box-sizing: border-box;
-    ${props => props.right && 'margin-left: auto'}
+    ${({ right }) =>
+      right &&
+      css`
+        margin-left: auto;
+      `}
 
     &::before {
       all: unset;
@@ -74,9 +78,7 @@ const NavList = ({ items, right }) => {
     },
   }
 
-  let username
-
-  if (user.data.me) username = user.data.me.username
+  const username = user.data?.me?.username
 
   const createItems = () => {
     const navItems = items.map(

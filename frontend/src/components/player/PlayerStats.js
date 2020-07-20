@@ -1,5 +1,5 @@
 import React, { useReducer, useState, useEffect } from 'react'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import { CUMULATIVE_STATS } from '../../graphql/queries'
 import NewStatsTable from '../stats/NewStatsTable'

@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import { gql } from '@apollo/client'
 
 const PLAYER_CARD_BIO = gql`
   fragment PlayerCardBio on PlayerCard {

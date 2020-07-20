@@ -38,7 +38,7 @@ describe('/players/:player', () => {
   beforeEach(() => {
     cy.visit('/players/jack-eichel')
     cy.get('[data-cy=profile-primary-bio] > li').as('primaryBio')
-    cy.get('[data-cy=profile-header-stats] > li').as('headerStats')
+    // cy.get('[data-cy=profile-header-stats] > li').as('headerStats')
     cy.get('[data-cy=profile-secondary-stats] > li').as('secondaryStats')
     cy.get('[data-cy=stat-table').as('statTable')
   })
@@ -59,12 +59,12 @@ describe('/players/:player', () => {
         .eq(1)
         .should('contain', 'North Chelmsford, MA, USA')
     })
-    it('contains primary stats in the header', () => {
-      cy.get('@headerStats').should('exist').and('have.length', 3)
-      cy.get('@headerStats').eq(0).should('contain', 'GP').and('contain', 2)
-      cy.get('@headerStats').eq(1).should('contain', 'G').and('contain', 1)
-      cy.get('@headerStats').eq(2).should('contain', 'P').and('contain', 2)
-    })
+    // it('contains primary stats in the header', () => {
+    //   cy.get('@headerStats').should('exist').and('have.length', 3)
+    //   cy.get('@headerStats').eq(0).should('contain', 'GP').and('contain', 2)
+    //   cy.get('@headerStats').eq(1).should('contain', 'G').and('contain', 1)
+    //   cy.get('@headerStats').eq(2).should('contain', 'P').and('contain', 2)
+    // })
     it('shows secondary stats on the page', () => {
       cy.get('@secondaryStats').should('exist').and('have.length', 6)
       cy.get('@secondaryStats').eq(0).find('a[href="/teams/buffalo-sabres"]')

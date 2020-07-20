@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { VERIFY_USER } from '../../graphql/mutations'
 import PageContainer from '../elements/PageContainer'
 import ContentWrapper from '../elements/ContentWrapper'
@@ -10,8 +10,9 @@ import colors from '../../styles/colors'
 const Confirmation = ({ token }) => {
   const [user, setUser] = useState(null)
   const [error, setError] = useState(null)
-  const verifyUser = useMutation(VERIFY_USER, { variables: { token } })
-
+  const [verifyUser, { data }] = useMutation(VERIFY_USER, {
+    variables: { token },
+  })
   const canFetch = !user && !error
 
   useEffect(() => {

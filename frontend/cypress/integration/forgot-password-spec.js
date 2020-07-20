@@ -1,6 +1,13 @@
 /// <reference types="Cypress" />
 
 describe('/forgot-password/', () => {
+  before(() => {
+    console.info('Tearing down the DB...')
+    cy.teardownDb()
+    console.info('Reseeding the DB...')
+    cy.seedDb()
+  })
+
   beforeEach(() => {
     cy.visit('/forgot-password')
   })

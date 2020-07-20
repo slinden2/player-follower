@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import { STANDINGS } from '../../graphql/queries'
 import _ from 'lodash'

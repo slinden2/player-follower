@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import Loader from '../elements/Loader'
 import { Container, Header } from './milestoneStyles'
 import { formatDate } from '../../utils'

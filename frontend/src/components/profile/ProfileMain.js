@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Media from 'react-media'
 import styled from 'styled-components'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import { PLAYER_MILESTONES, GET_GAME_RECAPS } from '../../graphql/queries'
 import PageContainer from '../elements/PageContainer'
 import breakpoints from '../../styles/breakpoints'
@@ -177,21 +177,21 @@ const getPlayerProps = (commonVars, typeSpecificVars) => {
 const ProfileMain = ({ siteLink, context, query }) => {
   const [milestoneGamePk, setMilestoneGamePk] = useState(null)
 
-  const { data, loading } = useQuery(query, {
+  const test = useQuery(query, {
     variables: { siteLink, type: context },
   })
 
-  if (loading) {
+  if (test.loading) {
     return <Loader offset />
   }
 
-  if (!data.GetPlayer && !data.GetTeam) {
+  if (!test.data.GetPlayer && !test.data.GetTeam) {
     return <Redirect to='/404' />
   }
 
   const contextSelector = {
     skater: () => {
-      const commonVars = getCommonPlayerVars(data)
+      const commonVars = getCommonPlayerVars(test.data)
 
       const skaterSpecificVars = {
         type: 'skater',
@@ -235,7 +235,7 @@ const ProfileMain = ({ siteLink, context, query }) => {
       return getPlayerProps(commonVars, skaterSpecificVars)
     },
     goalie: () => {
-      const commonVars = getCommonPlayerVars(data)
+      const commonVars = getCommonPlayerVars(test.data)
 
       const goalieSpecificVars = {
         type: 'goalie',
@@ -274,7 +274,7 @@ const ProfileMain = ({ siteLink, context, query }) => {
       return getPlayerProps(commonVars, goalieSpecificVars)
     },
     team: () => {
-      const root = data.GetTeam
+      const root = test.data.GetTeam
       return {
         title: 'Team Profile',
         data: root,

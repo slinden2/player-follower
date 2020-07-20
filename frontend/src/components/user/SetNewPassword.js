@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { Formik } from 'formik'
 import { event } from '../../utils/tracking'
 import { SET_NEW_PASSWORD } from '../../graphql/mutations'
@@ -17,7 +17,7 @@ const SetNewPassword = ({ history, token }) => {
   const { notification, setNotification, handleException } = useContext(
     NotificationContext
   )
-  const setNewPassword = useMutation(SET_NEW_PASSWORD)
+  const [setNewPassword, { data }] = useMutation(SET_NEW_PASSWORD)
 
   const handleSetNewPassword = async (
     { newPassword },

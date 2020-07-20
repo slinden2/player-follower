@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { Formik } from 'formik'
 import { event } from '../../utils/tracking'
 import { loginSchema } from './validationSchemas'
@@ -29,7 +29,7 @@ const LoginForm = ({ history, onModal }) => {
   )
   const { loginUser } = useContext(AuthContext)
 
-  const login = useMutation(LOGIN)
+  const [login, { data }] = useMutation(LOGIN)
 
   const handleLogin = async (
     { username, password, rememberMe },

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import { CardContainer } from './styles'
 import { BEST_TEAMS } from '../../graphql/queries'
 import Loader from '../elements/Loader'

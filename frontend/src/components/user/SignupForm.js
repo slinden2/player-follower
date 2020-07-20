@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { Formik } from 'formik'
 import Reaptcha from 'reaptcha'
 import { event } from '../../utils/tracking'
@@ -29,7 +29,7 @@ const SignupForm = ({ history, onModal }) => {
   )
   const recaptchaRef = useRef(null)
 
-  const createUser = useMutation(CREATE_USER)
+  const [createUser, { data }] = useMutation(CREATE_USER)
 
   const handleSignup = async (
     { username, email, password, recaptcha },

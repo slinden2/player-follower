@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import { useQuery, useMutation } from '@apollo/client'
 import {
   USER,
   BEST_PLAYERS,
@@ -53,7 +53,7 @@ const PlayerContextProvider = props => {
 
   const allPlayers = useQuery(ALL_PLAYERS)
 
-  const followPlayer = useMutation(FOLLOW_PLAYER, {
+  const [followPlayer, { followState }] = useMutation(FOLLOW_PLAYER, {
     refetchQueries: [{ query: FAVORITE_PLAYERS, variables }],
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: USER })
@@ -64,7 +64,7 @@ const PlayerContextProvider = props => {
     },
   })
 
-  const unfollowPlayer = useMutation(UNFOLLOW_PLAYER, {
+  const [unfollowPlayer, unfollowState] = useMutation(UNFOLLOW_PLAYER, {
     refetchQueries: [{ query: FAVORITE_PLAYERS, variables }],
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: USER })
