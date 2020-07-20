@@ -4,9 +4,9 @@ FROM node:latest
 RUN mkdir -p /temp/backend
 
 # Copy backend to the temp directory
-COPY /backend /temp/backend
+# COPY /backend /temp/backend
 
-WORKDIR /temp/backend
+WORKDIR /backend
 
 # Install dependencies
 RUN npm install
@@ -18,15 +18,15 @@ RUN mkdir /app
 # RUN mv /temp/backend/node_modules /app
 
 # Move built backend go to the app
-RUN mv /temp/backend/* /app
+RUN mv /backend/* /app
 
 # Prepare a temp directory for frontend
-RUN mkdir -p /temp/frontend
+# RUN mkdir -p /temp/frontend
 
 # Copy frontend to the temp directory
-COPY /frontend /temp/frontend
+# COPY /frontend /temp/frontend
 
-WORKDIR /temp/frontend
+WORKDIR /frontend
 
 # Install dependencies
 RUN npm install
@@ -41,7 +41,7 @@ RUN mkdir -p /app/build
 RUN mv /temp/frontend/build/* /app/build
 
 # Delete all temporary stuff
-RUN rm -r /temp
+# RUN rm -r /temp
 
 WORKDIR /app
 
