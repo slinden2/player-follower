@@ -26,18 +26,20 @@ const bestPlayersAggregate = (
   positionFilter,
   teamFilter,
   nationalityFilter,
-  sortBy
+  sortBy,
+  seasonId
 ) => {
   const getSortStage =
     positionFilter === 'GOALIE' ? playerCardSortGoalie : playerCardSort
 
   const pipeline = [
-    ...bestPlayersPipeline(
+    ...bestPlayersPipeline({
       numOfGames,
       positionFilter,
       teamFilter,
-      nationalityFilter
-    ),
+      nationalityFilter,
+      seasonId,
+    }),
     ...reformatPlayerCardData(numOfGames),
     ...getSortStage(sortBy),
   ]

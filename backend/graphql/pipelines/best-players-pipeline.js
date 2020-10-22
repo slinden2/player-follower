@@ -237,13 +237,14 @@ const calculateGoalieStats = idString => [
   },
 ]
 
-const bestPlayersPipeline = (
+const bestPlayersPipeline = ({
   numOfGames,
   positionFilter,
   teamFilter,
   nationalityFilter,
-  siteLink
-) => {
+  siteLink,
+  seasonId,
+}) => {
   const bsField =
     positionFilter === 'GOALIE' ? 'goalieboxscores' : 'skaterboxscores'
   const calcStats =
@@ -264,6 +265,23 @@ const bestPlayersPipeline = (
         localField: 'boxscores',
         foreignField: '_id',
         as: 'populatedBoxscores',
+      },
+    },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        populatedBoxscores: {
+          $filter: {
+            input: '$populatedBoxscores',
+            cond: {
+              $regexMatch: {
+                input: { $toString: '$$this.gamePk' },
+                regex: new RegExp(`^${seasonId}`),
+              },
+            },
+          },
+        },
       },
     },
     {

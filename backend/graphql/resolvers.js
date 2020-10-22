@@ -34,6 +34,7 @@ const {
   sendForgotPasswordEmail,
   sendContactFormEmail,
 } = require('../utils/mailgun-email-sender')
+const config = require('../utils/config')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -134,25 +135,34 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     BestPlayers: async (root, args) => {
+      const selectedSeason = args.selectedSeason
+        ? args.selectedSeason
+        : config.CURRENT_SEASON
+
       const players = await Player.aggregate(
         bestPlayersAggregate(
           args.numOfGames,
           args.positionFilter,
           args.teamFilter,
           args.nationalityFilter,
-          getSortField(args.sortBy)
+          getSortField(args.sortBy),
+          selectedSeason
         )
       )
       return players
     },
     BestGoalies: async (root, args) => {
+      const selectedSeason = args.selectedSeason
+        ? args.selectedSeason
+        : config.CURRENT_SEASON
       const goalies = await Player.aggregate(
         bestPlayersAggregate(
           args.numOfGames,
           'GOALIE',
           args.teamFilter,
           args.nationalityFilter,
-          getSortField(args.sortBy)
+          getSortField(args.sortBy),
+          selectedSeason
         )
       )
       return goalies
@@ -163,6 +173,11 @@ const resolvers = {
     },
     FavoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) return []
+
+      const selectedSeason = args.selectedSeason
+        ? args.selectedSeason
+        : config.CURRENT_SEASON
+
       const players = await Player.aggregate(
         favoritePlayersAggregate(
           ctx.currentUser.favoritePlayers,
@@ -170,7 +185,8 @@ const resolvers = {
           args.positionFilter,
           args.teamFilter,
           args.nationalityFilter,
-          getSortField(args.sortBy)
+          getSortField(args.sortBy),
+          selectedSeason
         )
       )
       return players.filter(player =>

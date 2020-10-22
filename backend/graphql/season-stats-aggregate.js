@@ -106,13 +106,13 @@ const seasonStatsAggregate = (
   ]
 
   const pipeline = [
-    ...bestPlayersPipeline(
+    ...bestPlayersPipeline({
       numOfGames,
       positionFilter,
       teamFilter,
       nationalityFilter,
-      siteLink
-    ),
+      siteLink,
+    }),
     ...reformatSeasonStatsData(numOfGames),
     ...seasonStatsSort,
   ]

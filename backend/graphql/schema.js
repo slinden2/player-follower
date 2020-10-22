@@ -583,6 +583,7 @@ const typeDefs = gql`
       teamFilter: TeamFilter!
       nationalityFilter: NationalityFilter!
       sortBy: SortBy
+      selectedSeason: String
     ): [PlayerCard!]!
     """
     Returns best players for the last 1, 5 and 10 games.
@@ -593,6 +594,7 @@ const typeDefs = gql`
       teamFilter: TeamFilter!
       nationalityFilter: NationalityFilter!
       sortBy: SortBy
+      selectedSeason: String
     ): [PlayerCard!]!
     """
     Returns users favorite players for the last 3, 5 and 10 games.
@@ -603,6 +605,7 @@ const typeDefs = gql`
       teamFilter: TeamFilter!
       nationalityFilter: NationalityFilter!
       sortBy: SortBy
+      selectedSeason: String
     ): [PlayerCard]!
     """
     Single player by playerId

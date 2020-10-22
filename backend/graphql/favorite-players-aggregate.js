@@ -8,7 +8,8 @@ const favoritePlayersAggregate = (
   positionFilter,
   teamFilter,
   nationalityFilter,
-  sortBy
+  sortBy,
+  seasonId
 ) => {
   const pipeline = [
     {
@@ -16,12 +17,13 @@ const favoritePlayersAggregate = (
         _id: { $in: playerList },
       },
     },
-    ...bestPlayersPipeline(
+    ...bestPlayersPipeline({
       numOfGames,
       positionFilter,
       teamFilter,
-      nationalityFilter
-    ),
+      nationalityFilter,
+      seasonId,
+    }),
     ...reformatPlayerCardData(numOfGames),
     ...playerCardSort(sortBy),
   ]
