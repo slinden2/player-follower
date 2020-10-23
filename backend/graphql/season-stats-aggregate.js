@@ -61,15 +61,16 @@ const reformatSeasonStatsData = numOfGames => [
   { $addFields: { numOfGamesId: numOfGames } },
 ]
 
-const seasonStatsAggregate = (
+const seasonStatsAggregate = ({
   positionFilter,
   teamFilter,
   nationalityFilter,
   sortBy,
   sortDir,
   offset,
-  siteLink
-) => {
+  siteLink,
+  seasonId,
+}) => {
   const numOfGames = 100
 
   // Default sort direction must be inverted for last name, because
@@ -112,6 +113,7 @@ const seasonStatsAggregate = (
       teamFilter,
       nationalityFilter,
       siteLink,
+      seasonId,
     }),
     ...reformatSeasonStatsData(numOfGames),
     ...seasonStatsSort,

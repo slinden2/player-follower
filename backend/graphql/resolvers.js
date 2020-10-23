@@ -168,7 +168,13 @@ const resolvers = {
       return goalies
     },
     BestTeams: async (root, args) => {
-      const teams = await Team.aggregate(bestTeamsAggregate(args.numOfGames))
+      const selectedSeason = args.selectedSeason
+        ? args.selectedSeason
+        : config.CURRENT_SEASON
+
+      const teams = await Team.aggregate(
+        bestTeamsAggregate(args.numOfGames, selectedSeason)
+      )
       return teams
     },
     FavoritePlayers: async (root, args, ctx) => {
@@ -194,6 +200,10 @@ const resolvers = {
       )
     },
     GetCumulativeStats: async (root, args) => {
+      const selectedSeason = args.selectedSeason
+        ? args.selectedSeason
+        : config.CURRENT_SEASON
+
       try {
         const sortByEnum = args.sortBy
         const sortDirEnum = args.sortDir
@@ -203,14 +213,15 @@ const resolvers = {
         const offset = args.offset
 
         const players = await Player.aggregate(
-          seasonStatsAggregate(
-            args.positionFilter,
-            args.teamFilter,
-            args.nationalityFilter,
-            sortBy,
-            sortDir,
-            offset
-          )
+          seasonStatsAggregate({
+            positionFilter: args.positionFilter,
+            teamFilter: args.teamFilter,
+            nationalityFilter: args.nationalityFilter,
+            sortBy: sortBy,
+            sortDir: sortDir,
+            offset: offset,
+            seasonId: selectedSeason,
+          })
         )
 
         return players

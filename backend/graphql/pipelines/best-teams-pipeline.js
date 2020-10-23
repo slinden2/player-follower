@@ -140,38 +140,55 @@ const calculateTeamStats = idString => [
   },
 ]
 
-const bestTeamsPipeline = numOfGames => [
-  {
-    $lookup: {
-      from: 'conferences',
-      localField: 'conference',
-      foreignField: '_id',
-      as: 'conference',
+const bestTeamsPipeline = (numOfGames, seasonId) => {
+  return [
+    {
+      $lookup: {
+        from: 'conferences',
+        localField: 'conference',
+        foreignField: '_id',
+        as: 'conference',
+      },
     },
-  },
-  {
-    $lookup: {
-      from: 'divisions',
-      localField: 'division',
-      foreignField: '_id',
-      as: 'division',
+    {
+      $lookup: {
+        from: 'divisions',
+        localField: 'division',
+        foreignField: '_id',
+        as: 'division',
+      },
     },
-  },
-  {
-    $lookup: {
-      from: 'linescores',
-      localField: 'linescores',
-      foreignField: '_id',
-      as: 'populatedLinescores',
+    {
+      $lookup: {
+        from: 'linescores',
+        localField: 'linescores',
+        foreignField: '_id',
+        as: 'populatedLinescores',
+      },
     },
-  },
-  {
-    $project: {
-      linescores: { $slice: ['$populatedLinescores', -numOfGames] },
+    {
+      $project: {
+        populatedLinescores: {
+          $filter: {
+            input: '$populatedLinescores',
+            cond: {
+              $regexMatch: {
+                input: { $toString: '$$this.gamePk' },
+                regex: new RegExp(`^${seasonId}`),
+              },
+            },
+          },
+        },
+      },
     },
-  },
-  { $unwind: '$linescores' },
-  ...calculateTeamStats('_id'),
-]
+    {
+      $project: {
+        linescores: { $slice: ['$populatedLinescores', -numOfGames] },
+      },
+    },
+    { $unwind: '$linescores' },
+    ...calculateTeamStats('_id'),
+  ]
+}
 
 module.exports = bestTeamsPipeline

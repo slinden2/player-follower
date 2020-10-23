@@ -54,9 +54,9 @@ const reformatTeamCardData = numOfGames => [
   { $addFields: { numOfGamesId: numOfGames } },
 ]
 
-const bestTeamsAggregate = numOfGames => {
+const bestTeamsAggregate = (numOfGames, seasonId) => {
   const pipeline = [
-    ...bestTeamsPipeline(numOfGames),
+    ...bestTeamsPipeline(numOfGames, seasonId),
     ...reformatTeamCardData(numOfGames),
     {
       $sort: {
