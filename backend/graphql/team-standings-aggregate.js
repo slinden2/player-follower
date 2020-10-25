@@ -101,9 +101,9 @@ const reformatStandingsData = () => [
   },
 ]
 
-const teamStandingsAggregate = () => {
+const teamStandingsAggregate = seasonId => {
   const pipeline = [
-    ...bestTeamsPipeline(100, 'ALL', 'ALL'),
+    ...bestTeamsPipeline(100, seasonId),
     ...reformatStandingsData(),
     {
       $sort: {

@@ -229,8 +229,14 @@ const resolvers = {
         console.log(`${name}: ${message}`)
       }
     },
-    Standings: async () => {
-      const standings = await Team.aggregate(teamStandingsAggregate())
+    Standings: async (root, args) => {
+      const selectedSeason = args.selectedSeason
+        ? args.selectedSeason
+        : config.CURRENT_SEASON
+
+      const standings = await Team.aggregate(
+        teamStandingsAggregate(selectedSeason)
+      )
       return standings
     },
     GetTeams: async (root, args) => {
