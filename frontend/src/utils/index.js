@@ -1201,6 +1201,24 @@ const playerNationalityFilterItems = [
   },
 ]
 
+const seasonFilterItems = [
+  {
+    key: 'CURRENT',
+    text: 'Current',
+    value: 'CURRENT',
+  },
+  {
+    key: '201902',
+    text: '2019-2020 regular',
+    value: '201902',
+  },
+  {
+    key: '201903',
+    text: '2019-2020 playoffs',
+    value: '201903',
+  },
+]
+
 const sortByItems = [
   {
     key: 'POINTS',
@@ -1625,4 +1643,5 @@ export {
   goalieStatHeaders,
   playerBioHeaders,
   standingsTableOrder,
+  seasonFilterItems,
 }

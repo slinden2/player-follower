@@ -9,6 +9,7 @@ import {
   playerNationalityFilterItems,
   sortByItems,
   goalieSortByItems,
+  seasonFilterItems,
 } from '../../utils'
 import PlayerCardContainer from './PlayerCardContainer'
 import { ShowFiltersButton, FilterContainer } from './styles'
@@ -38,6 +39,8 @@ const PlayerCardPage = ({ context, queryName, header }) => {
     resetFilters,
     filterContext,
     setFilterContext,
+    selectedSeason,
+    setSelectedSeason,
   } = useContext(PlayerContext)
   const [filtersAreVisible, setFiltersAreVisible] = useState(false)
 
@@ -70,6 +73,12 @@ const PlayerCardPage = ({ context, queryName, header }) => {
     },
   ]
 
+  const seasonData = {
+    items: seasonFilterItems,
+    state: selectedSeason,
+    setState: setSelectedSeason,
+  }
+
   const contextSelector = {
     player: () => ({
       filterArray: filterDropdownData,
@@ -80,6 +89,7 @@ const PlayerCardPage = ({ context, queryName, header }) => {
       },
       query: queryName === 'FavoritePlayers' ? favoritePlayers : bestPlayers,
       queryName,
+      seasonData,
     }),
     goalie: () => ({
       filterArray: filterDropdownData.slice(1),
@@ -90,6 +100,7 @@ const PlayerCardPage = ({ context, queryName, header }) => {
       },
       query: bestGoalies,
       queryName,
+      seasonData,
     }),
   }
 
@@ -113,6 +124,7 @@ const PlayerCardPage = ({ context, queryName, header }) => {
           isVisible={filtersAreVisible}
           data-cy='filter-container'
         >
+          <FramedDropdown title='Season' fields={curContext.seasonData} />
           <FramedDropdown title='Sort' fields={curContext.sortData} />
           <FramedDropdown title='Filter' fields={curContext.filterArray} />
         </FilterContainer>

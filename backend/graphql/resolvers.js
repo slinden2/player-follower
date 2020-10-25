@@ -135,9 +135,10 @@ const resolvers = {
       return players.map(player => player.toJSON())
     },
     BestPlayers: async (root, args) => {
-      const selectedSeason = args.selectedSeason
-        ? args.selectedSeason
-        : config.CURRENT_SEASON
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
 
       const players = await Player.aggregate(
         bestPlayersAggregate(
@@ -152,9 +153,10 @@ const resolvers = {
       return players
     },
     BestGoalies: async (root, args) => {
-      const selectedSeason = args.selectedSeason
-        ? args.selectedSeason
-        : config.CURRENT_SEASON
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
       const goalies = await Player.aggregate(
         bestPlayersAggregate(
           args.numOfGames,
@@ -168,9 +170,10 @@ const resolvers = {
       return goalies
     },
     BestTeams: async (root, args) => {
-      const selectedSeason = args.selectedSeason
-        ? args.selectedSeason
-        : config.CURRENT_SEASON
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
 
       const teams = await Team.aggregate(
         bestTeamsAggregate(args.numOfGames, selectedSeason)
@@ -180,9 +183,10 @@ const resolvers = {
     FavoritePlayers: async (root, args, ctx) => {
       if (!ctx.currentUser) return []
 
-      const selectedSeason = args.selectedSeason
-        ? args.selectedSeason
-        : config.CURRENT_SEASON
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
 
       const players = await Player.aggregate(
         favoritePlayersAggregate(
@@ -200,9 +204,10 @@ const resolvers = {
       )
     },
     GetCumulativeStats: async (root, args) => {
-      const selectedSeason = args.selectedSeason
-        ? args.selectedSeason
-        : config.CURRENT_SEASON
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
 
       try {
         const sortByEnum = args.sortBy
@@ -230,9 +235,10 @@ const resolvers = {
       }
     },
     Standings: async (root, args) => {
-      const selectedSeason = args.selectedSeason
-        ? args.selectedSeason
-        : config.CURRENT_SEASON
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
 
       const standings = await Team.aggregate(
         teamStandingsAggregate(selectedSeason)

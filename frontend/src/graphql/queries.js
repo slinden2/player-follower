@@ -51,6 +51,7 @@ const BEST_PLAYERS = gql`
     $teamFilter: TeamFilter!
     $nationalityFilter: NationalityFilter!
     $sortBy: SortBy
+    $selectedSeason: String
   ) {
     BestPlayers(
       numOfGames: $numOfGames
@@ -58,6 +59,7 @@ const BEST_PLAYERS = gql`
       teamFilter: $teamFilter
       nationalityFilter: $nationalityFilter
       sortBy: $sortBy
+      selectedSeason: $selectedSeason
     ) {
       ...PlayerCardBio
       ...PlayerStats
@@ -74,6 +76,7 @@ const BEST_GOALIES = gql`
     $teamFilter: TeamFilter!
     $nationalityFilter: NationalityFilter!
     $sortBy: SortBy
+    $selectedSeason: String
   ) {
     BestGoalies(
       numOfGames: $numOfGames
@@ -81,6 +84,7 @@ const BEST_GOALIES = gql`
       teamFilter: $teamFilter
       nationalityFilter: $nationalityFilter
       sortBy: $sortBy
+      selectedSeason: $selectedSeason
     ) {
       ...PlayerCardBio
       stats {

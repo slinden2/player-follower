@@ -19,6 +19,7 @@ const PlayerContextProvider = props => {
   const [goalieSortBy, setGoalieSortBy] = useState('WINS')
   const [numOfGames, setNumOfGames] = useState(5)
   const [filterContext, setFilterContext] = useState('skater')
+  const [selectedSeason, setSelectedSeason] = useState('CURRENT')
 
   const variables = {
     numOfGames,
@@ -26,6 +27,7 @@ const PlayerContextProvider = props => {
     teamFilter,
     nationalityFilter,
     sortBy,
+    selectedSeason,
   }
 
   const bestPlayers = useQuery(BEST_PLAYERS, {
@@ -39,6 +41,7 @@ const PlayerContextProvider = props => {
       teamFilter,
       nationalityFilter,
       sortBy: goalieSortBy,
+      selectedSeason,
     },
   })
 
@@ -82,6 +85,7 @@ const PlayerContextProvider = props => {
     setSortBy('POINTS')
     setGoalieSortBy('WINS')
     setNumOfGames(5)
+    setSelectedSeason('CURRENT')
   }
 
   return (
@@ -108,6 +112,8 @@ const PlayerContextProvider = props => {
         filterContext,
         setFilterContext,
         resetFilters,
+        selectedSeason,
+        setSelectedSeason,
       }}
     >
       {props.children}
