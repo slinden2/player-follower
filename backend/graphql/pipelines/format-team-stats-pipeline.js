@@ -1,4 +1,4 @@
-const formatTeamStatsPipeline = () => {
+const formatTeamStatsPipeline = (_type, seasonId) => {
   return [
     // Create an embedded documents for stats
     {
@@ -40,6 +40,22 @@ const formatTeamStatsPipeline = () => {
         localField: 'team.linescores',
         foreignField: '_id',
         as: 'linescores',
+      },
+    },
+    // Filter only linescores of wanted season
+    {
+      $addFields: {
+        linescores: {
+          $filter: {
+            input: '$linescores',
+            cond: {
+              $regexMatch: {
+                input: { $toString: '$$this.gamePk' },
+                regex: new RegExp(`^${seasonId}`),
+              },
+            },
+          },
+        },
       },
     },
     // Unwind by the array of linescores so that we can populate opponent fields

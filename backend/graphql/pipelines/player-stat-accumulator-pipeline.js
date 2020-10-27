@@ -2,7 +2,7 @@ const calculateSkaterStatsPipeline = require('./calculate-skater-stats-pipeline'
 const calculateGoalieStatsPipeline = require('./calculate-goalie-stats-pipeline')
 const matchPlayersPipeline = require('./match-players-pipeline')
 
-const playerStatAccumulatorPipeline = (numOfGames, type, filters) => {
+const playerStatAccumulatorPipeline = (numOfGames, type, filters, seasonId) => {
   // Skaters and goalies have different collections for stats
   const bsFields = {
     skater: ['skaterboxscores', calculateSkaterStatsPipeline],
@@ -27,6 +27,23 @@ const playerStatAccumulatorPipeline = (numOfGames, type, filters) => {
         localField: 'boxscores',
         foreignField: '_id',
         as: 'boxscores',
+      },
+    },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        boxscores: {
+          $filter: {
+            input: '$boxscores',
+            cond: {
+              $regexMatch: {
+                input: { $toString: '$$this.gamePk' },
+                regex: new RegExp(`^${seasonId}`),
+              },
+            },
+          },
+        },
       },
     },
     {

@@ -1,7 +1,7 @@
 const matchTeamsPipeline = require('./match-teams-pipeline')
 const calculateTeamStatsPipeline = require('./calculate-team-stats-pipeline')
 
-const teamStatAccumulatorPipeline = (numOfGames, type, filters) => {
+const teamStatAccumulatorPipeline = (numOfGames, _type, filters, seasonId) => {
   return [
     matchTeamsPipeline(filters),
     {
@@ -26,6 +26,21 @@ const teamStatAccumulatorPipeline = (numOfGames, type, filters) => {
         localField: 'linescores',
         foreignField: '_id',
         as: 'linescores',
+      },
+    },
+    {
+      $project: {
+        linescores: {
+          $filter: {
+            input: '$linescores',
+            cond: {
+              $regexMatch: {
+                input: { $toString: '$$this.gamePk' },
+                regex: new RegExp(`^${seasonId}`),
+              },
+            },
+          },
+        },
       },
     },
     {

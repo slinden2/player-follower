@@ -3,7 +3,7 @@ const teamStatAccumulatorPipeline = require('./pipelines/team-stat-accumulator-p
 const formatPlayerStatsPipeline = require('./pipelines/format-player-stats-pipeline')
 const formatTeamStatsPipeline = require('./pipelines/format-team-stats-pipeline')
 
-const profileAggregate = (siteLink, type) => {
+const profileAggregate = (siteLink, type, seasonId) => {
   // Must be higher than max amount of games player during season
   const numOfGames = 100
 
@@ -18,8 +18,8 @@ const profileAggregate = (siteLink, type) => {
   ]
 
   const pipeline = [
-    ...statAccumulatorPipeline(numOfGames, type, { siteLink }),
-    ...formatStatsPipeline(type),
+    ...statAccumulatorPipeline(numOfGames, type, { siteLink }, seasonId),
+    ...formatStatsPipeline(type, seasonId),
   ]
 
   return pipeline

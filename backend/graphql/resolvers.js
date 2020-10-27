@@ -52,8 +52,13 @@ const resolvers = {
       return players
     },
     GetPlayer: async (root, args) => {
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
+
       const player = await Player.aggregate(
-        profileAggregate(args.siteLink, args.type)
+        profileAggregate(args.siteLink, args.type, selectedSeason)
       )
       return player[0]
     },
@@ -254,7 +259,14 @@ const resolvers = {
       return teams.map(team => team.toJSON())
     },
     GetTeam: async (root, args) => {
-      const team = await Team.aggregate(profileAggregate(args.siteLink, 'team'))
+      const selectedSeason =
+        !args.selectedSeason || args.selectedSeason === 'CURRENT'
+          ? config.CURRENT_SEASON
+          : args.selectedSeason
+
+      const team = await Team.aggregate(
+        profileAggregate(args.siteLink, 'team', selectedSeason)
+      )
       return team[0]
     },
     GetLastUpdate: async () => {

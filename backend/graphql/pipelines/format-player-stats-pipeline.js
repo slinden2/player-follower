@@ -55,7 +55,7 @@ const goalieBoxscoreFields = {
   'boxscores.powerPlaySavePct': 1,
 }
 
-const formatPlayerStatsPipeline = type => {
+const formatPlayerStatsPipeline = (type, seasonId) => {
   const bsField = type === 'skater' ? 'skaterboxscores' : 'goalieboxscores'
 
   return [
@@ -90,6 +90,21 @@ const formatPlayerStatsPipeline = type => {
         localField: 'player.boxscores',
         foreignField: '_id',
         as: 'boxscores',
+      },
+    },
+    {
+      $addFields: {
+        boxscores: {
+          $filter: {
+            input: '$boxscores',
+            cond: {
+              $regexMatch: {
+                input: { $toString: '$$this.gamePk' },
+                regex: new RegExp(`^${seasonId}`),
+              },
+            },
+          },
+        },
       },
     },
     // Unwind by boxscores so that we can populate homeTeam and awayTeam fields
