@@ -48,7 +48,7 @@ const teamStatAccumulatorPipeline = (numOfGames, _type, filters, seasonId) => {
         linescores: { $slice: ['$linescores', -numOfGames] },
       },
     },
-    { $unwind: '$linescores' },
+    { $unwind: { path: '$linescores', preserveNullAndEmptyArrays: true } },
     ...calculateTeamStatsPipeline('_id'),
   ]
 }

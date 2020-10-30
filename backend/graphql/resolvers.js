@@ -267,6 +267,15 @@ const resolvers = {
       const team = await Team.aggregate(
         profileAggregate(args.siteLink, 'team', selectedSeason)
       )
+
+      // If team has no played games in selected season
+      if (!team[0].stats.gamePks.length) {
+        // Clean up aggregation null results
+        team[0].stats.gamesPlayed = 0
+        team[0].linescores = []
+        return team[0]
+      }
+
       return team[0]
     },
     GetLastUpdate: async () => {

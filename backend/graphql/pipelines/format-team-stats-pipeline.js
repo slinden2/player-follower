@@ -60,7 +60,7 @@ const formatTeamStatsPipeline = (_type, seasonId) => {
     },
     // Unwind by the array of linescores so that we can populate opponent fields
     {
-      $unwind: '$linescores',
+      $unwind: { path: '$linescores', preserveNullAndEmptyArrays: true },
     },
     // Populate opponentId
     {

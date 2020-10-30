@@ -51,6 +51,10 @@ const Flag = styled.img`
   vertical-align: middle;
 `
 
+const NoGamesDiv = styled.div`
+  margin: 2rem 0;
+`
+
 const getLatestGamePk = (boxscores, ignoreGoals) => {
   const latestBoxscore = boxscores.reduce((acc, cur) => {
     let cond
@@ -60,7 +64,7 @@ const getLatestGamePk = (boxscores, ignoreGoals) => {
 
     if (cond) return cur
     else return acc
-  })
+  }, 0)
 
   return latestBoxscore.gamePk
 }
@@ -188,6 +192,10 @@ const ProfileMain = ({ siteLink, context, query }) => {
   if (!test.data.GetPlayer && !test.data.GetTeam) {
     return <Redirect to='/404' />
   }
+
+  const hasPlayedGames =
+    !!test.data.GetPlayer?.boxscores?.length ||
+    !!test.data.GetTeam?.linescores?.length
 
   const contextSelector = {
     skater: () => {
@@ -317,6 +325,8 @@ const ProfileMain = ({ siteLink, context, query }) => {
 
   const curContext = contextSelector[context]()
 
+  console.log(curContext)
+
   return (
     <PageContainer title={curContext.title}>
       <Container>
@@ -348,22 +358,30 @@ const ProfileMain = ({ siteLink, context, query }) => {
             }
           </Media>
         )}
-        <ProfileGameStats
-          data={curContext.gameStats}
-          context={curContext.type}
-          setMilestoneGamePk={setMilestoneGamePk}
-        />
-        {context === 'skater' && (
-          <ProfilePlayerMilestones
-            query={curContext.milestones.query}
-            variables={curContext.milestones.variables}
-          />
-        )}
-        {context === 'team' && (
-          <ProfileTeamMilestones
-            query={curContext.milestones.query}
-            variables={curContext.milestones.variables}
-          />
+        {hasPlayedGames ? (
+          <>
+            <ProfileGameStats
+              data={curContext.gameStats}
+              context={curContext.type}
+              setMilestoneGamePk={setMilestoneGamePk}
+            />
+            {context === 'skater' && (
+              <ProfilePlayerMilestones
+                query={curContext.milestones.query}
+                variables={curContext.milestones.variables}
+              />
+            )}
+            {context === 'team' && (
+              <ProfileTeamMilestones
+                query={curContext.milestones.query}
+                variables={curContext.milestones.variables}
+              />
+            )}
+          </>
+        ) : (
+          <NoGamesDiv>
+            The {context} has no played games in the selected season.
+          </NoGamesDiv>
         )}
       </Container>
     </PageContainer>
