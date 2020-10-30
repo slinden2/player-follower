@@ -52,7 +52,7 @@ const calculateGoalieStatsPipeline = idString => [
     $addFields: {
       goalsAgainstAverage: {
         $cond: [
-          '$gamesPlayed',
+          { $size: '$gamePks' },
           { $divide: ['$goalsAgainst', '$gamesPlayed'] },
           0,
         ],

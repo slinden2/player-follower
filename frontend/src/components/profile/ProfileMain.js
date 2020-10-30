@@ -56,6 +56,8 @@ const NoGamesDiv = styled.div`
 `
 
 const getLatestGamePk = (boxscores, ignoreGoals) => {
+  if (!boxscores.length) return null
+
   const latestBoxscore = boxscores.reduce((acc, cur) => {
     let cond
     ignoreGoals
@@ -64,7 +66,7 @@ const getLatestGamePk = (boxscores, ignoreGoals) => {
 
     if (cond) return cur
     else return acc
-  }, 0)
+  })
 
   return latestBoxscore.gamePk
 }
@@ -324,8 +326,6 @@ const ProfileMain = ({ siteLink, context, query }) => {
   }
 
   const curContext = contextSelector[context]()
-
-  console.log(curContext)
 
   return (
     <PageContainer title={curContext.title}>

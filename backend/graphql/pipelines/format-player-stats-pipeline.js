@@ -109,7 +109,7 @@ const formatPlayerStatsPipeline = (type, seasonId) => {
     },
     // Unwind by boxscores so that we can populate homeTeam and awayTeam fields
     {
-      $unwind: '$boxscores',
+      $unwind: { path: '$boxscores', preserveNullAndEmptyArrays: true },
     },
     // Get home team
     {

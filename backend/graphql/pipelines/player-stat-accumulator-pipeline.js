@@ -53,7 +53,7 @@ const playerStatAccumulatorPipeline = (numOfGames, type, filters, seasonId) => {
         boxscores: { $slice: ['$boxscores', -numOfGames] },
       },
     },
-    { $unwind: '$boxscores' },
+    { $unwind: { path: '$boxscores', preserveNullAndEmptyArrays: true } },
     ...calculateStatsPipeline('_id'),
   ]
 }

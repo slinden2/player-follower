@@ -46,19 +46,49 @@ const calculateSkaterStatsPipeline = idString => [
         ],
       },
       timeOnIcePerGame: {
-        $divide: ['$timeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$timeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       evenTimeOnIcePerGame: {
-        $divide: ['$evenTimeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$evenTimeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       powerPlayTimeOnIcePerGame: {
-        $divide: ['$powerPlayTimeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$powerPlayTimeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       shortHandedTimeOnIcePerGame: {
-        $divide: ['$shortHandedTimeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$shortHandedTimeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       shotsPerGame: {
-        $divide: ['$shots', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$shots', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       shotPct: {
         $cond: [
@@ -68,7 +98,13 @@ const calculateSkaterStatsPipeline = idString => [
         ],
       },
       pointsPerGame: {
-        $divide: ['$points', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$points', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
     },
   },

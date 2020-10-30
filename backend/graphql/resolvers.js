@@ -60,6 +60,15 @@ const resolvers = {
       const player = await Player.aggregate(
         profileAggregate(args.siteLink, args.type, selectedSeason)
       )
+
+      // If player has no played games in selected season
+      if (!player[0].stats.gamePks.length) {
+        // Clean up aggregation null results
+        player[0].stats.gamesPlayed = 0
+        player[0].boxscores = []
+        return player[0]
+      }
+
       return player[0]
     },
     GetMilestones: async (root, args) => {
