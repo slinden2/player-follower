@@ -131,6 +131,10 @@ const PlayerCardFront = ({
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
 
+  if (token && !user.data) {
+    return null
+  }
+
   let playerBioData = {}
   if (context !== 'team') {
     playerBioData = {
