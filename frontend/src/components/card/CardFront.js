@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { event } from '../../utils/tracking'
@@ -130,6 +130,13 @@ const PlayerCardFront = ({
   const { setNotification, handleException } = useContext(NotificationContext)
   const { followPlayer, unfollowPlayer } = useContext(PlayerContext)
   const { token, user } = useContext(AuthContext)
+  const [isFav, setIsFav] = useState(false)
+
+  useEffect(() => {
+    if (token && user.data.me) {
+      setIsFav(idInArray(user.data.me.favoritePlayers, data._id))
+    }
+  }, [data._id, token, user.data.me])
 
   if (token && !user.data) {
     return null
@@ -264,11 +271,6 @@ const PlayerCardFront = ({
     } catch (exception) {
       handleException(exception)
     }
-  }
-
-  let isFav = false
-  if (token && user.data.me) {
-    isFav = idInArray(user.data.me.favoritePlayers, data._id)
   }
 
   return (
