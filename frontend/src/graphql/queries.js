@@ -267,8 +267,8 @@ const GOALIE_PROFILE = gql`
 `
 
 const BEST_TEAMS = gql`
-  query bestTeams($numOfGames: Int!) {
-    BestTeams(numOfGames: $numOfGames) {
+  query bestTeams($numOfGames: Int!, $selectedSeason: String) {
+    BestTeams(numOfGames: $numOfGames, selectedSeason: $selectedSeason) {
       _id
       numOfGamesId
       team {

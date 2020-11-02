@@ -4,13 +4,18 @@ import PlayerViewSelector from './ViewSelector'
 import { ShowFiltersButton, FilterContainer } from './styles'
 import FramedDropdown from '../elements/dropdown/FramedDropdown'
 import TeamCardContainer from './TeamCardContainer'
-import { teamSortByItems, teamFilterItems } from '../../utils'
+import {
+  teamSortByItems,
+  teamFilterItems,
+  seasonFilterItems,
+} from '../../utils'
 
 const TeamCardPage = () => {
   const [numOfGames, setNumOfGames] = useState(5)
   const [filtersAreVisible, setFiltersAreVisible] = useState(false)
   const [sortBy, setSortBy] = useState('wins')
   const [confFilter, setConfFilter] = useState('ALL')
+  const [selectedSeason, setSelectedSeason] = useState('CURRENT')
 
   const sortDropdownData = {
     items: teamSortByItems,
@@ -21,6 +26,12 @@ const TeamCardPage = () => {
     items: teamFilterItems,
     state: confFilter,
     setState: setConfFilter,
+  }
+
+  const seasonData = {
+    items: seasonFilterItems,
+    state: selectedSeason,
+    setState: setSelectedSeason,
   }
 
   return (
@@ -36,6 +47,7 @@ const TeamCardPage = () => {
         onClick={() => setFiltersAreVisible(!filtersAreVisible)}
       />
       <FilterContainer isVisible={filtersAreVisible}>
+        <FramedDropdown title='Season' fields={seasonData} />
         <FramedDropdown title='Sort' fields={sortDropdownData} />
         <FramedDropdown title='Filter' fields={filterDropdownData} />
       </FilterContainer>
@@ -43,6 +55,7 @@ const TeamCardPage = () => {
         numOfGames={numOfGames}
         sortBy={sortBy}
         confFilter={confFilter}
+        selectedSeason={selectedSeason}
       />
     </PageContainer>
   )

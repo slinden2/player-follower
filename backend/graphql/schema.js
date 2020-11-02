@@ -625,7 +625,7 @@ const typeDefs = gql`
     """
     Returns best teams for the last 1, 5 or 10 games.
     """
-    BestTeams(numOfGames: Int!): [TeamCard!]!
+    BestTeams(numOfGames: Int!, selectedSeason: String): [TeamCard!]!
     """
     Team standings.
     """

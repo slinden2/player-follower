@@ -35,9 +35,15 @@ const defineOrder = (stat, a, b) => {
   return b - a || bSecondary - aSecondary
 }
 
-const TeamCardContainer = ({ numOfGames, sortBy, confFilter, numOfCards }) => {
+const TeamCardContainer = ({
+  numOfGames,
+  sortBy,
+  confFilter,
+  numOfCards,
+  selectedSeason,
+}) => {
   const { data, loading } = useQuery(BEST_TEAMS, {
-    variables: { numOfGames },
+    variables: { numOfGames, selectedSeason },
   })
 
   if (loading) {
