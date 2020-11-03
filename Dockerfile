@@ -10,7 +10,7 @@ COPY /backend /temp/backend
 WORKDIR /temp/backend
 
 # Install dependencies
-RUN npm install
+RUN npm install --only=production
 
 # Prepare a directory for finished application
 RUN mkdir /app
@@ -30,7 +30,7 @@ COPY /frontend /temp/frontend
 WORKDIR /temp/frontend
 
 # Install dependencies
-RUN npm install
+RUN npm install --only=production
 
 # Build frontend code
 RUN npm run build
