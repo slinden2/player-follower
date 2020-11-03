@@ -618,6 +618,7 @@ const typeDefs = gql`
       positionFilter: PositionFilter!
       teamFilter: TeamFilter!
       nationalityFilter: NationalityFilter!
+      selectedSeason: String
       offset: Int!
       sortBy: SortBy!
       sortDir: SortDir!
@@ -629,7 +630,7 @@ const typeDefs = gql`
     """
     Team standings.
     """
-    Standings: [Standings]!
+    Standings(selectedSeason: String): [Standings]!
     """
     Used for player search field.
     """

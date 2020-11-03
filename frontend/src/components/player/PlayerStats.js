@@ -11,6 +11,7 @@ import {
   playerPosFilterItems,
   playerTeamFilterItems,
   playerNationalityFilterItems,
+  seasonFilterItems,
 } from '../../utils'
 import sortReducer from '../../reducers/sortReducer'
 import FramedDropdown from '../elements/dropdown/FramedDropdown'
@@ -27,13 +28,15 @@ const initialSortState = {
 
 const PlayerStats = () => {
   const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
-  const { data, loading, fetchMore } = useQuery(CUMULATIVE_STATS, {
-    variables: sortVars,
-  })
   const [filtersAreVisible, setFiltersAreVisible] = useState(false)
   const [positionFilter, setPositionFilter] = useState('ALL')
   const [teamFilter, setTeamFilter] = useState('ALL')
   const [nationalityFilter, setNationalityFilter] = useState('ALL')
+  const [selectedSeason, setSelectedSeason] = useState('CURRENT')
+
+  const { data, loading, fetchMore } = useQuery(CUMULATIVE_STATS, {
+    variables: { ...sortVars, selectedSeason },
+  })
 
   useEffect(() => {
     dispatch({
@@ -44,6 +47,12 @@ const PlayerStats = () => {
 
   if (loading) {
     return <Loader offset />
+  }
+
+  const seasonData = {
+    items: seasonFilterItems,
+    state: selectedSeason,
+    setState: setSelectedSeason,
   }
 
   const players = data.GetCumulativeStats
@@ -96,6 +105,7 @@ const PlayerStats = () => {
         dataCy='filter-button'
       />
       <FilterContainer isVisible={filtersAreVisible}>
+        <FramedDropdown title='Season' fields={seasonData} />
         <FramedDropdown title='Filter' fields={filterDropdownData} />
       </FilterContainer>
       <NewStatsTable

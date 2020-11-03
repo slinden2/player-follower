@@ -6,9 +6,11 @@ import _ from 'lodash'
 import NewStatsTable from '../stats/NewStatsTable'
 import PageContainer from '../elements/PageContainer'
 import Loader from '../elements/Loader'
-import DropdownMenu from '../elements/dropdown/DropdownMenu'
 import sortReducer from '../../reducers/sortReducer'
 import { standingsTableOrder } from '../../utils'
+import { FilterContainer } from '../card/styles'
+import FramedDropdown from '../elements/dropdown/FramedDropdown'
+import { seasonFilterItems } from '../../utils'
 
 const headers = [
   'teamName',
@@ -91,10 +93,25 @@ const sortConfs = (key1, key2) => {
 const Standings = () => {
   const [standingsType, setStandingsType] = useState('LEAGUE')
   const [sortVars, dispatch] = useReducer(sortReducer, initialSortState)
-  const { loading, data } = useQuery(STANDINGS)
+  const [selectedSeason, setSelectedSeason] = useState('CURRENT')
+  const { loading, data } = useQuery(STANDINGS, {
+    variables: { selectedSeason },
+  })
 
   if (loading) {
     return <Loader offset />
+  }
+
+  const seasonData = {
+    items: seasonFilterItems,
+    state: selectedSeason,
+    setState: setSelectedSeason,
+  }
+
+  const leagueGroupData = {
+    items: standingsTypes,
+    state: standingsType,
+    setState: setStandingsType,
   }
 
   const sortTeams = teams => {
@@ -124,11 +141,10 @@ const Standings = () => {
 
   return (
     <PageContainer title='Standings'>
-      <DropdownMenu
-        items={standingsTypes}
-        state={standingsType}
-        setState={setStandingsType}
-      />
+      <FilterContainer>
+        <FramedDropdown title='Season' fields={seasonData} />
+        <FramedDropdown title='Grouped by' fields={leagueGroupData} />
+      </FilterContainer>
       {Object.keys(standings)
         .sort((key1, key2) => sortConfs(key1, key2))
         .map(conference => (

@@ -358,6 +358,7 @@ const CUMULATIVE_STATS = gql`
     $positionFilter: PositionFilter!
     $teamFilter: TeamFilter!
     $nationalityFilter: NationalityFilter!
+    $selectedSeason: String
     $offset: Int!
     $sortBy: SortBy!
     $sortDir: SortDir!
@@ -366,6 +367,7 @@ const CUMULATIVE_STATS = gql`
       positionFilter: $positionFilter
       teamFilter: $teamFilter
       nationalityFilter: $nationalityFilter
+      selectedSeason: $selectedSeason
       offset: $offset
       sortBy: $sortBy
       sortDir: $sortDir
@@ -404,8 +406,8 @@ const CUMULATIVE_STATS = gql`
 `
 
 const STANDINGS = gql`
-  query getStandings {
-    Standings {
+  query getStandings($selectedSeason: String) {
+    Standings(selectedSeason: $selectedSeason) {
       _id
       teamName
       teamSiteLink
