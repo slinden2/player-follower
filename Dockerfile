@@ -1,7 +1,7 @@
 FROM node:latest
 
 # Prepare a temp directory for backend
-RUN mkdir -p /temp/backend
+# RUN mkdir -p /temp/backend
 
 # Copy backend to the temp directory
 # COPY /backend /temp/backend
