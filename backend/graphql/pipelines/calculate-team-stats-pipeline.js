@@ -129,7 +129,7 @@ const calculateTeamStatsPipeline = idString => [
       },
       ppPct: {
         $cond: [
-          { $gt: ['$powerPlayOpportunities', 10] },
+          '$powerPlayOpportunities',
           {
             $multiply: [
               { $divide: ['$powerPlayGoals', '$powerPlayOpportunities'] },
@@ -141,7 +141,7 @@ const calculateTeamStatsPipeline = idString => [
       },
       pkPct: {
         $cond: [
-          { $gt: ['$powerPlayOpportunitiesAllowed', 10] },
+          '$powerPlayOpportunitiesAllowed',
           {
             $subtract: [
               100,

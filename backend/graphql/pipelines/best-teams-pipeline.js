@@ -99,43 +99,105 @@ const calculateTeamStats = idString => [
         $subtract: ['$wins', '$shootOutWins'],
       },
       pointPct: {
-        $multiply: [
-          { $divide: ['$points', { $multiply: ['$gamesPlayed', 2] }] },
-          100,
-        ],
-      },
-      goalDiff: { $subtract: ['$goalsFor', '$goalsAgainst'] },
-      goalsForPerGame: { $divide: ['$goalsFor', '$gamesPlayed'] },
-      goalsAgainstPerGame: { $divide: ['$goalsAgainst', '$gamesPlayed'] },
-      ppPct: {
-        $multiply: [
-          { $divide: ['$powerPlayGoals', '$powerPlayOpportunities'] },
-          100,
-        ],
-      },
-      pkPct: {
-        $subtract: [
-          100,
+        $cond: [
+          { $size: '$gamePks' },
           {
             $multiply: [
               {
-                $divide: [
-                  '$powerPlayGoalsAllowed',
-                  '$powerPlayOpportunitiesAllowed',
-                ],
+                $divide: ['$points', { $multiply: [{ $size: '$gamePks' }, 2] }],
               },
               100,
             ],
           },
+          0,
         ],
       },
-      shotsForPerGame: { $divide: ['$shotsFor', '$gamesPlayed'] },
-      shotsAgainstPerGame: { $divide: ['$shotsAgainst', '$gamesPlayed'] },
-      faceOffWinPct: {
-        $multiply: [{ $divide: ['$faceOffWins', '$faceOffsTaken'] }, 100],
+      goalDiff: { $subtract: ['$goalsFor', '$goalsAgainst'] },
+      goalsForPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$goalsFor', { $size: '$gamePks' }] },
+          0,
+        ],
       },
-      hitsForPerGame: { $divide: ['$hitsFor', '$gamesPlayed'] },
-      hitsAgainstPerGame: { $divide: ['$hitsAgainst', '$gamesPlayed'] },
+      goalsAgainstPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$goalsAgainst', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      ppPct: {
+        $cond: [
+          '$powerPlayOpportunities',
+          {
+            $multiply: [
+              { $divide: ['$powerPlayGoals', '$powerPlayOpportunities'] },
+              100,
+            ],
+          },
+          0,
+        ],
+      },
+      pkPct: {
+        $cond: [
+          '$powerPlayOpportunitiesAllowed',
+          {
+            $subtract: [
+              100,
+              {
+                $multiply: [
+                  {
+                    $divide: [
+                      '$powerPlayGoalsAllowed',
+                      '$powerPlayOpportunitiesAllowed',
+                    ],
+                  },
+                  100,
+                ],
+              },
+            ],
+          },
+          0,
+        ],
+      },
+      shotsForPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$shotsFor', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      shotsAgainstPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$shotsAgainst', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      faceOffWinPct: {
+        $cond: [
+          '$faceOffsTaken',
+          {
+            $multiply: [{ $divide: ['$faceOffWins', '$faceOffsTaken'] }, 100],
+          },
+          0,
+        ],
+      },
+      hitsForPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$hitsFor', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      hitsAgainstPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$hitsAgainst', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
     },
   },
 ]

@@ -53,7 +53,7 @@ const calculateGoalieStatsPipeline = idString => [
       goalsAgainstAverage: {
         $cond: [
           { $size: '$gamePks' },
-          { $divide: ['$goalsAgainst', '$gamesPlayed'] },
+          { $divide: ['$goalsAgainst', { $size: '$gamePks' }] },
           0,
         ],
       },
@@ -99,10 +99,34 @@ const calculateGoalieStatsPipeline = idString => [
           0,
         ],
       },
-      timeOnIcePerGame: { $divide: ['$timeOnIce', '$gamesPlayed'] },
-      savesPerGame: { $divide: ['$saves', '$gamesPlayed'] },
-      shotsAgainstPerGame: { $divide: ['$shotsAgainst', '$gamesPlayed'] },
-      winPct: { $multiply: [{ $divide: ['$wins', '$gamesPlayed'] }, 100] },
+      timeOnIcePerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$timeOnIce', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      savesPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$saves', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      shotsAgainstPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$shotsAgainst', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      winPct: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $multiply: [{ $divide: ['$wins', { $size: '$gamePks' }] }, 100] },
+          0,
+        ],
+      },
     },
   },
 ]

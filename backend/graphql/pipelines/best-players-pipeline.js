@@ -57,6 +57,7 @@ const calculateStats = idString => [
     $group: {
       _id: `$${idString}`,
       gamePks: { $push: '$populatedBoxscores.gamePk' },
+      gamesPlayed: { $sum: 1 },
       timeOnIce: { $sum: '$populatedBoxscores.timeOnIce' },
       assists: { $sum: '$populatedBoxscores.assists' },
       goals: { $sum: '$populatedBoxscores.goals' },
@@ -100,19 +101,49 @@ const calculateStats = idString => [
         ],
       },
       timeOnIcePerGame: {
-        $divide: ['$timeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$timeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       evenTimeOnIcePerGame: {
-        $divide: ['$evenTimeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$evenTimeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       powerPlayTimeOnIcePerGame: {
-        $divide: ['$powerPlayTimeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$powerPlayTimeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       shortHandedTimeOnIcePerGame: {
-        $divide: ['$shortHandedTimeOnIce', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$shortHandedTimeOnIce', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       shotsPerGame: {
-        $divide: ['$shots', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$shots', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
       shotPct: {
         $cond: [
@@ -122,7 +153,13 @@ const calculateStats = idString => [
         ],
       },
       pointsPerGame: {
-        $divide: ['$points', { $size: '$gamePks' }],
+        $cond: [
+          { $size: '$gamePks' },
+          {
+            $divide: ['$points', { $size: '$gamePks' }],
+          },
+          0,
+        ],
       },
     },
   },
@@ -186,7 +223,13 @@ const calculateGoalieStats = idString => [
   },
   {
     $addFields: {
-      goalsAgainstAverage: { $divide: ['$goalsAgainst', '$gamesPlayed'] },
+      goalsAgainstAverage: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$goalsAgainst', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
       savePct: {
         $cond: [
           '$shotsAgainst',
@@ -229,10 +272,34 @@ const calculateGoalieStats = idString => [
           0,
         ],
       },
-      timeOnIcePerGame: { $divide: ['$timeOnIce', '$gamesPlayed'] },
-      savesPerGame: { $divide: ['$saves', '$gamesPlayed'] },
-      shotsAgainstPerGame: { $divide: ['$shotsAgainst', '$gamesPlayed'] },
-      winPct: { $multiply: [{ $divide: ['$wins', '$gamesPlayed'] }, 100] },
+      timeOnIcePerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$timeOnIce', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      savesPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$saves', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      shotsAgainstPerGame: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $divide: ['$shotsAgainst', { $size: '$gamePks' }] },
+          0,
+        ],
+      },
+      winPct: {
+        $cond: [
+          { $size: '$gamePks' },
+          { $multiply: [{ $divide: ['$wins', { $size: '$gamePks' }] }, 100] },
+          0,
+        ],
+      },
     },
   },
 ]
