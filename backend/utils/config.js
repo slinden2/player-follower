@@ -41,6 +41,12 @@ if (process.env.NODE_ENV === 'production') {
   }
 }
 
+console.log('MONGODB_URI', MONGODB_URI)
+console.log('JWT_SECRET', JWT_SECRET)
+console.log('RECAPTCHA_SECRET', RECAPTCHA_SECRET)
+console.log('MG_CONN_OBJECT', MG_CONN_OBJECT)
+console.log('CURRENT_SEASON', CURRENT_SEASON)
+
 module.exports = {
   MONGODB_URI,
   JWT_SECRET,

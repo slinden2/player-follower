@@ -40,8 +40,6 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const JWT_SECRET = process.env.JWT_SECRET
-
 const resolvers = {
   Query: {
     me: async (root, args, ctx) => {
@@ -153,6 +151,8 @@ const resolvers = {
         !args.selectedSeason || args.selectedSeason === 'CURRENT'
           ? config.CURRENT_SEASON
           : args.selectedSeason
+
+      console.log('BestPlayers.selectedSeason', selectedSeason)
 
       const players = await Player.aggregate(
         bestPlayersAggregate(
@@ -325,7 +325,7 @@ const resolvers = {
       })
       const verificationToken = new Token({
         userId: user._id,
-        token: jwt.sign({ userId: user._id }, JWT_SECRET),
+        token: jwt.sign({ userId: user._id }, config.JWT_SECRET),
       })
       const savedToken = await verificationToken.save()
       const savedUser = await user.save()
@@ -336,7 +336,7 @@ const resolvers = {
       return savedUser
     },
     VerifyUser: async (root, args) => {
-      const decodedUser = jwt.verify(args.token, JWT_SECRET)
+      const decodedUser = jwt.verify(args.token, config.JWT_SECRET)
       const token = await Token.findOne({ userId: decodedUser.userId })
       if (!token) {
         throw new AuthenticationError('Invalid or expired token.')
@@ -349,7 +349,7 @@ const resolvers = {
       return user
     },
     CancelUser: async (root, args) => {
-      const decodedUser = jwt.verify(args.token, JWT_SECRET)
+      const decodedUser = jwt.verify(args.token, config.JWT_SECRET)
       await Token.deleteOne({ userId: decodedUser.userId })
       const user = await User.findOneAndRemove({ _id: decodedUser.userId })
       return user
@@ -374,7 +374,7 @@ const resolvers = {
         username: user.username,
         id: user._id,
       }
-      const token = jwt.sign(userForToken, JWT_SECRET)
+      const token = jwt.sign(userForToken, config.JWT_SECRET)
       return { value: token }
     },
     ForgotPassword: async (root, args) => {
@@ -385,7 +385,7 @@ const resolvers = {
       }
       const verificationToken = new Token({
         userId: user._id,
-        token: jwt.sign({ userId: user._id }, JWT_SECRET),
+        token: jwt.sign({ userId: user._id }, config.JWT_SECRET),
       })
       const savedToken = await verificationToken.save()
 
@@ -396,7 +396,7 @@ const resolvers = {
       return user.toJSON()
     },
     SetNewPassword: async (root, args) => {
-      const decodedUser = jwt.verify(args.token, JWT_SECRET)
+      const decodedUser = jwt.verify(args.token, config.JWT_SECRET)
       const token = await Token.findOne({ userId: decodedUser.userId })
       if (!token) {
         throw new AuthenticationError('The token is either invalid or expired.')
