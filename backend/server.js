@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const path = require('path')
 const _ = require('lodash')
+const yn = require('yn')
 const config = require('./utils/config')
 const typeDefs = require('./graphql/schema')
 const resolversProd = require('./graphql/resolvers')
@@ -13,6 +14,7 @@ const User = require('./models/user')
 console.log('connecting to the DB')
 
 mongoose.set('useFindAndModify', false)
+mongoose.set('debug', yn(config.MONGODB_DEBUG))
 
 mongoose
   .connect(config.MONGODB_URI, {

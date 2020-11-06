@@ -86,7 +86,8 @@
     "nodemailer": "^6.4.10",
     "querystring": "^0.2.0",
     "saslprep": "^1.0.3",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "yn": "^4.0.0"
   },
   "jest": {
     "testEnvironment": "node"

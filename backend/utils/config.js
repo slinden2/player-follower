@@ -10,6 +10,7 @@ let MONGODB_URI
 let RECAPTCHA_SECRET
 let MG_CONN_OBJECT
 const CURRENT_SEASON = process.env.CURRENT_SEASON
+const MONGODB_DEBUG = process.env.MONGODB_DEBUG
 
 if (process.env.NODE_ENV === 'development') {
   MONGODB_URI = process.env.DEV_MONGODB_URI
@@ -49,6 +50,7 @@ console.log('CURRENT_SEASON', CURRENT_SEASON)
 
 module.exports = {
   MONGODB_URI,
+  MONGODB_DEBUG,
   JWT_SECRET,
   RECAPTCHA_SECRET,
   MG_CONN_OBJECT,
