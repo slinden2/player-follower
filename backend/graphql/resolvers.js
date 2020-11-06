@@ -152,8 +152,6 @@ const resolvers = {
           ? config.CURRENT_SEASON
           : args.selectedSeason
 
-      console.log('BestPlayers.selectedSeason', selectedSeason)
-
       const players = await Player.aggregate(
         bestPlayersAggregate(
           args.numOfGames,
