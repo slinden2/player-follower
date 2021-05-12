@@ -83,7 +83,7 @@
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.9.24",
     "mongoose-unique-validator": "^2.0.3",
-    "nodemailer": "^6.4.10",
+    "nodemailer": "^6.4.16",
     "querystring": "^0.2.0",
     "saslprep": "^1.0.3",
     "twitter": "^1.7.1",
